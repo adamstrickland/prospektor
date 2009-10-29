@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: AASM</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">AASM</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/vendor/plugins/aasm/lib/aasm/aasm_rb.html">
+                vendor/plugins/aasm/lib/aasm/aasm.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/aasm/lib/aasm/event_rb.html">
+                vendor/plugins/aasm/lib/aasm/event.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence_rb.html">
+                vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/aasm/lib/aasm/persistence_rb.html">
+                vendor/plugins/aasm/lib/aasm/persistence.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/aasm/lib/aasm/state_rb.html">
+                vendor/plugins/aasm/lib/aasm/state.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/aasm/lib/aasm/state_machine_rb.html">
+                vendor/plugins/aasm/lib/aasm/state_machine.rb
+                </a>
+        <br />
+                <a href="../files/vendor/plugins/aasm/lib/aasm/state_transition_rb.html">
+                vendor/plugins/aasm/lib/aasm/state_transition.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000001">aasm_current_state</a>&nbsp;&nbsp;
+      <a href="#M000002">aasm_enter_initial_state</a>&nbsp;&nbsp;
+      <a href="#M000003">aasm_events_for_current_state</a>&nbsp;&nbsp;
+      <a href="#M000004">aasm_events_for_state</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="AASM/ClassMethods.html" class="link">AASM::ClassMethods</a><br />
+Module <a href="AASM/Persistence.html" class="link">AASM::Persistence</a><br />
+Module <a href="AASM/SupportingClasses.html" class="link">AASM::SupportingClasses</a><br />
+Class <a href="AASM/InvalidTransition.html" class="link">AASM::InvalidTransition</a><br />
+Class <a href="AASM/StateMachine.html" class="link">AASM::StateMachine</a><br />
+Class <a href="AASM/UndefinedState.html" class="link">AASM::UndefinedState</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="#M000001" class="method-signature">
+          <span class="method-name">aasm_current_state</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Instance methods
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000001-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/aasm.rb, line 80</span>
+80:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">aasm_current_state</span>
+81:     <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@aasm_current_state</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@aasm_current_state</span>
+82: 
+83:     <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:aasm_read_state</span>) <span class="ruby-operator">||</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">private_methods</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value str">'aasm_read_state'</span>)
+84:       <span class="ruby-ivar">@aasm_current_state</span> = <span class="ruby-identifier">aasm_read_state</span>
+85:     <span class="ruby-keyword kw">end</span>
+86:     <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@aasm_current_state</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@aasm_current_state</span>
+87: 
+88:     <span class="ruby-identifier">aasm_enter_initial_state</span>
+89:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="#M000002" class="method-signature">
+          <span class="method-name">aasm_enter_initial_state</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000002-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/aasm.rb, line 91</span>
+ 91:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">aasm_enter_initial_state</span>
+ 92:     <span class="ruby-identifier">state_name</span> = <span class="ruby-identifier">aasm_determine_state_name</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">aasm_initial_state</span>)
+ 93:     <span class="ruby-identifier">state</span> = <span class="ruby-identifier">aasm_state_object_for_state</span>(<span class="ruby-identifier">state_name</span>)
+ 94: 
+ 95:     <span class="ruby-identifier">state</span>.<span class="ruby-identifier">call_action</span>(<span class="ruby-identifier">:before_enter</span>, <span class="ruby-keyword kw">self</span>)
+ 96:     <span class="ruby-identifier">state</span>.<span class="ruby-identifier">call_action</span>(<span class="ruby-identifier">:enter</span>, <span class="ruby-keyword kw">self</span>)
+ 97:     <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">aasm_current_state</span> = <span class="ruby-identifier">state_name</span>
+ 98:     <span class="ruby-identifier">state</span>.<span class="ruby-identifier">call_action</span>(<span class="ruby-identifier">:after_enter</span>, <span class="ruby-keyword kw">self</span>)
+ 99: 
+100:     <span class="ruby-identifier">state_name</span>
+101:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">aasm_events_for_current_state</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/aasm.rb, line 103</span>
+103:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">aasm_events_for_current_state</span>
+104:     <span class="ruby-identifier">aasm_events_for_state</span>(<span class="ruby-identifier">aasm_current_state</span>)
+105:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">aasm_events_for_state</span><span class="method-args">(state)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/aasm.rb, line 107</span>
+107:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">aasm_events_for_state</span>(<span class="ruby-identifier">state</span>)
+108:     <span class="ruby-identifier">events</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">aasm_events</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">event</span><span class="ruby-operator">|</span> <span class="ruby-identifier">event</span>.<span class="ruby-identifier">transitions_from_state?</span>(<span class="ruby-identifier">state</span>) }
+109:     <span class="ruby-identifier">events</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">event</span><span class="ruby-operator">|</span> <span class="ruby-identifier">event</span>.<span class="ruby-identifier">name</span>}
+110:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

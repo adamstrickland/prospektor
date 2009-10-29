@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: AASM::Persistence::ActiveRecordPersistence::ClassMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">AASM::Persistence::ActiveRecordPersistence::ClassMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence_rb.html">
+                vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000008">aasm_column</a>&nbsp;&nbsp;
+      <a href="#M000011">calculate_in_state</a>&nbsp;&nbsp;
+      <a href="#M000010">count_in_state</a>&nbsp;&nbsp;
+      <a href="#M000009">find_in_state</a>&nbsp;&nbsp;
+      <a href="#M000012">with_state_scope</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">aasm_column</span><span class="method-args">(column_name=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Maps to the <a href="ClassMethods.html#M000008">aasm_column</a> in the
+database. Deafults to &quot;aasm_state&quot;. You can write:
+</p>
+<pre>
+  create_table :foos do |t|
+    t.string :name
+    t.string :aasm_state
+  end
+
+  class Foo &lt; ActiveRecord::Base
+    include AASM
+  end
+</pre>
+<p>
+OR:
+</p>
+<pre>
+  create_table :foos do |t|
+    t.string :name
+    t.string :status
+  end
+
+  class Foo &lt; ActiveRecord::Base
+    include AASM
+    aasm_column :status
+  end
+</pre>
+<p>
+This method is both a getter and a setter
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb, line 82</span>
+82:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">aasm_column</span>(<span class="ruby-identifier">column_name</span>=<span class="ruby-keyword kw">nil</span>)
+83:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">column_name</span>
+84:             <span class="ruby-constant">AASM</span><span class="ruby-operator">::</span><span class="ruby-constant">StateMachine</span>[<span class="ruby-keyword kw">self</span>].<span class="ruby-identifier">config</span>.<span class="ruby-identifier">column</span> = <span class="ruby-identifier">column_name</span>.<span class="ruby-identifier">to_sym</span>
+85:             <span class="ruby-comment cmt"># @aasm_column = column_name.to_sym</span>
+86:           <span class="ruby-keyword kw">else</span>
+87:             <span class="ruby-constant">AASM</span><span class="ruby-operator">::</span><span class="ruby-constant">StateMachine</span>[<span class="ruby-keyword kw">self</span>].<span class="ruby-identifier">config</span>.<span class="ruby-identifier">column</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">:aasm_state</span>
+88:             <span class="ruby-comment cmt"># @aasm_column ||= :aasm_state</span>
+89:           <span class="ruby-keyword kw">end</span>
+90:           <span class="ruby-comment cmt"># @aasm_column</span>
+91:           <span class="ruby-constant">AASM</span><span class="ruby-operator">::</span><span class="ruby-constant">StateMachine</span>[<span class="ruby-keyword kw">self</span>].<span class="ruby-identifier">config</span>.<span class="ruby-identifier">column</span>
+92:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">calculate_in_state</span><span class="method-args">(state, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb, line 106</span>
+106:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">calculate_in_state</span>(<span class="ruby-identifier">state</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+107:           <span class="ruby-identifier">with_state_scope</span> <span class="ruby-identifier">state</span> <span class="ruby-keyword kw">do</span>
+108:             <span class="ruby-identifier">calculate</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+109:           <span class="ruby-keyword kw">end</span>
+110:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">count_in_state</span><span class="method-args">(state, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb, line 100</span>
+100:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">count_in_state</span>(<span class="ruby-identifier">state</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+101:           <span class="ruby-identifier">with_state_scope</span> <span class="ruby-identifier">state</span> <span class="ruby-keyword kw">do</span>
+102:             <span class="ruby-identifier">count</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+103:           <span class="ruby-keyword kw">end</span>
+104:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="#M000009" class="method-signature">
+          <span class="method-name">find_in_state</span><span class="method-args">(number, state, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000009-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb, line 94</span>
+94:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_in_state</span>(<span class="ruby-identifier">number</span>, <span class="ruby-identifier">state</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+95:           <span class="ruby-identifier">with_state_scope</span> <span class="ruby-identifier">state</span> <span class="ruby-keyword kw">do</span>
+96:             <span class="ruby-identifier">find</span>(<span class="ruby-identifier">number</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+97:           <span class="ruby-keyword kw">end</span>
+98:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">with_state_scope</span><span class="method-args">(state) {|if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/aasm/lib/aasm/persistence/active_record_persistence.rb, line 113</span>
+113:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">with_state_scope</span>(<span class="ruby-identifier">state</span>)
+114:           <span class="ruby-identifier">with_scope</span> <span class="ruby-identifier">:find</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-node">&quot;#{table_name}.#{aasm_column} = ?&quot;</span>, <span class="ruby-identifier">state</span>.<span class="ruby-identifier">to_s</span>]} <span class="ruby-keyword kw">do</span>
+115:             <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+116:           <span class="ruby-keyword kw">end</span>
+117:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
