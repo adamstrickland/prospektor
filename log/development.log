@@ -29,3 +29,33 @@ Migrating to CreateUsers (20091029181409)
 [0m
   [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
   [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_users_on_login')[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateUsers (20091029181409)
+Migrating to CreateLeads (20091029184201)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateUsers (20091029181409)
+Migrating to CreateLeads (20091029184201)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.8ms)[0m   [0mCREATE TABLE "leads" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "last_name" varchar(255), "first_name" varchar(255), "salutation" varchar(255), "title" varchar(255), "gender" varchar(1), "company" varchar(255), "year_established" integer, "address" varchar(255), "city" varchar(255), "state" varchar(4), "county" varchar(255), "zip" varchar(10), "phone" varchar(10), "extension" varchar(5), "fax" varchar(10), "cell_phone" varchar(10), "employee_actual" integer, "employee_code" varchar(255), "sales_actual" integer, "sales_code" varchar(255), "line_of_business" varchar(255), "sic_code_0" varchar(255), "sic_description_0" varchar(255), "sic_code_1" varchar(255), "sic_description_1" varchar(255), "sic_code_2" varchar(255), "sic_description_2" varchar(255), "sic_code_3" varchar(255), "sic_description_3" varchar(255), "sic_code_4" varchar(255), "sic_description_4" varchar(255), "sic_code_5" varchar(255), "sic_description_5" varchar(255), "sic_code_6" varchar(255), "sic_description_6" varchar(255), "sic_code_7" varchar(255), "sic_description_7" varchar(255), "sic_code_8" varchar(255), "sic_description_8" varchar(255), "sic_code_9" varchar(255), "sic_description_9" varchar(255), "naics_code_0" varchar(255), "naics_description_0" varchar(255), "naics_code_1" varchar(255), "naics_description_1" varchar(255), "naics_code_2" varchar(255), "naics_description_2" varchar(255), "naics_code_3" varchar(255), "naics_description_3" varchar(255), "naics_code_4" varchar(255), "naics_description_4" varchar(255), "msa" varchar(255), "web" varchar(255), "email" varchar(255), "number_of_pcs" integer, "square_footage" integer, "own_property" boolean, "credit_rating" varchar(255), "credit_rating_score" varchar(255), "credit_numeric_score" integer, "duns_number" varchar(255), "source" varchar(255), "imported_at" datetime, "best_time_to_call" datetime, "timezone" varchar(2), "sic_division" varchar(255), "sic_group_name" varchar(255), "question_0" text, "question_1" text, "question_2" text, "question_3" text, "question_4" text, "question_5" text, "question_6" text, "request_hb_0" boolean, "request_hb_1" boolean, "request_hb_2" boolean, "request_hb_3" boolean, "request_hb_4" boolean, "request_hb_5" boolean, "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20091029184201')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("leads")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_users_on_login')[0m
