@@ -7,4 +7,6 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+  def javascript_action_tag
+  end
 end

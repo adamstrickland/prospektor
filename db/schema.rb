@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091029184201) do
+ActiveRecord::Schema.define(:version => 20091029192348) do
 
   create_table "leads", :force => true do |t|
     t.string   "name"
@@ -17,25 +17,22 @@ ActiveRecord::Schema.define(:version => 20091029184201) do
     t.string   "first_name"
     t.string   "salutation"
     t.string   "title"
-    t.string   "gender",               :limit => 1
+    t.string   "gender",            :limit => 1
     t.string   "company"
     t.integer  "year_established"
     t.string   "address"
     t.string   "city"
-    t.string   "state",                :limit => 4
+    t.string   "state",             :limit => 4
     t.string   "county"
-    t.string   "zip",                  :limit => 10
-    t.string   "phone",                :limit => 10
-    t.string   "extension",            :limit => 5
-    t.string   "fax",                  :limit => 10
-    t.string   "cell_phone",           :limit => 10
+    t.string   "zip",               :limit => 10
+    t.string   "phone",             :limit => 10
+    t.string   "extension",         :limit => 5
+    t.string   "fax",               :limit => 10
+    t.string   "cell_phone",        :limit => 10
     t.integer  "employee_actual"
     t.string   "employee_code"
     t.integer  "sales_actual"
     t.string   "sales_code"
-    t.string   "line_of_business"
-    t.string   "sic_code_0"
-    t.string   "sic_description_0"
     t.string   "sic_code_1"
     t.string   "sic_description_1"
     t.string   "sic_code_2"
@@ -46,24 +43,6 @@ ActiveRecord::Schema.define(:version => 20091029184201) do
     t.string   "sic_description_4"
     t.string   "sic_code_5"
     t.string   "sic_description_5"
-    t.string   "sic_code_6"
-    t.string   "sic_description_6"
-    t.string   "sic_code_7"
-    t.string   "sic_description_7"
-    t.string   "sic_code_8"
-    t.string   "sic_description_8"
-    t.string   "sic_code_9"
-    t.string   "sic_description_9"
-    t.string   "naics_code_0"
-    t.string   "naics_description_0"
-    t.string   "naics_code_1"
-    t.string   "naics_description_1"
-    t.string   "naics_code_2"
-    t.string   "naics_description_2"
-    t.string   "naics_code_3"
-    t.string   "naics_description_3"
-    t.string   "naics_code_4"
-    t.string   "naics_description_4"
     t.string   "msa"
     t.string   "web"
     t.string   "email"
@@ -71,30 +50,13 @@ ActiveRecord::Schema.define(:version => 20091029184201) do
     t.integer  "square_footage"
     t.boolean  "own_property"
     t.string   "credit_rating"
-    t.string   "credit_rating_score"
-    t.integer  "credit_numeric_score"
-    t.string   "duns_number"
+    t.integer  "credit_score"
     t.string   "source"
     t.datetime "imported_at"
-    t.datetime "best_time_to_call"
-    t.string   "timezone",             :limit => 2
-    t.string   "sic_division"
-    t.string   "sic_group_name"
-    t.text     "question_0"
-    t.text     "question_1"
-    t.text     "question_2"
-    t.text     "question_3"
-    t.text     "question_4"
-    t.text     "question_5"
-    t.text     "question_6"
-    t.boolean  "request_hb_0"
-    t.boolean  "request_hb_1"
-    t.boolean  "request_hb_2"
-    t.boolean  "request_hb_3"
-    t.boolean  "request_hb_4"
-    t.boolean  "request_hb_5"
+    t.string   "timezone",          :limit => 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "aasm_state"
   end
 
   create_table "users", :force => true do |t|

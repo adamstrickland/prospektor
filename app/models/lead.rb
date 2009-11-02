@@ -1,51 +1,60 @@
 class Lead < ActiveRecord::Base
   include AASM
-  aasm_column :state
-  
-  # AASM stuff
-  aasm_initial_state :unassigned
+  aasm_column :aasm_state
+  aasm_initial_state :free
 
-  aasm_state :unassigned
+  aasm_state :free
   aasm_state :assigned
   aasm_state :queued
-  aasm_state :called
+  aasm_state :scheduled, :enter => :send_invite
   aasm_state :suspended
-  aasm_state :invited
-  aasm_state :reconnected
-  aasm_state :booked
-  # aasm_state :dating,   :enter => :make_happy,        :exit => :make_depressed
+  aasm_state :booked, :enter => :send_appointments
   
   aasm_event :assign do
-    transitions :to => :assigned, :from => [:unassigned]
+    transitions :to => :assigned, :from => [:free, :suspended], :guard => :is_admin?
+  end
+  
+  aasm_event :reassign do
+    transitions :to => :assigned, :from => [:assigned, :queued]
+    transitions :to => :scheduled, :from => [:scheduled]
+    transitions :to => :booked, :from => [:booked]
   end
   
   aasm_event :enqueue do
     transitions :to => :queued, :from => [:assigned]
   end
   
-  aasm_event :disposition do
-    transitions :to => :called, :from => [:queued]
-    transitions :to => :invited, :from => [:called], :guard => invitation_sent?
+  aasm_event :requeue do
+    transitions :to => :queued, :from => [:queued]
   end
   
-  aasm_event :reconnect do
-    transitions :to => :reconnected, :from => [:invited], :on_transition => complete_sale
+  aasm_event :unqueue do
+    transitions :to => :assigned, :from => [:queued, :scheduled]
+  end
+  
+  aasm_event :schedule do
+    transitions :to => :scheduled, :from => [:queued, :assigned]
   end
   
   aasm_event :book do
-    transitions :to => :booked, :from => [:reconnected], :guard => booked_sale?
+    transitions :to => :booked, :from => [:scheduled], :guard => :booked_sale?
   end
   
   aasm_event :suspend do
-    transition :to => :suspended, :from => [:reconnected, :called]
+    transitions :to => :suspended, :from => [:scheduled, :queued]
   end
   
-  def complete_sale
+  def send_invite
   end
   
-  def invitation_sent?
+  def send_appointments
   end
   
   def booked_sale?
+    true
+  end
+  
+  def is_admin?
+    true
   end
 end
