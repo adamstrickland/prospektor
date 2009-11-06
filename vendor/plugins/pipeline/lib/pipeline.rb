@@ -64,11 +64,18 @@ module Pipeline
     
     def self.map(fields, data, options={})
       puts "      Mapping data from #{'['+data.fields.join(', ')+']'} ..." if options[:verbose]
-      mpgs = @@mappings.collect{ |f, mapping| mapping.apply(data[f], options) }
+      
+      mpgs = @@mappings.collect do |f, mapping| 
+        mapping.apply(data[f], data, options)
+      end
+      
       # puts "      ... using #{'['+mpgs.join(', ')+']'} ..."
+      
       mpgs_keys = mpgs.collect{ |m| m.keys }.flatten
       mpgs_vals = mpgs.collect{ |m| m.values }.flatten
+      
       # puts "      ... as #{'['+mpgs_vals.join(', ')+']'} ..."
+      
       attribs = mpgs_keys.zip(mpgs_vals).flatten
       attrib_hash = Hash[*attribs]
       attrib_hash = attrib_hash.delete_if{ |k,v| v.nil? }
@@ -102,8 +109,8 @@ module Pipeline
       @transformation = options[:transform] || lambda{ |input| input }
     end
     
-    def apply(input, options={})
-      result = self.transformation.call(input)
+    def apply(input, context, options={})
+      result = self.transformation.call(input, context)
       puts "        #{input} ==> #{result}" if options[:verbose]
       output = { self.destination => result }   # each should return :attribute => "some value"
       output

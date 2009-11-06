@@ -1,5 +1,10 @@
 class Lead < ActiveRecord::Base
   include AASM
+  
+  has_and_belongs_to_many :users
+  
+  
+  # state machine stuff
   aasm_column :aasm_state
   aasm_initial_state :free
 

@@ -1,13 +1,64 @@
 Pipeline
 ==========
 
-Introduction goes here.
+Pipeline is a straightforward but powerful way to move data between outlets (files, databases, etc.) using Ruby.  How, you ask?  Well, lemme tell ya...
 
+There are 3 parts to this beast.  The first is configuring the import.  The second is configuring the export.  The third is running it.  But first you have to install it.
 
-Example
-=======
+INSTALLATION
 
-Example goes here.
+script/plugin install git://github.com/adamstrickland/pipeline.git
 
+Now for the good stuff...
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+CONFIGURE THE IMPORT
+
+Assume you have a simple tab-delimited file:
+PersonId	FName	Addr	Poor
+1	Kyle	123 Pine St.	N
+2	Stan	245 Aspen St.	N
+3	Cartman	211 Poplar St.	N
+4	Kenny	4 Dirt Rd.	Y
+
+Now assume you want to jam this into a sane, standardy table named 'characters' that looks kinda like this (since I'm assuming a dependency on ActiveRecord, let's use a migration, eh?):
+create_table :characters do |t|
+	t.string :first_name
+	t.string :address_1
+	t.boolean :is_poor, :default => false
+end
+
+Hmm, could be some probs there...  I'm going to assume you have an ActiveRecord model for this table...  You do, don't you?  Well, in that case let's create a mapper.
+
+class CharactersMapper < Pipeline::TransformMapper
+end
+
+Now, add you mapping:
+
+class CharactersMapper < Pipeline::TransformMapper
+	define_mapping({
+		'PersonId' => { :to => :id },
+		'FName' => { :to => :first_name },
+		'Addr' => { :to => :address_1 },
+		'Poor' => { :to => :is_poor, :transform => lambda{|v| v == 'Y' }}
+	})
+end
+
+Now save this in the same directory as your data file and that's pretty much it.
+
+Huh.  That wasn't too hard.  Notice the transform (hint: it's on the 'Poor' column).  Pretty simple.  I used a lambda here, but anything that can be invoked should work.  You get one parameter, the value of the input data.  Return what you want as the output data.  In case you're curious, if you leave this off, the Pipeline uses an identity function (i.e. lambda{ |v| v }).  Pretty simple, I think.
+
+CONFIGURE THE EXPORT
+
+Coming soon...
+
+RUNNING
+
+The Pipeline::Importer class does the import and I've provided a handy-dandy Rake task for those of you (like myself) that are too lazy to do something more than once.  All it does is invoke the Importer, but hey, like I said, I'm lazy.  Anyway, using rake:
+
+rake pipeline:import:delimited:tab [/path/to/data/file's/directory]
+
+The directory is optional; if you leave it out, it'll assume you're using Rails and that the data is in the db/import directory.   
+
+And that's all she wrote, folks.  
+
+Copyright (c) 2009 Adam Strickland, released under the MIT license
