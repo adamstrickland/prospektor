@@ -1,3 +1,28 @@
-
-<%= link_to 'Edit', edit_lead_path(@lead) %> |
-<%= link_to 'Back', leads_path %>
+<%= stylesheet_link_tag 'thickbox' %>
+<%= javascript_include_tag 'thickbox' %>
+<script type="text/javascript" charset="utf-8">
+	function updateHistory(req){
+		
+	}
+</script>
+<div id="lead" class="details">
+	<div id="demographics">
+		<h1><%= h @lead.casual_name %></h1>
+		<h2><%= h @lead.company %></h2>
+		<div id="location"><%= h @lead.city %>, <%= h @lead.state %></div>
+	</div>
+	<div id="history">
+		<% @lead.history.each do |thing| %>
+			<%= render :partial => 'history_item', :locals => { :history => thing } %>
+		<% end %>
+	</div>
+</div>
+<div id="controls">
+	<div class="control"><%= link_to 'Next', next_user_lead_url(current_user, @lead) %></div>
+	<div class="control"><%= link_to 'Invite', new_user_lead_presentation_url(current_user, @lead, :height => 100, :width => 300), :class => 'thickbox' %></div>
+	<div class="control"><%= link_to 'Book', new_user_lead_appointment_url(current_user, @lead, :height => 500, :width => 300), :class => 'thickbox' %></div>
+	<div class="control"><%= link_to 'Disposition', disposition_user_lead_url(current_user, @lead, :height => 500, :width => 300), :class => 'thickbox' %></div>
+	<div class="control"><%= link_to 'Suspend', user_lead_url(current_user, @lead) %></div>
+</div>
+<div id="modal"></div>
+	

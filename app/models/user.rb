@@ -5,9 +5,9 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
 
-  has_and_belongs_to_many :leads
-
-  
+  has_many :leads
+  has_many :presentations
+  has_many :appointments
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40

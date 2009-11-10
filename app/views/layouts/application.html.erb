@@ -2,12 +2,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-		<title>Pursuit: <%= controller.action_name %></title>
+		<title>Pursuit :: <%= controller_name.titleize %></title>
 		<%= stylesheet_link_tag 'styles' %>
-		<%= javascript_include_tag :all %>
+		<%= javascript_include_tag 'jquery' %>
+		<%= javascript_include_tag 'jquery-ui' %>
+		<%= javascript_include_tag 'jrails' %>
+		<%= javascript_include_tag 'application' %>
 		<%= javascript_action_tag %>
 	</head>
 	<body>
-		<%= yield %>
+		<div id="hd">
+			<div id="branding">
+				<div id="company">Trigon Solutions</div>
+				<div id="application">Pursuit</div>
+			</div>
+		</div>
+		<div id="bd">
+			<div id="menubar"></div>			
+			<div id="flash">
+				<div id="errors" class="error"><%= flash[:errors] %></div>
+				<div id="status"><%= flash[:notice] %></div>
+			</div>
+			<div id="content">
+				<div id="left"></div>
+				<div id="main">
+					<%= yield %>
+				</div>
+				<div id="right"></div>
+			</div>
+		</div>
+		<div id="ft">
+			&copy; 2009 Trigon Solutions, Inc.
+		</div>
 	</body>
 </html>

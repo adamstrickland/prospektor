@@ -1,12 +1,40 @@
+
 class Lead < ActiveRecord::Base
   include AASM
   
-  has_and_belongs_to_many :users
+  belongs_to :user
+  has_many :presentations
+  has_many :appointments
   
+  # validations
+  validates_email :email
+  
+  # will_paginate; show up to 100/page
+  cattr_reader :per_page
+  @@per_page = 100
+  
+  named_scope :queued, :conditions => { :aasm_state => :assigned.to_s }
+  named_scope :owned_by, lambda{ |u| { :conditions => { :user_id => u } } }
+  
+  def casual_name
+    self.name
+  end
+  
+  def history
+    (self.presentations + self.appointments).map{ |h| h.as_history }.sort{ |fmr,ltr| fmr[:touched_at] <=> ltr[:touched_at] }
+  end
+  
+  def available_states
+    possible_events = self.aasm_events_for_current_state.map{ |n| self.class.aasm_events[n] }
+    possible_transitions = possible_events.map{ |e| e.transitions_from_state(self.aasm_state.to_sym) }.flatten
+    possible_end_states = possible_transitions.map{ |t| t.to }.flatten
+    possible_end_states
+  end
   
   # state machine stuff
   aasm_column :aasm_state
-  aasm_initial_state :free
+  # aasm_initial_state :free
+  aasm_initial_state Proc.new {|lead| l.user.nil? ? :free : :assigned }
 
   aasm_state :free
   aasm_state :assigned
@@ -46,13 +74,21 @@ class Lead < ActiveRecord::Base
   end
   
   aasm_event :suspend do
-    transitions :to => :suspended, :from => [:scheduled, :queued]
+    transitions :to => :suspended, :from => [:free, :assigned, :scheduled, :queued]
+  end
+  
+  aasm_event :release do
+    transitions :to => :free, :from => [:assigned, :queued, :scheduled, :suspended, :booked], :on_transition => :release_lead
   end
   
   def send_invite
   end
   
   def send_appointments
+  end
+  
+  def release_lead
+    self.user = nil
   end
   
   def booked_sale?

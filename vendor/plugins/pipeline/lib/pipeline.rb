@@ -4,7 +4,9 @@ require(File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'config', 'boo
 require(File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'config', 'environment'))
 
 module Pipeline
-
+# TODO: support combining source records
+# TODO: support filters/guards
+# TODO: support pre- and post-processing
   class Importer
     @@default_import_dir = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'db', 'import')
     
@@ -51,7 +53,10 @@ module Pipeline
     attr_reader :mappings
   end
   
-  class TransformMapper < AbstractMapper    
+  class TransformMapper < AbstractMapper
+    @@pre_processing = nil
+    @@post_processing = nil
+     
     def self.define_mappings(mappings={})
       @@mappings = {}
       mappings.each do |from, mpg|
@@ -62,8 +67,20 @@ module Pipeline
       end
     end
     
+    def self.post_process(&block)
+      @@post_processing = block
+    end
+
+    def self.pre_process(&block)
+      @@pre_processing = block
+    end
+    
     def self.map(fields, data, options={})
       puts "      Mapping data from #{'['+data.fields.join(', ')+']'} ..." if options[:verbose]
+      
+      if @@pre_processing
+        @@pre_processing.call(data)
+      end
       
       mpgs = @@mappings.collect do |f, mapping| 
         mapping.apply(data[f], data, options)
@@ -79,6 +96,11 @@ module Pipeline
       attribs = mpgs_keys.zip(mpgs_vals).flatten
       attrib_hash = Hash[*attribs]
       attrib_hash = attrib_hash.delete_if{ |k,v| v.nil? }
+      
+      if @@post_processing
+        @@post_processing.call(attrib_hash)
+      end
+      
       if options[:verbose]
         msg = '{'+attrib_hash.collect{|k,v| "#{k} => #{v}"}.join(', ')+'}'
         puts "      ... to #{msg}"
@@ -106,7 +128,7 @@ module Pipeline
     
     def initialize(to, options={})
       @destination = to
-      @transformation = options[:transform] || lambda{ |input| input }
+      @transformation = options[:transform] || lambda{ |input, context| input }
     end
     
     def apply(input, context, options={})

@@ -9,7 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091029192348) do
+ActiveRecord::Schema.define(:version => 20091109171527) do
+
+  create_table "appointments", :force => true do |t|
+    t.string   "client_email",                  :null => false
+    t.string   "expert_email",                  :null => false
+    t.string   "location",                      :null => false
+    t.float    "duration",     :default => 1.0, :null => false
+    t.string   "subject",                       :null => false
+    t.text     "notes"
+    t.date     "session_date",                  :null => false
+    t.time     "session_time",                  :null => false
+    t.integer  "lead_id",                       :null => false
+    t.integer  "scheduler_id",                  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "leads", :force => true do |t|
     t.string   "name"
@@ -57,6 +72,16 @@ ActiveRecord::Schema.define(:version => 20091029192348) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "aasm_state"
+    t.integer  "user_id"
+  end
+
+  create_table "presentations", :force => true do |t|
+    t.string   "email",      :null => false
+    t.string   "url",        :null => false
+    t.integer  "lead_id",    :null => false
+    t.integer  "user_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

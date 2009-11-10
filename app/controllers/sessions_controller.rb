@@ -2,6 +2,7 @@
 class SessionsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
+  skip_before_filter :login_required
 
   # render new.rhtml
   def new
@@ -18,7 +19,7 @@ class SessionsController < ApplicationController
       self.current_user = user
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default('/')
+      redirect_back_or_default('/leads')
       flash[:notice] = "Logged in successfully"
     else
       note_failed_signin

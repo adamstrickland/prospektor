@@ -1,4 +1,5 @@
-class LeadsMapper < DataImport::TransformMapper
+class LeadsMapper < Pipeline::TransformMapper
+  @phone_from_float = lambda{ |val, ctxt| val.to_i.to_s }
   define_mappings({
     "LeadID" => { :to => :id },
     "Name" => { :to => :name },
@@ -14,14 +15,14 @@ class LeadsMapper < DataImport::TransformMapper
     "State" => { :to => :state },
     "County" => { :to => :county },
     "Zip" => { :to => :zip },
-    "Phone" => { :to => :phone },
+    "Phone" => { :to => :phone, :transform => @phone_from_float },
     "Extension" => { :to => :extension },
-    "Fax" => { :to => :fax },
-    "Cell Phone" => { :to => :cell_phone },
+    "Fax" => { :to => :fax, :transform => @phone_from_float },
+    "Cell Phone" => { :to => :cell_phone, :transform => @phone_from_float },
     "Employee Actual" => { :to => :employee_actual },
     "Employee Code" => { :to => :employee_code },
     "Sales Actual" => { :to => :sales_actual },
-    "Sales Code" => { :to => :sales_code },
+    "Sales Code" => { :to => :sales_code, :transform => lambda{ |val, ctxt| val.to_i } },
     "SIC Code" => { :to => :sic_code_1 },
     "SIC Description" => { :to => :sic_description_1 },
     "SIC_02" => { :to => :sic_code_2 },
@@ -37,7 +38,7 @@ class LeadsMapper < DataImport::TransformMapper
     "e-mail" => { :to => :email },
     "Number of PCs" => { :to => :number_of_pcs },
     "Square Footage" => { :to => :square_footage },
-    "Own or Lease" => { :to => :own_property, :transform => lambda{ |val| val.downcase == "own" } },
+    "Own or Lease" => { :to => :own_property, :transform => lambda{ |val, ctxt| val.downcase == "own" } },
     "Credit Rating" => { :to => :credit_rating },
     "Credit Numeric Score" => { :to => :credit_score },
     "Source" => { :to => :source },

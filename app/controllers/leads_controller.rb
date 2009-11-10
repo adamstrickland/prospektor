@@ -2,7 +2,8 @@ class LeadsController < ApplicationController
   # GET /leads
   # GET /leads.xml
   def index
-    @leads = Lead.all
+    # @leads = Lead.all
+    @leads = Lead.queued.paginate_by_user_id params[:user_id], :page => (params[:page] || 1)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -20,6 +21,39 @@ class LeadsController < ApplicationController
       format.xml  { render :xml => @lead }
     end
   end
+  
+  def next
+    leads = Lead.find_all_by_user_id(params[:user_id])
+    current_lead = Lead.find(params[:id])
+    current_index = leads.index(current_lead)
+    next_index = (current_index+1 == leads.count ? 0 : current_index+1)
+    next_id = leads[next_index].id
+    @lead = Lead.find(next_id)
+
+    respond_to do |format|
+      format.html { render :action => 'show' }
+      format.xml  { render :xml => @lead }
+    end
+  end
+  
+  def disposition
+    @lead = Lead.find(params[:id])
+
+    respond_to do |format|
+      format.html { render 'disposition', :layout => false }
+      # format.xml  { render :xml => @lead }
+    end
+  end
+  
+  # def invite
+  #   @lead = Lead.find(params[:id])
+  # end
+  # 
+  # def book
+  # end
+  # 
+  # def disposition
+  # end
 
   # GET /leads/new
   # GET /leads/new.xml
