@@ -40,7 +40,7 @@ class LeadsController < ApplicationController
     @lead = Lead.find(params[:id])
 
     respond_to do |format|
-      format.html { render 'disposition', :layout => false }
+      format.html { render 'disposition', :layout => 'modal' }
       # format.xml  { render :xml => @lead }
     end
   end

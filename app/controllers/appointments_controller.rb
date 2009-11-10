@@ -30,7 +30,7 @@ class AppointmentsController < ApplicationController
     @appointment.location = "#{@lead.address}, #{@lead.city} #{@lead.state}"
 
     respond_to do |format|
-      format.html { render 'new', :layout => false }
+      format.html { render 'new', :layout => 'modal' }
       format.xml  { render :xml => @appointment }
     end
   end
@@ -51,10 +51,13 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
-        flash[:notice] = 'Appointment was successfully created.'
+        # flash[:notice] = 'Appointment was successfully created.'
         # format.html { redirect_to(@appointment) }
         # format.xml  { render :xml => @appointment, :status => :created, :location => @appointment }
-        format.html { render :partial => 'history_item', :status => :created, :locals => { :history => @appointment.as_history } }
+        # format.html { render :partial => 'history_item', :status => :created, :locals => { :history => @appointment.as_history } }
+        e = @appointment.generate_event
+        e.save!
+        format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
       else
         # format.html { render :action => "new" }
         # format.xml  { render :xml => @appointment.errors, :status => :unprocessable_entity }

@@ -3,19 +3,22 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
+  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.resource :session
 
   map.resources :users do |users|
-    users.resources :leads, :member => { :next => :get, :disposition => :get } do |leads|
-      leads.resources :presentations
-      leads.resources :appointments
+    users.resources :leads, :member => { :next => :get } do |leads|
+      leads.resources :presentations, :except => [ :update, :destroy, :edit ]
+      leads.resources :appointments, :except => [ :update, :destroy, :edit ]
+      leads.resources :comments, :except => [ :update, :destroy, :edit ]
+      leads.resources :events, :except => [ :update, :destroy, :edit ]
+      leads.resources :disposition, :except => [ :update, :destroy, :edit, :index, :show ]
+      leads.resources :suspend, :except => [ :update, :destroy, :edit, :index, :show ]
     end
+    # users.resource :events
   end
 
-  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
-  
-  map.resource :session
-  
-  # map.resources :leads, :member => { :next => :get }
+  # map.resources :events
 
   # The priority is based upon order of creation: first created -> highest priority.
 

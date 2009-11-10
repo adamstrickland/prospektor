@@ -1,0 +1,2 @@
+module SuspendHelper
+end

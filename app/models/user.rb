@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :leads
   has_many :presentations
   has_many :appointments
+  has_many :events
+  has_many :comments
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40

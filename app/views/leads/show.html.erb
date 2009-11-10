@@ -12,17 +12,17 @@
 		<div id="location"><%= h @lead.city %>, <%= h @lead.state %></div>
 	</div>
 	<div id="history">
-		<% @lead.history.each do |thing| %>
-			<%= render :partial => 'history_item', :locals => { :history => thing } %>
+		<% @lead.events.each do |thing| %>
+			<%= render :partial => 'events/listing_item', :locals => { :event => thing } %>
 		<% end %>
 	</div>
 </div>
 <div id="controls">
 	<div class="control"><%= link_to 'Next', next_user_lead_url(current_user, @lead) %></div>
-	<div class="control"><%= link_to 'Invite', new_user_lead_presentation_url(current_user, @lead, :height => 100, :width => 300), :class => 'thickbox' %></div>
-	<div class="control"><%= link_to 'Book', new_user_lead_appointment_url(current_user, @lead, :height => 500, :width => 300), :class => 'thickbox' %></div>
-	<div class="control"><%= link_to 'Disposition', disposition_user_lead_url(current_user, @lead, :height => 500, :width => 300), :class => 'thickbox' %></div>
-	<div class="control"><%= link_to 'Suspend', user_lead_url(current_user, @lead) %></div>
+	<div class="control"><%= link_to 'Invite', new_user_lead_presentation_url(current_user, @lead, :height => 75, :width => 300), :class => 'thickbox' %></div>
+	<div class="control"><%= link_to 'Book', new_user_lead_appointment_url(current_user, @lead, :height => 600, :width => 300), :class => 'thickbox' %></div>
+	<div class="control"><%= link_to 'Disposition', new_user_lead_disposition_url(current_user, @lead, :height => 200, :width => 300), :class => 'thickbox' %></div>
+	<div class="control"><%= link_to 'Suspend', new_user_lead_suspend_url(current_user, @lead, :height => 200, :width => 300), :class => 'thickbox' %></div>
 </div>
 <div id="modal"></div>
 	

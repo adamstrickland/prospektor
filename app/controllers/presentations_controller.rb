@@ -31,7 +31,7 @@ class PresentationsController < ApplicationController
     @presentation.email = @lead.email
 
     respond_to do |format|
-      format.html { render 'new', :layout => false }
+      format.html { render 'new', :layout => 'modal' }
       format.xml  { render :xml => @presentation }
     end
   end
@@ -53,13 +53,16 @@ class PresentationsController < ApplicationController
 
     respond_to do |format|
       if @presentation.save
-        flash[:notice] = 'Presentation was successfully created.'
+        # flash[:notice] = 'Presentation was successfully created.'
         # lead.schedule
         # format.html { redirect_to(@presentation) }
         # format.json { render :json => @presentation }
         # format.html { redirect_to user_lead_url(user, lead) }
         # format.xml  { render :xml => @presentation, :status => :created }
-        format.html { render :partial => 'leads/history_item', :status => :created, :locals => { :history => @presentation.as_history } }
+        # format.html { render :partial => 'leads/history_item', :status => :created, :locals => { :history => @presentation.as_history } }
+        e = @presentation.generate_event
+        e.save!
+        format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
       else
         # format.html { render :action => "new" }
         # format.xml  { render :xml => @presentation.errors, :status => :unprocessable_entity }

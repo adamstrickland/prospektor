@@ -1,0 +1,20 @@
+<div id="disposiion-widget" class="widget">
+	<% 
+		form_remote_tag(
+			:url => user_lead_suspend_index_url(current_user, @lead),
+			:html => {
+				:method => :post
+			},
+			:success => "$('#history').updateHistoryFromModal(request)",
+			:failure => "$('#errors').showErrorsFromModal(request)"
+		) do |f|
+	-%>
+		<div class="widget_item">
+			<%= label_tag :comment %>
+			<%= text_area_tag :comment %>
+		</div>
+		<div class="widget_item">
+			<%= submit_tag 'Save' %>
+		</div>
+	<% end %>
+</div>

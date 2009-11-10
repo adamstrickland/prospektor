@@ -5,6 +5,8 @@ class Lead < ActiveRecord::Base
   belongs_to :user
   has_many :presentations
   has_many :appointments
+  has_many :events
+  has_many :comments
   
   # validations
   validates_email :email
@@ -41,6 +43,7 @@ class Lead < ActiveRecord::Base
   aasm_state :queued
   aasm_state :scheduled, :enter => :send_invite
   aasm_state :suspended
+  aasm_state :orphaned
   aasm_state :booked, :enter => :send_appointments
   
   aasm_event :assign do
@@ -63,6 +66,10 @@ class Lead < ActiveRecord::Base
   
   aasm_event :unqueue do
     transitions :to => :assigned, :from => [:queued, :scheduled]
+  end
+
+  aasm_event :orphan do
+    transitions :to => :orphaned, :from => [:assigned, :queued], :on_transition => :release_lead
   end
   
   aasm_event :schedule do

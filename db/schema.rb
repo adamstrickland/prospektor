@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091109171527) do
+ActiveRecord::Schema.define(:version => 20091110190500) do
 
   create_table "appointments", :force => true do |t|
     t.string   "client_email",                  :null => false
@@ -22,6 +22,24 @@ ActiveRecord::Schema.define(:version => 20091109171527) do
     t.time     "session_time",                  :null => false
     t.integer  "lead_id",                       :null => false
     t.integer  "scheduler_id",                  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "lead_id"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "lead_id"
+    t.string   "action"
+    t.string   "type"
+    t.string   "params"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
