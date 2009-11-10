@@ -1,0 +1,7 @@
+<% div_for(lead, :class => "listing_item") do %>
+	<% link_to user_lead_url(current_user, lead) do %>
+		<div id="lead_name" class="item_name"><%= h lead.name %></div>
+		<div id="lead_state"><%= h lead.aasm_state.upcase %></div>
+		<div id="lead_timestamp"><%= h lead.updated_at %></div>
+	<% end %>
+<% end %>

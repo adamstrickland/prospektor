@@ -1,0 +1,24 @@
+<h1>Editing presentation</h1>
+
+<% form_for(@presentation) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :string %><br />
+    <%= f.text_field :string %>
+  </p>
+  <p>
+    <%= f.label :string %><br />
+    <%= f.text_field :string %>
+  </p>
+  <p>
+    <%= f.label :references %><br />
+    <%= f.text_field :references %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @presentation %> |
+<%= link_to 'Back', presentations_path %>

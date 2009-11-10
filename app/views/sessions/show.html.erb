@@ -1,0 +1,43 @@
+<p>
+  <b>Client email:</b>
+  <%=h @session.client_email %>
+</p>
+
+<p>
+  <b>Expert email:</b>
+  <%=h @session.expert_email %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%=h @session.location %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%=h @session.duration %>
+</p>
+
+<p>
+  <b>Subject:</b>
+  <%=h @session.subject %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @session.notes %>
+</p>
+
+<p>
+  <b>Session date:</b>
+  <%=h @session.session_date %>
+</p>
+
+<p>
+  <b>Session time:</b>
+  <%=h @session.session_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_session_path(@session) %> |
+<%= link_to 'Back', sessions_path %>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  client_email: MyString
+  expert_email: MyString
+  location: MyString
+  duration: 1
+  subject: MyString
+  notes: MyText
+  session_date: 2009-11-09
+  session_time: 2009-11-09 11:15:27
+
+two:
+  client_email: MyString
+  expert_email: MyString
+  location: MyString
+  duration: 1
+  subject: MyString
+  notes: MyText
+  session_date: 2009-11-09
+  session_time: 2009-11-09 11:15:27

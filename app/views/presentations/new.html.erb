@@ -1,0 +1,27 @@
+<div id="invite-widget" class="widget">
+	<% 
+		remote_form_for(
+			:presentation,
+			@presentation,
+			:url => {
+				:controller => 'presentations',
+				:user_id => current_user,
+				:lead_id => @lead,
+				# :format => 'xml'
+			}, 
+			:html => {
+				:method => :post
+			},
+			:success => "$('#history').updateHistoryFromModal(request)",
+			:failure => "$('#errors').showErrorsFromModal(request)"
+		) do |f|
+	-%>
+		<div class="widget_item">
+			<%= f.label :email %>
+			<%= f.text_field :email %>
+		</div>
+		<div class="widget_item">
+			<%= f.submit 'Send' %>
+		</div>
+	<% end %>
+</div>

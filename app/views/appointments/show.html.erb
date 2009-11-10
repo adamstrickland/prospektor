@@ -1,0 +1,43 @@
+<p>
+  <b>Client email:</b>
+  <%=h @appointment.client_email %>
+</p>
+
+<p>
+  <b>Expert email:</b>
+  <%=h @appointment.expert_email %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%=h @appointment.location %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%=h @appointment.duration %>
+</p>
+
+<p>
+  <b>Subject:</b>
+  <%=h @appointment.subject %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @appointment.notes %>
+</p>
+
+<p>
+  <b>Session date:</b>
+  <%=h @appointment.session_date %>
+</p>
+
+<p>
+  <b>Session time:</b>
+  <%=h @appointment.session_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_appointment_path(@appointment) %> |
+<%= link_to 'Back', appointments_path %>

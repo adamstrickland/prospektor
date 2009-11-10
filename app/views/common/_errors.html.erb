@@ -1,0 +1,5 @@
+<div id="errors">
+  <% errors.each do |e| -%>
+    <%= render :partial => 'common/error_item', :locals => { :message => e } %>
+  <% end -%>
+</div>
