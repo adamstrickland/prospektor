@@ -1,0 +1,24 @@
+<%  [
+  "Job Costing",
+  "Cashflow Management",
+  "Pricing Strategies",
+  "Working Capital",
+  "Labor Issues",
+  "Organization Management",
+  "Manufacturing Processes",
+  "Human Resource Issues",
+  "Supply Chain Issues",
+  "Marketing Strategies",
+  "Sales Planning",
+  "Exit Strategy",
+  "Business-owner School",
+  "Pit-crew Team",
+  "Business Rubik's Cube",
+  "Any other issue specific to your business"
+].each_with_index do |tpc, idx| %>
+topic_<%= idx %>:
+  name: <%= tpc %>
+  complimentary: true
+  number: <%= idx+1 %>
+
+<% end %>

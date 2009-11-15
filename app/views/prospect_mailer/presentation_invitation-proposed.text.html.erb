@@ -1,0 +1,31 @@
+<p id="salutation" class="meta">
+	<%= @to[:name] %><br/>
+	<%= @to[:company] %><br/>
+	<%= @to[:email] %><br/>
+</p>
+<p id="thanks" class="body">
+	Thank you for taking the time to allow Trigon Solutions the time to present 
+	"Competition and How to Stay on Top," a brief but informative web presentation that outlines what we know
+	are the most pressing challenges in today's business market, and how Trigon can assist 
+	you in answering them.
+</p>
+<p id="link" class="body">
+	To view the presentation, simply open use this <%= link_to 'link', @url %>, or 
+	paste this URL into your browser:  <%= @url %>.
+</p>
+<p id="followup" class="body">	
+	This link will be active for 14 days.  I will check back periodically to discuss your 
+	thoughts on the content and see if we can be of further assistance.  If you have any
+	questions, please don't hesitate to call us at 214-361-0080.
+</p>
+<p id="closing" class="meta">
+	Sincerely,
+</p>
+<p id="signature" class="meta">
+	<%= @from[:name] %><br/>
+	Direct: <%= @from[:phone] %><br/>
+	Trigon Solutions, Inc.
+	5646 Milton St., Suite 610
+	Dallas, TX 75206
+	<%= link_to 'www.trigonsolutions.com', 'http://www.trigonsolutions.com' %>
+</p>

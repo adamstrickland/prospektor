@@ -28,8 +28,8 @@
 			} %>
 		</div>
 		<div class="widget_item">
-			<%= f.label :subject %>
-			<%= f.text_field :subject %>
+			<%= f.label :topic %>
+			<%= f.select :topic, Topic.find_all_by_complimentary(true, :order => 'number').map{ |t| ["#{t.number.to_s.rjust(2, '0')} - #{t.name}", t.id] } %>
 		</div>
 		<div class="widget_item">
 			<%= f.label :location %>

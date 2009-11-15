@@ -1,0 +1,22 @@
+<tr>
+	<td>
+		<h2 style="color:blue;text-align:center">Complimentary Topics</h2>
+	</td>
+</tr>
+<tr>
+	<td>
+		<p>
+			Expert Topics:
+		</p>
+		<ol>
+			<% @topics.each_with_index do |t, i| %>
+				<li><%= t %></li>
+			<% end %>
+		</ol>
+	</td>
+</tr>
+<tr>
+	<td>
+		As a reminder, our first discussion with one of our experts is confidential and complimentary.  It's our way of showing you the we really are different.
+	</td>
+</tr>

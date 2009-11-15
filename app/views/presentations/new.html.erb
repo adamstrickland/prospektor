@@ -21,6 +21,14 @@
 			<%= f.text_field :email %>
 		</div>
 		<div class="widget_item">
+			<%= f.label :callback_date %>
+			<%= f.date_select :callback_date %>
+		</div>
+		<div class="widget_item">
+			<%= f.label :callback_time %>
+			<%= f.time_select :callback_time %>
+		</div>
+		<div class="widget_item">
 			<%= f.submit 'Send' %>
 		</div>
 	<% end %>

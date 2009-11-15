@@ -3,6 +3,7 @@ require 'yaml'
 class Appointment < ActiveRecord::Base
   belongs_to :scheduler, :class_name => 'User'
   belongs_to :lead
+  belongs_to :topic
   
   validates_email :expert_email, :client_email
   validates_presence_of :expert_email, :client_email, :scheduler, :lead, :location, :duration, :subject, :session_date, :session_time
@@ -18,7 +19,7 @@ class Appointment < ActiveRecord::Base
     e = Event.new
     e.lead = self.lead
     e.user = self.scheduler
-    e.type = self.class.to_s
+    e.type = "#{self.class.to_s} (#{self.topic.name})"
     e.action = 'scheduled'
     e.params = { :to => self.client_email }.to_yaml
     e

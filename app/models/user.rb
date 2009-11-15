@@ -10,6 +10,16 @@ class User < ActiveRecord::Base
   has_many :appointments
   has_many :events
   has_many :comments
+  
+  validates_length_of :phone, :maximum => 10
+  validates_length_of :mobile, :maximum => 10, :allow_nil => true
+  
+  def official_phone
+    "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
+  end
+  
+  
+  # restful_authentication stuff...
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40

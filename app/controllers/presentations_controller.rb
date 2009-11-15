@@ -45,8 +45,8 @@ class PresentationsController < ApplicationController
   # POST /presentations.xml
   def create
     @presentation = Presentation.new(params[:presentation])
-    @presentation.url = generate_url('http://info.trigonsolutions.com/what_we_do')
-    user = User.find_by_id(params[:user_id])
+    @presentation.url = generate_url('http://demo.trigonsolutions.com/demo')
+    user = User.find_by_id(params[:user_id]) || current_user
     lead = Lead.find_by_id(params[:lead_id])
     @presentation.user = user
     @presentation.lead = lead
@@ -104,7 +104,8 @@ class PresentationsController < ApplicationController
   
   private
   def generate_url(prefix='')
-    uuid = UUIDTools::UUID.timestamp_create.to_s
-    "#{prefix}/#{uuid}"
+    'http://connectpro60851448.acrobat.com/information/'
+    # uuid = UUIDTools::UUID.timestamp_create.to_s
+    # "#{prefix}/#{uuid}"
   end
 end

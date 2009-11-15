@@ -1,28 +1,68 @@
 <%= stylesheet_link_tag 'thickbox' %>
 <%= javascript_include_tag 'thickbox' %>
 <script type="text/javascript" charset="utf-8">
-	function updateHistory(req){
-		
-	}
 </script>
 <div id="lead" class="details">
-	<div id="demographics">
-		<h1><%= h @lead.casual_name %></h1>
-		<h2><%= h @lead.company %></h2>
-		<div id="location"><%= h @lead.city %>, <%= h @lead.state %></div>
+	<div id="contact">
+		<div id="contact_name" class="h1">
+			<%= h @lead.honorific %> <%= h @lead.full_name %>, <%= h @lead.title %>
+		</div>
 	</div>
-	<div id="history">
-		<% @lead.events.each do |thing| %>
-			<%= render :partial => 'events/listing_item', :locals => { :event => thing } %>
-		<% end %>
+	<div id="company">
+		<div id="company_name" class="h2"><%= h @lead.company %></div>
+		<div id="location">
+			<div id="city_state"><%= h @lead.city %>, <%= h @lead.state %></div>
+			<div id="msa"><%= "(#{h(@lead.msa.strip)})" if @lead.msa %></div>
+			<div id="timezone">Timezone: <%= h timezone_mapping @lead.timezone %></div>
+		</div>
+		<div id="sic_info">
+			<% (1..5).each do |i| %>
+				<% code = @lead.send("sic_code_#{i}") %>
+				<% if code and !code.nil? %>
+					<div id="sic_<%= i %>" clas="sic">
+						<div class="sic_code"><%= h code %></div>
+						<div class="sic_desc"><%= h @lead.send("sic_description_#{i}") %></div>
+					</div>
+				<% end %>
+			<% end %>
+		</div>
+		<div id="misc_info">
+			<% 
+			{
+				'Year Established' => :year_established,
+				'Number of PCs' => :number_of_pcs,
+				'Emp Code' => :employee_code,
+				'Sales Code' => :sales_code,
+				'Credit Rating' => :credit_rating
+			}.each do |field, attrib| %>
+				<% value = @lead.send(attrib)%>
+				<% if value and !value.nil? %>
+					<div class="misc_item">
+						<%= h field %>: <%= h value %>
+					</div>
+				<% end %>
+			<% end %>
+		</div>
 	</div>
 </div>
+<div id="history">
+	<% @lead.events.each do |thing| %>
+		<%= render :partial => 'events/listing_item', :locals => { :event => thing } %>
+	<% end %>
+</div>
 <div id="controls">
-	<div class="control"><%= link_to 'Next', next_user_lead_url(current_user, @lead) %></div>
-	<div class="control"><%= link_to 'Invite', new_user_lead_presentation_url(current_user, @lead, :height => 75, :width => 300), :class => 'thickbox' %></div>
-	<div class="control"><%= link_to 'Book', new_user_lead_appointment_url(current_user, @lead, :height => 600, :width => 300), :class => 'thickbox' %></div>
-	<div class="control"><%= link_to 'Disposition', new_user_lead_disposition_url(current_user, @lead, :height => 200, :width => 300), :class => 'thickbox' %></div>
-	<div class="control"><%= link_to 'Suspend', new_user_lead_suspend_url(current_user, @lead, :height => 200, :width => 300), :class => 'thickbox' %></div>
+	<div id="actions">
+		<span>Actions</span>
+		<div class="control"><%= link_to 'Next', user_lead_url(current_user, @lead.next_id) %></div>
+		<div class="control"><%= link_to_if [:assigned, :queued].include?(@lead.status), 'Invite', new_user_lead_presentation_url(current_user, @lead, :height => 75, :width => 300), :class => 'thickbox' %></div>
+		<div class="control"><%= link_to_if [:scheduled].include?(@lead.status), 'Book', new_user_lead_appointment_url(current_user, @lead, :height => 600, :width => 400), :class => 'thickbox' %></div>
+		<div class="control"><%= link_to 'Disposition', new_user_lead_disposition_url(current_user, @lead, :height => 200, :width => 300), :class => 'thickbox' %></div>
+		<div class="control"><%= link_to 'Suspend', new_user_lead_suspend_url(current_user, @lead, :height => 200, :width => 300), :class => 'thickbox' %></div>
+	</div>
+	<div id="tools">
+		<span>Tools</span>
+		<div class="control"><%= link_to 'Topics', '#' %></div>
+	</div>
 </div>
 <div id="modal"></div>
 	

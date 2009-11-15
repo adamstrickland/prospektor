@@ -7,12 +7,34 @@
 		<table>
 			<tr>
 				<td>
-					<%= yield %>
+					<p class="salutation">
+						<span style="font-weight:bold;color:blue"><%= @to[:name] %></span><br/>
+						<%= @to[:company] %><br/>
+						<%= @to[:email] %><br/>
+					</p>
 				</td>
 			</tr>
+			<%= yield %>
 			<tr>
 				<td>
-					&copy; 2009 Trigon Solutions, Inc.
+					<p class="closing">
+						Sincerely,
+					</p>
+					<table>
+						<tr>
+							<td width="67%">
+								<span style="font-weight:bold;color:blue"><%= @sender[:name] %></span><br/>
+								Direct: <%= @sender[:phone] %><br/>
+								Trigon Solutions, Inc.<br/>
+								5646 Milton St., Suite 610<br/>
+								Dallas, TX 75206<br/>
+								<%= auto_link 'www.trigonsolutions.com' %>
+							</td>
+							<td>
+								<img src='http://localhost:3000<%= image_path 'bbb_badge.gif' %>'/>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>

@@ -15,6 +15,10 @@ class LeadsController < ApplicationController
   # GET /leads/1.xml
   def show
     @lead = Lead.find(params[:id])
+    leads = Lead.queued.owned_by(params[:user_id])
+    current_index = leads.index(@lead)
+    next_index = (current_index+1 == leads.count ? 0 : current_index+1)
+    @lead.next_id = leads[next_index].id
 
     respond_to do |format|
       format.html # show.html.erb
@@ -22,19 +26,18 @@ class LeadsController < ApplicationController
     end
   end
   
-  def next
-    leads = Lead.find_all_by_user_id(params[:user_id])
-    current_lead = Lead.find(params[:id])
-    current_index = leads.index(current_lead)
-    next_index = (current_index+1 == leads.count ? 0 : current_index+1)
-    next_id = leads[next_index].id
-    @lead = Lead.find(next_id)
-
-    respond_to do |format|
-      format.html { render :action => 'show' }
-      format.xml  { render :xml => @lead }
-    end
-  end
+  # def next
+  #   current_lead = Lead.find(params[:id])
+  #   current_index = leads.index(current_lead)
+  #   next_index = (current_index+1 == leads.count ? 0 : current_index+1)
+  #   next_id = leads[next_index].id
+  #   @lead = Lead.find(next_id)
+  # 
+  #   respond_to do |format|
+  #     format.html { render :action => 'show' }
+  #     format.xml  { render :xml => @lead }
+  #   end
+  # end
   
   def disposition
     @lead = Lead.find(params[:id])

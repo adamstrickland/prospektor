@@ -1,11 +1,13 @@
 # Be sure to restart your server when you modify this file
-require 'lib/custom_validations'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
+# require 'lib/custom_validations'
+require 'mockingbird/custom_validations'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -21,6 +23,8 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem 'uuidtools'
+  # config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
+  config.gem 'machinist', :source => 'http://gemcutter.org'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -50,7 +54,7 @@ Rails::Initializer.run do |config|
     :port => 587,
     :domain => 'mockingbirdsoftware.com',
     :authentication => :plain,
-    :user_name => 'trigon',
+    :user_name => 'trigon@mockingbirdsoftware.com',
     :password => 'K59535'
   }
 end

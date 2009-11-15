@@ -16,9 +16,25 @@
 				<div id="company">Trigon Solutions</div>
 				<div id="application">Pursuit</div>
 			</div>
+			<div id="identity">
+				<% if logged_in? %>
+					Logged in as:<br/>
+					<%= current_user.name %><br/>
+					<%= link_to 'Logout', logout_url %>
+				<% else %>
+					Not logged in.<br/>
+					<%= link_to 'Login', login_url %>
+				<% end %>
+			</div>
 		</div>
 		<div id="bd">
-			<div id="menubar"></div>			
+			<div id="menubar">
+				<ul>
+					<li><%= link_to 'Dashboard', user_dashboard_url(current_user) %></li>
+					<li><%= link_to 'Leads', user_leads_url(current_user) %></li>
+					<li><%= link_to 'Reports', user_reports_url(current_user) %></li>
+				</ul>
+			</div>			
 			<div id="flash">
 				<div id="errors" class="error"><%= flash[:errors] %></div>
 				<div id="status"><%= flash[:notice] %></div>

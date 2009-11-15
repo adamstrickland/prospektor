@@ -9,14 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091110190500) do
+ActiveRecord::Schema.define(:version => 20091114231532) do
 
   create_table "appointments", :force => true do |t|
     t.string   "client_email",                  :null => false
     t.string   "expert_email",                  :null => false
     t.string   "location",                      :null => false
     t.float    "duration",     :default => 1.0, :null => false
-    t.string   "subject",                       :null => false
     t.text     "notes"
     t.date     "session_date",                  :null => false
     t.time     "session_time",                  :null => false
@@ -24,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20091110190500) do
     t.integer  "scheduler_id",                  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "topic_id",     :default => 1
   end
 
   create_table "comments", :force => true do |t|
@@ -94,12 +94,22 @@ ActiveRecord::Schema.define(:version => 20091110190500) do
   end
 
   create_table "presentations", :force => true do |t|
-    t.string   "email",      :null => false
-    t.string   "url",        :null => false
-    t.integer  "lead_id",    :null => false
-    t.integer  "user_id",    :null => false
+    t.string   "email",                                            :null => false
+    t.string   "url",                                              :null => false
+    t.integer  "lead_id",                                          :null => false
+    t.integer  "user_id",                                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "callback_date", :default => '2009-11-14',          :null => false
+    t.time     "callback_time", :default => '2000-01-01 00:17:08', :null => false
+  end
+
+  create_table "topics", :force => true do |t|
+    t.string   "name",                            :null => false
+    t.boolean  "complimentary", :default => true, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "number"
   end
 
   create_table "users", :force => true do |t|
@@ -114,6 +124,9 @@ ActiveRecord::Schema.define(:version => 20091110190500) do
     t.datetime "remember_token_expires_at"
     t.string   "activation_code",           :limit => 40
     t.datetime "activated_at"
+    t.string   "phone",                                    :default => "2143610080", :null => false
+    t.string   "extension"
+    t.string   "mobile"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

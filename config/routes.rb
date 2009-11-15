@@ -14,9 +14,15 @@ ActionController::Routing::Routes.draw do |map|
       leads.resources :events, :except => [ :update, :destroy, :edit ]
       leads.resources :disposition, :except => [ :update, :destroy, :edit, :index, :show ]
       leads.resources :suspend, :except => [ :update, :destroy, :edit, :index, :show ]
+      # leads.disposition '/disposition', :controller => 'disposition'
     end
     # users.resource :events
+    users.resources :reports, :only => [ :index, :show ]
+    # users.resources :dashboard, :only => [ :index ]
+    users.dashboard '/dashboard', :controller => 'dashboard', :action => 'index'
   end
+  # map.resources :welcome, :only => [ :index, :show ]
+  map.welcome '/welcome', :controller => 'welcome', :action => 'index'
 
   # map.resources :events
 

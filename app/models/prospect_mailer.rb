@@ -1,54 +1,90 @@
+require 'mockingbird/smtp'
+
 class ProspectMailer < ActionMailer::Base
-  def send_booking(appt)
-    subject "Subject Matter Expert Meeting:  #{appt.subject.titleize}"
+  def scheduled_appointment(appt)
+    subject "Expert Session Reservation Confirmed"
     recipients appt.client_email
-    from "#{appt.user.name} <#{appt.user.email}>"
+    cc appt.expert_email
+    # from "#{appt.scheduler.name} <#{appt.scheduler.email}>"
+    from sender(appt.scheduler.email)
     sent_on Time.now
     content_type "multipart/alternative"
     parameters = { 
-      :to => appt.lead.name, 
-      :from => appt.user.name, 
-      :regarding => appt.subject, 
+      :to => {
+        :name => preso.lead.full_name,
+        :company => preso.lead.company,
+        :email => preso.email
+      },
+      :sender => {
+        :name => appt.scheduler.name, 
+        :phone => appt.scheduler.official_phone
+      },
       :appointment => {
         :date => appt.session_date,
         :time => appt.session_time,
-        :location => appt.location
-      },
-      :expert => {
-        :name => 'Luis Luarca',
-        :gender => :male,
-        :credentials => 'Lots of stuff',
-        :phone => '800-555-1212',
-        :email => appt.expert_email
+        :topic => appt.subject.titleize
       }
     }
     
-    part :content_type => 'text/html', :body => render_message('send_booking.text.html', parameters)
+    part :content_type => 'text/html', :body => render_message('scheduled_appointment.text.html', parameters)
     part 'text/plain' do |p|
-      p.body = render_message('send_booking.text.plain', parameters)
+      p.body = render_message('scheduled_appointment.text.plain', parameters)
       p.transfer_encoding = 'base64'
     end
     # attachment :content_type => 'text/calendar', :body => generate_ics(appt)
   end
 
-  def schedule_presentation(preso)
-    subject "Answering Today's Challenges"
+  def presentation_invitation(preso)
+    subject "Competition and How to Stay on Top"
     recipients preso.email
-    from "#{preso.user.name} <#{preso.user.email}>"
+    # from "#{preso.user.name} <#{preso.user.email}>"
+    from sender(preso.user.email)
+    # from "#{preso.user.name} <trigon@mockingbirdsoftware.com>" 
     sent_on Time.now
-    body { :to => preso.lead.name, :url => preso.url, :from => preso.user.name }
+    # Rails.logger.warn("User for preso still is:  #{preso.user.name}, User for lead still is:  #{preso.lead.user.name}")
+    body ({ 
+      :to => {
+        :name => preso.lead.full_name,
+        :company => preso.lead.company,
+        :email => preso.email
+      }, 
+      :url => preso.url, 
+      :sender => {
+        :name => preso.user.name,
+        :phone => preso.user.official_phone
+      }
+    })
   end
   
+  def topics_listing(preso)
+    subject "Expert Session Complimentary Topics"
+    recipients preso.email
+    # from "#{preso.user.name} <#{preso.user.email}>"
+    from sender(preso.user.email)
+    sent_on Time.now
+    body ({ 
+      :to => {
+        :name => preso.lead.full_name,
+        :company => preso.lead.company,
+        :email => preso.email
+      }, 
+      :sender => {
+        :name => preso.user.name,
+        :phone => preso.user.official_phone
+      },
+      :topics => Topic.find_all_by_complimentary(true).map{|t| t.name}
+    })
+  end
   
-  protected
-    def setup_email(email)
-      @recipients  = "#{email}"
-      @from        = "ADMINEMAIL"
-      @subject     = "[YOURSITE] "
-      @sent_on     = Time.now
-      @body[:user] = user
+  protected    
+    def generate_ics
     end
     
-    def generate_ics
+    def sender(from_email)
+      if Rails.configuration.action_mailer.smtp_settings[:address] =~ /smtp\.((gmail)|(googlemail))\.com/
+        'trigon@mockingbirdsoftware.com'
+      else
+        from_email
+      end
     end
 end

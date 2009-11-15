@@ -2,6 +2,8 @@
 class Lead < ActiveRecord::Base
   include AASM
   
+  attr_accessor :next_id
+  
   belongs_to :user
   has_many :presentations
   has_many :appointments
@@ -15,11 +17,28 @@ class Lead < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
   
-  named_scope :queued, :conditions => { :aasm_state => :assigned.to_s }
+  named_scope :queued, :conditions => { :aasm_state => [ :queued.to_s, :scheduled.to_s ] }
   named_scope :owned_by, lambda{ |u| { :conditions => { :user_id => u } } }
+  # named_scope :call_list, lambda{ |u| 
+  #   { 
+  #     :conditions => {
+  #       :user_id => u,
+  #       :aasm_state => 
+  #     }
+  #   }
+  # }
   
   def casual_name
     self.name
+  end
+  
+  def full_name
+    nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
+    "#{self.first_name} #{nickname}#{self.last_name}"
+  end
+  
+  def honorific
+    (self.gender.downcase == 'female' ? 'Ms.' : 'Mr.')
   end
   
   def history
@@ -31,6 +50,10 @@ class Lead < ActiveRecord::Base
     possible_transitions = possible_events.map{ |e| e.transitions_from_state(self.aasm_state.to_sym) }.flatten
     possible_end_states = possible_transitions.map{ |t| t.to }.flatten
     possible_end_states
+  end
+  
+  def status
+    self.aasm_state.to_sym
   end
   
   # state machine stuff
