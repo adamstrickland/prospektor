@@ -1,0 +1,249 @@
+/*
+Design by Metamorphosis Design
+http://www.metamorphozis.com
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+*
+{
+margin: 0px;
+padding: 0px;
+}
+
+a:link {
+	color: #630000;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #78030a;
+}
+
+body {	
+	background: #000000;
+	font: 13px Arial, Helvetica, sans-serif;
+	color: #383838;
+}
+
+#content{
+	margin: 0 auto;
+	background: #1e7c01;
+	width: 989px;
+	text-align: left;
+	background: url(images/mainbg.gif) repeat-y center;
+}
+
+#main{
+width: 989px;
+margin: 0 auto;
+clear:both;
+}
+
+#header {
+	height: 397px;
+	width: 289px;
+	background: #1e7c01 url(images/header.jpg) no-repeat top;		
+}
+
+#logo {
+height: 79px;
+text-align: left;
+padding-left: 300px;
+background: #000000;
+}
+
+
+#logo a {
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:normal;
+	text-decoration: none;
+	font-style: italic;
+	font-size: 18px;
+	color: #ffffff;
+}
+#logo H2 a
+{
+font-size: 12px;
+}
+
+
+#menu
+{
+width: 701px;
+height: 53px;
+background: url(images/menu.gif) no-repeat;
+border-bottom: 10px solid #000000;
+}
+
+#menu ul {
+	list-style: none;	
+	padding-left:0px;
+}
+
+#menu li {	
+	display: inline; 
+}
+
+#menu a{
+	display: block;
+	float: left;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+	font-weight: normal;
+	color: #ffffff;
+	text-align: center;
+	text-decoration: none;	
+	height: 35px;
+	padding-top: 18px;	
+	width: 129px;
+
+}
+
+#menu a:hover{
+    height: 35px;
+	background: url(images/menu_hover.jpg) repeat-x;
+}
+
+#left{
+	width: 278px;
+}
+
+#lefttop{
+	background:url(images/lefttop.gif) no-repeat top;
+	height: 13px;
+}
+
+#left H3{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	width: 236px;
+	height: 30px;
+	font-size: 18px;
+	font-weight: normal;
+	padding-left:15px;
+	padding-top: 10px;
+	color: #ffffff;
+	background: url(images/title.png) repeat-x;
+	margin: 0 auto;
+}
+
+.leftbg{
+	background:url(images/leftbg.jpg) no-repeat center top;
+	padding-top:25px;
+}	
+
+.leftcenter{
+	background:url(images/leftcenter.gif) no-repeat right;
+	height: 19px;	
+}
+
+#left ul {
+	list-style: none;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	
+}
+
+#left ul li{
+	background:url(images/liststyle.png) no-repeat top left;
+	padding-left: 25px;
+	padding-bottom: 10px;
+}
+
+#left a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12px;
+	text-decoration:none;
+	color: #000000;
+}
+#left a:visited {
+	color: #196050;
+}
+
+#right{
+	float: right;
+	width: 700px;
+}
+
+#righttop{
+	background:url(images/righttop.gif) no-repeat top right;
+	height: 13px;
+}
+
+#right H4{
+	width: 660px;
+	height: 30px;
+	font-size: 18px;
+	font-weight: normal;
+	padding-left: 14px;
+	padding-top: 12px;
+	color: #ffffff;
+	background: url(images/right_top.png) no-repeat;
+	margin: 0 auto;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+}
+
+.rightcenter{
+	background:url(images/rightcenter.gif) no-repeat right;
+	height: 19px;	
+}
+
+.rightbg{
+	background:url(images/rightbg.jpg) no-repeat center top;
+	padding-top:25px;
+}	
+
+#right p {
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#right ol, #right ul
+{
+margin-left: 30px;
+}
+
+
+#right h2 {
+	margin: 0;
+	padding: 0;
+	padding-top: 10px;
+	color: #196050;
+}
+
+.read{
+	text-align:right;
+	padding-right: 150px;
+}
+
+#mainbot{
+	background:url(images/mainbot.gif) no-repeat;
+	height: 20px;
+	clear:both;
+}
+
+#footer {
+	height: 40px;
+	width: 990px;
+	clear: both;
+	padding-top: 20px;
+	background: #000000 url(images/footer.gif) no-repeat top;
+	padding-bottom: 5px;
+}
+
+#footer p {
+	margin: 0;
+	font-size: 10px;
+	text-align: center;
+	color: #ffffff;
+}
+
+#footer a {
+	color: #ffffff;
+}

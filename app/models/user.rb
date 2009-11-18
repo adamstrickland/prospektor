@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :appointments
   has_many :events
   has_many :comments
+  has_many :call_queues
   
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true

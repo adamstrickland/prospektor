@@ -1,0 +1,89 @@
+* {
+    margin:0px;
+    padding:0px;
+}
+
+a:link {
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+a:visited{
+    text-decoration:none;
+}
+
+body{
+    font:13px Helvetica, Arial, sans-serif;
+}
+
+#hd{
+    height:144px;
+    position:relative;
+    top:20px;
+    width:989px;
+    margin:0 auto;
+}
+
+#hd div{
+    position:relative;
+}
+
+#branding{
+    text-align:center;
+}
+
+#company{
+    font-size:1em;
+    left:-80px;
+}
+
+#application{
+    font-size:4em;
+    font-weight:bold;
+}
+
+#identity{
+    position:absolute;
+    right:0;
+    top:-5em;
+    float:right;
+    
+}
+
+span.act{
+    display:block;
+    text-align:right;
+}
+
+#bd{}
+
+#menubar{}
+
+#flash{}
+
+#errors{}
+
+.error{
+    font-weight:bold;
+}
+
+#status{}
+
+#content{
+    margin:0 auto;
+    width:989px;
+    text-align:left;
+}
+
+#left{}
+
+#main{
+    clear:both;
+}
+
+#right{}
+
+#ft{}

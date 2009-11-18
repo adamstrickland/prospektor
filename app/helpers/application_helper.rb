@@ -7,7 +7,34 @@ module ApplicationHelper
   #   end
   # end
   
-  def javascript_action_tag
+  def javascript_action_include_tag
+    # js_file_path = File.join(File.dirname(__FILE__), "..", "..", "public", "javascripts", controller_name, "#{action_name}.js")
+    # # puts "JS File.exists?: #{js_file_path}"
+    # if File.exists?(js_file_path)
+    #   javascript_include_tag File.join(controller_name, action_name)
+    # end
+    asset_in_public('javascripts') do |f|
+      javascript_include_tag f
+    end
+  end
+  
+  def stylesheet_action_link_tag
+    # js_file_path = File.join(File.dirname(__FILE__), "..", "..", "public", "javascripts", controller_name, "#{action_name}.js")
+    # # puts "JS File.exists?: #{js_file_path}"
+    # if File.exists?(js_file_path)
+    #   javascript_include_tag File.join(controller_name, action_name)
+    # end
+    asset_in_public('stylesheets') do |f|
+      stylesheet_link_tag f
+    end
+  end
+  
+  def asset_in_public(subdir, &block)
+    public_path = File.join(File.dirname(__FILE__), '..', '..', 'public')
+    file_glob = File.join(public_path, subdir, controller_name, "#{action_name}.*")
+    if Dir.glob(file_glob).map{|f| File.exists?(f)}.delete_if{|b| !b}.count > 0
+      yield(File.join(controller_name, action_name))
+    end
   end
   
   def onclick_to_remote(options = {})
@@ -41,4 +68,8 @@ module ApplicationHelper
     # new_source = options[:absolute] ? image_url(source) : source
     image_tag(image_url(source), options)
   end
+  # 
+  # def pdf_path(asset_name, options={})
+  #   url_for(:controller => 'help', :action => 'pdf', :asset => 'asset_name')
+  # end
 end

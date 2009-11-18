@@ -9,6 +9,7 @@ class Lead < ActiveRecord::Base
   has_many :appointments
   has_many :events
   has_many :comments
+  has_and_belongs_to_many :queues
   
   # validations
   validates_email :email
@@ -19,12 +20,34 @@ class Lead < ActiveRecord::Base
   
   named_scope :queued, :conditions => { :aasm_state => [ :queued.to_s, :scheduled.to_s ] }
   named_scope :owned_by, lambda{ |u| { :conditions => { :user_id => u } } }
-  # named_scope :call_list, lambda{ |u| 
-  #   { 
-  #     :conditions => {
-  #       :user_id => u,
-  #       :aasm_state => 
-  #     }
+  named_scope :call_list, lambda{ |u| 
+    { 
+      :conditions => {
+        :user_id => u,
+        :aasm_state => [ :queued.to_s, :scheduled.to_s ]
+      }
+    }
+  }
+  # named_scope :hot, :joins => :presentations
+  # named_scope :stale, :joins => :presentations
+  # named_scope :open, :joins => :presentations
+  # named_scope :hot, lambda{ |as_of|
+  #   {
+  #     :joins => :presentations, 
+  #     # :conditions => {
+  #     #   :aasm_state => :scheduled.to_s,
+  #     #   [ 'presentations.callback_date < ?', time ] 
+  #     # }
+  #   }
+  # }
+  # named_scope :stale, lambda{ |as_of|
+  #   {
+  #     :joins => :presentations
+  #   }
+  # }
+  # named_scope :open, lambda{ |as_of|
+  #   {
+  #     :joins => :presentations
   #   }
   # }
   

@@ -6,7 +6,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :topic
   
   validates_email :expert_email, :client_email
-  validates_presence_of :expert_email, :client_email, :scheduler, :lead, :location, :duration, :subject, :session_date, :session_time
+  validates_presence_of :expert_email, :client_email, :scheduler, :lead, :location, :duration, :session_date, :session_time
   
   # def as_history
   #   {
@@ -19,7 +19,7 @@ class Appointment < ActiveRecord::Base
     e = Event.new
     e.lead = self.lead
     e.user = self.scheduler
-    e.type = "#{self.class.to_s} (#{self.topic.name})"
+    e.qualifier = "#{self.class.to_s} (#{self.topic.name})"
     e.action = 'scheduled'
     e.params = { :to => self.client_email }.to_yaml
     e

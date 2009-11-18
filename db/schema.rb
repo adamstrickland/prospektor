@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091114231532) do
+ActiveRecord::Schema.define(:version => 20091116155714) do
 
   create_table "appointments", :force => true do |t|
     t.string   "client_email",                  :null => false
@@ -26,6 +26,19 @@ ActiveRecord::Schema.define(:version => 20091114231532) do
     t.integer  "topic_id",     :default => 1
   end
 
+  create_table "call_queues", :force => true do |t|
+    t.string   "name",       :null => false
+    t.date     "queue_date", :null => false
+    t.integer  "user_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "call_queues_leads", :id => false, :force => true do |t|
+    t.integer "call_queue_id", :null => false
+    t.integer "lead_id",       :null => false
+  end
+
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "lead_id"
@@ -38,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20091114231532) do
     t.integer  "user_id"
     t.integer  "lead_id"
     t.string   "action"
-    t.string   "type"
+    t.string   "qualifier"
     t.string   "params"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -100,8 +113,8 @@ ActiveRecord::Schema.define(:version => 20091114231532) do
     t.integer  "user_id",                                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "callback_date", :default => '2009-11-14',          :null => false
-    t.time     "callback_time", :default => '2000-01-01 00:17:08', :null => false
+    t.date     "callback_date", :default => '2009-11-16',          :null => false
+    t.time     "callback_time", :default => '2000-01-01 23:31:44', :null => false
   end
 
   create_table "topics", :force => true do |t|

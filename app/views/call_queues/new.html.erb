@@ -1,0 +1,36 @@
+<div id="queue-form" class="form">
+<%
+	form_for(
+		:queue,
+		@queue,
+		:url => user_call_queues_path(current_user), 
+		:html => {
+			:method => :post
+		}
+	) do |f|
+-%>
+	<div class="item">
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</div>
+	<div class="item">
+		<%= f.label :queue_date %>
+		<%= f.date_select :queue_date %>
+	</div>
+	<!-- <div class="item">
+		<%= f.label :leads %>
+		<div>
+			<div id="choices">
+				<%= radio_button_tag 'lead_selection', 'auto', true %>Auto-select my leads for me<br/>
+				<%= radio_button_tag 'lead_selection', 'manual', false, :onclick => "$('#leads').css('color','red');" %>Manually select leads
+			</div>
+			<div id="leads" disabled>
+				This is the lead selector
+			</div>
+		</div>
+	</div> -->
+	<div class="item">
+		<%= f.submit 'Create' %>
+	</div>
+<% end %>
+</div>

@@ -1,0 +1,36 @@
+@import colors.sass
+
+!wd_bd = 989px
+!wd_main = ((!wd_bd / 4) * 3) - 0
+!ht_head = 144px
+!ht_nav = 3em
+
+!sz_font = 10px
+!fm_font = Verdana, Arial, Helvetica, sans-serif
+
+!cl_brdr = !w
+!cl_text = !w
+!cl_body = !prim_emB
+!cl_main = !prim
+!cl_link = !secB
+!cl_hovr = !comp
+!cl_menu = !secB
+
+=border-base
+
+=bordered
+	:border
+		:left
+			:style solid
+			:width 1px
+			:color !cl_brdr
+		:bottom	
+			:style dotted
+			:width 1px
+			:color !cl_brdr
+		
+=heading
+	:font
+		:weight bold
+	:text
+		:align center

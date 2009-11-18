@@ -3,12 +3,14 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 		<title>Pursuit :: <%= controller_name.titleize %></title>
-		<%= stylesheet_link_tag 'styles' %>
+		<%= stylesheet_link_tag 'master' %>
+		<%= stylesheet_action_link_tag %>
 		<%= javascript_include_tag 'jquery' %>
 		<%= javascript_include_tag 'jquery-ui' %>
 		<%= javascript_include_tag 'jrails' %>
+		<%= javascript_include_tag 'thickbox' %>
 		<%= javascript_include_tag 'application' %>
-		<%= javascript_action_tag %>
+		<%= javascript_action_include_tag %>
 	</head>
 	<body>
 		<div id="hd">
@@ -18,37 +20,36 @@
 			</div>
 			<div id="identity">
 				<% if logged_in? %>
-					Logged in as:<br/>
-					<%= current_user.name %><br/>
-					<%= link_to 'Logout', logout_url %>
-				<% else %>
-					Not logged in.<br/>
-					<%= link_to 'Login', login_url %>
+					<span class="info">Logged in as:</span><br/>
+					<span class="info"><%= current_user.name %></span><br/>
+					<span class="act"><%= link_to 'Logout', logout_url %></span>
 				<% end %>
 			</div>
 		</div>
 		<div id="bd">
-			<div id="menubar">
-				<ul>
-					<li><%= link_to 'Dashboard', user_dashboard_url(current_user) %></li>
-					<li><%= link_to 'Leads', user_leads_url(current_user) %></li>
-					<li><%= link_to 'Reports', user_reports_url(current_user) %></li>
-				</ul>
-			</div>			
+			<div id="nav">
+				<div id="navbar">
+					<% if logged_in? %>
+					<ul>
+						<li><%= link_to 'Dashboard', user_dashboard_url(current_user) %></li>
+						<li><%= link_to 'Call Queues', user_call_queues_url(current_user) %></li>
+						<li><%= link_to 'Reports', user_reports_url(current_user) %></li>
+					</ul>
+					<% end %>
+				</div>	
+			</div>
 			<div id="flash">
 				<div id="errors" class="error"><%= flash[:errors] %></div>
 				<div id="status"><%= flash[:notice] %></div>
 			</div>
 			<div id="content">
-				<div id="left"></div>
-				<div id="main">
-					<%= yield %>
-				</div>
-				<div id="right"></div>
+				<%= yield %>
 			</div>
 		</div>
 		<div id="ft">
-			&copy; 2009 Trigon Solutions, Inc.
+			<div id="copy">
+				&copy; 2009 Trigon Solutions, Inc.
+			</div>
 		</div>
 	</body>
 </html>

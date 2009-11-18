@@ -1,25 +1,25 @@
 class AppointmentsController < ApplicationController
-  # GET /appointments
-  # GET /appointments.xml
-  def index
-    @appointments = Appointment.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @appointments }
-    end
-  end
-
-  # GET /appointments/1
-  # GET /appointments/1.xml
-  def show
-    @appointment = Appointment.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @appointment }
-    end
-  end
+  # # GET /appointments
+  # # GET /appointments.xml
+  # def index
+  #   @appointments = Appointment.all
+  # 
+  #   respond_to do |format|
+  #     format.html # index.html.erb
+  #     format.xml  { render :xml => @appointments }
+  #   end
+  # end
+  # 
+  # # GET /appointments/1
+  # # GET /appointments/1.xml
+  # def show
+  #   @appointment = Appointment.find(params[:id])
+  # 
+  #   respond_to do |format|
+  #     format.html # show.html.erb
+  #     format.xml  { render :xml => @appointment }
+  #   end
+  # end
 
   # GET /appointments/new
   # GET /appointments/new.xml
@@ -27,7 +27,8 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
     @lead = Lead.find(params[:lead_id])
     @appointment.client_email = @lead.presentations.last.email || @lead.email
-    @appointment.location = "#{@lead.address}, #{@lead.city} #{@lead.state}"
+    # @appointment.location = "#{@lead.address}, #{@lead.city} #{@lead.state}"
+    @appointment.location = @lead.phone
 
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }
@@ -35,10 +36,10 @@ class AppointmentsController < ApplicationController
     end
   end
 
-  # GET /appointments/1/edit
-  def edit
-    @appointment = Appointment.find(params[:id])
-  end
+  # # GET /appointments/1/edit
+  # def edit
+  #   @appointment = Appointment.find(params[:id])
+  # end
 
   # POST /appointments
   # POST /appointments.xml
@@ -48,50 +49,55 @@ class AppointmentsController < ApplicationController
     lead = Lead.find(params[:lead_id])
     @appointment.scheduler = user
     @appointment.lead = lead
+    @appointment.expert_email = get_expert
+    # @appointment.topic = Topic.find
 
     respond_to do |format|
       if @appointment.save
-        # flash[:notice] = 'Appointment was successfully created.'
-        # format.html { redirect_to(@appointment) }
-        # format.xml  { render :xml => @appointment, :status => :created, :location => @appointment }
-        # format.html { render :partial => 'history_item', :status => :created, :locals => { :history => @appointment.as_history } }
         e = @appointment.generate_event
         e.save!
         format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
       else
-        # format.html { render :action => "new" }
-        # format.xml  { render :xml => @appointment.errors, :status => :unprocessable_entity }
         format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @appointment.errors } }
       end
     end
   end
 
-  # PUT /appointments/1
-  # PUT /appointments/1.xml
-  def update
-    @appointment = Appointment.find(params[:id])
-
-    respond_to do |format|
-      if @appointment.update_attributes(params[:appointment])
-        flash[:notice] = 'Appointment was successfully updated.'
-        format.html { redirect_to(@appointment) }
-        format.xml  { head :ok }
+  # # PUT /appointments/1
+  # # PUT /appointments/1.xml
+  # def update
+  #   @appointment = Appointment.find(params[:id])
+  # 
+  #   respond_to do |format|
+  #     if @appointment.update_attributes(params[:appointment])
+  #       flash[:notice] = 'Appointment was successfully updated.'
+  #       format.html { redirect_to(@appointment) }
+  #       format.xml  { head :ok }
+  #     else
+  #       format.html { render :action => "edit" }
+  #       format.xml  { render :xml => @appointment.errors, :status => :unprocessable_entity }
+  #     end
+  #   end
+  # end
+  # 
+  # # DELETE /appointments/1
+  # # DELETE /appointments/1.xml
+  # def destroy
+  #   @appointment = Appointment.find(params[:id])
+  #   @appointment.destroy
+  # 
+  #   respond_to do |format|
+  #     format.html { redirect_to(appointments_url) }
+  #     format.xml  { head :ok }
+  #   end
+  # end  
+    
+  protected
+    def get_expert
+      if Rails.configuration.environment.downcase == 'production'
+        'lluarca@trigonsolutions.com'
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @appointment.errors, :status => :unprocessable_entity }
+        'adam.strickland+expert@gmail.com'
       end
     end
-  end
-
-  # DELETE /appointments/1
-  # DELETE /appointments/1.xml
-  def destroy
-    @appointment = Appointment.find(params[:id])
-    @appointment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(appointments_url) }
-      format.xml  { head :ok }
-    end
-  end
 end

@@ -3,12 +3,7 @@
 		remote_form_for(
 			:presentation,
 			@presentation,
-			:url => {
-				:controller => 'presentations',
-				:user_id => current_user,
-				:lead_id => @lead,
-				# :format => 'xml'
-			}, 
+			:url => user_call_queue_lead_presentations_url(current_user, params[:call_queue_id], @lead), 
 			:html => {
 				:method => :post
 			},

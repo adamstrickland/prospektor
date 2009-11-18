@@ -1,0 +1,41 @@
+<div id="first_time" class="dashboard">
+	<div id="welcome">
+		<h2>Welcome!</h2>
+		<p>
+			Hello and welcome to Pursuit&trade;, Trigon Solutions' prospect management application.  Pursuit enables Trigon Expert Scheduling personnel to access the central repository 
+			of leads, manage workflow, and schedule sales presentations and expert sessions.  The application also provides details financial reports so that you can monitor your 
+			effectiveness and increase sales.  
+		</p>
+		<p>
+			As most Expert Schedulers are working remotely, the Pursuit application is often the primary means of day-to-day communication between the scheduler and the company.  
+			Important notices and updates will appear on this page regularly.  <span class="strong">Please read the updates as they appear and stay current, as this will directly
+			affect your effectiveness as a Trigon employee.</span>
+		</p>
+	</div>
+	<div id="getting_started">
+		<h2>Getting Started</h2>
+		<p>
+			To get started, first-time users should become familiar with Trigon's sales process and other aspects of operations.  To do so, please read the following (designated order
+			is not required, but recommended)[ NOTE: these are PDF files, so Adobe's Acrobat Reader software is required.  You may download this 
+			<%= link_to 'here', 'http://get.adobe.com/reader/' %>]:
+			<ul>
+				<li><%= link_to 'The Sales Process', pdf_path('sales_process'), :target => '_blank' %></li>
+				<li><%= link_to 'Making Money', pdf_path('making_money'), :target => '_blank' %></li>
+				<li><%= link_to 'Managing the Conversation', pdf_path('managing_the_conversation'), :target => '_blank' %></li>
+				<li><%= link_to 'Closing the Sale', pdf_path('closing_the_sale'), :target => '_blank' %></li>
+			</ul>
+		</p>
+		<p>
+			Now that you're familiar with the general sales process, we have provided a brief introduction to the Pursuit application, as well as some more in-depth documentation
+			outlining the various features of the system.
+			<ul>
+				<li><%= link_to 'Quick Start', quick_start_path(:height => 500, :width => 500), :class => 'thickbox' %></li>
+				<li><%= link_to 'User Guide', users_guide_url(:height => 500, :width => 500), :class => 'thickbox' %></li>
+				<li><%= link_to 'Documentation', documentation_url(:height => 500, :width => 500), :class => 'thickbox' %></li>
+			</ul>
+		</p>
+		<p>
+			So now you're ready.  Good luck, and let's get started!  <%= link_to 'Create a Call Queue', new_user_call_queue_url(current_user) %>
+		</p>
+	</div>
+</div>

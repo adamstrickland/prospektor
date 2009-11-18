@@ -3,12 +3,7 @@
 		remote_form_for(
 			:appointment,
 			@appointment,
-			:url => {
-				:controller => 'appointments',
-				:user_id => current_user,
-				:lead_id => @lead,
-				# :format => 'xml'
-			}, 
+			:url => user_call_queue_lead_appointments_url(current_user, params[:call_queue_id], @lead), 
 			:html => {
 				:method => :post
 			},
@@ -21,15 +16,8 @@
 			<%= f.text_field :client_email %>
 		</div>
 		<div class="widget_item">
-			<%= f.label :expert_email %>
-			<%= f.select :expert_email, {
-				"Luis Luarca" => "lluarca@trigonsolutions.com",
-				"Bill Jones" => "bjones@trigonsolutions.com"
-			} %>
-		</div>
-		<div class="widget_item">
 			<%= f.label :topic %>
-			<%= f.select :topic, Topic.find_all_by_complimentary(true, :order => 'number').map{ |t| ["#{t.number.to_s.rjust(2, '0')} - #{t.name}", t.id] } %>
+			<%= f.select :topic_id, Topic.find_all_by_complimentary(true, :order => 'number').map{ |t| ["#{t.number.to_s.rjust(2, '0')} - #{t.name}", t.id] } %>
 		</div>
 		<div class="widget_item">
 			<%= f.label :location %>

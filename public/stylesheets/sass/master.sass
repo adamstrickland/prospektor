@@ -1,0 +1,122 @@
+@import scheme.sass
+@import nav.sass
+@import menu.sass
+
+@import ../thickbox.css
+
+*
+	:margin 0px
+	:padding 0px
+
+body
+	:font
+		:size = !sz_font
+		:family = !fm_font
+	:color = !cl_text
+	:background-color = !cl_body
+	>div
+		:margin 0 auto
+	
+a
+	:text-decoration none
+	:color = !cl_link
+	&:link, &:visited
+		:text-decoration none
+		:color = !cl_link
+	&:hover
+		:text-decoration underline
+		:color = !cl_hovr
+		
+#hd		
+	:width = !wd_bd
+	:height = !ht_head
+	:top 2em
+	:position relative
+	div
+		:position relative
+	#branding
+		:text
+			:align center
+		#company
+			:font
+				:size = !sz_font - 2
+			:left -80px
+		#application
+			:font
+				:size = !sz_font * 4
+				:weight bold
+	#identity
+		:position absolute
+		:right 0
+		:top 0
+		:float right
+		span.act
+			:display block
+			:text-align right
+
+#bd
+	:width = !wd_bd
+	#nav
+		+navigation-bar(!ht_nav, !cl_link, !cl_hovr)
+		a
+			:font
+				:weight bold
+	#flash
+		:font
+			:weight bold
+		.error
+			:color red
+		.status
+			:color green
+	#content
+		:margin 0
+		:text-align left
+		>div
+			:padding 1em
+		#sidebar
+			:width = !wd_main / 4
+			:float right
+			div.menu
+				+bordered
+				:background-color = !cl_menu
+				:margin 0 0 0 0.25em
+				:width = !wd_main / 4
+				:margin
+					:bottom 5px
+				span
+					:display block
+					:text
+						:align center
+					:border
+						:bottom 1px solid
+							:color = !cl_body
+					:padding 1em 0 !important
+					:font
+						:weight bold
+						:size = !sz_font + 4
+					&.name
+						:background-color = !prim_emA
+				ul.menu
+					:list-style none
+					:text-decoration none
+					li
+						:color = !g
+						/ :margin 1em
+						a
+							:display block
+							:text-decoration none
+							:background-image none
+							&:link, &:visited
+								:color = !w
+							&:hover
+								:background-color = !comp
+								:color = !b
+		#main
+			:margin 0
+			:width = !wd_main
+		
+#ft		
+	:width = 100%
+	:text-align center
+	:position absolute
+	:bottom 1em

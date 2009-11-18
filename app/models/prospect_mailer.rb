@@ -8,12 +8,12 @@ class ProspectMailer < ActionMailer::Base
     # from "#{appt.scheduler.name} <#{appt.scheduler.email}>"
     from sender(appt.scheduler.email)
     sent_on Time.now
-    content_type "multipart/alternative"
+    content_type "multipart/mixed"
     parameters = { 
       :to => {
-        :name => preso.lead.full_name,
-        :company => preso.lead.company,
-        :email => preso.email
+        :name => appt.lead.full_name,
+        :company => appt.lead.company,
+        :email => appt.client_email
       },
       :sender => {
         :name => appt.scheduler.name, 
@@ -22,14 +22,17 @@ class ProspectMailer < ActionMailer::Base
       :appointment => {
         :date => appt.session_date,
         :time => appt.session_time,
-        :topic => appt.subject.titleize
+        :topic => appt.topic.name
       }
     }
-    
-    part :content_type => 'text/html', :body => render_message('scheduled_appointment.text.html', parameters)
-    part 'text/plain' do |p|
-      p.body = render_message('scheduled_appointment.text.plain', parameters)
-      p.transfer_encoding = 'base64'
+    part :content_type => 'multipart/alternative' do |mixed|
+      mixed.part 'text/plain' do |p|
+        p.body = render_message('scheduled_appointment.text.plain', parameters)
+        # p.transfer_encoding = 'base64'
+      end
+      mixed.part 'text/html' do |h|
+        h.body = render_message('scheduled_appointment.text.html', parameters)
+      end
     end
     # attachment :content_type => 'text/calendar', :body => generate_ics(appt)
   end

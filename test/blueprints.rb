@@ -125,3 +125,15 @@ User.blueprint do
   ext { rand(9) % 2 == 0 ? '' : (1..3).to_i.map{|i| rand(9)}.join }
   mobile { Sham.phone }
 end
+
+CallQueue.blueprint do
+  name
+  user
+  queue_date { Date.today }
+end
+
+def make_queue_with_leads(attribs={})
+  CallQueue.make(attribs) do |q|
+    3.times { q.leads.make }
+  end
+end

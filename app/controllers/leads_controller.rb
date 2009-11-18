@@ -14,11 +14,9 @@ class LeadsController < ApplicationController
   # GET /leads/1
   # GET /leads/1.xml
   def show
+    @queue = CallQueue.find(params[:call_queue_id])
     @lead = Lead.find(params[:id])
-    leads = Lead.queued.owned_by(params[:user_id])
-    current_index = leads.index(@lead)
-    next_index = (current_index+1 == leads.count ? 0 : current_index+1)
-    @lead.next_id = leads[next_index].id
+    @lead.next_id = @queue.next_in_queue(@lead).id
 
     respond_to do |format|
       format.html # show.html.erb

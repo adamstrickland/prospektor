@@ -1,33 +1,33 @@
 require 'uuidtools'
 
 class PresentationsController < ApplicationController
-  # GET /presentations
-  # GET /presentations.xml
-  def index
-    @presentations = Presentation.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @presentations }
-    end
-  end
-
-  # GET /presentations/1
-  # GET /presentations/1.xml
-  def show
-    @presentation = Presentation.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @presentation }
-    end
-  end
+  # # GET /presentations
+  # # GET /presentations.xml
+  # def index
+  #   @presentations = Presentation.all
+  # 
+  #   respond_to do |format|
+  #     format.html # index.html.erb
+  #     format.xml  { render :xml => @presentations }
+  #   end
+  # end
+  # 
+  # # GET /presentations/1
+  # # GET /presentations/1.xml
+  # def show
+  #   @presentation = Presentation.find(params[:id])
+  # 
+  #   respond_to do |format|
+  #     format.html # show.html.erb
+  #     format.xml  { render :xml => @presentation }
+  #   end
+  # end
 
   # GET /presentations/new
   # GET /presentations/new.xml
   def new
     @presentation = Presentation.new
-    @lead = Lead.find_by_id(params[:lead_id])
+    @lead = Lead.find(params[:lead_id])
     @presentation.email = @lead.email
 
     respond_to do |format|
@@ -36,10 +36,10 @@ class PresentationsController < ApplicationController
     end
   end
 
-  # GET /presentations/1/edit
-  def edit
-    @presentation = Presentation.find(params[:id])
-  end
+  # # GET /presentations/1/edit
+  # def edit
+  #   @presentation = Presentation.find(params[:id])
+  # end
 
   # POST /presentations
   # POST /presentations.xml
@@ -53,54 +53,43 @@ class PresentationsController < ApplicationController
 
     respond_to do |format|
       if @presentation.save
-        # flash[:notice] = 'Presentation was successfully created.'
-        # lead.schedule
-        # format.html { redirect_to(@presentation) }
-        # format.json { render :json => @presentation }
-        # format.html { redirect_to user_lead_url(user, lead) }
-        # format.xml  { render :xml => @presentation, :status => :created }
-        # format.html { render :partial => 'leads/history_item', :status => :created, :locals => { :history => @presentation.as_history } }
         e = @presentation.generate_event
         e.save!
         format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
       else
-        # format.html { render :action => "new" }
-        # format.xml  { render :xml => @presentation.errors, :status => :unprocessable_entity }
-        # format.json { render :json => @presentation.errors, :status => :unprocessable_entity }
         format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @presentation.errors } }
-        # flash[:errors] = @presentation.errors
       end
     end
   end
 
-  # PUT /presentations/1
-  # PUT /presentations/1.xml
-  def update
-    @presentation = Presentation.find(params[:id])
-
-    respond_to do |format|
-      if @presentation.update_attributes(params[:presentation])
-        flash[:notice] = 'Presentation was successfully updated.'
-        format.html { redirect_to(@presentation) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @presentation.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /presentations/1
-  # DELETE /presentations/1.xml
-  def destroy
-    @presentation = Presentation.find(params[:id])
-    @presentation.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(presentations_url) }
-      format.xml  { head :ok }
-    end
-  end
+  # # PUT /presentations/1
+  # # PUT /presentations/1.xml
+  # def update
+  #   @presentation = Presentation.find(params[:id])
+  # 
+  #   respond_to do |format|
+  #     if @presentation.update_attributes(params[:presentation])
+  #       flash[:notice] = 'Presentation was successfully updated.'
+  #       format.html { redirect_to(@presentation) }
+  #       format.xml  { head :ok }
+  #     else
+  #       format.html { render :action => "edit" }
+  #       format.xml  { render :xml => @presentation.errors, :status => :unprocessable_entity }
+  #     end
+  #   end
+  # end
+  # 
+  # # DELETE /presentations/1
+  # # DELETE /presentations/1.xml
+  # def destroy
+  #   @presentation = Presentation.find(params[:id])
+  #   @presentation.destroy
+  # 
+  #   respond_to do |format|
+  #     format.html { redirect_to(presentations_url) }
+  #     format.xml  { head :ok }
+  #   end
+  # end
   
   private
   def generate_url(prefix='')

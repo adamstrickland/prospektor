@@ -1,6 +1,6 @@
 <tr>
 	<td>
-		<h2 style="color:blue;text-align:center">Expert Session Reservation **CONFIRMED**</h2>
+		<h2 style="color:blue">Expert Session Reservation **CONFIRMED**</h2>
 	</td>
 </tr>
 <tr>
@@ -12,11 +12,11 @@
 			<table>
 				<tr><td>Date:</td><td><%= @appointment[:date] %></td></tr>
 				<tr><td>Time:</td><td><%= @appointment[:time] %></td></tr>
-				<tr><td>Topic:</td><td><%= @appointment[:topic] %></td></tr>
+				<tr><td>Topic:</td><td><%= @appointment[:topic].titleize %></td></tr>
 			</table>
 		</p>
 		<p>
-			Note: As a reminder, the session will be conducted over the phone.  Please inform your secretary that youwill be expecting this call.
+			Note: As a reminder, the session will be conducted over the phone.  Please inform your secretary that you will be expecting this call.
 		</p>
 	</td>
 </tr>

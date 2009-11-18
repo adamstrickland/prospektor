@@ -4,7 +4,7 @@ class CreateEvents < ActiveRecord::Migration
       t.references :user
       t.references :lead
       t.string :action
-      t.string :type
+      t.string :qualifier
       t.string :params
       t.timestamps
     end

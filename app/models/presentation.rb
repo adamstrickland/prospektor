@@ -21,7 +21,7 @@ class Presentation < ActiveRecord::Base
     e = Event.new
     e.lead = self.lead
     e.user = self.user
-    e.type = self.class.to_s
+    e.qualifier = self.class.to_s
     e.action = 'invited'
     e.params = { :to => self.email }.to_yaml
     e

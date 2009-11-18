@@ -7,14 +7,24 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
 
   map.resources :users do |users|
-    users.resources :leads, :member => { :next => :get } do |leads|
-      leads.resources :presentations, :except => [ :update, :destroy, :edit ]
-      leads.resources :appointments, :except => [ :update, :destroy, :edit ]
-      leads.resources :comments, :except => [ :update, :destroy, :edit ]
-      leads.resources :events, :except => [ :update, :destroy, :edit ]
-      leads.resources :disposition, :except => [ :update, :destroy, :edit, :index, :show ]
-      leads.resources :suspend, :except => [ :update, :destroy, :edit, :index, :show ]
-      # leads.disposition '/disposition', :controller => 'disposition'
+    users.resources :call_queues do |cq|
+      cq.resources :leads, :member => { :next => :get } do |leads|
+        leads.resources :presentations, :only => [ :new, :create ]
+        leads.resources :appointments, :only => [ :new, :create ]
+        leads.resources :comments, :only => [ :new, :create ]
+        leads.resources :events, :only => [ :new, :create ]
+        leads.resources :disposition, :only => [ :new, :create ]
+        leads.resources :suspend, :only => [ :new, :create ]
+      end  
+      # users.resources :leads, :member => { :next => :get } do |leads|
+      #   leads.resources :presentations, :except => [ :update, :destroy, :edit ]
+      #   leads.resources :appointments, :except => [ :update, :destroy, :edit ]
+      #   leads.resources :comments, :except => [ :update, :destroy, :edit ]
+      #   leads.resources :events, :except => [ :update, :destroy, :edit ]
+      #   leads.resources :disposition, :except => [ :update, :destroy, :edit, :index, :show ]
+      #   leads.resources :suspend, :except => [ :update, :destroy, :edit, :index, :show ]
+      #   # leads.disposition '/disposition', :controller => 'disposition'
+      # end
     end
     # users.resource :events
     users.resources :reports, :only => [ :index, :show ]
@@ -23,6 +33,13 @@ ActionController::Routing::Routes.draw do |map|
   end
   # map.resources :welcome, :only => [ :index, :show ]
   map.welcome '/welcome', :controller => 'welcome', :action => 'index'
+  
+  # map.docs '/docs/:action', :controller => 'help'
+  map.pdf '/assets/:asset', :controller => 'help', :action => 'pdf'
+  
+  ['quick_start', 'users_guide', 'documentation', 'faq', 'search'].each do |act|
+    map.send(act, "/docs/#{act}", :controller => 'help', :action => act)
+  end  
 
   # map.resources :events
 
