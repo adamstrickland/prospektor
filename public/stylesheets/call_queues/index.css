@@ -1,0 +1,6 @@
+#call-queues .row {
+  background-color: #241ca6;
+  font-size: 14px;
+  padding: 1em; }
+  #call-queues .row a:link, #call-queues .row a:visited {
+    color: white; }

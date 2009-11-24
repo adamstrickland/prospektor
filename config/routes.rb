@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
 
   map.resources :users do |users|
-    users.resources :call_queues do |cq|
+    users.resources :call_queues, :collection => { :default => :get } do |cq|
       cq.resources :leads, :member => { :next => :get } do |leads|
         leads.resources :presentations, :only => [ :new, :create ]
         leads.resources :appointments, :only => [ :new, :create ]

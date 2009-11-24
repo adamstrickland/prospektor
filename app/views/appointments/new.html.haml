@@ -1,0 +1,37 @@
+#appointment.dialog.modal
+	-modal_form_for(@appointment, user_call_queue_lead_appointments_url(current_user, params[:call_queue_id], @lead)) do |f|
+		%fieldset
+			.fields
+				.row
+					.fieldname.grid_4=f.label :client_email
+					.field.grid_4=f.text_field :client_email
+					.clear
+				.row
+					.fieldname.grid_4=f.label :topic
+					.field.grid_4=f.select :topic_id, Topic.find_all_by_complimentary(true, :order => 'number').map{ |t| ["#{t.number.to_s.rjust(2, '0')} - #{t.name}", t.id] }
+					.clear
+				.row
+					.fieldname.grid_4
+						%label{ :for => :location } Phone Number
+					.field.grid_4=f.text_field :location
+					.clear
+				.row
+					.fieldname.grid_4=f.label :session_date
+					.field.grid_4=f.date_select :session_date
+					.clear
+				.row
+					.fieldname.grid_4=f.label :session_time
+					.field.grid_4=f.time_select :session_time
+					.clear
+				.row
+					.fieldname.grid_4
+						%label{ :for => :duration } Duration (hours)
+					.field.grid_4=f.text_field :duration
+					.clear
+				.row
+					.fieldname.grid_4=f.label :notes
+					.field.grid_4=f.text_area :notes
+					.clear
+				.row
+					.button.suffix_4.grid_4=f.submit 'Save'
+					.clear

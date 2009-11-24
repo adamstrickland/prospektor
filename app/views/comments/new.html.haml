@@ -1,0 +1,13 @@
+#comment.dialog.modal
+	.title Add a comment below
+	-modal_form_for(@comment, user_call_queue_lead_comments_url(current_user, params[:call_queue_id], @lead)) do |f|
+		%fieldset
+			.fields
+				.row
+					.field=f.text_area :comment
+				.row
+					.button
+						%em
+							%button{ :type => 'submit' } Save
+						
+						

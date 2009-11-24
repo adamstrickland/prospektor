@@ -7,7 +7,8 @@
 				<li><%= link_to_if [:assigned, :queued].include?(@lead.status), content_tag(:span, 'Invite'), new_user_call_queue_lead_presentation_url(current_user, @queue, @lead, :height => 75, :width => 300), :class => 'thickbox' %></li>
 				<li><%= link_to_if [:scheduled].include?(@lead.status), content_tag(:span, 'Book'), new_user_call_queue_lead_appointment_url(current_user, @queue, @lead, :height => 600, :width => 400), :class => 'thickbox' %></li>
 				<li><%= link_to content_tag(:span, 'Disposition'), new_user_call_queue_lead_disposition_url(current_user, @queue, @lead, :height => 200, :width => 300), :class => 'thickbox' %></li>
-				<li><%= link_to content_tag(:span, 'Suspend'), new_user_call_queue_lead_suspend_url(current_user, @queue, @lead, :height => 200, :width => 300), :class => 'thickbox' %></li>
+				<!-- <li><%= link_to content_tag(:span, 'Suspend'), new_user_call_queue_lead_suspend_url(current_user, @queue, @lead, :height => 200, :width => 300), :class => 'thickbox' %></li> -->
+				<li><%= link_to content_tag(:span, 'Comment'), new_user_call_queue_lead_comment_url(current_user, @queue, @lead, :height => 400, :width => 350), :class => 'thickbox' %></li>
 			</ul>
 		</div>
 		<div id="tools" class="menu">

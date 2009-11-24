@@ -3,11 +3,11 @@
 #main
 	.primary
 		+bordered
-		:background-color = !secA
+		:background-color = !prim_hiA
 		:padding 1em
 		:margin
 			:bottom 1em
-		:height 230px
+		:height 250px
 		div.h1
 			:font
 				:weight bold
@@ -22,12 +22,16 @@
 					:bottom 10px
 		#company
 			.addl_info
+				:margin-top 2em
 				:width = (!wd_main / 2) - 25
-				/ :border 1px solid yellow
 				:background-color = !comp_hiA
 				:color = !b
 				:padding .5em
-				:height 7em
+				:height 10em
+				:border
+					:width 1px
+					:style solid 
+					:color !cl_main
 				.section_title
 					+heading
 			#sic_info

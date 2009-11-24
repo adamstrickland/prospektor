@@ -1,0 +1,13 @@
+#call-queues
+	-@queues.each do |q|
+		.row
+			.grid_8=link_to "Queue for: #{q.queue_date.strftime('%A, %d %B %Y')}", user_call_queue_lead_url(current_user, q, q.leads.first)
+			.clear
+	
+-content_for :sidebar do
+	#actions.menu
+		.title Actions
+		%ul.menu
+			%li=link_to content_tag(:span, 'New Default'), default_user_call_queues_url(current_user)
+			%li=link_to content_tag(:span, 'New Custom'), new_user_call_queue_url(current_user)
+				

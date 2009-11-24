@@ -1,6 +1,7 @@
 class DispositionController < ApplicationController
   def new
     @lead = Lead.find(params[:lead_id])
+    @queue = CallQueue.find(params[:call_queue_id])
     @disposition_options = {
       'Call back (no answer)' => :reassign,
       'Left message' => :reassign,
@@ -21,7 +22,7 @@ class DispositionController < ApplicationController
     transition = params[:disposition]
     
     event = Event.new
-    event.type = 'Lead'
+    event.qualifier = 'Lead'
     event.action = 'Disposition'
     event.lead = lead
     event.user = user

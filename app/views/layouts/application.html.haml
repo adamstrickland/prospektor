@@ -1,0 +1,44 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+	%head
+		/ %meta
+		%title Trigon Solutions' Pursuit
+		=stylesheet_link_tag '960gs/reset' 
+		=stylesheet_link_tag '960gs/text' 
+		=stylesheet_link_tag '960gs/960' 
+		=stylesheet_link_tag 'thickbox' 
+		=stylesheet_link_tag 'master' 
+		=stylesheet_action_link_tag 
+		=javascript_include_tag 'jquery' 
+		=javascript_include_tag 'jquery-ui' 
+		=javascript_include_tag 'jrails' 
+		=javascript_include_tag 'thickbox' 
+		=javascript_include_tag 'application' 
+		=javascript_action_include_tag
+	%body
+		#page.container_16
+			#hd
+				#branding
+					#company Trigon Solutions
+					#application Pursuit
+				#identity
+					-if logged_in?
+						.info Logged in as:
+						#login.info=current_user.name
+						.act=link_to 'Logout', logout_url
+			#bd
+				#nav
+					#navbar
+						-if logged_in?
+							%ul
+								%li=link_to 'Dashboard', user_dashboard_url(current_user)
+								%li=link_to 'Call Queues', user_call_queues_url(current_user)
+								%li=link_to 'Reports', user_reports_url(current_user)
+				#flash
+					#errors.error=flash[:errors]
+					#status=flash[:notice]
+				#content
+					#sidebar=yield :sidebar
+					#main=yield
+			#ft
+				#copy &copy; 2009 Trigon Solutions, Inc.

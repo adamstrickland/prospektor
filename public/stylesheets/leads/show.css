@@ -5,10 +5,10 @@
   border-bottom-style: dotted;
   border-bottom-width: 1px;
   border-bottom-color: !cl_brdr;
-  background-color: #5512a2;
+  background-color: #342cb6;
   padding: 1em;
   margin-bottom: 1em;
-  height: 230px; }
+  height: 250px; }
   #main .primary div.h1 {
     font-weight: bold;
     font-size: 25px; }
@@ -18,11 +18,15 @@
   #main .primary >div >div {
     margin-bottom: 10px; }
   #main .primary #company .addl_info {
-    width: 345.875px;
+    margin-top: 2em;
+    width: 335px;
     background-color: #9a843a;
     color: black;
     padding: .5em;
-    height: 7em; }
+    height: 10em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: !cl_main; }
     #main .primary #company .addl_info .section_title {
       font-weight: bold;
       text-align: center; }

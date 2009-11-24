@@ -72,4 +72,40 @@ module ApplicationHelper
   # def pdf_path(asset_name, options={})
   #   url_for(:controller => 'help', :action => 'pdf', :asset => 'asset_name')
   # end
+  
+  def modal_form_for(model, url, &block)
+    form_remote_for(
+      model.class.to_s.underscore.to_sym,
+      model,
+      :url => url || url_for(model),
+      :html => { :method => :post },
+      :success => "$('#history').updateHistoryFromModal(request)",
+      :failure => "$('#errors').showErrorsFromModal(request)"
+    ) do |f|
+      # block.call(f)
+      yield(f)
+    end
+  end
+  
+  def modal_form(url, &block)
+    form_remote_tag(
+      :url => url,
+      :html => { :method => :post },
+      :success => "$('#history').updateHistoryFromModal(request)",
+      :failure => "$('#errors').showErrorsFromModal(request)"
+    ) do |f|
+      # block.call(f)
+      yield(f)
+    end
+  end
+  
+  def block_to_partial(partial_name, options = {}, &block)
+    options.merge!(:body => capture(&block))
+    concat(render(:partial => partial_name, :locals => options))
+  end
+  
+  def block_to_partial_string(partial_name, options = {}, &block)
+    options.merge!(:body => capture(&block))
+    render(:partial => partial_name, :locals => options)
+  end
 end

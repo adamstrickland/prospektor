@@ -1,0 +1,16 @@
+#disposition.dialog.modal
+	-modal_form(user_call_queue_lead_disposition_index_url(current_user, @queue, @lead)) do |f|
+		%fieldset
+			.fields
+				.row
+					.fieldname.grid_5
+						%label{ :for => :disposition } Disposition
+					.field.grid_6=select_tag :disposition, options_for_select(@disposition_options)
+				.row
+					.fieldname.grid_5
+						%label{ :for => :comment } Comment
+					.field.grid_6=text_area_tag :comment
+				.row
+					.button.grid_6
+						%em
+							%button{ :type => 'submit' } Save

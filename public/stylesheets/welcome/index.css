@@ -1,0 +1,15 @@
+#content #login_box {
+  margin: auto;
+  width: 30em;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #10579b;
+  background-color: #5512a2; }
+  #content #login_box #login_widget .widget_item {
+    padding: 1em 1em 1em 1em; }
+    #content #login_box #login_widget .widget_item label {
+      font-weight: bold;
+      width: 45%; }
+    #content #login_box #login_widget .widget_item input {
+      position: relative;
+      right: 0; }

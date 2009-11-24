@@ -1,8 +1,0 @@
-<div>
-	<h2>Call Queues</h2>
-	<ul>
-		<% @queues.each do |q| %>
-			<li><%= link_to q.name, user_call_queue_url(params[:user_id], q) %></li>
-		<% end %>
-	</ul>
-</div>

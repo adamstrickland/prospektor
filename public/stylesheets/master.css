@@ -1,7 +1,10 @@
-@import url(../thickbox.css);
+
 * {
   margin: 0px;
   padding: 0px; }
+
+html, body {
+  height: 100%; }
 
 body {
   font-size: 10px;
@@ -21,9 +24,14 @@ a {
     text-decoration: underline;
     color: #efb908; }
 
+div#body {
+  width: 960px;
+  height: 100%;
+  background-color: #241ca6; }
+
 #hd {
-  width: 989px;
-  height: 144px;
+  width: 960px;
+  height: 140px;
   top: 2em;
   position: relative; }
   #hd div {
@@ -31,51 +39,55 @@ a {
   #hd #branding {
     text-align: center; }
     #hd #branding #company {
-      font-size: 8px;
+      font-size: 10px;
       left: -80px; }
     #hd #branding #application {
       font-size: 40px;
       font-weight: bold; }
   #hd #identity {
+    width: 180px;
     position: absolute;
-    right: 0;
+    right: 0.75em;
     top: 0;
-    float: right; }
-    #hd #identity span.act {
+    float: right;
+    background-color: #35326c; }
+    #hd #identity * {
+      margin: 1em; }
+    #hd #identity #login {
+      font-weight: bold; }
+    #hd #identity .act {
       display: block;
       text-align: right; }
+      #hd #identity .act a:link, #hd #identity .act a:visited {
+        color: #efb908; }
+      #hd #identity .act a:hover {
+        color: #10579b; }
 
 #bd {
-  width: 989px; }
-  #bd #nav {
-    height: 3em;
-    background-color: #10579b;
-    position: relative; }
-    #bd #nav div {
-      position: relative;
-      width: auto;
-      height: 3em;
-      margin: 0 auto; }
-      #bd #nav div ul {
-        float: left;
-        list-style: none; }
-        #bd #nav div ul li {
-          display: inline; }
-          #bd #nav div ul li a {
-            display: block;
-            float: left;
-            padding: 0;
-            margin: auto;
-            text-decoration: none;
-            color: #efb908;
-            height: 3em;
-            width: 10em;
-            text-align: center; }
-            #bd #nav div ul li a:hover {
-              background-color: #00468a;
-              color: #ffca19; }
-    #bd #nav a {
-      font-weight: bold; }
+  width: 960px; }
+  #bd #nav #navbar ul {
+    background-color: #5512a2;
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0.2em 0;
+    text-align: center; }
+    #bd #nav #navbar ul li {
+      display: inline;
+      width: 10em; }
+      #bd #nav #navbar ul li a {
+        padding: 0.2em 1em;
+        text-decoration: none;
+        color: #efb908;
+        height: 3em;
+        text-align: center;
+        margin: auto;
+        font-size: 20px; }
+        #bd #nav #navbar ul li a:hover {
+          background-color: #6522b2;
+          color: white; }
+  #bd #nav a {
+    font-weight: bold; }
   #bd #flash {
     font-weight: bold; }
     #bd #flash .error {
@@ -88,7 +100,7 @@ a {
     #bd #content >div {
       padding: 1em; }
     #bd #content #sidebar {
-      width: 185.438px;
+      width: 180px;
       float: right; }
       #bd #content #sidebar div.menu {
         border-left-style: solid;
@@ -99,18 +111,18 @@ a {
         border-bottom-color: !cl_brdr;
         background-color: #10579b;
         margin: 0 0 0 0.25em;
-        width: 185.438px;
-        margin-bottom: 5px; }
-        #bd #content #sidebar div.menu span {
+        width: 180px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 14px; }
+        #bd #content #sidebar div.menu .title {
           display: block;
           text-align: center;
           border-bottom: 1px solid;
           border-bottom-color: #090454;
-          padding: 1em 0 !important;
-          font-weight: bold;
-          font-size: 14px; }
-          #bd #content #sidebar div.menu span.name {
-            background-color: #35326c; }
+          padding: 1em 0 !important; }
+          #bd #content #sidebar div.menu .title.name {
+            background-color: #5512a2; }
         #bd #content #sidebar div.menu ul.menu {
           list-style: none;
           text-decoration: none; }
@@ -127,10 +139,24 @@ a {
                 color: black; }
     #bd #content #main {
       margin: 0;
-      width: 741.75px; }
+      width: 720px; }
 
 #ft {
-  width: 100%;
+  width: 960px;
   text-align: center;
+  margin: 0 auto;
   position: absolute;
   bottom: 1em; }
+
+#TB_window #TB_ajaxContent {
+  background-color: #090454; }
+  #TB_window #TB_ajaxContent .modal_dialog {
+    width: 100%;
+    color: white; }
+    #TB_window #TB_ajaxContent .modal_dialog .widget .single {
+      margin: 0 auto;
+      text-align: center; }
+    #TB_window #TB_ajaxContent .modal_dialog .widget .right {
+      text-align: right; }
+    #TB_window #TB_ajaxContent .modal_dialog .widget .widget_item {
+      margin: 1em; }

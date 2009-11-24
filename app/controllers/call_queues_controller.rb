@@ -29,7 +29,6 @@ class CallQueuesController < ApplicationController
     @queue.name = "Calls for #{t.to_s}"
     @queue.queue_date = t
 
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @queue }
@@ -40,6 +39,16 @@ class CallQueuesController < ApplicationController
   def edit
     @queue = CallQueue.find(params[:id])
   end
+  
+  def default
+    @queue = CallQueue.new
+    t = Date.today
+    @queue.name = "Calls for #{t.to_s}"
+    @queue.queue_date = t
+    @queue.user = User.find(params[:user_id])
+    @queue.leads = get_leads_for_queue
+    save_queue(@queue)
+  end
 
   # POST /queues
   # POST /queues.xml
@@ -47,21 +56,7 @@ class CallQueuesController < ApplicationController
     @queue = CallQueue.new(params[:queue])
     @queue.user = User.find(params[:user_id])
     @queue.leads = get_leads_for_queue
-
-    respond_to do |format|
-      if @queue.save
-        flash[:notice] = 'Call Queue was successfully created.'
-        format.html { 
-          # redirect_to user_call_queue_url(current_user, @queue) 
-          # redirect_to user_lead_url(current_user, @queue.leads.first)
-          redirect_to user_call_queue_lead_url(current_user, @queue.id, @queue.leads.first)
-        }
-        format.xml  { render :xml => @queue, :status => :created, :location => @queue }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @queue.errors, :status => :unprocessable_entity }
-      end
-    end
+    save_queue(@queue)
   end
 
   # PUT /queues/1
@@ -111,5 +106,20 @@ class CallQueuesController < ApplicationController
       
       # temporary:
       Lead.queued.owned_by(user)[0..(size-1)]
+    end
+    
+    def save_queue(queue)
+      respond_to do |format|
+        if queue.save
+          flash[:notice] = 'Call Queue was successfully created.'
+          format.html { 
+            redirect_to user_call_queue_lead_url(current_user, queue.id, queue.leads.first)
+          }
+          format.xml  { render :xml => queue, :status => :created, :location => queue }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => queue.errors, :status => :unprocessable_entity }
+        end
+      end
     end
 end
