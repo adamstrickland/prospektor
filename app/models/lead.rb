@@ -82,7 +82,7 @@ class Lead < ActiveRecord::Base
   # state machine stuff
   aasm_column :aasm_state
   # aasm_initial_state :free
-  aasm_initial_state Proc.new {|lead| l.user.nil? ? :free : :assigned }
+  aasm_initial_state Proc.new {|l| l.user.nil? ? :free : :assigned }
 
   aasm_state :free
   aasm_state :assigned

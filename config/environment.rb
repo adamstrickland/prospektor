@@ -22,10 +22,25 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem 'uuidtools'
   # config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
-  config.gem 'machinist', :source => 'http://gemcutter.org'
+  
+  config.gem 'uuidtools', :version => '2.1.1'
+  # config.gem 'gemcutter', :version => '0.1.6'
+  config.gem 'fastercsv', :version => '1.5.0'
+  config.gem 'faker', :version => '0.3.1'
+  config.gem 'machinist', :source => 'http://gemcutter.org', :version => '1.0.5'
   config.gem 'haml', :version => '>= 2.0.6'
+  config.gem 'rspec', :lib => false, :version => '1.2.9'
+  config.gem 'rspec-rails', :lib => false, :version => '1.2.9'
+  config.gem 'thoughtbot-shoulda', :lib => false, :source => 'http://gems.github.com', :version => '2.10.2'
+  # config.gem 'cucumber', :version => '0.4.4'
+  # config.gem 'webrat', :version => '0.5.3'
+  # config.gem 'term-ansicolor', :version => '1.0.4'
+  # config.gem 'treetop', :version => '1.4.2'
+  # config.gem 'diff-lcs', :version => '1.1.2'
+  # config.gem 'nokogiri', :version => '1.4.0'
+  # config.gem 'builder', :version => '2.1.2'
+  # config.gem 'spork', :version => '0.7.3'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

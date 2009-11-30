@@ -14,47 +14,15 @@ class LeadsController < ApplicationController
   # GET /leads/1
   # GET /leads/1.xml
   def show
-    @queue = CallQueue.find(params[:call_queue_id])
     @lead = Lead.find(params[:id])
-    @lead.next_id = @queue.next_in_queue(@lead).id
+    @queue = CallQueue.find(params[:call_queue_id])
+    @lead.next_id = @queue.next_in_queue(@lead).id if @queue
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @lead }
     end
   end
-  
-  # def next
-  #   current_lead = Lead.find(params[:id])
-  #   current_index = leads.index(current_lead)
-  #   next_index = (current_index+1 == leads.count ? 0 : current_index+1)
-  #   next_id = leads[next_index].id
-  #   @lead = Lead.find(next_id)
-  # 
-  #   respond_to do |format|
-  #     format.html { render :action => 'show' }
-  #     format.xml  { render :xml => @lead }
-  #   end
-  # end
-  
-  def disposition
-    @lead = Lead.find(params[:id])
-
-    respond_to do |format|
-      format.html { render 'disposition', :layout => 'modal' }
-      # format.xml  { render :xml => @lead }
-    end
-  end
-  
-  # def invite
-  #   @lead = Lead.find(params[:id])
-  # end
-  # 
-  # def book
-  # end
-  # 
-  # def disposition
-  # end
 
   # GET /leads/new
   # GET /leads/new.xml

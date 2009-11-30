@@ -40,24 +40,60 @@ class CallQueuesController < ApplicationController
     @queue = CallQueue.find(params[:id])
   end
   
-  def default
+  def create
     @queue = CallQueue.new
     t = Date.today
     @queue.name = "Calls for #{t.to_s}"
     @queue.queue_date = t
     @queue.user = User.find(params[:user_id])
     @queue.leads = get_leads_for_queue
-    save_queue(@queue)
+    
+    respond_to do |format|
+      if @queue.save!
+        @queue.leads.each do |l|
+          if l.aasm_state == 'assigned'
+            l.enqueue
+          end
+          l.save!
+        end
+        flash[:notice] = 'Call Queue was successfully created.'
+        format.html { 
+          redirect_to user_call_queue_lead_url(current_user.id, @queue.id, @queue.leads.first.id)
+        }
+        format.xml  { render :xml => @queue, :status => :created, :location => @queue }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @queue.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
-  # POST /queues
-  # POST /queues.xml
-  def create
-    @queue = CallQueue.new(params[:queue])
-    @queue.user = User.find(params[:user_id])
-    @queue.leads = get_leads_for_queue
-    save_queue(@queue)
-  end
+  # # POST /queues
+  # # POST /queues.xml
+  # def create
+  #   @queue = CallQueue.new(params[:queue])
+  #   @queue.user = User.find(params[:user_id])
+  #   @queue.leads = get_leads_for_queue
+  #   
+  #   respond_to do |format|
+  #     if @queue.save!
+  #       @queue.leads.each do |l|
+  #         if l.assigned
+  #           l.enqueue
+  #         end
+  #         l.save!
+  #       end
+  #       flash[:notice] = 'Call Queue was successfully created.'
+  #       format.html { 
+  #         redirect_to user_call_queue_lead_url(current_user.id, @queue.id, @queue.leads.first.id)
+  #       }
+  #       format.xml  { render :xml => @queue, :status => :created, :location => @queue }
+  #     else
+  #       format.html { render :action => "new" }
+  #       format.xml  { render :xml => @queue.errors, :status => :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PUT /queues/1
   # PUT /queues/1.xml
@@ -105,21 +141,6 @@ class CallQueuesController < ApplicationController
       # priority_leads + new_leads
       
       # temporary:
-      Lead.queued.owned_by(user)[0..(size-1)]
-    end
-    
-    def save_queue(queue)
-      respond_to do |format|
-        if queue.save
-          flash[:notice] = 'Call Queue was successfully created.'
-          format.html { 
-            redirect_to user_call_queue_lead_url(current_user, queue.id, queue.leads.first)
-          }
-          format.xml  { render :xml => queue, :status => :created, :location => queue }
-        else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => queue.errors, :status => :unprocessable_entity }
-        end
-      end
+      Lead.owned_by(user)[0..(size-1)]
     end
 end

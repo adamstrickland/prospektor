@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(:version => 20091116155714) do
     t.integer  "user_id",                                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "callback_date", :default => '2009-11-16',          :null => false
-    t.time     "callback_time", :default => '2000-01-01 23:31:44', :null => false
+    t.date     "callback_date", :default => '2009-11-30',          :null => false
+    t.time     "callback_time", :default => '2000-01-01 17:43:44', :null => false
   end
 
   create_table "topics", :force => true do |t|
