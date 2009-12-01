@@ -15,8 +15,6 @@ class LeadsController < ApplicationController
   # GET /leads/1.xml
   def show
     @lead = Lead.find(params[:id])
-    @queue = CallQueue.find(params[:call_queue_id])
-    @lead.next_id = @queue.next_in_queue(@lead).id if @queue
 
     respond_to do |format|
       format.html # show.html.erb

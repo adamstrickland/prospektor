@@ -1,16 +1,19 @@
 #disposition.dialog.modal
 	-modal_form(user_call_queue_lead_disposition_index_url(current_user, @queue, @lead)) do |f|
 		%fieldset
-			.fields
+			.fields.container_16
 				.row
-					.fieldname.grid_5
+					.fieldname.grid_2.alpha
 						%label{ :for => :disposition } Disposition
-					.field.grid_6=select_tag :disposition, options_for_select(@disposition_options)
+					.field.grid_5.omega=select_tag :disposition, options_for_select(@disposition_options)
+					.clear
 				.row
-					.fieldname.grid_5
+					.fieldname.grid_2.alpha
 						%label{ :for => :comment } Comment
-					.field.grid_6=text_area_tag :comment
+					.field.grid_5.omega=text_area_tag :comment
+					.clear
 				.row
-					.button.grid_6
+					.button.grid_6.prefix_2.alpha.omega
 						%em
 							%button{ :type => 'submit' } Save
+					.clear

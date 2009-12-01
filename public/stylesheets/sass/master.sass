@@ -167,11 +167,15 @@ div#body
 #TB_window	
 	#TB_ajaxContent	
 		:background-color = !cl_body
-		.modal_dialog
+		:overflow hidden
+		.modal
 			:width 100%
 			:color = !cl_text
 			fieldset
 				.row
+					:padding 10px 20px
+					>div
+						/ :border 1px solid yellow
 					.field
 			.widget
 				.single

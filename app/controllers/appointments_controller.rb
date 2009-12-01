@@ -1,3 +1,5 @@
+
+
 class AppointmentsController < ApplicationController
   # # GET /appointments
   # # GET /appointments.xml
@@ -29,6 +31,9 @@ class AppointmentsController < ApplicationController
     @appointment.client_email = @lead.presentations.last.email || @lead.email
     # @appointment.location = "#{@lead.address}, #{@lead.city} #{@lead.state}"
     @appointment.location = @lead.phone
+    default_date = Date.tomorrow
+    @appointment.session_date = default_date
+    @appointment.session_time = default_date.to_datetime + 9.hours # 9am, tomorrow
 
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }

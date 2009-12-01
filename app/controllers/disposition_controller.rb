@@ -7,7 +7,8 @@ class DispositionController < ApplicationController
       'Left message' => :reassign,
       'Call back (answer)' => :reassign,
       "Opt out" => :suspend,
-      'Invalid number' => :orphan
+      'Invalid number' => :orphan,
+      'No Thanks' => :suspend
     }
 
     respond_to do |format|

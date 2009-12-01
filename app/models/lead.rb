@@ -28,6 +28,20 @@ class Lead < ActiveRecord::Base
       }
     }
   }
+  named_scope :preso_callbacks, lambda{ |t|
+    {
+      :joins => :presentations,
+      :conditions => [ 
+        'presentations.callback_date <= :cbdate and presentations.callback_time <= :cbtime and leads.aasm_state in (:states)', 
+        {
+          :cbdate => t.to_datetime, 
+          :cbtime => t,
+          :states => [:assigned, :queued, :scheduled].map(&:to_s)
+        }
+      ],
+      :order => 'leads.updated_at asc'
+    }
+  }
   # named_scope :hot, :joins => :presentations
   # named_scope :stale, :joins => :presentations
   # named_scope :open, :joins => :presentations

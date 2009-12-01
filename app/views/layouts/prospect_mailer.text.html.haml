@@ -1,0 +1,30 @@
+!!!
+%table
+	%tr
+		%td
+			%p.salutation
+				%span{:style => "font-weight:bold;color:blue"}=@to[:name]
+				%br
+				%span=@to[:company]
+				%br
+				%span=@to[:email]
+				%br
+	=yield
+	%tr
+		%td
+			%p.closing Sincerely,
+			%table
+				%tr
+					%td{:width => '67%'}
+						%span{:style => 'font-weight:bold;color:blue'}=@sender[:name]
+						%br
+						%span Direct: #{@sender[:phone]}
+						%br
+						%span Trigon Solutions, Inc.
+						%br
+						%span 5646 Milton St., Suite 610
+						%br
+						%span Dallas, TX 75206
+						%br
+						%span=auto_link 'www.trigonsolutions.com'
+					%td=link_to image_tag('http://www.trigonsolutions.com/bbbseal.jpg', :height => 100, :width => 60), 'http://www.bbb.org/dallas/business-reviews/business-consultants/trigon-solutions-in-dallas-tx-23006337'

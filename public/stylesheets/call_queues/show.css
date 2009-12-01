@@ -1,0 +1,7 @@
+#call-queue .parent .info .primary .title {
+  padding-right: 2em; }
+#call-queue .children {
+  clear: left; }
+  #call-queue .children #leads .data {
+    overflow: auto;
+    height: 48em; }

@@ -1,0 +1,2 @@
+module TouchpointsHelper
+end

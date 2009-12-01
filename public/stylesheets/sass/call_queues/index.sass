@@ -4,8 +4,19 @@
 	.row
 		:background-color = !cl_main
 		:font-size = !sz_font + 4
-		/ :clear both
+		:clear none	
 		:padding 1em
-		a
-			&:link, &:visited
-				:color = !cl_text
+		:margin 0.25em 0.5em
+		:height 2em
+		&:hover
+			:background-color = !cl_nhvr
+		div
+			:float left
+			:margin 0 1em 0 0
+			/ div
+			/ 	:float right
+			a
+				&:link, &:visited
+					:color = !cl_body
+				&:HOVER
+					:color = !cl_hovr

@@ -1,6 +1,16 @@
 #call-queues .row {
   background-color: #241ca6;
   font-size: 14px;
-  padding: 1em; }
-  #call-queues .row a:link, #call-queues .row a:visited {
-    color: white; }
+  clear: none;
+  padding: 1em;
+  margin: 0.25em 0.5em;
+  height: 2em; }
+  #call-queues .row:hover {
+    background-color: #6522b2; }
+  #call-queues .row div {
+    float: left;
+    margin: 0 1em 0 0; }
+    #call-queues .row div a:link, #call-queues .row div a:visited {
+      color: #090454; }
+    #call-queues .row div a:HOVER {
+      color: #efb908; }

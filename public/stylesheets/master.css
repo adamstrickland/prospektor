@@ -149,14 +149,17 @@ div#body {
   bottom: 1em; }
 
 #TB_window #TB_ajaxContent {
-  background-color: #090454; }
-  #TB_window #TB_ajaxContent .modal_dialog {
+  background-color: #090454;
+  overflow: hidden; }
+  #TB_window #TB_ajaxContent .modal {
     width: 100%;
     color: white; }
-    #TB_window #TB_ajaxContent .modal_dialog .widget .single {
+    #TB_window #TB_ajaxContent .modal fieldset .row {
+      padding: 10px 20px; }
+    #TB_window #TB_ajaxContent .modal .widget .single {
       margin: 0 auto;
       text-align: center; }
-    #TB_window #TB_ajaxContent .modal_dialog .widget .right {
+    #TB_window #TB_ajaxContent .modal .widget .right {
       text-align: right; }
-    #TB_window #TB_ajaxContent .modal_dialog .widget .widget_item {
+    #TB_window #TB_ajaxContent .modal .widget .widget_item {
       margin: 1em; }

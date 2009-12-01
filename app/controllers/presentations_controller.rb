@@ -29,6 +29,8 @@ class PresentationsController < ApplicationController
     @presentation = Presentation.new
     @lead = Lead.find(params[:lead_id])
     @presentation.email = @lead.email
+    @presentation.callback_date = Date.today
+    @presentation.callback_time = Time.now + 15.minutes
 
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }

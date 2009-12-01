@@ -58,7 +58,7 @@ class CallQueuesController < ApplicationController
         end
         flash[:notice] = 'Call Queue was successfully created.'
         format.html { 
-          redirect_to user_call_queue_lead_url(current_user.id, @queue.id, @queue.leads.first.id)
+          redirect_to user_call_queue_touchpoint_url(current_user.id, @queue.id, @queue.touchpoints.first.id)
         }
         format.xml  { render :xml => @queue, :status => :created, :location => @queue }
       else

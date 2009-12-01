@@ -1,0 +1,18 @@
+#call-queue
+	.parent
+		.info
+			.name Name:  #{@queue.name}
+			.date Date:  #{@queue.queue_date}
+			.owner Owner:  #{@queue.user.name}
+	.children
+		#leads
+			.title Leads (#{@queue.leads.count})
+			.data
+				-@queue.leads.sort{|p,n| p.company <=> n.company }.each do |l|
+					.grid_4=l.company
+
+-content_for :sidebar do
+	#actions.menu
+		.title Actions
+		%ul.menu
+			%li=link_to content_tag(:span, 'Start Calling'), user_call_queue_lead_url(current_user, @queue, @queue.leads.first)

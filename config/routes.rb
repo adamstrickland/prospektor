@@ -7,35 +7,26 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
 
   map.resources :users do |users|
-    # users.resources :call_queues, :collection => { :default => :get } do |cq|
-    users.resources :call_queues, :only => [ :create, :index ] do |cq|
-      cq.resources :leads, :member => { :next => :get } do |leads|
-        leads.resources :presentations, :only => [ :new, :create ]
-        leads.resources :appointments, :only => [ :new, :create ]
-        leads.resources :comments, :only => [ :new, :create ]
-        leads.resources :events, :only => [ :new, :create ]
-        leads.resources :disposition, :only => [ :new, :create ]
-        leads.resources :suspend, :only => [ :new, :create ]
-      end  
-      # users.resources :leads, :member => { :next => :get } do |leads|
-      #   leads.resources :presentations, :except => [ :update, :destroy, :edit ]
-      #   leads.resources :appointments, :except => [ :update, :destroy, :edit ]
-      #   leads.resources :comments, :except => [ :update, :destroy, :edit ]
-      #   leads.resources :events, :except => [ :update, :destroy, :edit ]
-      #   leads.resources :disposition, :except => [ :update, :destroy, :edit, :index, :show ]
-      #   leads.resources :suspend, :except => [ :update, :destroy, :edit, :index, :show ]
-      #   # leads.disposition '/disposition', :controller => 'disposition'
-      # end
+    users.resources :call_queues, :only => [ :create, :index, :show ] do |cq|
+      cq.resources :touchpoints, :only => [ :show ]
     end
-    # users.resource :events
+    
     users.resources :reports, :only => [ :index, :show ]
-    # users.resources :dashboard, :only => [ :index ]
+    
     users.dashboard '/dashboard', :controller => 'dashboard', :action => 'index'
   end
-  # map.resources :welcome, :only => [ :index, :show ]
+  
+  map.resources :leads, :member => { :next => :get } do |leads|
+    leads.resources :presentations, :only => [ :new, :create ]
+    leads.resources :appointments, :only => [ :new, :create ]
+    leads.resources :comments, :only => [ :new, :create ]
+    leads.resources :events, :only => [ :new, :create ]
+    leads.resources :disposition, :only => [ :new, :create ]
+    leads.resources :suspend, :only => [ :new, :create ]
+  end
+  
   map.welcome '/welcome', :controller => 'welcome', :action => 'index'
   
-  # map.docs '/docs/:action', :controller => 'help'
   map.pdf '/assets/:asset', :controller => 'help', :action => 'pdf'
   
   ['quick_start', 'users_guide', 'documentation', 'faq', 'search'].each do |act|
@@ -83,6 +74,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  # map.connect ':controller/:action/:id'
+  # map.connect ':controller/:action/:id.:format'
 end
