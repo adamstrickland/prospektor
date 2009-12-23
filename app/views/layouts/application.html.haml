@@ -2,7 +2,7 @@
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
 	%head
 		/ %meta
-		%title Trigon Solutions' Pursuit
+		%title Trigon Solutions' Prospektor
 		=stylesheet_link_tag '960gs/reset' 
 		=stylesheet_link_tag '960gs/text' 
 		=stylesheet_link_tag '960gs/960' 
@@ -20,7 +20,7 @@
 			#hd
 				#branding
 					#company Trigon Solutions
-					#application Pursuit
+					#application Prospektor
 				#identity
 					-if logged_in?
 						.info Logged in as:
@@ -32,7 +32,7 @@
 						-if logged_in?
 							%ul
 								%li=link_to 'Dashboard', user_dashboard_url(current_user)
-								%li=link_to 'Call Queues', user_call_queues_url(current_user)
+								%li=link_to 'Calling', user_call_queues_url(current_user)
 								%li=link_to 'Reports', user_reports_url(current_user)
 				#flash
 					#errors.error=flash[:errors]
