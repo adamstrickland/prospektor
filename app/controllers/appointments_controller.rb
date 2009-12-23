@@ -50,17 +50,13 @@ class AppointmentsController < ApplicationController
   # POST /appointments.xml
   def create
     @appointment = Appointment.new(params[:appointment])
-    user = User.find(params[:user_id])
-    lead = Lead.find(params[:lead_id])
-    @appointment.scheduler = user
-    @appointment.lead = lead
+    @appointment.scheduler = current_user
+    @appointment.lead = Lead.find(params[:lead_id])
     @appointment.expert_email = get_expert
     # @appointment.topic = Topic.find
 
     respond_to do |format|
       if @appointment.save
-        e = @appointment.generate_event
-        e.save!
         format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
       else
         format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @appointment.errors } }

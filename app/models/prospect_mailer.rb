@@ -2,6 +2,30 @@ require 'mockingbird/smtp'
 
 class ProspectMailer < ActionMailer::Base
   def scheduled_appointment(appt)
+    subject "Expert Session Requested"
+    recipients appt.client_email
+    cc appt.expert_email
+    from sender(appt.scheduler.email)
+    sent_on Time.now
+    body({ 
+      :to => {
+        :name => appt.lead.full_name,
+        :company => appt.lead.company,
+        :email => appt.client_email
+      },
+      :sender => {
+        :name => appt.scheduler.name, 
+        :phone => appt.scheduler.official_phone
+      },
+      :appointment => {
+        :date => appt.session_date,
+        :time => appt.session_time.strftime('%I:%M %p'),
+        :topic => appt.topic.name
+      }
+    })
+  end
+  
+  def confirmed_appointment(appt)
     subject "Expert Session Reservation Confirmed"
     recipients appt.client_email
     cc appt.expert_email
@@ -21,17 +45,17 @@ class ProspectMailer < ActionMailer::Base
       },
       :appointment => {
         :date => appt.session_date,
-        :time => appt.session_time,
+        :time => appt.session_time.strftime('%I:%M %p'),
         :topic => appt.topic.name
       }
     }
     part :content_type => 'multipart/alternative' do |mixed|
       mixed.part 'text/plain' do |p|
-        p.body = render_message('scheduled_appointment.text.plain', parameters)
+        p.body = render_message('confirmed_appointment.text.plain', parameters)
         # p.transfer_encoding = 'base64'
       end
       mixed.part 'text/html' do |h|
-        h.body = render_message('scheduled_appointment.text.html', parameters)
+        h.body = render_message('confirmed_appointment.text.html', parameters)
       end
     end
     # attachment :content_type => 'text/calendar', :body => generate_ics(appt)
@@ -40,11 +64,8 @@ class ProspectMailer < ActionMailer::Base
   def presentation_invitation(preso)
     subject "Competition and How to Stay on Top"
     recipients preso.email
-    # from "#{preso.user.name} <#{preso.user.email}>"
     from sender(preso.user.email)
-    # from "#{preso.user.name} <trigon@mockingbirdsoftware.com>" 
     sent_on Time.now
-    # Rails.logger.warn("User for preso still is:  #{preso.user.name}, User for lead still is:  #{preso.lead.user.name}")
     body ({ 
       :to => {
         :name => preso.lead.full_name,
@@ -62,7 +83,6 @@ class ProspectMailer < ActionMailer::Base
   def topics_listing(preso)
     subject "Expert Session Complimentary Topics"
     recipients preso.email
-    # from "#{preso.user.name} <#{preso.user.email}>"
     from sender(preso.user.email)
     sent_on Time.now
     body ({ 
@@ -79,7 +99,7 @@ class ProspectMailer < ActionMailer::Base
     })
   end
   
-  protected    
+  protected
     def generate_ics
     end
     

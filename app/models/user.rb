@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
   end
   
+  def callbacks
+    self.leads.callbacks(Time.now)
+  end
+  
   
   # restful_authentication stuff...
 

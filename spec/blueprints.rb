@@ -91,7 +91,6 @@ Lead.blueprint do
   timezone { 'C' }
   updated_at { Sham.yesterday }
   created_at { Sham.yesterday }
-  # aasm_state { :queued }
   user
 end
 

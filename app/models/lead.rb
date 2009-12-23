@@ -2,14 +2,15 @@
 class Lead < ActiveRecord::Base
   include AASM
   
-  attr_accessor :next_id
+  # attr_accessor :next_id
   
   belongs_to :user
   has_many :presentations
   has_many :appointments
   has_many :events
   has_many :comments
-  has_and_belongs_to_many :queues
+  # has_and_belongs_to_many :queues # rm'd w/ impl of Touchpoints
+  has_many :touchpoints
   
   # validations
   validates_email :email
@@ -18,17 +19,9 @@ class Lead < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
   
-  named_scope :queued, :conditions => { :aasm_state => [ :queued.to_s, :scheduled.to_s ] }
-  named_scope :owned_by, lambda{ |u| { :conditions => { :user_id => u } } }
-  named_scope :call_list, lambda{ |u| 
-    { 
-      :conditions => {
-        :user_id => u,
-        :aasm_state => [ :queued.to_s, :scheduled.to_s ]
-      }
-    }
-  }
-  named_scope :preso_callbacks, lambda{ |t|
+  # named_scope :queued, :conditions => { :aasm_state => [ :queued.to_s, :scheduled.to_s ] }
+  # named_scope :available, 
+  named_scope :callbacks, lambda{ |t|
     {
       :joins => :presentations,
       :conditions => [ 
@@ -36,34 +29,13 @@ class Lead < ActiveRecord::Base
         {
           :cbdate => t.to_datetime, 
           :cbtime => t,
-          :states => [:assigned, :queued, :scheduled].map(&:to_s)
+          # :states => [:assigned, :queued, :scheduled].map(&:to_s)
+          :states => [:scheduled].map(&:to_s)
         }
       ],
       :order => 'leads.updated_at asc'
     }
   }
-  # named_scope :hot, :joins => :presentations
-  # named_scope :stale, :joins => :presentations
-  # named_scope :open, :joins => :presentations
-  # named_scope :hot, lambda{ |as_of|
-  #   {
-  #     :joins => :presentations, 
-  #     # :conditions => {
-  #     #   :aasm_state => :scheduled.to_s,
-  #     #   [ 'presentations.callback_date < ?', time ] 
-  #     # }
-  #   }
-  # }
-  # named_scope :stale, lambda{ |as_of|
-  #   {
-  #     :joins => :presentations
-  #   }
-  # }
-  # named_scope :open, lambda{ |as_of|
-  #   {
-  #     :joins => :presentations
-  #   }
-  # }
   
   def casual_name
     self.name

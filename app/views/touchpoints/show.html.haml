@@ -31,7 +31,7 @@
 	#actions.menu
 		.title Actions
 		%ul.menu
-			%li=link_to content_tag(:span, 'Next'), user_call_queue_touchpoint_url(current_user, @queue, @touchpoint.next_id)
+			%li=link_to_if @touchpoint.next, content_tag(:span, 'Next'), user_call_queue_touchpoint_url(current_user, @queue, @touchpoint.next)
 			%li=link_to_if [:assigned, :queued].include?(@lead.status), content_tag(:span, 'Invite'), new_lead_presentation_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
 			%li=link_to_if [:scheduled].include?(@lead.status), content_tag(:span, 'Book'), new_lead_appointment_url(@lead, :height => 600, :width => 500), :class => 'thickbox'
 			%li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 200, :width => 400), :class => 'thickbox'

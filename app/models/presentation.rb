@@ -2,6 +2,8 @@ class Presentation < ActiveRecord::Base
   belongs_to :lead
   belongs_to :user
   
+  after_create :generate_event
+  
   validates_presence_of :email, :url, :user, :lead
   validates_email :email
   
@@ -17,6 +19,8 @@ class Presentation < ActiveRecord::Base
   #     :touchpoint => self.email
   #   }
   # end
+  protected
+  
   def generate_event
     e = Event.new
     e.lead = self.lead

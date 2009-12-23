@@ -1,5 +1,5 @@
 #appointment.dialog.modal
-	-modal_form_for(@appointment, user_call_queue_lead_appointments_url(current_user, params[:call_queue_id], @lead)) do |f|
+	-modal_form_for(@appointment, lead_appointments_url(@lead)) do |f|
 		%fieldset
 			.fields.container_16
 				.row

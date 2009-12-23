@@ -14,10 +14,9 @@ class TouchpointsController < ApplicationController
   # GET /touchpoints/1.xml
   def show
     @touchpoint = Touchpoint.find(params[:id])
-    @lead = @touchpoint.lead
-    
     @queue = CallQueue.find(params[:call_queue_id])
-    @touchpoint.next_id = @queue.next_in_queue(@lead).id
+    
+    @lead = @touchpoint.lead
 
     respond_to do |format|
       format.html # show.html.erb
@@ -86,4 +85,7 @@ class TouchpointsController < ApplicationController
   #     format.xml  { head :ok }
   #   end
   # end
+  protected
+    def priority_touchpoint(this_tp)
+    end
 end

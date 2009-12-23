@@ -5,6 +5,8 @@ class Appointment < ActiveRecord::Base
   belongs_to :lead
   belongs_to :topic
   
+  after_create :generate_event
+  
   validates_email :expert_email, :client_email
   validates_presence_of :expert_email, :client_email, :scheduler, :lead, :location, :duration, :session_date, :session_time
   
@@ -15,6 +17,9 @@ class Appointment < ActiveRecord::Base
   #     :touchpoint => self.client_email
   #   }
   # end
+  
+  protected 
+  
   def generate_event
     e = Event.new
     e.lead = self.lead

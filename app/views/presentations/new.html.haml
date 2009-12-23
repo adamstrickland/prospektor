@@ -1,5 +1,5 @@
 #presentation.dialog.modal
-	-modal_form_for(@presentation, user_call_queue_lead_presentations_url(current_user, params[:call_queue_id], @lead)) do |f|
+	-modal_form_for(@presentation, lead_presentations_url(@lead)) do |f|
 		%fieldset
 			.fields.container_16
 				.row
@@ -9,13 +9,8 @@
 					.clear
 				.row
 					.fieldname.grid_2.alpha
-						%label{ :for => :callback_date } Callback Date
-					.field.grid_5.omega=f.date_select :callback_date
-					.clear
-				.row
-					.fieldname.grid_2.alpha
-						%label{ :for => :callback_time } Callback Time
-					.field.grid_5.omega=f.time_select :callback_time
+						%label{ :for => :callback_date } Callback At
+					.field.grid_5.omega=datetime_select :touchpoint, :call_window_start_at
 					.clear
 				.row
 					.button.grid_5.prefix_2.alpha.omega{'text-align' => 'right'}

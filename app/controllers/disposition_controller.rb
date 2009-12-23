@@ -18,7 +18,7 @@ class DispositionController < ApplicationController
 
   def create
     lead = Lead.find(params[:lead_id])
-    user = User.find(params[:user_id])
+    user = current_user
     msg = params[:comment]
     transition = params[:disposition]
     

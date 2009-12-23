@@ -42,13 +42,11 @@ class CommentsController < ApplicationController
   # POST /comments.xml
   def create
     @comment = Comment.new(params[:comment])
-    @comment.user = User.find(params[:user_id])
+    @comment.user = current_user
     @comment.lead = Lead.find(params[:lead_id])
 
     respond_to do |format|
       if @comment.save
-        e = @comment.generate_event
-        e.save!
         format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
       else
         format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @comment.errors } }

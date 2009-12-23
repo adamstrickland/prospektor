@@ -3,7 +3,7 @@ class CreateTouchpoints < ActiveRecord::Migration
     create_table :touchpoints do |t|
       t.references :call_queue, :null => false
       t.references :lead, :null => false
-      t.integer :position, :null => false
+      t.integer :position
       t.timestamps
       
       t.index [:call_queue_id, :lead_id], :unique => true

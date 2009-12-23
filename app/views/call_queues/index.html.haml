@@ -2,12 +2,13 @@
 	-@queues.each do |q|
 		-if q.leads and q.leads.count > 0
 			.row
-				/ .grid_8=link_to "Queue for: #{q.queue_date.strftime('%A, %d %B %Y')}", user_call_queue_lead_url(current_user, q, q.leads.first)
 				.grid_8
 					.name Queue for: #{q.queue_date.strftime('%A, %d %B %Y')}
 					.controls
 						.show= link_to "Show", user_call_queue_url(current_user, q)
-						.start= link_to "Start", user_call_queue_lead_url(current_user, q, q.leads.first)
+						.start= link_to "Start", user_call_queue_touchpoint_url(current_user, q, q.touchpoints.first)
+						/ .resume= link_to "Resume", resume_user_call_queue_url(current_user, q)
+						/ .copy= link_to "Copy", copy_user_call_queue_url(current_user, q)
 				.clear
 	
 -content_for :sidebar do

@@ -2,7 +2,7 @@ class CallQueuesController < ApplicationController
   # GET /queues
   # GET /queues.xml
   def index
-    @queues = CallQueue.by_owner(params[:user_id])
+    @queues = current_user.call_queues
 
     respond_to do |format|
       format.html # index.html.erb
@@ -133,14 +133,14 @@ class CallQueuesController < ApplicationController
       #  2. stale: enqueued < today and status == :queued
       #  3. new: top n where status == :assigned, for n = size - (presented.count + stale.count)
       # combine hot + stale + new      
-      # hot_leads = Lead.hot.owned_by(user).sort(&default_sort)
-      # stale_leads = Lead.stale.owned_by(user).sort(&default_sort) - hot_leads
+      # hot_leads = user.leads.hot.sort(&default_sort)
+      # stale_leads = user.leads.stale.sort(&default_sort) - hot_leads
       # priority_leads = (hot_leads + stale_leads).uniq
       # num_new_leads = size - priority_leads.count
-      # new_leads = (Lead.open.owned_by(user).sort(&default_sort) - priority_leads)[0..(num_new_leads-1)]
+      # new_leads = (user.leads.open.sort(&default_sort) - priority_leads)[0..(num_new_leads-1)]
       # priority_leads + new_leads
       
       # temporary:
-      Lead.owned_by(user)[0..(size-1)]
+      user.leads[0..(size-1)]
     end
 end

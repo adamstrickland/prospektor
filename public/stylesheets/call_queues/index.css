@@ -7,10 +7,10 @@
   height: 2em; }
   #call-queues .row:hover {
     background-color: #6522b2; }
-  #call-queues .row div {
+  #call-queues .row div>div {
     float: left;
     margin: 0 1em 0 0; }
-    #call-queues .row div a:link, #call-queues .row div a:visited {
+    #call-queues .row div>div a:link, #call-queues .row div>div a:visited {
       color: #090454; }
-    #call-queues .row div a:HOVER {
+    #call-queues .row div>div a:HOVER {
       color: #efb908; }

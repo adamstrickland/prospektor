@@ -29,8 +29,7 @@ class PresentationsController < ApplicationController
     @presentation = Presentation.new
     @lead = Lead.find(params[:lead_id])
     @presentation.email = @lead.email
-    @presentation.callback_date = Date.today
-    @presentation.callback_time = Time.now + 15.minutes
+    @touchpoint = Touchpoint.new( :call_window_start_at => Time.now + 15.minutes )
 
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }
@@ -48,16 +47,18 @@ class PresentationsController < ApplicationController
   def create
     @presentation = Presentation.new(params[:presentation])
     @presentation.url = generate_url('http://demo.trigonsolutions.com/demo')
-    user = User.find_by_id(params[:user_id]) || current_user
+    @presentation.user = current_user
+    
     lead = Lead.find_by_id(params[:lead_id])
-    @presentation.user = user
     @presentation.lead = lead
+    
+    @touchpoint = Touchpoint.new(params[:touchpoint])
+    @touchpoint.lead = lead
+    @touchpoint.call_queue = lead.touchpoints.last.call_queue
 
     respond_to do |format|
-      if @presentation.save
-        e = @presentation.generate_event
-        e.save!
-        format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
+      if @presentation.save and @touchpoint.save
+        format.html { render :partial => 'events/listing_item', :locals => { :event => lead.events.least } }
       else
         format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @presentation.errors } }
       end
