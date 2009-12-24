@@ -58,7 +58,7 @@ class PresentationsController < ApplicationController
 
     respond_to do |format|
       if @presentation.save and @touchpoint.save
-        format.html { render :partial => 'events/listing_item', :locals => { :event => lead.events.least } }
+        format.html { render :partial => 'events/listing_item', :locals => { :event => lead.events.last } }
       else
         format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @presentation.errors } }
       end

@@ -56,7 +56,7 @@ class CallQueuesController < ApplicationController
           end
           l.save!
         end
-        flash[:notice] = 'Call Queue was successfully created.'
+        # flash[:notice] = 'Call Queue was successfully created.'
         format.html { 
           redirect_to user_call_queue_touchpoint_url(current_user.id, @queue.id, @queue.touchpoints.first.id)
         }
@@ -125,7 +125,7 @@ class CallQueuesController < ApplicationController
   end
   
   protected
-    def get_leads_for_queue(user=current_user, date=Date.today, size=200)
+    def get_leads_for_queue(user=current_user, date=Date.today, size=0)
       default_sort = lambda{ |f,l| f.updated_at <=> l.updated_at }
       
       # order:
@@ -141,6 +141,6 @@ class CallQueuesController < ApplicationController
       # priority_leads + new_leads
       
       # temporary:
-      user.leads[0..(size-1)]
+      user.leads.open[0..(size-1)]
     end
 end
