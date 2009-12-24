@@ -36,6 +36,7 @@ class Lead < ActiveRecord::Base
       :order => 'leads.updated_at asc'
     }
   }
+  named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => [:updated_at, :zip, :city, :county, :state].join(',')
   
   def casual_name
     self.name

@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   end
   
   def callbacks
-    self.leads.callbacks(Time.now)
+    # self.leads.callbacks(Time.now)
   end
   
   
