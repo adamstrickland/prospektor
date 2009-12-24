@@ -1,0 +1,27 @@
+* update Invite action in menu when Preso invite sent
+* bugfix:  stacktrace:  
+    ActionView::TemplateError (You have a nil object when you didn't expect it!
+    The error occurred while evaluating nil.created_at) on line #2 of app/views/events/_listing_item.html.erb:
+    1: <div id="item">
+    2: 	&bull;&nbsp;[<%= event.created_at.localtime.strftime('%Y-%m-%d %H:%M') %>, <%= event.user.name %>] <%= event.action.titleize %> <%= event.qualifier %>
+    3: </div>
+
+        app/views/events/_listing_item.html.erb:2
+        haml (2.2.13) lib/haml/helpers/action_view_mods.rb:13:in `render'
+        app/controllers/presentations_controller.rb:61:in `create'
+        app/controllers/presentations_controller.rb:59:in `create'
+        haml (2.2.13) rails/./lib/sass/plugin/rails.rb:19:in `process'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+        /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+
+    Rendered rescues/_trace (174.2ms)
+    Rendered rescues/_request_and_response (0.3ms)
+    Rendering rescues/layout (internal_server_error)
