@@ -1,43 +1,43 @@
 #lead.primary
-	#contact
-		#contact_name.h1 #{@lead.honorific} #{@lead.full_name}, #{@lead.title}
-	#company
-		#company_name.h2=@lead.company
-		#location
-			#city_state #{@lead.city}, #{@lead.state} (#{timezone_mapping(@lead.timezone)})
-			#msa= "(#{@lead.msa.strip})" if @lead.msa
-		#sic_info.addl_info
-			.section_title SIC Information
-			.section_data
-				-(1..5).each do |i|
-					-if @lead.send("sic_code_#{i}")
-						.sic{ :id => "sic_#{i}" }
-							%span.sic_code=@lead.send("sic_code_#{i}")
-							%span.sic_desc=@lead.send("sic_description_#{i}")
-		#misc_info.addl_info
-			.section_title Misc. Information
-			.section_data
-				-{ 'Year Established' => :year_established, 'Number of PCs' => :number_of_pcs, 'Emp Code' => :employee_code, 'Sales Code' => :sales_code, 'Credit Rating' => :credit_rating }.each do |field, attrib|
-					-if @lead.send(attrib)
-						.misc_item
-							%span.field=field
-							%span.value=@lead.send(attrib)
+  #contact
+    #contact_name.h1 #{@lead.honorific} #{@lead.full_name}, #{@lead.title}
+  #company
+    #company_name.h2=@lead.company
+    #location
+      #city_state #{@lead.city}, #{@lead.state} (#{timezone_mapping(@lead.timezone)})
+      #msa= "(#{@lead.msa.strip})" if @lead.msa
+    #sic_info.addl_info
+      .section_title SIC Information
+      .section_data
+        -(1..5).each do |i|
+          -if @lead.send("sic_code_#{i}")
+            .sic{ :id => "sic_#{i}" }
+              %span.sic_code=@lead.send("sic_code_#{i}")
+              %span.sic_desc=@lead.send("sic_description_#{i}")
+    #misc_info.addl_info
+      .section_title Misc. Information
+      .section_data
+        -{ 'Year Established' => :year_established, 'Number of PCs' => :number_of_pcs, 'Emp Code' => :employee_code, 'Sales Code' => :sales_code, 'Credit Rating' => :credit_rating }.each do |field, attrib|
+          -if @lead.send(attrib)
+            .misc_item
+              %span.field=field
+              %span.value=@lead.send(attrib)
 #history.secondary
-	.title Lead History
-	-@lead.events.each do |e|
-		=render :partial => 'events/listing_item', :locals => { :event => e }
+  .title Lead History
+  -@lead.events.each do |e|
+    =render :partial => 'events/listing_item', :locals => { :event => e }
 
 -content_for :sidebar do
-	#actions.menu
-		.title Actions
-		%ul.menu
-			%li=link_to_if @touchpoint.next, content_tag(:span, 'Next'), user_call_queue_touchpoint_url(current_user, @queue, @touchpoint.next)
-			%li=link_to_if [:assigned, :queued].include?(@lead.status), content_tag(:span, 'Invite'), new_lead_presentation_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
-			%li=link_to_if [:scheduled].include?(@lead.status), content_tag(:span, 'Book'), new_lead_appointment_url(@lead, :height => 600, :width => 500), :class => 'thickbox'
-			%li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
-			/ %li=link_to content_tag(:span, 'Suspend'), new_lead_suspend_url(@lead, :height => 200, :width => 300), :class => 'thickbox'
-			%li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
-	#tools.menu
-		.title Tools
-		%ul.menu
-			%li=link_to 'Topics', '#'
+  #actions.menu
+    .title Actions
+    %ul.menu
+      %li=link_to_if @touchpoint.next, content_tag(:span, 'Next'), user_call_queue_touchpoint_url(current_user, @queue, @touchpoint.next)
+      %li=link_to_if [:assigned, :queued].include?(@lead.status), content_tag(:span, 'Invite'), new_lead_presentation_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
+      / %li=link_to_if [:scheduled].include?(@lead.status), content_tag(:span, 'Book'), new_lead_appointment_url(@lead, :height => 600, :width => 500), :class => 'thickbox'
+      %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
+      / %li=link_to content_tag(:span, 'Suspend'), new_lead_suspend_url(@lead, :height => 200, :width => 300), :class => 'thickbox'
+      %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
+  #tools.menu
+    .title Tools
+    %ul.menu
+      %li=link_to 'Topics', '#'
