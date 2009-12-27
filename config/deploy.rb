@@ -13,6 +13,9 @@ role :db,  slice, :primary => true        # This is where Rails migrations will 
 
 set :deploy_to, "/var/www"
 
+set :user, "adamstrickland"
+set :ssh_options, { :port => 2422 }
+
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need
 # these http://github.com/rails/irs_process_scripts
@@ -24,3 +27,16 @@ set :deploy_to, "/var/www"
 #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 #   end
 # end
+namespace :deploy do
+  task :start, :roles => :app do
+    run "#{try_sudo} /etc/init.d/thin start"
+  end
+  
+  task :start, :roles => :app do
+    run "#{try_sudo} /etc/init.d/thin stop"
+  end
+  
+  task :restart, :rles => :app do
+    run "#{try_sudo} /etc/init.d/thin restart"
+  end
+end
