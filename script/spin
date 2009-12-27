@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo /etc/init.d/thin restart
+sudo /etc/init.d/nginx restart
