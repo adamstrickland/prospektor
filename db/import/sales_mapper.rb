@@ -1,0 +1,5 @@
+class SalesMapper < Pipeline::TransformMapper
+  define_mappings({
+    'SalesID' => { :to => :id},'AppointmentID' => { :to => :appointment_id},'ClientReferencNumber' => { :to => :client_referenc_number},'Booked' => { :to => :booked},'Fee' => { :to => :fee},'Skd' => { :to => :skd},'Skt' => { :to => :skt},'Owner2Name' => { :to => :owner2_name},'Owner2Title' => { :to => :owner2_title},'Owner2%' => { :to => :owner2%},'Owner3Name' => { :to => :owner3_name},'Owner3Title' => { :to => :owner3_title},'Owner3%' => { :to => :owner3%},'Focus' => { :to => :focus},'RepID' => { :to => :rep_id},'ParID' => { :to => :par_id},'PriorWho' => { :to => :prior_who},'PriorWhen' => { :to => :prior_when},'PriorWhat' => { :to => :prior_what},'PriorSatisfaction' => { :to => :prior_satisfaction},'EmpL12' => { :to => :emp_l12},'VolL12' => { :to => :vol_l12},'Comment' => { :to => :comment},'Confirmed' => { :to => :confirmed},'Expects' => { :to => :expects},'Business Description' => { :to => :business_description},'Location' => { :to => :location},'SSMA_TimeStamp' => { :to => :created_at}
+  })
+end

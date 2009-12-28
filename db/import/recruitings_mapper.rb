@@ -1,0 +1,5 @@
+class RecruitingsMapper < Pipeline::TransformMapper
+  define_mappings({
+    'Applicant ID' => { :to => :applicant_id},'Response Date' => { :to => :response_date},'Response Time' => { :to => :response_time},'Ad City' => { :to => :ad_city},'Applicant Name' => { :to => :applicant_name},'Phone' => { :to => :phone},'Screener' => { :to => :screener},'Screening Date' => { :to => :screening_date},'Screening Evaluation' => { :to => :screening_evaluation},'Resume' => { :to => :resume},'TIS' => { :to => :tis},'Interviewer' => { :to => :interviewer},'Interview Date' => { :to => :interview_date},'Interview Time' => { :to => :interview_time},'Interview Hotel' => { :to => :interview_hotel},'Interview Evaluation' => { :to => :interview_evaluation},'PIE' => { :to => :pie},'Trainer' => { :to => :trainer},'Training Date' => { :to => :training_date},'Training Evaluation' => { :to => :training_evaluation},'Comment' => { :to => :comment},'Keirsey' => { :to => :keirsey},'SSMA_TimeStamp' => { :to => :created_at}
+  })
+end

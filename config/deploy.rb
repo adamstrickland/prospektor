@@ -15,6 +15,7 @@ set :deploy_to, "/var/www"
 
 set :user, "adamstrickland"
 set :ssh_options, { :port => 2422 }
+set(:root_password) { Capistrano::CLI.password_prompt("Root password: ") }
 
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need
