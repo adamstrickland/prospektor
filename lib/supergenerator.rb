@@ -5,35 +5,48 @@ module SuperGenerator
     # generate a migration for the table & the view
     # generate a mapper
     meta = metadata(old_table_name, old_table_columns)
-    migration_name = "#{Time.now.strftime('%Y%m%d%H%M%S')}_create_#{meta[:table][:to].to_s}.rb"
-    migration_cols = meta[:columns].delete_if{|col| col[:to][:name] == :updated_at }.map{|col| "t.#{col[:to][:type].to_s} :#{col[:to][:name].to_s}" }.concat(['t.timestamps'])
+    ts = Time.now.strftime('%Y%m%d%H%M%S')
+    seq = "%03d" % rio(File.join(Rails.root, "db", "migrate")).files["#{ts}*.rb"].count
+    migration_name = "#{ts}#{seq}_create_#{meta[:table][:to].to_s}.rb"
+    migration_cols = meta[:columns].delete_if{|col| col[:to][:name] == :created_at }.map{|col| "t.#{col[:to][:type].to_s} :#{col[:to][:name].to_s}" }.concat(['t.timestamps'])
     
-    rio(File.join(Rails.root, "db", "migrate", migration_name)) < <<-EOF
-class Create#{meta[:table][:to].to_s.titleize} < ActiveRecord::Migration
-  def self.up
-    create_table :#{meta[:table][:to]} do |t|
-      #{migration_cols.join('\n')}
+    mig = rio(File.join(Rails.root, "db", "migrate", migration_name))
+    mig < ""
+    mig << "class Create#{meta[:table][:to].to_s.camelize} < ActiveRecord::Migration\n"
+    mig << "  def self.up\n"
+    mig << "    create_table :#{meta[:table][:to]} do |t|\n"
+    migration_cols.each do |mc|
+      mig << "      #{mc}\n"
     end
-    execute 'CREATE VIEW #{meta[:table][:from]} ( #{meta[:columns].map{|col| col[:from][:name]}.join(',')}) AS SELECT #{meta[:columns].map{|col| col[:to][:name].to_s}.join(',')} FROM #{meta[:table][:to].to_s}'
-  end
+      # {migration_cols.join('\n')}
+    mig << "    end\n"
+    mig << "    execute 'CREATE VIEW `#{meta[:table][:from]}` ( #{meta[:columns].map{|col| "`#{col[:from][:name]}`" }.join(',')}) AS SELECT #{meta[:columns].map{|col| col[:to][:name].to_s}.join(',')} FROM #{meta[:table][:to].to_s}'\n"
+    mig << "  end\n"
 
-  def self.down
-    execute 'DROP VIEW #{meta[:table][:from]}'
-    drop_table :#{meta[:table][:to]}
-  end
-end
-    EOF
+    mig << "  def self.down\n"
+    mig << "    execute 'DROP VIEW `#{meta[:table][:from]}`'\n"
+    mig << "    drop_table :#{meta[:table][:to]}\n"
+    mig << "  end\n"
+    mig << "end"
+    # EOF
     
     column_mappings = meta[:columns].map do |col|
       "'#{col[:from][:name]}' => { :to => :#{col[:to][:name]}}"
     end
-    rio(File.join(Rails.root, "db", "import", "#{meta[:table][:to].to_s}_mapper.rb")) < <<-EOF
-class #{meta[:table][:to].to_s.titleize}Mapper < Pipeline::TransformMapper
-  define_mappings({
-    #{column_mappings.join(',')}
-  })
-end
-    EOF
+    r = rio(File.join(Rails.root, "db", "import", "#{meta[:table][:to].to_s}_mapper.rb"))
+    r < ""
+    r << "class #{meta[:table][:to].to_s.camelize}Mapper < Pipeline::TransformMapper\n"
+    r << "  define_mappings({\n"
+    column_mappings.each do |cm|
+      r << "    #{cm},\n"
+    end
+    r << "  })\n"
+    r << "end"
+  # define_mappings({
+  #   #{column_mappings.join(',')}
+  # })
+# end
+#     EOF
   end
   
   def self.metadata(old_table_name, old_table_columns)

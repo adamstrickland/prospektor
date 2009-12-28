@@ -1,5 +1,6 @@
-class Prior WhosMapper < Pipeline::TransformMapper
+class PriorWhosMapper < Pipeline::TransformMapper
   define_mappings({
-    'ID' => { :to => :id},'PriorWho' => { :to => :prior_who}
+    'ID' => { :to => :id},
+    'PriorWho' => { :to => :prior_who},
   })
 end

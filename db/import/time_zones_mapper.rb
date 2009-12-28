@@ -1,5 +1,6 @@
-class Time ZonesMapper < Pipeline::TransformMapper
+class TimeZonesMapper < Pipeline::TransformMapper
   define_mappings({
-    'Time Zone' => { :to => :time_zone},'Description' => { :to => :description}
+    'Time Zone' => { :to => :time_zone},
+    'Description' => { :to => :description},
   })
 end

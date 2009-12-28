@@ -6,10 +6,8 @@ class CreateLeadsUsers < ActiveRecord::Migration
     #   t.timestamps
     # end
     # add_index(:leads_users, [:lead_id, :user_id], :unique => false)
-    alter_table :leads do |t|
-      t.references :user
-      t.index :user_id, :unique => false
-    end
+    add_column :leads, :user_id, :integer
+    add_index :leads, :user_id
     
   end
 

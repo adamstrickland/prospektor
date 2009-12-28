@@ -1,5 +1,6 @@
-class Prior ConsultingsMapper < Pipeline::TransformMapper
+class PriorConsultingsMapper < Pipeline::TransformMapper
   define_mappings({
-    'ID' => { :to => :id},'Bad Experience' => { :to => :bad_experience}
+    'ID' => { :to => :id},
+    'Bad Experience' => { :to => :bad_experience},
   })
 end

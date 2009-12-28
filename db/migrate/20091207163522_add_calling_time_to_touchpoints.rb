@@ -1,9 +1,7 @@
 class AddCallingTimeToTouchpoints < ActiveRecord::Migration
   def self.up
-    alter_table :touchpoints do |t|
-      t.datetime :call_window_start_at
-      t.datetime :call_window_finish_at
-    end
+    add_column :touchpoints, :call_window_start_at, :datetime
+    add_column :touchpoints, :call_window_finish_at, :datetime
   end
 
   def self.down

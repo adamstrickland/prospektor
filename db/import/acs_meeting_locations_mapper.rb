@@ -1,5 +1,6 @@
-class Acs Meeting LocationsMapper < Pipeline::TransformMapper
+class AcsMeetingLocationsMapper < Pipeline::TransformMapper
   define_mappings({
-    'ID' => { :to => :id},'Location' => { :to => :location}
+    'ID' => { :to => :id},
+    'Location' => { :to => :location},
   })
 end

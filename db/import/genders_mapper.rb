@@ -1,5 +1,5 @@
 class GendersMapper < Pipeline::TransformMapper
   define_mappings({
-    'Gender' => { :to => :gender}
+    'Gender' => { :to => :gender},
   })
 end
