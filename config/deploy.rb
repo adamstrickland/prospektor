@@ -11,7 +11,7 @@ role :app, slice                          # This may be the same as your `Web` s
 role :db,  slice, :primary => true        # This is where Rails migrations will run
 # role :db,  "your slave db-server here"
 
-set :deploy_to, "/var/www"
+set :deploy_to, "/var/sites/sales.trigonsolutions.com"
 
 set :user, "adamstrickland"
 set :ssh_options, { :port => 2422 }
