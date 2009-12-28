@@ -9,9 +9,11 @@ namespace :pipeline do
         options = { 
           # :verbose => true,
           # :dry_run => true,
-          :delimiter => "\t"
+          :delimiter => "\t",
+          :input_dir => args.dir || File.join(Rails.root, "db", "import"),
+          :mapping_dir => args.dir || File.join(Rails.root, "db", "import")
         }
-        Pipeline::Importer.import_delimited(args.dir || File.join(File.dirname(__FILE__), "..", "..", "..", "..", "db", "import"), options)
+        Pipeline::Importer.import_delimited(options)
       end
       
       task :comma, :dir, :glob do |task, args|
@@ -20,9 +22,11 @@ namespace :pipeline do
           # :dry_run => true,
           :delimiter => ",",
           :suffix => ".csv",
-          :glob => args.glob || "*.csv"
+          :glob => args.glob || "*.csv",
+          :input_dir => args.dir || File.join(Rails.root, "db", "import"),
+          :mapping_dir => args.dir || File.join(Rails.root, "db", "import")
         }
-        Pipeline::Importer.import_delimited(args.dir || File.join(File.dirname(__FILE__), "..", "..", "..", "..", "db", "import"), options)
+        Pipeline::Importer.import_delimited(options)
       end
     end
     

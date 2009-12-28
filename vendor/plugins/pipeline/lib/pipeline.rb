@@ -10,12 +10,14 @@ module Pipeline
   class Importer
     @@default_import_dir = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'db', 'import')
     
-    def self.import_delimited(dir=@@default_import_dir, options={})
-      puts "Importing data from #{dir}" if options[:verbose]
+    def self.import_delimited(options={})
+      options[:input_dir] ||= @@default_import_dir
+      options[:mapping_dir] ||= @@default_import_dir
+      puts "Importing data from #{options[:input_dir]}" if options[:verbose]
       options[:delimiter] ||= "\t"
       options[:suffix] ||= ".txt"
       options[:glob] ||= "*#{options[:suffix]}"
-      input_files = Dir.glob(File.join(dir, options[:glob]))
+      input_files = Dir.glob(File.join(options[:input_dir], options[:glob]))
       puts "Input files: #{'['+input_files.join(', ')+']'}" if options[:verbose]
       input_files.each do |path|
         puts "  Loading file #{path}" if options[:verbose]
@@ -24,7 +26,7 @@ module Pipeline
         model = Object.const_get("#{table_name.singularize.camelcase}")
         puts "    Loading file to table #{table_name} with model #{model}" if options[:verbose]
         
-        mapping_files = Dir.glob(File.join(dir, "#{table_name}_mapper.rb"))
+        mapping_files = Dir.glob(File.join(options[:mapping_dir], "#{table_name}_mapper.rb"))
         if mapping_files and mapping_files.count > 0
           mapping_file = mapping_files.first
           puts "    Using mapping in #{mapping_file}" if options[:verbose]
