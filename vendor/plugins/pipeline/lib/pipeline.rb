@@ -13,12 +13,14 @@ module Pipeline
     def self.import_delimited(dir=@@default_import_dir, options={})
       puts "Importing data from #{dir}" if options[:verbose]
       options[:delimiter] ||= "\t"
-      input_files = Dir.glob(File.join(dir, "*.txt"))
+      options[:suffix] ||= ".txt"
+      options[:glob] ||= "*#{options[:suffix]}"
+      input_files = Dir.glob(File.join(dir, options[:glob]))
       puts "Input files: #{'['+input_files.join(', ')+']'}" if options[:verbose]
       input_files.each do |path|
         puts "  Loading file #{path}" if options[:verbose]
         
-        table_name = File.basename(path, ".txt")
+        table_name = File.basename(path, options[:suffix])
         model = Object.const_get("#{table_name.singularize.camelcase}")
         puts "    Loading file to table #{table_name} with model #{model}" if options[:verbose]
         

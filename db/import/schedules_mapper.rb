@@ -1,4 +1,4 @@
-class AppointmentsMapper < Pipeline::TransformMapper
+class SchedulesMapper < Pipeline::TransformMapper
   define_mappings({
     'AppointmentID' => { :to => :id},
     'ContactID' => { :to => :contact_id},

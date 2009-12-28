@@ -1,7 +1,7 @@
 class JobsMapper < Pipeline::TransformMapper
   define_mappings({
     'Job Invoice ID' => { :to => :job_invoice_id},
-    'Job .' => { :to => :job_.},
+    'Job .' => { :to => :job},
     'Employee ID' => { :to => :employee_id},
     'Invoice Date' => { :to => :invoice_date},
     'Amount' => { :to => :amount},

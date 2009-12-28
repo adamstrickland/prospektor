@@ -19,7 +19,7 @@ class ContactsMapper < Pipeline::TransformMapper
     'Hot Buttons' => { :to => :hot_buttons},
     'Prospect Problems' => { :to => :prospect_problems},
     'Discuss Competition' => { :to => :discuss_competition},
-    'History & Success' => { :to => :history_&_success},
+    'History & Success' => { :to => :history_and_success},
     'Knows BMC' => { :to => :knows_bmc},
     'Bad Experience' => { :to => :bad_experience},
     'Prior Consultant' => { :to => :prior_consultant},

@@ -1,7 +1,7 @@
 class AnalysesMapper < Pipeline::TransformMapper
   define_mappings({
     'ID' => { :to => :id},
-    'Job .' => { :to => :job_.},
+    'Job .' => { :to => :job},
     'Analyst' => { :to => :analyst},
     'ACS Status' => { :to => :acs_status},
     'MCS Status' => { :to => :mcs_status},
