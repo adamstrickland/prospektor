@@ -1,7 +1,7 @@
 class LeadsMapper < Pipeline::TransformMapper
   @phone_from_float = lambda{ |val, ctxt| val.to_i.to_s }
   @int_from_float = lambda{ |val, ctxt| val.to_i }
-  @downcase = lambda{ |val, ctxt| val.downcase == "own" }
+  @downcase = lambda{ |val, ctxt| val ? val.downcase == "own" : false }
   
   define_mappings({
     "LeadID" => { :to => :id },
