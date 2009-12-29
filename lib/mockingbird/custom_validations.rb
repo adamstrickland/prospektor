@@ -6,7 +6,7 @@ module CustomValidations
       # could/should use Authentication.email_regex?
       options = {}
       options[:with] ||= /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-      options[:message] ||= 'must be a valid email address'
+      options[:message] ||= "'#{self.send(attr_name)}' is not a valid email address"
       options[:allow_nil] ||= true
       validates_format_of attr_name, options
     end
