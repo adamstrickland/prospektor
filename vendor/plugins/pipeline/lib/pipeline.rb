@@ -59,7 +59,7 @@ module Pipeline
                 puts "Error saving model for row: #{row}"
               end
             end
-          rescue
+          rescue FasterCSV::MalformedCSVError
             puts row
           end
         end
