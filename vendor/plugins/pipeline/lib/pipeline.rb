@@ -49,14 +49,18 @@ module Pipeline
         puts "    Using mapper: #{mapper}" if options[:verbose]
         
         FasterCSV.foreach(path, {:headers => :first_row, :col_sep => options[:delimiter]}) do |row|
-          fields = mapper.map(row.headers, row, options)
-          puts "    #{model}.new(#{fields})" if options[:verbose]
+          begin
+            fields = mapper.map(row.headers, row, options)
+            puts "    #{model}.new(#{fields})" if options[:verbose]
           
-          if not options[:dry_run]
-            item = model.new(fields)
-            if not item.save_with_validation(options[:validate])
-              puts "Error saving model for row: #{row}"
+            if not options[:dry_run]
+              item = model.new(fields)
+              if not item.save_with_validation(options[:validate])
+                puts "Error saving model for row: #{row}"
+              end
             end
+          rescue
+            puts row
           end
         end
       end
