@@ -26,7 +26,14 @@ module Pipeline
         puts "  Loading file #{path}" if options[:verbose]
         
         table_name = File.basename(path, options[:suffix])
-        model = Object.const_get("#{table_name.singularize.camelcase}")
+        model_name = table_name.singularize.camelcase
+        
+        begin
+          model = Object.const_get("#{model_name}")
+        rescue
+          eval("class #{model_name} < ActiveRecord::Base; end")
+          model = Object.const_get("#{model_name}")
+        end
         puts "    Loading file to table #{table_name} with model #{model}" if options[:verbose]
         
         mapping_files = Dir.glob(File.join(options[:mapping_dir], "#{table_name}_mapper.rb"))
