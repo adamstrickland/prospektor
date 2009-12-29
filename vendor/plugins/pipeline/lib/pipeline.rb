@@ -44,7 +44,7 @@ module Pipeline
           
           if not options[:dry_run]
             item = model.new(fields)
-            if not item.save!
+            if not item.save_with_validation(false)
               puts "Error saving model for row: #{row}"
             end
           end
