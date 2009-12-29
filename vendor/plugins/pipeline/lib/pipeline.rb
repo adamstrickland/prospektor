@@ -13,10 +13,13 @@ module Pipeline
     def self.import_delimited(options={})
       options[:input_dir] ||= @@default_import_dir
       options[:mapping_dir] ||= @@default_import_dir
-      puts "Importing data from #{options[:input_dir]}" if options[:verbose]
       options[:delimiter] ||= "\t"
       options[:suffix] ||= ".txt"
       options[:glob] ||= "*#{options[:suffix]}"
+      options[:validate] ||= false
+      
+      puts "Importing data from #{options[:input_dir]}" if options[:verbose]
+      
       input_files = Dir.glob(File.join(options[:input_dir], options[:glob]))
       puts "Input files: #{'['+input_files.join(', ')+']'}" if options[:verbose]
       input_files.each do |path|
@@ -44,7 +47,7 @@ module Pipeline
           
           if not options[:dry_run]
             item = model.new(fields)
-            if not item.save_with_validation(false)
+            if not item.save_with_validation(options[:validate])
               puts "Error saving model for row: #{row}"
             end
           end
