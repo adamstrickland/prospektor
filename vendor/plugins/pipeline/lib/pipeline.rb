@@ -97,7 +97,7 @@ module Pipeline
       puts "      Mapping data from #{'['+data.fields.join(', ')+']'} ..." if options[:verbose]
       
       if @@pre_processing
-        @@pre_processing.call(data)
+        @@pre_processing.call(fields, data, options)
       end
       
       mpgs = @@mappings.collect do |f, mapping| 
@@ -116,7 +116,7 @@ module Pipeline
       attrib_hash = attrib_hash.delete_if{ |k,v| v.nil? }
       
       if @@post_processing
-        @@post_processing.call(attrib_hash)
+        @@post_processing.call(fields, data, attrib_hash, options)
       end
       
       if options[:verbose]
