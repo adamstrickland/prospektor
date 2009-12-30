@@ -1,20 +1,20 @@
 class CreateLeads < ActiveRecord::Migration
   def self.up
     create_table :leads do |t|
-      t.string :name
+      t.string :name, :null => false
       t.string :last_name
       t.string :first_name
       t.string :salutation
       t.string :title
       t.string :gender, :limit => 1
-      t.string :company
+      t.string :company, :null => false
       t.integer :year_established
       t.string :address
       t.string :city
       t.string :state, :limit => 4
       t.string :county
       t.string :zip, :limit => 10
-      t.string :phone, :limit => 10
+      t.string :phone, :limit => 10, :null => false
       t.string :extension, :limit => 5
       t.string :fax, :limit => 10
       t.string :cell_phone, :limit => 10
@@ -38,6 +38,12 @@ class CreateLeads < ActiveRecord::Migration
       t.timestamp :imported_at
       t.string :timezone, :limit => 2
       t.timestamps
+      
+      t.index :phone, :unique => true
+      t.index :name
+      t.index :company
+      t.index :state
+      t.index :timezone
     end
   end
 

@@ -1,6 +1,7 @@
 #lead.primary
   #contact
     #contact_name.h1 #{@lead.honorific} #{@lead.full_name}, #{@lead.title}
+    #contact_phone.h1=number_to_phone(@lead.phone)
   #company
     #company_name.h2=@lead.company
     #location

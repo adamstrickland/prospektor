@@ -3,185 +3,193 @@
 @import menu.sass
 
 *
-	:margin 0px
-	:padding 0px
-	
+  :margin 0px
+  :padding 0px
+  
 html, body
-	:height 100%
+  :height 100%
 
 body
-	:font
-		:size = !sz_font
-		:family = !fm_font
-	:color = !cl_text
-	:background-color = !cl_body
-	>div
-		:margin 0 auto
-	
+  :font
+    :size = !sz_font
+    :family = !fm_font
+  :color = !cl_text
+  :background-color = !cl_body
+  >div
+    :margin 0 auto
+  
 a
-	:text-decoration none
-	:color = !cl_link
-	&:link, &:visited
-		:text-decoration none
-		:color = !cl_link
-	&:hover
-		:text-decoration underline
-		:color = !cl_hovr
-		
+  :text-decoration none
+  :color = !cl_link
+  &:link, &:visited
+    :text-decoration none
+    :color = !cl_link
+  &:hover
+    :text-decoration underline
+    :color = !cl_hovr
+    
 div#body
-	:width = !wd_bd
-	:height 100%
-	:background-color = !cl_main
-		
-#hd		
-	:width = !wd_bd
-	:height = !ht_head
-	:top 2em
-	:position relative
-	div
-		:position relative
-	#branding
-		:text
-			:align center
-		#company
-			:font
-				:size = !sz_font
-			:left -80px
-		#application
-			:font
-				:size = !sz_font * 4
-				:weight bold
-	#identity
-		:width = !wd_sdbr
-		:position absolute
-		:right 0.75em
-		:top 0
-		:float right
-		:background-color = !prim_emA
-		/ :padding 1em
-		*
-			:margin 1em
-		#login
-			:font
-				:weight bold
-		.act
-			:display block
-			:text-align right
-			a:link, a:visited
-				:color = !cl_hovr
-			a:hover
-				:color = !cl_link
+  :width = !wd_bd
+  :height 100%
+  :background-color = !cl_main
+    
+#hd   
+  :width = !wd_bd
+  :height = !ht_head
+  :top 2em
+  :position relative
+  div
+    :position relative
+  #branding
+    :text
+      :align center
+    #logo
+      :background url(/images/trigon_logo.png) no-repeat
+      :height 3em
+      :width 3em
+      :postion relative
+      :top 0
+      :float left
+      :z-index 99
+    #company
+      :font
+        :size = !sz_font
+      :left -80px
+    #application
+      :font
+        :size = !sz_font * 4
+        :weight bold
+  #identity
+    :width = !wd_sdbr
+    :position absolute
+    :right 0.75em
+    :top 0
+    :float right
+    :background-color = !prim_emA
+    / :padding 1em
+    *
+      :margin 1em
+    #login
+      :font
+        :weight bold
+    .act
+      :display block
+      :text-align right
+      a:link, a:visited
+        :color = !cl_hovr
+      a:hover
+        :color = !cl_link
 
 #bd
-	:width = !wd_bd
-	#nav
-		#navbar
-			ul
-				:background-color = !cl_nav
-				:list-style none
-				:width 100%
-				:margin 0
-				:padding 0.2em 0
-				:text-align center
-				li
-					:display inline
-					:width 10em
-					a
-						/ :float left
-						/ :width 10em
-						/ :display block
-						:padding 0.2em 1em
-						:text-decoration none
-						:color = !cl_hovr
-						:height = !ht_nav
-						:text-align center
-						:margin auto
-						:font
-							:size = !sz_font * 2
-						&:hover
-							:background-color = !cl_nhvr
-							:color = !cl_text
-		a
-			:font
-				:weight bold
-	#flash
-		:font
-			:weight bold
-		.error
-			:color red
-		.status
-			:color green
-	#content
-		:margin 0
-		:text-align left
-		>div
-			:padding 1em
-		#sidebar
-			:width = !wd_sdbr
-			:float right
-			div.menu
-				+bordered
-				:background-color = !cl_menu
-				:margin 0 0 0 0.25em
-				:width = !wd_sdbr
-				:margin
-					:bottom 5px
-				:font
-					:weight bold
-					:size = !sz_font + 4
-				.title
-					:display block
-					:text
-						:align center
-					:border
-						:bottom 1px solid
-							:color = !cl_body
-					:padding 1em 0 !important
-					&.name
-						:background-color = !cl_nav
-				ul.menu
-					:list-style none
-					:text-decoration none
-					li
-						:color = !g
-						a
-							:display block
-							:text-decoration none
-							:background-image none
-							&:link, &:visited
-								:color = !w
-							&:hover
-								:background-color = !comp
-								:color = !b
-		#main
-			:margin 0
-			:width = !wd_main
-		
+  :width = !wd_bd
+  #nav
+    #navbar
+      ul
+        :background-color = !cl_nav
+        :list-style none
+        :width 100%
+        :margin 0
+        :padding 0.2em 0
+        :text-align center
+        li
+          :display inline
+          :width 10em
+          a
+            / :float left
+            / :width 10em
+            / :display block
+            :padding 0.2em 1em
+            :text-decoration none
+            :color = !cl_hovr
+            :height = !ht_nav
+            :text-align center
+            :margin auto
+            :font
+              :size = !sz_font * 2
+            &:hover
+              :background-color = !cl_nhvr
+              :color = !cl_text
+    a
+      :font
+        :weight bold
+  #flash
+    :font
+      :weight bold
+    .error
+      :color red
+    .status
+      :color green
+  #content
+    :margin 0
+    :text-align left
+    >div
+      :padding 1em
+    #sidebar
+      :width = !wd_sdbr
+      :float right
+      div.menu
+        +bordered
+        :background-color = !cl_menu
+        :margin 0 0 0 0.25em
+        :width = !wd_sdbr
+        :margin
+          :bottom 5px
+        :font
+          :weight bold
+          :size = !sz_font + 4
+        .title
+          :display block
+          :text
+            :align center
+          :border
+            :bottom 1px solid
+              :color = !cl_body
+          :padding 1em 0 !important
+          &.name
+            :background-color = !cl_nav
+        ul.menu
+          :list-style none
+          :text-decoration none
+          li
+            :color = !g
+            a
+              :display block
+              :text-decoration none
+              :background-image none
+              &:link, &:visited
+                :color = !w
+              &:hover
+                :background-color = !comp
+                :color = !b
+    #main
+      :margin 0
+      :width = !wd_main
+    
 #ft
-	:width = !wd_bd
-	:text-align center
-	:margin 0 auto
-	:position absolute
-	:bottom 1em
+  :width = !wd_bd
+  :text-align center
+  :margin 0 auto
+  :position absolute
+  :bottom 1em
 
-#TB_window	
-	#TB_ajaxContent	
-		:background-color = !cl_body
-		:overflow hidden
-		.modal
-			:width 100%
-			:color = !cl_text
-			fieldset
-				.row
-					:padding 10px 20px
-					>div
-						/ :border 1px solid yellow
-					.field
-			.widget
-				.single
-					:margin 0 auto
-					:text-align center
-				.right
-					:text-align right
-				.widget_item
-					:margin 1em
+#TB_window  
+  #TB_ajaxContent 
+    :background-color = !cl_body
+    :overflow hidden
+    .modal
+      :width 100%
+      :color = !cl_text
+      fieldset
+        .row
+          :padding 10px 20px
+          >div
+            / :border 1px solid yellow
+          .field
+      .widget
+        .single
+          :margin 0 auto
+          :text-align center
+        .right
+          :text-align right
+        .widget_item
+          :margin 1em

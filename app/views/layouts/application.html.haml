@@ -19,8 +19,11 @@
     #page.container_16
       #hd
         #branding
-          #company Trigon Solutions
+          =image_tag 'trigon_logo.gif', :style => 'float:left;height:3em;width:3em;'
+          #company Trigon Solutions Presents:
           #application Prospektor
+          %div Your Key to Success
+          / %div &copy; 2009 Trigon Solutions, Inc.
         #identity
           -if logged_in?
             .info Logged in as:

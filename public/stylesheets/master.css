@@ -10,24 +10,24 @@ body {
   font-size: 10px;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: white;
-  background-color: #090454; }
+  background-color: #003667; }
   body >div {
     margin: 0 auto; }
 
 a {
   text-decoration: none;
-  color: #10579b; }
+  color: #00a667; }
   a:link, a:visited {
     text-decoration: none;
-    color: #10579b; }
+    color: #00a667; }
   a:hover {
     text-decoration: underline;
-    color: #efb908; }
+    color: #f69000; }
 
 div#body {
   width: 960px;
   height: 100%;
-  background-color: #241ca6; }
+  background-color: #00549f; }
 
 #hd {
   width: 960px;
@@ -38,6 +38,14 @@ div#body {
     position: relative; }
   #hd #branding {
     text-align: center; }
+    #hd #branding #logo {
+      background: url(/images/trigon_logo.png) no-repeat;
+      height: 3em;
+      width: 3em;
+      postion: relative;
+      top: 0;
+      float: left;
+      z-index: 99; }
     #hd #branding #company {
       font-size: 10px;
       left: -80px; }
@@ -50,7 +58,7 @@ div#body {
     right: 0.75em;
     top: 0;
     float: right;
-    background-color: #35326c; }
+    background-color: #1e4d77; }
     #hd #identity * {
       margin: 1em; }
     #hd #identity #login {
@@ -59,14 +67,14 @@ div#body {
       display: block;
       text-align: right; }
       #hd #identity .act a:link, #hd #identity .act a:visited {
-        color: #efb908; }
+        color: #f69000; }
       #hd #identity .act a:hover {
-        color: #10579b; }
+        color: #00a667; }
 
 #bd {
   width: 960px; }
   #bd #nav #navbar ul {
-    background-color: #5512a2;
+    background-color: #0700ab;
     list-style: none;
     width: 100%;
     margin: 0;
@@ -78,13 +86,13 @@ div#body {
       #bd #nav #navbar ul li a {
         padding: 0.2em 1em;
         text-decoration: none;
-        color: #efb908;
+        color: #f69000;
         height: 3em;
         text-align: center;
         margin: auto;
         font-size: 20px; }
         #bd #nav #navbar ul li a:hover {
-          background-color: #6522b2;
+          background-color: #3b35d5;
           color: white; }
   #bd #nav a {
     font-weight: bold; }
@@ -109,7 +117,7 @@ div#body {
         border-bottom-style: dotted;
         border-bottom-width: 1px;
         border-bottom-color: !cl_brdr;
-        background-color: #10579b;
+        background-color: #00a667;
         margin: 0 0 0 0.25em;
         width: 180px;
         margin-bottom: 5px;
@@ -119,10 +127,10 @@ div#body {
           display: block;
           text-align: center;
           border-bottom: 1px solid;
-          border-bottom-color: #090454;
+          border-bottom-color: #003667;
           padding: 1em 0 !important; }
           #bd #content #sidebar div.menu .title.name {
-            background-color: #5512a2; }
+            background-color: #0700ab; }
         #bd #content #sidebar div.menu ul.menu {
           list-style: none;
           text-decoration: none; }
@@ -135,7 +143,7 @@ div#body {
               #bd #content #sidebar div.menu ul.menu li a:link, #bd #content #sidebar div.menu ul.menu li a:visited {
                 color: white; }
               #bd #content #sidebar div.menu ul.menu li a:hover {
-                background-color: #efb908;
+                background-color: #f69000;
                 color: black; }
     #bd #content #main {
       margin: 0;
@@ -149,7 +157,7 @@ div#body {
   bottom: 1em; }
 
 #TB_window #TB_ajaxContent {
-  background-color: #090454;
+  background-color: #003667;
   overflow: hidden; }
   #TB_window #TB_ajaxContent .modal {
     width: 100%;
