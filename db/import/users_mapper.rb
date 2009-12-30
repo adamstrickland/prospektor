@@ -17,23 +17,34 @@ class UsersMapper < Pipeline::TransformMapper
   }
   @saltify = lambda{ |val, ctxt| Digest::SHA1.hexdigest("Religions die when they are proved to be true. Science is the record of dead religions.") }
   
-  post_process do |fields, data, attribs, options|
+  before_save do |fields, data, attribs|
     attribs[:name] = "#{(data['PreferredName'] || data['FirstName'])} #{data['LastName']}"
+    attribs[:crypted_password] 
+  end
+  
+  after_save do |fields, data, model|
+    model.created_at = Date.strptime(data['DateHired'], '%m/%d/%Y %H:%M:%S') if data['DateHired']
+    if data['Active'] and data['Active'].to_s == '1' and model.valid?
+      model.activate!
+    end
+  end
+  
+  after_all do 
+    User.all.reject{|u| u.activated_at.blank? or not u.valid? }.each{|u| u.activate! }
   end
     
   define_mappings({
-    'EmployeeID' => { :to => :id},
+    'EmployeeID' => { :to => :id },
     'Username' => { :to => :login },
     'EmailName' => { :to => :email },
-    'SocialSecurityNumber' => { :to => :salt, :transform => @saltify },
-    'Password' => { :to => :crypted_password, :transform => @cryptify },
-    'DateHired' => { :to => :created_at, :transform => lambda{|val, ctxt| (val ? Date.strptime(val, '%m/%d/%Y %H:%M:%S') : Time.now).to_s :db} },
+    'Password' => { :to => [:password, :password_confirmation] },
+    # 'DateHired' => { :to => :created_at, :transform => lambda{|val, ctxt| (val ? Date.strptime(val, '%m/%d/%Y %H:%M:%S') : Time.now).to_s :db} },
     #placeholders
-    'SpouseName' => { :to => :remember_token, :transform => @saltify },
-    'Married' => { :to => :remember_token_expires_at, :transform => lambda{ |val,ctxt| 1.days.from_now.to_s :db}},
+    # 'SpouseName' => { :to => :remember_token, :transform => @saltify },
+    # 'Married' => { :to => :remember_token_expires_at, :transform => lambda{ |val,ctxt| 1.days.from_now.to_s :db}},
     # 'Active' => { :to => :activated_at},
-    'Active' => { :to => :activated_at, :transform => lambda{ |val, ctxt| (val && val.to_s == '1') ? Time.now.to_s(:db) : nil}},
-    'PreferredName' => { :to => :name }    
+    # 'Active' => { :to => :activated_at, :transform => lambda{ |val, ctxt| (val && val.to_s == '1') ? Time.now.to_s(:db) : nil}},
+    # 'PreferredName' => { :to => :name }    
     # 'LastName' => { :to => :last_name},
     # 'FirstName' => { :to => :first_name},
     # 'MiddleInitial' => { :to => :middle_initial},

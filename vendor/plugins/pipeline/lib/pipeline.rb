@@ -48,6 +48,7 @@ module Pipeline
         mapper ||= Pipeline::IdentityMapping
         puts "    Using mapper: #{mapper}" if options[:verbose]
         
+        mapper.setup
         FasterCSV.foreach(path, {:headers => :first_row, :col_sep => options[:delimiter]}) do |row|
           begin
             fields = mapper.map(row.headers, row, options)
@@ -57,12 +58,15 @@ module Pipeline
               item = model.new(fields)
               if not item.save_with_validation(options[:validate])
                 puts "Error saving model for row: #{row}"
+              else
+                mapper.aftermath(row.headers, row, item)
               end
             end
           rescue FasterCSV::MalformedCSVError
             puts row
           end
         end
+        mapper.teardown
       end
     end
   end
@@ -72,8 +76,17 @@ module Pipeline
   end
   
   class TransformMapper < AbstractMapper
-    @@pre_processing = nil
-    @@post_processing = nil
+    @@before_all_callback = nil
+    @@before_each_callback = nil
+    @@before_save_callback = nil
+    @@after_save_callback = nil
+    @@after_all_callback = nil
+    
+    def self.before_all(&block); @@before_all_callback = block; end
+    def self.before_each(&block); @@before_each_callback = block; end
+    def self.before_save(&block); @@before_save_callback = block; end
+    def self.after_save(&block); @@after_save_callback = block; end
+    def self.after_all(&block); @@after_all_callback = block; end
      
     def self.define_mappings(mappings={})
       @@mappings = {}
@@ -85,20 +98,30 @@ module Pipeline
       end
     end
     
-    def self.post_process(&block)
-      @@post_processing = block
+    # def self.post_process(&block)
+    #   @@post_processing = block
+    # end
+    # 
+    # def self.pre_process(&block)
+    #   @@pre_processing = block
+    # end
+    
+    def self.setup
+      @@before_all_callback.call if @@before_all_callback
     end
-
-    def self.pre_process(&block)
-      @@pre_processing = block
+    
+    def self.aftermath(fields, data, model)
+      @@after_save_callback.call(fields, data, model) if @@after_save_callback
+    end
+    
+    def self.teardown
+      @@after_all_callback.call if @@after_all_callback
     end
     
     def self.map(fields, data, options={})
       puts "      Mapping data from #{'['+data.fields.join(', ')+']'} ..." if options[:verbose]
       
-      if @@pre_processing
-        @@pre_processing.call(fields, data, options)
-      end
+      @@before_each_callback.call(fields, data) if @@before_each_callback
       
       mpgs = @@mappings.collect do |f, mapping| 
         mapping.apply(data[f], data, options)
@@ -115,9 +138,7 @@ module Pipeline
       attrib_hash = Hash[*attribs]
       attrib_hash = attrib_hash.delete_if{ |k,v| v.nil? }
       
-      if @@post_processing
-        @@post_processing.call(fields, data, attrib_hash, options)
-      end
+      @@before_save_callback.call(fields, data, attrib_hash) if @@before_save_callback
       
       if options[:verbose]
         msg = '{'+attrib_hash.collect{|k,v| "#{k} => #{v}"}.join(', ')+'}'
@@ -142,17 +163,18 @@ module Pipeline
   end
   
   class Mapping
-    attr_reader :destination, :transformation
+    attr_reader :destinations, :transformation
     
     def initialize(to, options={})
-      @destination = to
+      @destinations = to.is_a?(Array) ? to : [to]
       @transformation = options[:transform] || lambda{ |input, context| input }
     end
     
     def apply(input, context, options={})
       result = self.transformation.call(input, context)
       puts "        #{input} ==> #{result}" if options[:verbose]
-      output = { self.destination => result }   # each should return :attribute => "some value"
+      output = Hash[*self.destinations.zip((0..self.destinations.count).map{ result }).flatten]
+      # output = { self.destination => result }   # each should return :attribute => "some value"
       output
     end
   end
