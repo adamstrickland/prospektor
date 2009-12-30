@@ -47,6 +47,7 @@ class LeadsMapper < Pipeline::TransformMapper
     "Source" => { :to => :source },
     "Imported" => { :to => :imported_at },
     "Updated" => { :to => :updated_at },
-    "Time Zone" => { :to => :timezone }
+    "Time Zone" => { :to => :timezone },
+    "UserID" => { :to => :user_id }
   })
 end

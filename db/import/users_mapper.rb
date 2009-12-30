@@ -27,6 +27,10 @@ class UsersMapper < Pipeline::TransformMapper
     if data['Active'] and data['Active'].to_s == '1' and model.valid?
       model.activate!
     end
+    Lead.find_all_by_user_id(data['EmployeeID'].to_i).each do |l|
+      l.user = model
+      l.save
+    end
   end
   
   after_all do 
