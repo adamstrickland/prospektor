@@ -1,5 +1,15 @@
 require 'digest/sha1'
 
+class UserObserver < ActiveRecord::Observer
+  def after_create(user)
+    true
+  end
+
+  def after_save(user)
+    true
+  end
+end
+
 class UsersMapper < Pipeline::TransformMapper
   @cryptify = lambda{ |val, ctxt| 
     pwd = val || (0...8).map{ ('a'..'z').to_a[rand(26)] }.join
