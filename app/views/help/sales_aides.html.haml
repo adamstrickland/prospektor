@@ -1,0 +1,10 @@
+#sales_aides.dialog.modal
+  %h2 Sales Aides
+  %ul.help
+    -@entries.each_pair do |hdg, grp|
+      %li
+        =hdg
+        %ul.help
+          -grp.each_pair do |name, url|
+            %li
+              %a{ :href => url, :target => '_blank' }=name

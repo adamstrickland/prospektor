@@ -34,6 +34,6 @@ config.action_mailer.smtp_settings = {
   :port => 25,
   :domain => 'trigonsolutions.com',
   :authentication => :plain,
-  :user_name => 'scheduling@trigonsolutions.com'
+  :user_name => 'scheduling@trigonsolutions.com',
   :password => 'JPBWXJS4sjpT6y'
 }
