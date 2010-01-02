@@ -2,7 +2,7 @@ class DispositionController < ApplicationController
   def new
     @lead = Lead.find(params[:lead_id])
     
-    if @lead
+    # if @lead
     
     
     @disposition_options = {
