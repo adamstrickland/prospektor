@@ -52,16 +52,25 @@ class PresentationsController < ApplicationController
     lead = Lead.find_by_id(params[:lead_id])
     @presentation.lead = lead
     
-    @touchpoint = Touchpoint.new(params[:touchpoint])
-    @touchpoint.lead = lead
-    @touchpoint.call_queue = lead.touchpoints.last.call_queue
+    # @touchpoint = Touchpoint.new(params[:touchpoint])
+    # @touchpoint.lead = lead
+    # @touchpoint.call_queue = lead.touchpoints.last.call_queue
 
     respond_to do |format|
-      if @presentation.save and @touchpoint.save
-        format.html { render :partial => 'events/listing_item', :locals => { :event => lead.events.last } }
+      if @presentation.save
+        format.json{
+          render :json => { :status => :success }
+        }
       else
-        format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @presentation.errors } }
+        format.json{
+          render :json => { :status => :failure, :errors => @presentation.errors }
+        }
       end
+      # if @presentation.save and @touchpoint.save
+      #   format.html { render :partial => 'events/listing_item', :locals => { :event => lead.events.last } }
+      # else
+      #   format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @presentation.errors } }
+      # end
     end
   end
 

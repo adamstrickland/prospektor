@@ -1,5 +1,5 @@
 #disposition.dialog.modal
-	-modal_form(lead_disposition_index_url(@lead)) do |f|
+	-modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => false) do |f|
 		%fieldset
 			.fields.container_16
 				.row

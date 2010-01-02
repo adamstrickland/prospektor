@@ -167,7 +167,7 @@ module Pipeline
     
     def initialize(to, options={})
       @destinations = to.is_a?(Array) ? to : [to]
-      @transformation = options[:transform] || lambda{ |input, context| input }
+      @transformation = options[:transform] ||= lambda{ |input, context| input }
     end
     
     def apply(input, context, options={})

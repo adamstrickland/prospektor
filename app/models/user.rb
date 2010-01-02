@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
 
-  has_many :leads
+  # has_many :leads
+  has_and_belongs_to_many :leads
   has_many :presentations
   has_many :appointments
   has_many :events

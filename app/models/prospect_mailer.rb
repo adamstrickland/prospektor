@@ -79,6 +79,25 @@ class ProspectMailer < ActionMailer::Base
       }
     })
   end
+
+  def bcr_invitation(preso)
+    subject "BCR Request"
+    recipients preso.email
+    from sender(preso.user.email)
+    sent_on Time.now
+    body ({ 
+      :to => {
+        :name => preso.lead.full_name,
+        :company => preso.lead.company,
+        :email => preso.email
+      }, 
+      :url => 'http://www.trigonsolutions.com/ExecutiveDashboard/BCR.swf', 
+      :sender => {
+        :name => preso.user.name,
+        :phone => preso.user.official_phone
+      }
+    })
+  end
   
   def topics_listing(preso)
     subject "Expert Session Complimentary Topics"

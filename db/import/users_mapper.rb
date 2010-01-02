@@ -24,13 +24,14 @@ class UsersMapper < Pipeline::TransformMapper
   
   after_save do |fields, data, model|
     model.created_at = Date.strptime(data['DateHired'], '%m/%d/%Y %H:%M:%S') if data['DateHired']
+    model.employee_id = data['EmployeeID']
     if data['Active'] and data['Active'].to_s == '1' and model.valid?
       model.activate!
     end
-    Lead.find_all_by_user_id(data['EmployeeID'].to_i).each do |l|
-      l.user = model
-      l.save
-    end
+    # Lead.find_all_by_user_id(data['EmployeeID'].to_i).each do |l|
+    #   l.user = model
+    #   l.save
+    # end
   end
   
   after_all do 
@@ -38,7 +39,7 @@ class UsersMapper < Pipeline::TransformMapper
   end
     
   define_mappings({
-    'EmployeeID' => { :to => :id },
+    'EmployeeID' => { :to => :employee_id },
     'Username' => { :to => :login },
     'EmailName' => { :to => :email },
     'Password' => { :to => [:password, :password_confirmation] },

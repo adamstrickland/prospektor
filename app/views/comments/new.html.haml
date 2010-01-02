@@ -1,6 +1,6 @@
 #comment.dialog.modal
 	.title Add a comment below
-	-modal_form_for(@comment, lead_comments_url(@lead)) do |f|
+	-modal_form_for_with_history(@comment, lead_comments_url(@lead)) do |f|
 		%fieldset
 			.fields.container_16
 				.row

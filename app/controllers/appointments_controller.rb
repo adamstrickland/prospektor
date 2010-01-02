@@ -57,10 +57,19 @@ class AppointmentsController < ApplicationController
 
     respond_to do |format|
       if @appointment.save
-        format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
+        format.json{
+          render :json => { :status => :success }
+        }
       else
-        format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @appointment.errors } }
+        format.json{
+          render :json => { :status => :failure, :errors => @appointment.errors }
+        }
       end
+      # if @appointment.save
+      #   format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
+      # else
+      #   format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @appointment.errors } }
+      # end
     end
   end
 

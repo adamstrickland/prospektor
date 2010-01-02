@@ -7,7 +7,7 @@ html, body {
   height: 100%; }
 
 body {
-  font-size: 10px;
+  font-size: 12.5px;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: white;
   background-color: #003667; }
@@ -40,18 +40,27 @@ div#body {
     text-align: center; }
     #hd #branding #logo {
       background: url(/images/trigon_logo.png) no-repeat;
-      height: 3em;
-      width: 3em;
-      postion: relative;
+      height: 50px;
+      width: 50px;
+      position: relative;
       top: 0;
       float: left;
       z-index: 99; }
     #hd #branding #company {
-      font-size: 10px;
+      font-size: 12.5px;
       left: -80px; }
     #hd #branding #application {
-      font-size: 40px;
-      font-weight: bold; }
+      font-size: 50px;
+      font-weight: bold;
+      color: white;
+      text-decoration: underline; }
+    #hd #branding #subtitle {
+      color: #00a667;
+      position: relative;
+      top: -15px;
+      font-weight: bold;
+      left: 560px;
+      float: left; }
   #hd #identity {
     width: 180px;
     position: absolute;
@@ -90,7 +99,7 @@ div#body {
         height: 3em;
         text-align: center;
         margin: auto;
-        font-size: 20px; }
+        font-size: 25px; }
         #bd #nav #navbar ul li a:hover {
           background-color: #3b35d5;
           color: white; }
@@ -122,7 +131,7 @@ div#body {
         width: 180px;
         margin-bottom: 5px;
         font-weight: bold;
-        font-size: 14px; }
+        font-size: 16.5px; }
         #bd #content #sidebar div.menu .title {
           display: block;
           text-align: center;
@@ -143,7 +152,7 @@ div#body {
               #bd #content #sidebar div.menu ul.menu li a:link, #bd #content #sidebar div.menu ul.menu li a:visited {
                 color: white; }
               #bd #content #sidebar div.menu ul.menu li a:hover {
-                background-color: #f69000;
+                background-color: #35d297;
                 color: black; }
     #bd #content #main {
       margin: 0;

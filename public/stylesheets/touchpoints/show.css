@@ -8,33 +8,34 @@
   background-color: #3486cf;
   padding: 1em;
   margin-bottom: 1em;
-  height: 250px; }
+  height: 290px; }
   #main .primary div.h1 {
     font-weight: bold;
-    font-size: 25px; }
-  #main .primary #contact_phone {
-    background-color: #00549f;
-    float: right;
-    top: 1em;
-    position: relative;
-    padding: 2px;
-    width: 50%;
-    text-align: center; }
-  #main .primary div.h2 {
-    font-style: italic;
-    font-size: 17.5px; }
-  #main .primary >div >div {
-    margin-bottom: 10px; }
-  #main .primary #company .addl_info {
-    margin-top: 2em;
-    width: 335px;
-    background-color: #b87f2e;
-    color: black;
-    padding: .5em;
-    height: 10em;
+    font-size: 31.25px; }
+  #main .primary #contact .phone {
+    width: 325px;
+    padding: 6px;
     border-width: 1px;
     border-style: solid;
-    border-color: !cl_main; }
+    border-color: !cl_main;
+    background-color: #00549f;
+    float: right;
+    position: relative;
+    text-align: center;
+    border-color: black; }
+  #main .primary div.h2 {
+    font-style: italic;
+    font-size: 21.875px; }
+  #main .primary #company .addl_info {
+    width: 325px;
+    padding: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: !cl_main;
+    margin-top: 10ox;
+    background-color: #b87f2e;
+    color: black;
+    height: 125px; }
     #main .primary #company .addl_info .section_title {
       font-weight: bold;
       text-align: center; }
@@ -57,8 +58,8 @@
   border-bottom-width: 1px;
   border-bottom-color: !cl_brdr;
   padding: 1em;
-  background-color: #5fd2a7;
-  height: 150px;
+  background-color: #3486cf;
+  height: 230px;
   overflow: auto; }
   #main .secondary .title {
     font-weight: bold;

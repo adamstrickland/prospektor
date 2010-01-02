@@ -68,33 +68,33 @@ module ApplicationHelper
     # new_source = options[:absolute] ? image_url(source) : source
     image_tag(image_url(source), options)
   end
-  # 
-  # def pdf_path(asset_name, options={})
-  #   url_for(:controller => 'help', :action => 'pdf', :asset => 'asset_name')
-  # end
   
-  def modal_form_for(model, url, &block)
-    form_remote_for(
-      model.class.to_s.underscore.to_sym,
-      model,
-      :url => url || url_for(model),
+  def modal_settings(options={})
+    {
       :html => { :method => :post },
-      :success => "$('#history').updateHistoryFromModal(request)",
-      :failure => "$('#errors').showErrorsFromModal(request)"
-    ) do |f|
-      # block.call(f)
+      # :success => "$('#history').updateHistoryFromModal(request)",
+      # :failure => "$('#errors').showErrorsFromModal(request)"
+    }.merge(options)
+  end
+  
+  def modal_form_for_with_history(model, url, options={}, &block)
+    modal_form_for(model, url, {:success => remote_function(:url => lead_events_url(@lead), :method => :get, :update => 'events')}.merge(options), &block)
+  end
+  
+  def modal_form_with_history(url, options={}, &block)
+    modal_form(url, {:success => remote_function(:url => lead_events_url(@lead), :method => :get, :update => 'events')}.merge(options), &block)
+  end
+  
+  def modal_form_for(model, url, options={}, &block)
+    settings = modal_settings({ :url => url || url_for(model)}).merge(options)
+    
+    form_remote_for(model.class.to_s.underscore.to_sym, model, settings) do |f|
       yield(f)
     end
   end
   
-  def modal_form(url, &block)
-    form_remote_tag(
-      :url => url,
-      :html => { :method => :post },
-      :success => "$('#history').updateHistoryFromModal(request)",
-      :failure => "$('#errors').showErrorsFromModal(request)"
-    ) do |f|
-      # block.call(f)
+  def modal_form(url, options={}, &block)
+    form_remote_tag(modal_settings({ :url => url }).merge(options)) do |f|
       yield(f)
     end
   end

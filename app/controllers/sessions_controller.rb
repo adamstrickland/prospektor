@@ -2,7 +2,7 @@
 class SessionsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
-  skip_before_filter :login_required
+  skip_before_filter :login_required, :check_timeout
 
   # render new.rhtml
   def new
@@ -33,6 +33,19 @@ class SessionsController < ApplicationController
     logout_killing_session!
     flash[:notice] = "You have been logged out."
     redirect_back_or_default('/')
+  end
+
+  def check_timeout
+    respond_to do |format|
+      format.json {
+        if session_expired?
+          logout_keeping_session!
+          render :json => { :status => :expired }.to_json
+        else
+          render :json => { :status => :ok }.to_json
+        end
+      }
+    end
   end
 
 protected

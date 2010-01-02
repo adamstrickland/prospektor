@@ -2,10 +2,10 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    @events = Event.all
+    @events = Lead.find(params[:lead_id]).events
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render 'index', :layout => false }
       format.xml  { render :xml => @events }
     end
   end

@@ -33,6 +33,7 @@ Rails::Initializer.run do |config|
   config.gem 'rspec', :lib => false, :version => '1.2.9'
   config.gem 'rspec-rails', :lib => false, :version => '1.2.9'
   config.gem 'thoughtbot-shoulda', :lib => false, :source => 'http://gems.github.com', :version => '2.10.2'
+  # config.gem 'rails_sql_views', :version => '0.7.0'
   # config.gem 'cucumber', :version => '0.4.4'
   # config.gem 'webrat', :version => '0.5.3'
   # config.gem 'term-ansicolor', :version => '1.0.4'
@@ -62,15 +63,4 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
-  
-  # ActionMailer settings
-  config.action_mailer.smtp_settings = {
-    :enable_starttls_auto => true,
-    :address => 'smtp.gmail.com',
-    :port => 587,
-    :domain => 'mockingbirdsoftware.com',
-    :authentication => :plain,
-    :user_name => 'trigon@mockingbirdsoftware.com',
-    :password => 'K59535'
-  }
 end

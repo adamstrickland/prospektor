@@ -1,5 +1,5 @@
 #appointment.dialog.modal
-	-modal_form_for(@appointment, lead_appointments_url(@lead)) do |f|
+	-modal_form_for_with_history(@appointment, lead_appointments_url(@lead)) do |f|
 		%fieldset
 			.fields.container_16
 				.row

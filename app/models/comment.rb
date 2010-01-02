@@ -2,17 +2,13 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :lead
   
-  after_create :generate_event
-  
-  protected 
-  
-  def generate_event
-    e = Event.new
-    e.lead = self.lead
-    e.user = self.user
-    e.qualifier = self.comment
-    e.action = 'comment'
-    e.params = { :comment_id => self.id }
-    e
+  after_save do |rec| 
+    Event.new(
+      :lead => rec.lead, 
+      :user => rec.user, 
+      :qualifier => rec.comment, 
+      :action => 'commentd', 
+      :params => { :comment_id => self.id }.to_yaml
+    ).save 
   end
 end

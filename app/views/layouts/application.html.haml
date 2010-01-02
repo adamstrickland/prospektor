@@ -2,7 +2,7 @@
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
   %head
     / %meta
-    %title Trigon Solutions' Prospektor
+    %title Prospektor
     =stylesheet_link_tag '960gs/reset' 
     =stylesheet_link_tag '960gs/text' 
     =stylesheet_link_tag '960gs/960' 
@@ -15,15 +15,18 @@
     =javascript_include_tag 'thickbox' 
     =javascript_include_tag 'application' 
     =javascript_action_include_tag
+    =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
   %body
     #page.container_16
       #hd
         #branding
-          =image_tag 'trigon_logo.gif', :style => 'float:left;height:3em;width:3em;'
+          / =image_tag 'trigon_logo.gif', :style => 'float:left;height:3em;width:3em;'
           #company Trigon Solutions Presents:
-          #application Prospektor
-          %div Your Key to Success
+          #application PROSPEKTOR
+          / #application &#1056;&#1071;&#1054;&#1057;&#1056;&#1047;&#1050;&#1058;&#1054;&#1071;
+          #subtitle Your Key to Success
           / %div &copy; 2009 Trigon Solutions, Inc.
+          #logo &nbsp;
         #identity
           -if logged_in?
             .info Logged in as:
@@ -44,4 +47,5 @@
           #sidebar=yield :sidebar
           #main=yield
       #ft
-        #copy &copy; 2009 Trigon Solutions, Inc.
+        #copy &copy; 2010 Trigon Solutions, Inc.
+    / =periodically_call_remote( :url => { :controller => 'sessions', :action => 'check_timeout', :format => :json }, :frequency => 60, :complete => 'function(data){ if(data.status == "expired") window.location = "/"; }' )

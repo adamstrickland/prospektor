@@ -26,3 +26,14 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+
+
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  :address => 'stockholm.trigonsolutions.com',
+  :port => 25,
+  :domain => 'trigonsolutions.com',
+  :authentication => :plain,
+  :user_name => 'scheduling@trigonsolutions.com'
+  :password => 'JPBWXJS4sjpT6y'
+}

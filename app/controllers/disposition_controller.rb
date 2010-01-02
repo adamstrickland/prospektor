@@ -1,7 +1,10 @@
 class DispositionController < ApplicationController
   def new
     @lead = Lead.find(params[:lead_id])
-    @queue = CallQueue.find(params[:call_queue_id])
+    
+    if @lead
+    
+    
     @disposition_options = {
       'Call back (no answer)' => :reassign,
       'Left message' => :reassign,
@@ -22,29 +25,27 @@ class DispositionController < ApplicationController
     msg = params[:comment]
     transition = params[:disposition]
     
-    event = Event.new
-    event.qualifier = 'Lead'
-    event.action = 'Disposition'
-    event.lead = lead
-    event.user = user
-    
     respond_to do |format|
-      if event.save    
-        lead.send(transition)
-        lead.save!
+      Comment.new(:comment => msg, :lead => lead, :user => current_user).save if msg
       
-        if msg and !msg.nil?
-          comment = Comment.new
-          comment.comment = msg
-          comment.lead = lead
-          comment.user = user
-          comment.save!
-        end
-        
-        format.html { render :partial => 'events/listing_item', :locals => { :event => event } }
+      lead.send(transition)
+      if lead.save
+        format.json{
+          render :json => { :status => :success }
+        }
       else
-        format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => event.errors } }
+        format.json{
+          render :json => { :status => :failure, :errors => lead.errors }
+        }
       end
+      
+      # format.html{ redirect_to user_call_queue_touchpoint_url(current_user, @queue, @touchpoint.next) }
+      
+      #   
+      #   format.html { render :partial => 'events/listing_item', :locals => { :event => event } }
+      # else
+      #   format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => event.errors } }
+      # end
     end
   end
 end

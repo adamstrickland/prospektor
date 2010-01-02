@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
     leads.resources :comments, :only => [ :new, :create ]
-    leads.resources :events, :only => [ :new, :create ]
+    leads.resources :events, :only => [ :new, :create, :index ]
     leads.resources :disposition, :only => [ :new, :create ]
     leads.resources :suspend, :only => [ :new, :create ]
   end
@@ -30,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.pdf '/assets/:asset', :controller => 'help', :action => 'pdf'
   
-  ['quick_start', 'users_guide', 'documentation', 'faq', 'search'].each do |act|
+  ['quick_start', 'users_guide', 'documentation', 'faq', 'search', 'sales_aides'].each do |act|
     map.send(act, "/docs/#{act}", :controller => 'help', :action => act)
   end  
 

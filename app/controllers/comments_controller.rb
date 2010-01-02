@@ -47,10 +47,19 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.html { render :partial => 'events/listing_item', :locals => { :event => e } }
+        format.json{
+          render :json => { :status => :success }
+        }
       else
-        format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @comment.errors } }
+        format.json{
+          render :json => { :status => :failure, :errors => @comment.errors }
+        }
       end
+      # if @comment.save
+      #   format.html { render :partial => 'events/listing_item', :locals => { :event => @comment.event } }
+      # else
+      #   format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @comment.errors } }
+      # end
       #   flash[:notice] = 'Comment was successfully created.'
       #   format.html { redirect_to(@comment) }
       #   format.xml  { render :xml => @comment, :status => :created, :location => @comment }

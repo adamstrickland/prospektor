@@ -45,12 +45,13 @@ div#body
       :align center
     #logo
       :background url(/images/trigon_logo.png) no-repeat
-      :height 3em
-      :width 3em
-      :postion relative
+      :height 50px
+      :width 50px
+      :position relative
       :top 0
       :float left
       :z-index 99
+      / :left 10em
     #company
       :font
         :size = !sz_font
@@ -59,6 +60,15 @@ div#body
       :font
         :size = !sz_font * 4
         :weight bold
+      :color = !w
+      :text-decoration underline
+    #subtitle
+      :color = !secB
+      :position relative
+      :top -15px
+      :font-weight bold
+      :left 560px
+      :float left
   #identity
     :width = !wd_sdbr
     :position absolute
@@ -100,7 +110,7 @@ div#body
             / :display block
             :padding 0.2em 1em
             :text-decoration none
-            :color = !cl_hovr
+            :color = !comp
             :height = !ht_nav
             :text-align center
             :margin auto
@@ -159,7 +169,7 @@ div#body
               &:link, &:visited
                 :color = !w
               &:hover
-                :background-color = !comp
+                :background-color = !secB_emA
                 :color = !b
     #main
       :margin 0

@@ -9,7 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091228020552000) do
+ActiveRecord::Schema.define(:version => 20100101215219) do
+
+  create_table "acs codes", :id => false, :force => true do |t|
+    t.integer "ACSCodeID",            :default => 0, :null => false
+    t.string  "ACS Code"
+    t.string  "ACS Code Description"
+  end
+
+  create_table "acs compensation plans", :id => false, :force => true do |t|
+    t.integer  "ACSCompID",      :default => 0, :null => false
+    t.integer  "MCS Override"
+    t.integer  "GO Rate"
+    t.string   "JBA"
+    t.datetime "SSMA_TimeStamp"
+  end
 
   create_table "acs meeting location", :id => false, :force => true do |t|
     t.integer "ID",       :default => 0, :null => false
@@ -585,23 +599,23 @@ ActiveRecord::Schema.define(:version => 20091228020552000) do
   end
 
   create_table "leads", :force => true do |t|
-    t.string   "name"
+    t.string   "name",                              :null => false
     t.string   "last_name"
     t.string   "first_name"
     t.string   "salutation"
     t.string   "title"
-    t.string   "gender",            :limit => 1
-    t.string   "company"
+    t.string   "gender",              :limit => 1
+    t.string   "company",                           :null => false
     t.integer  "year_established"
     t.string   "address"
     t.string   "city"
-    t.string   "state",             :limit => 4
+    t.string   "state",               :limit => 4
     t.string   "county"
-    t.string   "zip",               :limit => 10
-    t.string   "phone",             :limit => 10
-    t.string   "extension",         :limit => 5
-    t.string   "fax",               :limit => 10
-    t.string   "cell_phone",        :limit => 10
+    t.string   "zip",                 :limit => 10
+    t.string   "phone",                             :null => false
+    t.string   "extension",           :limit => 5
+    t.string   "fax",                 :limit => 10
+    t.string   "cell_phone",          :limit => 10
     t.integer  "employee_actual"
     t.string   "employee_code"
     t.integer  "sales_actual"
@@ -626,14 +640,46 @@ ActiveRecord::Schema.define(:version => 20091228020552000) do
     t.integer  "credit_score"
     t.string   "source"
     t.datetime "imported_at"
-    t.string   "timezone",          :limit => 2
+    t.string   "timezone",            :limit => 2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "aasm_state"
-    t.integer  "user_id"
+    t.string   "sic_code_6"
+    t.string   "sic_description_6"
+    t.string   "sic_code_7"
+    t.string   "sic_description_7"
+    t.string   "sic_code_8"
+    t.string   "sic_description_8"
+    t.string   "sic_code_9"
+    t.string   "sic_description_9"
+    t.string   "sic_code_10"
+    t.string   "sic_description_10"
+    t.string   "naics_code_1"
+    t.string   "naics_description_1"
+    t.string   "naics_code_2"
+    t.string   "naics_description_2"
+    t.string   "naics_code_3"
+    t.string   "naics_description_3"
+    t.string   "naics_code_4"
+    t.string   "naics_description_4"
+    t.string   "naics_code_5"
+    t.string   "naics_description_5"
+    t.integer  "status_id"
   end
 
-  add_index "leads", ["user_id"], :name => "index_leads_on_user_id"
+  add_index "leads", ["company"], :name => "index_leads_on_company"
+  add_index "leads", ["name"], :name => "index_leads_on_name"
+  add_index "leads", ["phone"], :name => "index_leads_on_phone", :unique => true
+  add_index "leads", ["state"], :name => "index_leads_on_state"
+  add_index "leads", ["timezone"], :name => "index_leads_on_timezone"
+
+  create_table "leads_users", :id => false, :force => true do |t|
+    t.integer  "lead_id",    :null => false
+    t.integer  "user_id",    :null => false
+    t.string   "context"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "mcs codes", :id => false, :force => true do |t|
     t.integer "MCSCodeID"
@@ -685,8 +731,8 @@ ActiveRecord::Schema.define(:version => 20091228020552000) do
     t.integer  "user_id",                                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "callback_date", :default => '2009-12-28',          :null => false
-    t.time     "callback_time", :default => '2000-01-01 09:14:37', :null => false
+    t.date     "callback_date", :default => '2009-12-31',          :null => false
+    t.time     "callback_time", :default => '2000-01-01 00:04:15', :null => false
   end
 
   create_table "prior consulting", :id => false, :force => true do |t|
@@ -1526,6 +1572,15 @@ ActiveRecord::Schema.define(:version => 20091228020552000) do
     t.string "State Name"
   end
 
+  create_table "statuses", :force => true do |t|
+    t.string   "code",        :null => false
+    t.string   "description", :null => false
+    t.string   "state",       :null => false
+    t.string   "context"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "time zones", :id => false, :force => true do |t|
     t.datetime "Time Zone"
     t.string   "Description"
@@ -1631,6 +1686,8 @@ ActiveRecord::Schema.define(:version => 20091228020552000) do
     t.string   "phone",                                    :default => "2143610080", :null => false
     t.string   "extension"
     t.string   "mobile"
+    t.integer  "employee_id"
+    t.boolean  "first_time",                               :default => true
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
