@@ -49,16 +49,20 @@ class CallQueuesController < ApplicationController
     @queue.leads = get_leads_for_queue
     
     respond_to do |format|
-      if @queue.save!
-        @queue.leads.each do |l|
-          if l.aasm_state == 'assigned'
-            l.enqueue
-          end
-          l.save!
-        end
-        # flash[:notice] = 'Call Queue was successfully created.'
+      if @queue.save
+        # @queue.leads.each do |l|
+        #   if l.aasm_state == 'assigned'
+        #     l.enqueue
+        #   end
+        #   l.save
+        # end
+        
         format.html { 
-          redirect_to user_call_queue_touchpoint_url(current_user.id, @queue.id, @queue.touchpoints.first.id)
+          if @queue.touchpoints.length == 0
+            redirect_to empty_user_call_queue_url(current_user, @queue)
+          else
+            redirect_to user_call_queue_touchpoint_url(current_user, @queue, @queue.touchpoints.first)
+          end
         }
         format.xml  { render :xml => @queue, :status => :created, :location => @queue }
       else
@@ -66,6 +70,9 @@ class CallQueuesController < ApplicationController
         format.xml  { render :xml => @queue.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  def empty
   end
 
   # # POST /queues
@@ -126,7 +133,7 @@ class CallQueuesController < ApplicationController
   
   protected
     def get_leads_for_queue(user=current_user, date=Date.today, size=0)
-      default_sort = lambda{ |f,l| f.updated_at <=> l.updated_at }
+      # default_sort = lambda{ |f,l| f.updated_at <=> l.updated_at }
       
       # order:
       #  1. hot: presented < today and not updated b/t presentation_date & now
@@ -141,6 +148,7 @@ class CallQueuesController < ApplicationController
       # priority_leads + new_leads
       
       # temporary:
-      user.leads.open[0..(size-1)]
+      # user.leads.open[0..(size-1)]
+      user.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}[0..(size-1)]
     end
 end

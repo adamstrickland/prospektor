@@ -1,2 +1,2 @@
 .item[event]
-  &bull;&nbsp;[#{event.created_at.localtime.strftime('%Y-%m-%d %H:%M')}, #{event.user.name}] #{event.action.titleize}: '#{event.qualifier}'
+  &bull;&nbsp;[#{event.created_at.localtime.strftime('%Y-%m-%d %H:%M')}, #{(event.user ? event.user.name : 'unknown')}] #{event.action.titleize}: '#{event.qualifier}'

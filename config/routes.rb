@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users do |users|
     # users.resources :call_queues, :only => [ :create, :index, :show ] do |cq|
-    users.resources :call_queues, :as => 'queues', :only => [ :create ] do |cq|
+    users.resources :call_queues, :as => 'queues', :only => [ :create ], :member => { :empty => :get } do |cq|
       cq.resources :touchpoints, :as => 'calls', :only => [ :show ]
     end
     

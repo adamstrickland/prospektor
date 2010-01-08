@@ -1,6 +1,7 @@
 
 class Lead < ActiveRecord::Base
-  include AASM
+  # include AASM
+  include ActionView::Helpers::NumberHelper
   
   # attr_accessor :next_id
   
@@ -12,9 +13,13 @@ class Lead < ActiveRecord::Base
   has_many :comments
   # has_and_belongs_to_many :queues # rm'd w/ impl of Touchpoints
   has_many :touchpoints
+  belongs_to :status
   
   # validations
   validates_email :email
+  validates_length_of :phone, :is => 10
+  validates_uniqueness_of :phone, :message => 'Phone Number can not be changed (already assigned).  Disposition Lead to DUP, with desired phone number in comments field.'
+  
   
   # will_paginate; show up to 100/page
   cattr_reader :per_page
@@ -37,38 +42,76 @@ class Lead < ActiveRecord::Base
       :order => 'leads.updated_at asc'
     }
   }
-  named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => [:updated_at, :zip, :city, :county, :state].join(',')
+  # named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
+  # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
   
   after_save do |rec|
+  end
+  
+  after_validation_on_update do |rec|
+    rec.changes.each do |attr, vals|
+      Event.new(
+        :lead => rec, 
+        :user => rec.current_owner, 
+        :qualifier => "attribute #{attr.camelize} from '#{vals[0]}' to '#{vals[1]}'", 
+        :action => 'updated'
+      ).save
+    end
   end
   
   def casual_name
     self.name
   end
   
-  def full_name
-    nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
-    "#{self.first_name} #{nickname}#{self.last_name}"
+  # def full_name
+  #   nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
+  #   "#{self.first_name} #{nickname}#{self.last_name}"
+  # end
+  
+  def formatted_phone=(val)
+    self.phone = val.gsub(/[-\.\s\(\)]/, "")
+  end
+  
+  def formatted_phone
+    number_to_phone(self.phone)
   end
   
   def honorific
     (self.gender.downcase == 'female' ? 'Ms.' : 'Mr.')
   end
   
+  def honorific=(val)
+    case val.upcase
+    when /MS\.?/, /MRS\.?/ then self.gender = 'Female'
+    when /MR\.?/ then self.gender = 'Male'
+    end
+  end
+  
   def history
     (self.presentations + self.appointments).map{ |h| h.as_history }.sort{ |fmr,ltr| fmr[:touched_at] <=> ltr[:touched_at] }
   end
-  
-  def available_states
-    possible_events = self.aasm_events_for_current_state.map{ |n| self.class.aasm_events[n] }
-    possible_transitions = possible_events.map{ |e| e.transitions_from_state(self.aasm_state.to_sym) }.flatten
-    possible_end_states = possible_transitions.map{ |t| t.to }.flatten
-    possible_end_states
-  end
-  
+
   def owner
     self.users.last
   end
+  
+  def credit_rating
+    case self.credit_score
+    when nil? then 'Unknown'
+    when (90..100) then 'Excellent'
+    when (80..89) then 'Very Good'
+    when (70..79) then 'Good'
+    when (60..69) then 'OK'
+    else 'Poor'
+    end
+  end
+  
+  # def available_states
+  #   possible_events = self.aasm_events_for_current_state.map{ |n| self.class.aasm_events[n] }
+  #   possible_transitions = possible_events.map{ |e| e.transitions_from_state(self.aasm_state.to_sym) }.flatten
+  #   possible_end_states = possible_transitions.map{ |t| t.to }.flatten
+  #   possible_end_states
+  # end
   
   # def status
   #   self.aasm_state.to_sym

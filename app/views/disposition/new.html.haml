@@ -1,19 +1,21 @@
 #disposition.dialog.modal
-	-modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => false) do |f|
-		%fieldset
-			.fields.container_16
-				.row
-					.fieldname.grid_2.alpha
-						%label{ :for => :disposition } Disposition
-					.field.grid_5.omega=select_tag :disposition, options_for_select(@disposition_options)
-					.clear
-				.row
-					.fieldname.grid_2.alpha
-						%label{ :for => :comment } Comment
-					.field.grid_5.omega=text_area_tag :comment
-					.clear
-				.row
-					.button.grid_6.prefix_2.alpha.omega
-						%em
-							%button{ :type => 'submit' } Save
-					.clear
+  .quick
+  .full
+    -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :complete => 'tb_remove()') do |f|
+      %fieldset
+        .fields.container_16
+          .row
+            .fieldname.grid_2.alpha
+              %label{ :for => :disposition } Disposition
+            .field.grid_5.omega=select_tag :disposition, options_for_select(@disposition_options)
+            .clear
+          .row
+            .fieldname.grid_2.alpha
+              %label{ :for => :comment } Comment
+            .field.grid_5.omega=text_area_tag :comment
+            .clear
+          .row
+            .button.grid_6.prefix_2.alpha.omega
+              %em
+                %button{ :type => 'submit' } Save
+            .clear

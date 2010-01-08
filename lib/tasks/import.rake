@@ -21,6 +21,7 @@ def do_import(files, options={})
     :mapping_dir => File.join(Rails.root, 'db', 'import'),
     :input_dir => File.join(Rails.root, '..', 'data')
   }.merge(options)
+  
   files.each do |f|
     puts "Importing #{f}..."
     Pipeline::Importer.import_delimited(settings.merge({ :glob => "#{f.to_s}#{settings[:suffix]}" }))

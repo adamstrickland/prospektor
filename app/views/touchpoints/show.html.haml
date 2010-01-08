@@ -1,8 +1,18 @@
+=javascript_include_tag 'jquery.yaripe'
 #lead.primary
   #contact
-    .name.h1 #{@lead.honorific} #{@lead.full_name}
-    .phone.h1 #{number_to_phone(@lead.phone)}#{ 'x'+@lead.extension if @lead.extension }
-    .title.h2=@lead.title
+    .name.h1
+      =edit_in_place(@lead, :honorific, :url => lead_path(@lead))
+      =edit_in_place(@lead, :first_name, :url => lead_path(@lead))
+      -if @lead.salutation != @lead.first_name
+        "#{edit_in_place(@lead, :salutation, :url => lead_path(@lead))}"
+      =edit_in_place(@lead, :last_name, :url => lead_path(@lead))
+    .phone.h1
+      / %span.yaripe{ :rel => lead_path(@lead), :attribute => :formatted_phone }=number_to_phone(@lead.phone)
+      =edit_in_place(@lead, :formatted_phone, :url => lead_path(@lead))
+      -if not @lead.extension.blank?
+        'x'#{edit_in_place(@lead, :extension, :url => lead_path(@lead))}
+    .title.h2=edit_in_place(@lead, :title, :url => lead_path(@lead))
   #company
     .name.h2=@lead.company
     #location
@@ -28,7 +38,7 @@
 #history.secondary
   .title Lead History
   #events
-    -@lead.events.each do |e|
+    -@lead.events.sort{ |fmr,ltr| ltr.created_at <=> fmr.created_at }.each do |e|
       =render :partial => 'events/listing_item', :locals => { :event => e }
 / =periodically_call_remote(:url => lead_events_url(@lead), :method => :get, :update => 'events', :frequency => 10)
 
@@ -36,8 +46,8 @@
   #actions.menu
     .title Actions
     %ul.menu
-      %li=link_to_remote content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
-      / %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
+      / %li=link_to_remote content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :format => :json), :complete => 
+      %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
       / %li=link_to_if @touchpoint.next, content_tag(:span, 'Next'), user_call_queue_touchpoint_url(current_user, @queue, @touchpoint.next)
       %li=link_to_if [:assigned, :queued].include?(@lead.status), content_tag(:span, 'BCR'), new_lead_presentation_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
       / %li=link_to_if [:scheduled].include?(@lead.status), content_tag(:span, 'Book'), new_lead_appointment_url(@lead, :height => 600, :width => 500), :class => 'thickbox'

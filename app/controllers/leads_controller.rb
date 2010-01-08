@@ -65,9 +65,11 @@ class LeadsController < ApplicationController
         flash[:notice] = 'Lead was successfully updated.'
         format.html { redirect_to(@lead) }
         format.xml  { head :ok }
+        format.json { render :json => @lead }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @lead.errors, :status => :unprocessable_entity }
+        format.json { render :json => @lead.errors }
       end
     end
   end

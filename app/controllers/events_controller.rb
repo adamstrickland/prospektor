@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    @events = Lead.find(params[:lead_id]).events
+    @events = Lead.find(params[:lead_id]).events.sort{ |fmr,ltr| ltr.created_at <=> fmr.created_at }
 
     respond_to do |format|
       format.html { render 'index', :layout => false }

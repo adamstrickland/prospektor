@@ -72,17 +72,22 @@ module ApplicationHelper
   def modal_settings(options={})
     {
       :html => { :method => :post },
+      :complete => 'tb_remove()',
       # :success => "$('#history').updateHistoryFromModal(request)",
       # :failure => "$('#errors').showErrorsFromModal(request)"
     }.merge(options)
   end
   
+  def update_history(lead)
+    remote_function(:url => lead_events_url(lead || params[:lead_id] || @lead), :method => :get, :update => 'events')
+  end
+  
   def modal_form_for_with_history(model, url, options={}, &block)
-    modal_form_for(model, url, {:success => remote_function(:url => lead_events_url(@lead), :method => :get, :update => 'events')}.merge(options), &block)
+    modal_form_for(model, url, {:success => update_history(options[:lead])}.merge(options), &block)
   end
   
   def modal_form_with_history(url, options={}, &block)
-    modal_form(url, {:success => remote_function(:url => lead_events_url(@lead), :method => :get, :update => 'events')}.merge(options), &block)
+    modal_form(url, {:success => update_history(options[:lead])}.merge(options), &block)
   end
   
   def modal_form_for(model, url, options={}, &block)
