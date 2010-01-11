@@ -166,6 +166,7 @@ div#body
               :display block
               :text-decoration none
               :background-image none
+              :height 100%
               &:link, &:visited
                 :color = !w
               &:hover
@@ -207,5 +208,14 @@ div#body
           :text-align right
         .widget_item
           :margin 1em
+    a
+      :text-decoration none
+      :color = !cl_link !important
+      &:link, &:visited
+        :text-decoration none
+        :color = !cl_link !important
+      &:hover
+        :text-decoration underline
+        :color = !cl_hovr !important
           
 @import button.sass

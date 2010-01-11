@@ -148,7 +148,8 @@ div#body {
             #bd #content #sidebar div.menu ul.menu li a {
               display: block;
               text-decoration: none;
-              background-image: none; }
+              background-image: none;
+              height: 100%; }
               #bd #content #sidebar div.menu ul.menu li a:link, #bd #content #sidebar div.menu ul.menu li a:visited {
                 color: white; }
               #bd #content #sidebar div.menu ul.menu li a:hover {
@@ -182,6 +183,15 @@ div#body {
       text-align: right; }
     #TB_window #TB_ajaxContent .modal .widget .widget_item {
       margin: 1em; }
+  #TB_window #TB_ajaxContent a {
+    text-decoration: none;
+    color: #00a667 !important; }
+    #TB_window #TB_ajaxContent a:link, #TB_window #TB_ajaxContent a:visited {
+      text-decoration: none;
+      color: #00a667 !important; }
+    #TB_window #TB_ajaxContent a:hover {
+      text-decoration: underline;
+      color: #f69000 !important; }
 
 .clear {
   overflow: hidden;

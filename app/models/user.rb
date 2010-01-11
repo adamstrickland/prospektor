@@ -94,6 +94,10 @@ class User < ActiveRecord::Base
   def name
     "#{self.employee.preferred_name} #{self.employee.last_name}"
   end
+  
+  def self.generate_password(size=8)
+    (0..(size-1)).map{ (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a)[rand((26+26+10))] }.join
+  end
 
   protected
     

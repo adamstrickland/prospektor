@@ -1,20 +1,50 @@
-#users_guide.help.modal
+%style
+  :sass
+    .section
+      :padding-bottom 10px
+      :border-bottom
+        :width 1px
+        :style dotted
+        :color #FFF
+      :margin-bottom 10px
+      :padding-left 10px
+      .blurb,.contents
+        :text-indent 10px
+      
+#users_guide.help.dialog.modal
   #heading
-    %h1 Prospektor@trade; User's Guide
+    %h1 Prospektor&nbsp;User's&nbsp;Guide
   #toc.section
     %h2 Table of Contents
     .subsection
       .contents
-        =link_to "Dashboard", '#dashboard'
+        -[:introduction, :dashboard, :calling].each do |sec|
+          =link_to sec.to_s.titleize, "##{sec.to_s}"
+          .clear
+  #introduction.section
+    %a{ :name => 'introduction' }
+    %h2 Introduction
+    .blurb
+      Prospektor&trade; is a prospect management system custom-built exclusively for Trigon Solutions.  This document is intended to provide |
+      the user with a brief overview of its features and how to use them.
+    .subsection
+      .heading
+        %h3 Confidentiality Notice
+      .contents
+        Before proceeding, understand that all information related to the Prospektor application and any of the data contained therein is |
+        proprietary and confidential, and, as such, may not be revealed in any substantive manner to outside interests or competitors.  |
+        Any such violation can be considered a breach of confidentiality of a trade secret and may be pursued as such.
   #dashboard.section
-    %a{ :anchor => 'dashboard' }
+    %a{ :name => 'dashboard' }
     %h2 Dashboard
+    .blurb
     .subsection
       .heading
       .contents
-  #lead.section
-    %a{ :anchor => 'lead' }
+  #calling.section
+    %a{ :name => 'calling' }
     %h2 Lead
+    .blurb
     .subsection
       .heading
       .contents

@@ -1,14 +1,16 @@
 class Applicant < ActiveRecord::Base
-  def onboard(hire_date=Date.today)
+  def create_employee(hire_date=Date.today)
     e = Employee.new
     e.first_name = self.applicantfirstname
     e.middle_initial = self.applicantmi
     e.last_name = self.applicantlastname
     e.preferred_name = self.applicantpreferredname
     e.social_security_number = self.socialsecuritynumber
-    e.department_name = 'ES'
     e.gender = self.gender[0].chr.upcase
     e.title = self.positionapplyingfor
+    e.department_name = case self.positionapplyingfor.downcase
+    when 'expert' then 'ES'
+    end
     e.email_name = self.email
     e.address = self.address
     e.city = self.city

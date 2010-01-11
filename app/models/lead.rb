@@ -87,7 +87,11 @@ class Lead < ActiveRecord::Base
   end
   
   def honorific
-    (['f', 'female'].include?(self.gender.downcase) ? 'Ms.' : 'Mr.')
+    if self.gender
+      (['f', 'female'].include?(self.gender.downcase) ? 'Ms.' : 'Mr.')
+    else
+      ''
+    end
   end
   
   def honorific=(val)
