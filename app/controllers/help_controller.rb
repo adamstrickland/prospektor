@@ -9,10 +9,6 @@ class HelpController < ApplicationController
     render :inline => 'This is the Quick Start'
   end
   
-  def users_guide
-    render :inline => "This is the User's Guide"
-  end
-  
   def documentation
     render :inline => 'This is the Documentation'
   end

@@ -15,7 +15,7 @@
 
 #disposition.dialog.modal
   .quick
-    -[:skip, :vm, :na].each do |hit|
+    -[:skip, :vm, :cb].each do |hit|
       %div.hit{ :id => hit.to_s }
         -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => update_page{|p| p.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
           =hidden_field_tag :disposition, Status.find_by_code(hit.to_s.upcase).id
