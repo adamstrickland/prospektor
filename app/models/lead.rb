@@ -1,3 +1,4 @@
+require 'digest/sha1'
 
 class Lead < ActiveRecord::Base
   # include AASM
@@ -64,9 +65,17 @@ class Lead < ActiveRecord::Base
     self.name
   end
   
-  # def full_name
-  #   nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
-  #   "#{self.first_name} #{nickname}#{self.last_name}"
+  def full_name
+    nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
+    "#{self.first_name} #{nickname}#{self.last_name}"
+  end
+  
+  def key
+    Digest::SHA1.hexdigest(self.phone)
+  end
+  
+  # def self.find_by_key(key)
+  #   self.find_by_phone()
   # end
   
   def formatted_phone=(val)

@@ -1,7 +1,7 @@
 class PresentationObserver < ActiveRecord::Observer
   def after_create(preso)
     lead = preso.lead
-    lead.schedule
+    # lead.schedule
     # Rails.logger.warn("User for preso is:  #{preso.user.name}, User for lead is:  #{preso.lead.user.name}")
     ProspectMailer.deliver_bcr_invitation(preso)
     lead.save!
