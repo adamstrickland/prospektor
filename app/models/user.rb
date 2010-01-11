@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :comments
   has_many :call_queues
+  belongs_to :employee
   
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true
@@ -88,6 +89,10 @@ class User < ActiveRecord::Base
   
   def ready_leads(amount=0)
     self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}.sort{|fmr,ltr| fmr.updated_at <=> ltr.updated_at}[0..(amount-1)]
+  end
+  
+  def name
+    "#{self.employee.preferred_name} #{self.employee.last_name}"
   end
 
   protected

@@ -1,5 +1,26 @@
+%style{ :type => 'text/css' }
+  :sass
+    #disposition
+      .quick
+        :padding 10px 0
+        :border-bottom
+          :width 1px
+          :style solid
+          :color #FFF
+        .hit
+          :width 32.5%
+          :float left
+          :text-align center
+          :margin 0 auto
+
 #disposition.dialog.modal
   .quick
+    -[:skip, :vm, :na].each do |hit|
+      %div.hit{ :id => hit.to_s }
+        -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => update_page{|p| p.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
+          =hidden_field_tag :disposition, Status.find_by_code(hit.to_s.upcase).id
+          =submit_tag hit.to_s.upcase
+    .clear
   .full
     -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => update_page{|page| page.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
       %fieldset
@@ -7,15 +28,21 @@
           .row
             .fieldname.grid_2.alpha
               %label{ :for => :disposition } Disposition
-            .field.grid_5.omega=select_tag :disposition, options_for_select(@disposition_options)
+            .field.grid_5.omega=select_tag :disposition, options_for_select(@disposition_options), :id => 'disposition_select'
             .clear
+          #overlay
           .row
             .fieldname.grid_2.alpha
               %label{ :for => :comment } Comment
-            .field.grid_5.omega=text_area_tag :comment, nil, :cols => 60, :rows => 16
+            .field.grid_5.omega=text_area_tag :comment, nil, :cols => 40, :rows => 12
             .clear
           .row
             .button.grid_6.prefix_2.alpha.omega
               %em
                 %button{ :type => 'submit' } Save
             .clear
+            
+:javascript
+  $('#disposition_select').change(function(){
+    
+  });
