@@ -29,11 +29,20 @@ config.action_view.cache_template_loading            = true
 
 
 config.action_mailer.delivery_method = :smtp
+# config.action_mailer.smtp_settings = {
+#   :address => 'stockholm.trigonsolutions.com',
+#   :port => 25,
+#   :domain => 'trigonsolutions.com',
+#   # :authentication => :plain,
+#   # :user_name => 'scheduling@trigonsolutions.com',
+#   # :password => 'JPBWXJS4sjpT6y'
+# }
 config.action_mailer.smtp_settings = {
-  :address => 'stockholm.trigonsolutions.com',
-  :port => 25,
-  :domain => 'trigonsolutions.com',
-  # :authentication => :plain,
-  # :user_name => 'scheduling@trigonsolutions.com',
-  # :password => 'JPBWXJS4sjpT6y'
+  :enable_starttls_auto => true,
+  :address => 'smtp.gmail.com',
+  :port => 587,
+  :domain => 'mockingbirdsoftware.com',
+  :authentication => :plain,
+  :user_name => 'trigon@mockingbirdsoftware.com',
+  :password => 'K59535'
 }
