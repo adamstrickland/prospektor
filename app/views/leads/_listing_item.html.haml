@@ -1,0 +1,5 @@
+.listing_item[lead]
+  %a{ :src => user_call_queue_lead_url(current_user, queue, lead) }
+    .lead_name=lead.name
+    .lead_state=lead.aasm_state.upcase
+    .lead_timestamp=lead.updated_at

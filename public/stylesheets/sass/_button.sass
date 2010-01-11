@@ -1,0 +1,25 @@
+.clear
+  :overflow hidden
+  :width 100%
+a.button
+  :background transparent url('/images/bg_button_a.gif') no-repeat scroll top right
+  :color #444
+  :display block
+  :float left
+  / :font normal 12px arial, sans-serif
+  :height 24px
+  :margin-right 6px
+  :padding-right 18px
+  :text-decoration none
+  span
+    :background transparent url('/images/bg_button_span.gif') no-repeat
+    :display block
+    :line-height 14px
+    :padding 5px 0 5px 18px
+  &:active
+    :background-position bottom right
+    :color #000
+    :outline none
+    span
+      :background-position bottom left
+      :padding 6px 0 4px 18px

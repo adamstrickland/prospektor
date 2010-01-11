@@ -16,7 +16,14 @@
     =javascript_include_tag 'application' 
     =javascript_action_include_tag
     =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
-  %body
+    :javascript
+      $(document).ready(function(){ 
+        feedback_widget = new GSFN.feedback_widget({
+          container:'getsatisfaction', 
+          company:'trigon_solutions'
+        }); 
+      })
+  %body    
     #page.container_16
       #hd
         #branding
@@ -25,7 +32,6 @@
           #application PROSPEKTOR
           / #application &#1056;&#1071;&#1054;&#1057;&#1056;&#1047;&#1050;&#1058;&#1054;&#1071;
           #subtitle Your Key to Success
-          / %div &copy; 2009 Trigon Solutions, Inc.
           #logo &nbsp;
         #identity
           -if logged_in?
@@ -38,7 +44,7 @@
             -if logged_in?
               %ul
                 %li=link_to 'Dashboard', user_dashboard_url(current_user)
-                %li=link_to 'Calling', user_call_queues_url(current_user), :method => :post
+                %li=link_to 'Start Calling', user_call_queues_url(current_user), :method => :post if controller_name == 'dashboard'
                 / %li=link_to 'Reports', user_reports_url(current_user)
         #flash
           #errors.error=flash[:errors]
@@ -48,4 +54,4 @@
           #main=yield
       #ft
         #copy &copy; 2010 Trigon Solutions, Inc.
-    / =periodically_call_remote( :url => { :controller => 'sessions', :action => 'check_timeout', :format => :json }, :frequency => 60, :complete => 'function(data){ if(data.status == "expired") window.location = "/"; }' )
+    #getsatisfaction

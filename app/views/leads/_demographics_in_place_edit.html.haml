@@ -1,0 +1,12 @@
+.name.h1
+  =edit_in_place(lead, :honorific, :url => lead_path(lead), :field_type => "select", :select_options => ["Mr.", "Ms."] )
+  =edit_in_place(lead, :first_name, :url => lead_path(lead))
+  -if lead.salutation != lead.first_name
+    "#{edit_in_place(lead, :salutation, :url => lead_path(lead))}"
+  =edit_in_place(lead, :last_name, :url => lead_path(lead))
+.phone.h1
+  / %span.yaripe{ :rel => lead_path(lead), :attribute => :formatted_phone }=number_to_phone(lead.phone)
+  =edit_in_place(lead, :formatted_phone, :url => lead_path(lead))
+  -if not lead.extension.blank?
+    'x'#{edit_in_place(lead, :extension, :url => lead_path(lead))}
+.title.h2=edit_in_place(lead, :title, :url => lead_path(lead))

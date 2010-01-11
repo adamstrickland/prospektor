@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
     users.dashboard '/dashboard', :controller => 'dashboard', :action => 'index'
   end
   
-  map.resources :leads, :member => { :next => :get } do |leads|
+  map.resources :leads, :member => { :next => :get, :demographics => :get } do |leads|
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
     leads.resources :comments, :only => [ :new, :create ]

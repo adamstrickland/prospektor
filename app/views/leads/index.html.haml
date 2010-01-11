@@ -1,0 +1,3 @@
+#leads.listing
+  -@leads.each do |lead|
+    =render :partial => 'listing_item', :locals => { :lead => lead }

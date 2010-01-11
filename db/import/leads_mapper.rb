@@ -63,20 +63,21 @@ class LeadsMapper < Pipeline::TransformMapper
       u = User.find_by_employee_id(data['UserID'].to_i) 
       model.users << u if u and not u.nil?
     end
-    if data['BCID'] and data['BCID'].length > 0
-      u = User.find_by_employee_id(data['BCID'].to_i)
-      model.users << u if u and not u.nil?
-    elsif data['BCName'] and data['BCName'].length > 0
-      u = User.find(:first, :conditions => ['name LIKE ?', "%#{data['BCName']}"])
-      model.users << u if u and not u.nil?
-    end
-    if data['RepID'] and data['RepID'].length > 0
-      u = User.find_by_employee_id(data['BCID'].to_i)
-      model.users << u if u and not u.nil?
-    elsif data['RepName'] and data['RepName'].length > 0
-      u = User.find(:first, :conditions => ['name LIKE ?', "%#{data['RepName']}"])
-      model.users << u if u and not u.nil?
-    end
+    # if data['BCID'] and data['BCID'].length > 0
+    #   u = User.find_by_employee_id(data['BCID'].to_i)
+    #   model.users << u if u and not u.nil?
+    # elsif data['BCName'] and data['BCName'].length > 0
+    #   u = User.find(:first, :conditions => ['name LIKE ?', "%#{data['BCName']}"])
+    #   model.users << u if u and not u.nil?
+    # end
+    # if data['RepID'] and data['RepID'].length > 0
+    #   u = User.find_by_employee_id(data['BCID'].to_i)
+    #   model.users << u if u and not u.nil?
+    # elsif data['RepName'] and data['RepName'].length > 0
+    #   u = User.find(:first, :conditions => ['name LIKE ?', "%#{data['RepName']}"])
+    #   model.users << u if u and not u.nil?
+    # end
+    model.save
   end
   
   define_mappings({
@@ -138,7 +139,6 @@ class LeadsMapper < Pipeline::TransformMapper
     "Number of PCs" => { :to => :number_of_pcs },
     "Square Footage" => { :to => :square_footage },
     "Own or Lease" => { :to => :own_property, :transform => @@downcase },
-    "Credit Rating" => { :to => :credit_rating },
     "Credit Numeric Score" => { :to => :credit_score },
     "Source" => { :to => :source },
     "Imported" => { :to => :imported_at },

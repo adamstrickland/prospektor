@@ -85,6 +85,10 @@ class User < ActiveRecord::Base
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
   end
+  
+  def ready_leads(amount=0)
+    self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}.sort{|fmr,ltr| fmr.updated_at <=> ltr.updated_at}[0..(amount-1)]
+  end
 
   protected
     

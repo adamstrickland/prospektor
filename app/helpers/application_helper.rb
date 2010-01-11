@@ -82,12 +82,17 @@ module ApplicationHelper
     remote_function(:url => lead_events_url(lead || params[:lead_id] || @lead), :method => :get, :update => 'events')
   end
   
+  def options_for_modal_with_history(options)
+    options[:success] = "#{update_history(options[:lead])}; #{options[:success]}"
+    options
+  end
+  
   def modal_form_for_with_history(model, url, options={}, &block)
-    modal_form_for(model, url, {:success => update_history(options[:lead])}.merge(options), &block)
+    modal_form_for(model, url, options_for_modal_with_history(options), &block)
   end
   
   def modal_form_with_history(url, options={}, &block)
-    modal_form(url, {:success => update_history(options[:lead])}.merge(options), &block)
+    modal_form(url, options_for_modal_with_history(options), &block)
   end
   
   def modal_form_for(model, url, options={}, &block)
@@ -112,5 +117,42 @@ module ApplicationHelper
   def block_to_partial_string(partial_name, options = {}, &block)
     options.merge!(:body => capture(&block))
     render(:partial => partial_name, :locals => options)
+  end
+  
+  def link_to_button(*args, &block)
+    if block_given?
+      options = args.first || {}
+      html_options = args.second || {}
+    else
+      name = args.first
+      options = args.second || {}
+      html_options = args.third || {}
+    end
+    html_options[:onclick] = 'this.blur();'
+    html_options[:class] = html_options[:class] ? "#{html_options[:class]} button" : "button"
+    
+    if block_given?
+      link_to options, html_options, &block
+    else
+      link_to '<span>'+name+'</span>', options, html_options
+    end
+  end
+  
+  def next_lead_in_queue_url(current_lead, user=current_user)
+    cq = user.call_queues.last
+    next_lead = cq.touchpoints.detect{|tp| tp.lead = current_lead}.next
+    if next_lead.nil?
+      more_leads = user.ready_leads
+      if more_leads.blank?
+        empty_user_call_queue_url(user, cq)
+      else
+        next_lead = more_leads.first
+        cq.leads << more_leads
+        cq.save
+        user_call_queue_touchpoint_url(user, cq, next_lead)
+      end
+    else
+      user_call_queue_touchpoint_url(user, cq, next_lead)
+    end
   end
 end

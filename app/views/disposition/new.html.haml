@@ -1,7 +1,7 @@
 #disposition.dialog.modal
   .quick
   .full
-    -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :complete => 'tb_remove()') do |f|
+    -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => update_page{|page| page.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
       %fieldset
         .fields.container_16
           .row
@@ -12,7 +12,7 @@
           .row
             .fieldname.grid_2.alpha
               %label{ :for => :comment } Comment
-            .field.grid_5.omega=text_area_tag :comment
+            .field.grid_5.omega=text_area_tag :comment, nil, :cols => 60, :rows => 16
             .clear
           .row
             .button.grid_6.prefix_2.alpha.omega

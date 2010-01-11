@@ -173,6 +173,8 @@ div#body {
     color: white; }
     #TB_window #TB_ajaxContent .modal fieldset .row {
       padding: 10px 20px; }
+      #TB_window #TB_ajaxContent .modal fieldset .row .button em button {
+        padding: 5px 10px; }
     #TB_window #TB_ajaxContent .modal .widget .single {
       margin: 0 auto;
       text-align: center; }
@@ -180,3 +182,29 @@ div#body {
       text-align: right; }
     #TB_window #TB_ajaxContent .modal .widget .widget_item {
       margin: 1em; }
+
+.clear {
+  overflow: hidden;
+  width: 100%; }
+
+a.button {
+  background: transparent url('/images/bg_button_a.gif') no-repeat scroll top right;
+  color: #444;
+  display: block;
+  float: left;
+  height: 24px;
+  margin-right: 6px;
+  padding-right: 18px;
+  text-decoration: none; }
+  a.button span {
+    background: transparent url('/images/bg_button_span.gif') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px; }
+  a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; }
+    a.button:active span {
+      background-position: bottom left;
+      padding: 6px 0 4px 18px; }

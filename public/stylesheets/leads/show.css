@@ -12,7 +12,7 @@
   #main .primary div.h1 {
     font-weight: bold;
     font-size: 31.25px; }
-  #main .primary #contact .phone {
+  #main .primary #demographics .phone {
     width: 325px;
     padding: 6px;
     border-width: 1px;
@@ -64,3 +64,9 @@
   #main .secondary .title {
     font-weight: bold;
     text-align: center; }
+
+#edit_me {
+  position: relative;
+  float: right;
+  top: 40px;
+  right: -345px; }

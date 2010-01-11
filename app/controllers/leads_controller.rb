@@ -36,6 +36,7 @@ class LeadsController < ApplicationController
   # GET /leads/1/edit
   def edit
     @lead = Lead.find(params[:id])
+    render 'edit', :layout => false
   end
 
   # POST /leads
@@ -69,8 +70,16 @@ class LeadsController < ApplicationController
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @lead.errors, :status => :unprocessable_entity }
-        format.json { render :json => @lead.errors }
+        format.json { render :json => @lead.errors  }
       end
+    end
+  end
+  
+  # PUT /leads/:id/demographics
+  def demographics
+    @lead = Lead.find(params[:id])
+    respond_to do |format|
+      format.html{ render :partial => 'demographics', :locals => { :lead => @lead } }
     end
   end
 

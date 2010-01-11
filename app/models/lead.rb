@@ -50,10 +50,11 @@ class Lead < ActiveRecord::Base
   
   after_validation_on_update do |rec|
     rec.changes.each do |attr, vals|
+      vals[0] = 'NULL' if vals[0].blank?
       Event.new(
         :lead => rec, 
-        :user => rec.current_owner, 
-        :qualifier => "attribute #{attr.camelize} from '#{vals[0]}' to '#{vals[1]}'", 
+        :user => rec.owner, 
+        :qualifier => "Attribute #{attr.camelize} from #{vals[0]} to #{vals[1]}", 
         :action => 'updated'
       ).save
     end
@@ -77,13 +78,13 @@ class Lead < ActiveRecord::Base
   end
   
   def honorific
-    (self.gender.downcase == 'female' ? 'Ms.' : 'Mr.')
+    (['f', 'female'].include?(self.gender.downcase) ? 'Ms.' : 'Mr.')
   end
   
   def honorific=(val)
     case val.upcase
-    when /MS\.?/, /MRS\.?/ then self.gender = 'Female'
-    when /MR\.?/ then self.gender = 'Male'
+    when /MS\.?/, /MRS\.?/ then self.gender = 'F'
+    when /MR\.?/ then self.gender = 'M'
     end
   end
   

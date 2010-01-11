@@ -46,7 +46,7 @@ class CallQueuesController < ApplicationController
     @queue.name = "Calls for #{t.to_s}"
     @queue.queue_date = t
     @queue.user = User.find(params[:user_id])
-    @queue.leads = get_leads_for_queue
+    @queue.leads = current_user.ready_leads
     
     respond_to do |format|
       if @queue.save
@@ -130,25 +130,4 @@ class CallQueuesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  protected
-    def get_leads_for_queue(user=current_user, date=Date.today, size=0)
-      # default_sort = lambda{ |f,l| f.updated_at <=> l.updated_at }
-      
-      # order:
-      #  1. hot: presented < today and not updated b/t presentation_date & now
-      #  2. stale: enqueued < today and status == :queued
-      #  3. new: top n where status == :assigned, for n = size - (presented.count + stale.count)
-      # combine hot + stale + new      
-      # hot_leads = user.leads.hot.sort(&default_sort)
-      # stale_leads = user.leads.stale.sort(&default_sort) - hot_leads
-      # priority_leads = (hot_leads + stale_leads).uniq
-      # num_new_leads = size - priority_leads.count
-      # new_leads = (user.leads.open.sort(&default_sort) - priority_leads)[0..(num_new_leads-1)]
-      # priority_leads + new_leads
-      
-      # temporary:
-      # user.leads.open[0..(size-1)]
-      user.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}[0..(size-1)]
-    end
 end

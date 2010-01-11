@@ -1,0 +1,20 @@
+%fieldset
+  .fields.container_16
+    -[:first_name, :salutation, :last_name, :title, :phone, :extension].each do |sym|
+      .row
+        .fieldname.grid_2.alpha
+          %label{ :for => sym }=sym.to_s.titleize
+        .field.grid_5.omega
+          =form.text_field sym
+        .clear
+    .row
+      .fieldname.grid_2.alpha
+        =label_tag :gender
+      .field.grid_5.omega
+        Male #{form.radio_button :gender, 'M'} Female #{form.radio_button :gender, 'F'}
+      .clear
+    .row
+      .button.grid_6.prefix_2.alpha.omega
+        %em
+          %button{ :type => 'submit' } Save
+      .clear
