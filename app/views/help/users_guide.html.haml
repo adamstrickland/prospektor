@@ -1,50 +1,213 @@
 %style
   :sass
-    .section
-      :padding-bottom 10px
-      :border-bottom
-        :width 1px
-        :style dotted
-        :color #FFF
-      :margin-bottom 10px
-      :padding-left 10px
-      .blurb,.contents
-        :text-indent 10px
+    .help
+      :overflow auto
+      :height 600px
+      #heading
+        :padding-top 10px
+      .section,.subsection
+        :margin-bottom 10px
+      .section
+        :padding-bottom 10px
+        :border-bottom
+          :width 1px
+          :style dotted
+          :color #FFF
+        :padding-left 10px
+        .blurb,.contents
+          :text-indent 10px
+          :margin-right 10px
+        .jump
+          :position relative
+          :float right
+          :right 5px
+          :top -10px
+          :margin-right 5px
       
 #users_guide.help.dialog.modal
   #heading
     %h1 Prospektor&nbsp;User's&nbsp;Guide
+    %a{ :name => 'top' }
   #toc.section
     %h2 Table of Contents
     .subsection
       .contents
-        -[:introduction, :dashboard, :calling].each do |sec|
+        -[:introduction, :general, :dashboard, :calling].each do |sec|
           =link_to sec.to_s.titleize, "##{sec.to_s}"
           .clear
   #introduction.section
     %a{ :name => 'introduction' }
     %h2 Introduction
+    .jump
+      %a{ :href => '#top' } top
     .blurb
       Prospektor&trade; is a prospect management system custom-built exclusively for Trigon Solutions.  This document is intended to provide |
       the user with a brief overview of its features and how to use them.
+    .subsection  
+  #calling.section
+    %a{ :name => 'general' }
+    %h2 General
+    .jump
+      %a{ :href => '#top' } top
+    .blurb
     .subsection
       .heading
-        %h3 Confidentiality Notice
+        %h3 Logging in and out
       .contents
-        Before proceeding, understand that all information related to the Prospektor application and any of the data contained therein is |
-        proprietary and confidential, and, as such, may not be revealed in any substantive manner to outside interests or competitors.  |
-        Any such violation can be considered a breach of confidentiality of a trade secret and may be pursued as such.
+        %p
+          The URL for Prospektor is #{link_to 'http://sales.trigonsolutions.com' }.
+        %p
+          %strong Logging In
+        %p
+          To log in, go to #{link_to 'http://sales.trigonsolutions.com' } and type in your username and password, which should have been |
+          provided during the Trigon onboarding process.  If you don't know your password, or are in need of assistance, please contact |
+          management at #{ link_to 'help@trigonsolutions.com', 'mailto:help@trigonsolutions.com' }.
+        %p
+          %strong Logging Out
+        %p
+          In the upper-right hand corner of the screen there should be a box stating who is logged in.  Also, slightly below that, is a link |
+          that can be used at any time to log the user out of the system.
   #dashboard.section
     %a{ :name => 'dashboard' }
     %h2 Dashboard
     .blurb
     .subsection
       .heading
+        %h3 What it is...
+      .jump
+        %a{ :href => '#top' } top
       .contents
+        %p
+          The Dashboard is the first page viewed after logging into Prospektor.  This is a place for management to post notifications and items |
+          of interest.  It is strongly recommended that the user read any notices posted.  Some examples may include any/all of the following:
+        %ul
+          %li Sales Contests and Competitions
+          %li Changes to Product Offerings
+          %li Application Outages
+        %p
+          In addition to the, we see the Dashboard as a convenient place to access frequently-used information, in the form of sales report |
+          or similar.  However, we need your help to determine what that should entail.  Please note the 'Feedback' tab on the left-hand side |
+          of the screen.  Prospektor uses GetSatisfaction to manage customer service; the Feedback widget is a convenient access point, which |
+          should allow the user to create suggestions, file bugs and access help.  Please use it; we want to know what you think!
+    .subsection
+      .heading
+        %h3 What am I seeing?
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p
+          Currently, only two main menu items are enabled for most users.  These are 'Dashboard' and 'Start Calling'.  The Dashboard menu item |
+          will take the user back to the Dashboard at any time.  If you're ever lost, just go there.
+        %p
+          The second menu item, 'Start Calling' is so much more interesting.  This is what Prospektor is all about:  looking for gold.  Go |
+          #{ link_to 'here', '#calling' } for more information.
   #calling.section
     %a{ :name => 'calling' }
-    %h2 Lead
+    %h2 Calling
     .blurb
     .subsection
       .heading
+        %h3 Buttons and Tabs and Boxes, Oh My!
+      .jump
+        %a{ :href => '#top' } top
       .contents
+        %p
+          At first glance, the Calling page can be overwhelming.  It isn't really, and all the friendly colors are there to remind the user of that |
+          Seriously, there are 3 major sections:  the lead's demographics (center of the screen), the lead's history (bottom center) and what to do with |
+          the lead (right side, in green).  These 3 sections are detailed below.
+    .subsection
+      .heading
+        %h3 Lead Demographics
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p
+          The Demographics section displays the primary relevant information for the lead.  On the left side, there is (from top to bottom) the name |
+          of the prospect, his/her title, the company name, the city/state of the company and what timezone they're in. 
+        %p
+          On the right side of the demographics, in the big blue box, is the telephone number for the lead.
+          %strong This is the number to call.
+          If there is an extension, it will appear in the box, as well, in the format of "888-555-1212x123" where "123" is the extension.
+        %p
+          The two golden boxes beneath this initial information contain details that may or may not be relevant.  On the left side, the lead's SIC |
+          designation(s) are displayed.  On the right there are some additional facts relating to the size and market position of the lead.
+        %p
+          Which brings us to the 'Edit' button.  In some cases, the demographic information Trigon has collected for the lead is incorrect, out-of-date |
+          or otherwise wrong.  The Edit button is used to correct these problems.  Clicking the Edit button will display a dialog editor, that will allow |
+          the user to edit a selection of fields, mostly of demographic information.
+    .subsection
+      .heading
+        %h3 Lead History
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p
+          The lower half of the screen contains the lead history.  This is a running account of edits, comments, and actions taken by the company that |
+          relate to the lead.  Each event should be timestamped, and most will contain user information (for various reasons, this isn't always |
+          captured).  The list is ordered with the most recent events at the top, so a quick glance here can reveal the skinny on the lead.  Note that |
+          even changing the lead's demographic information should be logged here.
+    .subsection
+      .heading
+        %h3 Actions
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p
+          The Actions menu on the right hand side of the screen can contain a number of items, depending on the user's permission level.  For most users, |
+          there are 3 actions available, detailed below:
+        %ul
+          %li #{link_to 'Disposition', '#disposition'}
+          %li #{link_to 'BCR', '#bcr' }
+          %li #{link_to 'Comment', '#comment' }
+    .subsection
+      .heading
+        %h3 Disposition
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p
+          Dispositioning a lead is the process of providing a status, indicating that the lead was touched in some way.
+          %strong The user must disposition the current lead in order to move to the next.
+          Invoking the Disposition Action will display a dialog with the most common dispositions at the top, a drop-down selector of the full list of |
+          dispositions available, and a comment area, for use where applicable.
+        %p
+          The disposition statuses available to most users are (the first 3 are the quick hits at the top of the disposition dialog):
+        %ul
+          %li SKIP - skips the current lead, moves on to the next
+          %li VM - indicate a call was made and a voicemail left
+          %li CB - follow-up call planned
+        %ul
+          %li NA - no answer
+          %li NI - the prospect was not interested
+          %li DNC - the prospect asked not to be contacted again
+          %li DSC - the phone number was disconnected or otherwise invalid
+          %li BR - the phone number was for a branch operation of a larger business
+          %li BMS - the lead does not meet Trigon's standards for business consulting
+          %li WBT - the lead is in a business that doesn't fit Trigon's profile for consulting services
+    .subsection
+      .heading
+        %h3 BCR
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p
+          BCR stands for Business Condition Report, a Trigon Intellectual Property document that the lead will fill out for a complimentary business |
+          consultation.  Invoking the BCR Action displays a dialog where the user can enter the lead's email address; clicking 'Send' will send the |
+          prospect an invitation to view Trigon's BCR presentation and the opportunity to fill out a BCR questionnaire, with a follow-up complimentary |
+          business consultation.
+        %p
+          When the user clicks 'Send', Prospektor will attempt to send the email.  When the attempt is complete, a dialog asking if they've received |
+          it should appear.  The user should inquire about the email with the prospect (you're still on the phone with them, right).  This is critical!  |
+          Do not let them off the phone without insuring that they've received the email.  One more time:
+          %strong Do not let them off the phone without confirming receipt of the Invitation.
+          This is the single strongest indicator of success.  If the prospect confirms receipt, click the 'Next' button to move on to the next lead, |
+          thanking them for their time and wishing them well.  If they have not received the invitation, use the 'Resend' button to attempt to resend.
+    .subsection
+      .heading
+        %h3 Comment
+      .jump
+        %a{ :href => '#top' } top
+      .contents
+        %p 
+          A Comment can be entered to take notes or any other information relevant to the processing of the lead.  Invoking the action will display a |
+          dialog box that the user can use to enter the comment.

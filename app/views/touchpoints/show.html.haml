@@ -36,7 +36,7 @@
     .title Actions
     %ul.menu
       %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
-      %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'BCR'), new_lead_presentation_url(@lead, :height => 200, :width => 400), :class => 'thickbox'
+      %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'BCR'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
       %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
   #help.menu
     .title Help

@@ -1,14 +1,30 @@
+%style
+  :sass
+    #waiting,#confirm
+      :position relative
+      :z-index 99
+      :display none
 #presentation.dialog.modal
-	-modal_form_for_with_history(@presentation, lead_presentations_url(@lead), :success => update_page{|p| p.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
-		%fieldset
-			.fields.container_16
-				.row
-					.fieldname.grid_2.alpha
-						%label{ :for => :email } Email
-					.field.grid_5.omega=f.text_field :email
-					.clear
-				.row
-					.button.grid_5.prefix_2.alpha.omega{'text-align' => 'right'}
-						%em
-							%button{ :type => 'submit' } &nbsp;Send&nbsp;
-					.clear
+  -modal_form_for_with_history(@presentation, lead_presentations_url(@lead), :loading => "$('#original,#confirm').fadeOut(function(){ $('#waiting').fadeIn(); });", :complete => "$('#waiting').fadeOut(function(){ $('#confirm').fadeIn(); });" ) do |f|
+    %fieldset
+      .fields.container_16
+        .row
+          .fieldname.grid_2.alpha
+            %label{ :for => :email } Email
+          .field.grid_5.omega=f.text_field :email
+          .clear
+        .row
+          .button.grid_5.prefix_2.alpha.omega{'text-align' => 'right'}
+            #original
+              %em
+                %button{ :type => 'submit' } Send
+            #waiting
+              =image_tag 'spinner.gif'
+            #confirm
+              %p
+                Was the email received?
+              %em
+                %button{ :type => 'submit' } Resend
+              %em
+                %button{ :type => 'button', :onclick => "tb_remove();#{ update_page{ |p| p.redirect_to(next_lead_in_queue_url(@lead))} };" } Next
+          .clear
