@@ -1,4 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :answers
+
+  map.resources :responses
+
+  map.resources :questions
+
+  map.resources :questionnaires
+
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
@@ -15,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :reports, :only => [ :index, :show ]
     
     users.dashboard '/dashboard', :controller => 'dashboard', :action => 'index'
+    users.terms '/terms', :controller => 'dashboard', :action => 'terms'
   end
   
   map.resources :leads, :member => { :next => :get, :demographics => :get } do |leads|
