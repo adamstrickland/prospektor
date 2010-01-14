@@ -1,3 +1,9 @@
+hr {
+  clear: both;
+  margin-bottom: -1px;
+  height: 1px;
+  visibility: hidden; }
+
 #main .primary {
   border-left-style: solid;
   border-left-width: 1px;
@@ -7,8 +13,7 @@
   border-bottom-color: !cl_brdr;
   background-color: #3486cf;
   padding: 1em;
-  margin-bottom: 1em;
-  height: 290px; }
+  margin-bottom: 1em; }
   #main .primary div.h1 {
     font-weight: bold;
     font-size: 31.25px; }
