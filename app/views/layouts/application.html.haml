@@ -46,6 +46,8 @@
                 %li=link_to 'Dashboard', user_dashboard_url(current_user)
                 %li=link_to 'Start Calling', user_call_queues_url(current_user), :method => :post if controller_name == 'dashboard'
                 / %li=link_to 'Reports', user_reports_url(current_user)
+                -restrict_to "admin" do
+                  %li=link_to 'Admin', admin_dashboard_url
         #flash
           #errors.error=flash[:errors]
           #status=flash[:notice]
