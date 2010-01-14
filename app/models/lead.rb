@@ -53,7 +53,7 @@ class Lead < ActiveRecord::Base
     rec.changes.each do |attrib, vals|
       vals[0] = 'NULL' if vals[0].blank?
       if attrib == 'status_id' and vals[0] != vals[1]
-        old_status, new_status = vals.each{ |v| v.blank? 'Empty' : Status.find(v).code }
+        old_status, new_status = vals.each{ |v| v.blank? ? 'Empty' : Status.find(v).code }
         Event.new(
           :lead => rec, 
           :user => rec.owner, 
