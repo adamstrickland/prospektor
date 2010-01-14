@@ -1,12 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :answers
-
-  map.resources :responses
-
-  map.resources :questions
-
-  map.resources :questionnaires
-
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
