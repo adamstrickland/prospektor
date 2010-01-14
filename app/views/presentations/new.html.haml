@@ -17,7 +17,8 @@
           .button.grid_5.prefix_2.alpha.omega{'text-align' => 'right'}
             #original
               %em
-                %button{ :type => 'submit' } Send
+                %button{ :type => 'submit', :selected => true } Send
+              %span.cancel or #{link_to_function 'Cancel', 'tb_remove();' }
             #waiting
               =image_tag 'spinner.gif'
             #confirm
