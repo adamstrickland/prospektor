@@ -6,8 +6,9 @@
     .name.h2=@lead.company
     #location
       #city_state #{@lead.city}, #{@lead.state} (#{timezone_mapping(@lead.timezone)})
-      / #msa= "(#{@lead.msa.strip})" if @lead.msa
-      %div &nbsp;
+      %div{ :style => "margin-bottom:1em"} &nbsp;
+  / %hr
+  #addl_info
     #sic_info.addl_info
       .section_title SIC Information
       .section_data
@@ -30,7 +31,6 @@
   #events
     -@lead.events.sort{ |fmr,ltr| ltr.created_at <=> fmr.created_at }.each do |e|
       =render :partial => 'events/listing_item', :locals => { :event => e }
-/ =periodically_call_remote(:url => lead_events_url(@lead), :method => :get, :update => 'events', :frequency => 10)
 
 -content_for :sidebar do
   #actions.menu
@@ -39,6 +39,7 @@
       %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
       %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'BCR'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
       %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
+      %li=link_to 'Edit', edit_lead_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
   #help.menu
     .title Help
     %ul.menu
