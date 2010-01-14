@@ -6,5 +6,5 @@
         =hdg
         %ul.help
           -grp.each_pair do |name, url|
-            %li
-              %a{ :href => url, :target => '_blank' }=name
+            %li=link_to name, url, :target => '_blank'
+    %li=link_to 'Glossary of Terms', "#{@www_sa}/Glossary.htm", :target => '_blank'
