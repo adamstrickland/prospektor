@@ -50,14 +50,24 @@ class Lead < ActiveRecord::Base
   end
   
   after_validation_on_update do |rec|
-    rec.changes.each do |attr, vals|
+    rec.changes.each do |attrib, vals|
       vals[0] = 'NULL' if vals[0].blank?
-      Event.new(
-        :lead => rec, 
-        :user => rec.owner, 
-        :qualifier => "Attribute #{attr.camelize} from #{vals[0]} to #{vals[1]}", 
-        :action => 'updated'
-      ).save
+      if attrib == 'status_id' and vals[0] != vals[1]
+        old_status, new_status = vals.each{ |v| v.blank? 'Empty' : Status.find(v).code }
+        Event.new(
+          :lead => rec, 
+          :user => rec.owner, 
+          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
+          :action => 'updated'
+        ).save
+      else
+        Event.new(
+          :lead => rec, 
+          :user => rec.owner, 
+          :qualifier => "Attribute #{attrib.camelize} from #{vals[0]} to #{vals[1]}", 
+          :action => 'updated'
+        ).save
+      end
     end
   end
   
