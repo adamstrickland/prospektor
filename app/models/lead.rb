@@ -51,20 +51,21 @@ class Lead < ActiveRecord::Base
   
   after_validation_on_update do |rec|
     rec.changes.each do |attrib, vals|
-      vals[0] = 'NULL' if vals[0].blank?
-      if attrib == 'status_id' and vals[0] != vals[1]
-        old_status, new_status = vals.each{ |v| v.blank? ? 'Empty' : Status.find(v).code }
+      puts "ATTR: #{attrib}, VALS: #{vals}"
+      if ['status_id', :status_id].include?(attrib)
+        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v) }
         Event.new(
           :lead => rec, 
           :user => rec.owner, 
-          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
+          :qualifier => "Changed Status from #{old_status.code} to #{new_status.code}", 
           :action => 'updated'
         ).save
       else
+        old_val, new_Val = vals[0] || 'Empty', vals[1]
         Event.new(
           :lead => rec, 
           :user => rec.owner, 
-          :qualifier => "Attribute #{attrib.camelize} from #{vals[0]} to #{vals[1]}", 
+          :qualifier => "Attribute #{attrib.camelize} from #{old_val} to #{new_val}", 
           :action => 'updated'
         ).save
       end
