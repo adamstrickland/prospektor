@@ -7,7 +7,11 @@
     :width 1px
     :style solid 
     :color !cl_main
-    
+hr
+  :clear both
+  :margin-bottom -1px
+  :height 1px
+  :visibility hidden
 #main
   .primary
     +bordered
@@ -15,7 +19,7 @@
     :padding 1em
     :margin
       :bottom 1em
-    :height 290px
+    / :height 290px
     div.h1
       :font
         :weight bold
@@ -62,6 +66,7 @@
     / :background-color = !secB_emB
     :background-color = !prim_hiA
     :height = 230px
+    :width 100%
     :overflow auto
     .title
       +heading
