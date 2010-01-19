@@ -7,8 +7,7 @@ class Comment < ActiveRecord::Base
       :lead => rec.lead, 
       :user => rec.user, 
       :qualifier => rec.comment, 
-      :action => 'commented', 
-      # :params => { :comment_id => self.id }.to_yaml
+      :action => 'commented'
     ).save 
   end
 end
