@@ -43,18 +43,24 @@ class Commenter
 
   def gogogo
     FasterCSV.foreach(File.join(Rails.root, '..', 'data', 'leads.csv'), :headers => :first_row) do |row|
-      text = row['LastRepAppptComments'].strip
-      if text.size > 0
-        phone = row['Phone'].strip.to_i.to_s
-        lead = Lead.find_by_phone(phone)
-        if lead
-          user = self.get_user
-          comment = Comment.new(:lead => lead, :user => user, :comment => text)
-          if comment.save
-          else
-            puts "Could not create comment for lead:  #{lead.id}"
+      begin
+        text = row['LastRepAppptComments']
+        if text and not text.strip.blank?
+	  text = text.strip
+          phone = row['Phone'].strip.to_i.to_s
+          lead = Lead.find_by_phone(phone)
+          if lead
+            user = self.get_user(row)
+            comment = Comment.new(:lead => lead, :user => user, :comment => text)
+            if comment.save
+            else
+              puts "Could not create comment for lead:  #{lead.id}"
+            end
           end
         end
+      rescue FasterCSV::MalformedCSVError
+	puts "Failed at line #{csv.lineno}"
+        # puts "Malformed Line at #{row['Phone']}"
       end
     end
   end
