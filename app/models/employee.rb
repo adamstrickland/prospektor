@@ -28,7 +28,7 @@ class Employee < ActiveRecord::Base
     first_name = self.first_name.gsub(/,\.-\s'/,'').downcase
     variations = [
       "#{first_name[0].chr}#{last_name}",
-      "#{first_name[0].chr}#{self.middle_initial.nil? ? '_' : self.middle_initial[0].chr.downcase}#{last_name}",
+      "#{first_name[0].chr}#{self.middle_initial.nil? || self.middle_initial.strip.empty? ? '_' : self.middle_initial[0].chr.downcase}#{last_name}",
       "#{first_name}#{last_name}",
       "#{first_name}.#{last_name}"
     ]
