@@ -53,11 +53,11 @@ class Lead < ActiveRecord::Base
     rec.changes.each do |attrib, vals|
       puts "ATTR: #{attrib}, VALS: #{vals}"
       if ['status_id', :status_id].include?(attrib)
-        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v) }
+        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v).code }
         Event.new(
           :lead => rec, 
           :user => rec.owner, 
-          :qualifier => "Changed Status from #{old_status.code} to #{new_status.code}", 
+          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
           :action => 'updated'
         ).save
       else
