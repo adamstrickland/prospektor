@@ -91,7 +91,7 @@ class ProspectMailer < ActionMailer::Base
         :company => preso.lead.company,
         :email => preso.email
       }, 
-      :url => "http://www.trigonsolutions.com/ExecutiveDashboard/BCR.swf?key=#{preso.lead.key}", 
+      :url => "http://www.trigonsolutions.com/videos/BCR200/index.html?key=#{preso.lead.key}", 
       :sender => {
         :name => preso.user.name,
         :phone => preso.user.official_phone
