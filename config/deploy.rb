@@ -2,6 +2,7 @@ set :application, "prospektor"
 set :repository,  "git@github.com:adamstrickland/prospektor.git"
 
 set :scm, :git
+set :branch, "production"
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 slice = "li108-53.members.linode.com"
@@ -37,7 +38,7 @@ namespace :deploy do
     run "#{try_sudo} /etc/init.d/thin stop"
   end
   
-  task :restart, :rles => :app do
+  task :restart, :roles => :app do
     run "#{try_sudo} /etc/init.d/thin restart"
   end
 end
