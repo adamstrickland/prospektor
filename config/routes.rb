@@ -27,6 +27,10 @@ ActionController::Routing::Routes.draw do |map|
     leads.resources :suspend, :only => [ :new, :create ]
   end
   
+  map.namespace :admin do |admin|
+    admin.dashboard 'dashboard', :controller => 'dashboard', :action => 'index'
+  end 
+  
   map.welcome '/welcome', :controller => 'welcome', :action => 'index'
   
   map.pdf '/assets/:asset', :controller => 'help', :action => 'pdf'
