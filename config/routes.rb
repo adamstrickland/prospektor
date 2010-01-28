@@ -18,7 +18,9 @@ ActionController::Routing::Routes.draw do |map|
     users.terms '/terms', :controller => 'dashboard', :action => 'terms'
   end
   
+  map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
   map.resources :leads, :member => { :next => :get, :demographics => :get } do |leads|
+    # leads.phone 'phone/:phone', :controller => 'leads', :action => 'find_by_phone'
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
     leads.resources :comments, :only => [ :new, :create ]

@@ -31,9 +31,9 @@ module ApplicationHelper
   
   def asset_in_public(subdir, &block)
     public_path = File.join(File.dirname(__FILE__), '..', '..', 'public')
-    file_glob = File.join(public_path, subdir, controller_name, "#{action_name}.*")
-    if Dir.glob(file_glob).map{|f| File.exists?(f)}.delete_if{|b| !b}.count > 0
-      yield(File.join(controller_name, action_name))
+    file_glob = File.join(public_path, subdir, controller.class.controller_path, "#{action_name}.*")
+    if Dir.glob(file_glob).map{|f| File.exists?(f)}.delete_if{|b| !b}.size > 0
+      yield(File.join(controller.class.controller_path, action_name))
     end
   end
   
