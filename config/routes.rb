@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
@@ -31,6 +32,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.namespace :admin do |admin|
     admin.dashboard 'dashboard', :controller => 'dashboard', :action => 'index'
+    admin.resources :users, :only => [ :index ], :member => { :reset_password => :post, :deactivate => :post }
+    admin.resources :applicants, :only => [ :index ], :member => { :onboard => :post }
+    admin.resources :assignments
   end 
   
   map.welcome '/welcome', :controller => 'welcome', :action => 'index'

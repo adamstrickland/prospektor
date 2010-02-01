@@ -92,7 +92,11 @@ class User < ActiveRecord::Base
   end
   
   def name
-    "#{self.employee.preferred_name} #{self.employee.last_name}"
+    unless self.employee.blank?
+      "#{self.employee.preferred_name} #{self.employee.last_name}"
+    else
+      self.login
+    end
   end
   
   def self.generate_password(size=8)

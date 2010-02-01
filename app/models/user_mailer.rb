@@ -13,6 +13,11 @@ class UserMailer < ActionMailer::Base
     @body[:url]  = "http://sales.trigonsolutions.com/"
   end
   
+  def reset_password(user)
+    setup_email(user)
+    @subject += 'Your password has been reset'
+  end
+  
   protected
     def setup_email(user)
       @recipients  = "#{user.email}"
