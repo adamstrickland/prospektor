@@ -7,32 +7,3 @@
         .metric=key.to_s.titleize
         .value=val
     %hr.lclear
-
--content_for :sidebar do
-  #actions.menu
-    .title Admin
-    %ul.menu
-      %li=link_to 'Assignments', admin_assignments_path
-      %li=link_to 'Onboarding', admin_applicants_path
-      %li=link_to 'Manage&nbsp;Users', admin_users_path
-  #actions.menu
-    .title Support
-    %ul.menu
-      %li
-        Find Lead
-        %ul.menu
-          %li Phone
-          -form_tag '/', {:method => :get, :id => 'go_to_lead'} do
-            =text_field_tag 'phone', nil, :size => 10
-            =submit_tag 'Go'
-:javascript
-  $(function(){
-    $('#go_to_lead').submit(function(e){
-      var phone = $(this).find("input[name='phone']").val().replace(/-/gi, "");
-      if(phone && phone.length == 10){
-        var url = '/leads/phone/'+phone;
-        window.location.href = url;
-      }
-      return false;
-    });
-  });

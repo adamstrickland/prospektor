@@ -1,0 +1,26 @@
+#assignments
+  #heading Assignments for #{@user.employee.full_name}
+  #controls.container_12
+    #simple.control.grid_3.alpha=button_to_remote 'Assign Block', :url => admin_user_assignments_path(@user, :size => 500, :format => :json), :datatype => :json, :success => "window.alert('Assigned '+(request.assignments || 0)+' leads.'); location.reload(true); return false;", :error => "window.alert('Assignments could not be made. Errors: '+(request.errors || 'undefined'));"
+    #sized.control.grid_3.omega=button_to 'Assign Sized', admin_user_bulk_assignment_url(@user, :height => 150, :width => 300), :method => :get
+    / #manual.control.grid_3.omega=button_to 'Manual', search_admin_user_assignments_path(@user), :method => :get, :class => 'thickbox'
+  %hr.lclear
+  #listing
+    -unless @assignments.present?
+      .announce No assignments
+    -else
+      =will_paginate @assignments
+      .grid
+        .grid-data
+          -@assignments.each do |assignment|
+            .row.container_12[assignment]{ :class => cycle("odd", "even") }
+              .company.grid_4.alpha=assignment.company
+              .prospect.grid_3=assignment.prospect
+              .status.grid_2.omega=assignment.status.code if assignment.status.present?
+            %hr.lclear
+:javascript
+  $('#sized form').submit(function(e){
+    tb_show($(this).find('input[type=submit]').text(), $(this).attr("action"), false);
+    this.blur();
+    return false;
+  });

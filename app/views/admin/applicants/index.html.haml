@@ -1,0 +1,26 @@
+#applicants
+  -unless @applicants.present?
+    .announce There are no open applicants at this time
+  -else
+    .grid
+      .grid-head
+        %div.row
+          .info
+            .login.grid_4 Name
+            .position.grid_3 Position
+          %hr.lclear
+      .grid-data
+        -@applicants.each do |applicant|
+          %div.row[applicant]
+            .info.grid_7
+              .listing.container_12{ :onclick => "$(this).parent().find('.details').toggle('blind', {}, 500);" }
+                .login.grid_4.alpha=applicant.full_name
+                .position.grid_3.omega=applicant.positionapplyingfor
+              .details.container_12{ :style => 'display:none' }
+                THis is some other info
+            .controls
+              .deactivate.grid_2
+                =button_to_remote 'Reject', :url => reject_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant rejected');", :failure => "alert('Unable to reject applicant.  Please contact support.');"
+              .password.grid_2
+                =button_to_remote 'Onboard', :url => onboard_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant onboarded');", :failure => "alert('Unable to onboard applicant.  Please contact support.');"
+            %hr.lclear

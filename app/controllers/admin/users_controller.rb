@@ -1,4 +1,6 @@
 class Admin::UsersController < ApplicationController
+  layout 'admin'
+  
   # GET /users
   # GET /users.xml
   def index
@@ -12,27 +14,35 @@ class Admin::UsersController < ApplicationController
   end
   
   def reset_password
-    @user = User.find(params[:id])
-    new_password = User.generate_password
-    @user.password = new_password
-    @user.password_confirmation = new_password
-    @user.encrypt_password  # needed to make record dirty so can be picked up by observer
-    if @user.save
-      head :ok
-    else
-      head :bad_request
+    respond_to do |format|
+      format.json do
+        @user = User.find(params[:id])
+        new_password = User.generate_password
+        @user.password = new_password
+        @user.password_confirmation = new_password
+        @user.encrypt_password  # needed to make record dirty so can be picked up by observer
+        if @user.save
+          head :ok
+        else
+          head :bad_request
+        end
+      end
     end
   end
   
   def deactivate
-    @user = User.find(params[:id])
-    @user.activation_code = 'DEACTIVATED'
-    @user.activated_at = nil
+    respond_to do |format|
+      format.json do
+        @user = User.find(params[:id])
+        @user.activation_code = 'DEACTIVATED'
+        @user.activated_at = nil
     
-    if @user.save
-      head :ok
-    else
-      head :bad_request
+        if @user.save
+          head :ok
+        else
+          head :bad_request
+        end
+      end
     end
   end
 

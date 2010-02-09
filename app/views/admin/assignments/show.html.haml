@@ -1,0 +1,18 @@
+#assignment
+  .heading Assignments for: #{@user.employee.full_name}  
+  #controls.container_12
+    #simple.grid_2.alpha=button_to 'Assign Block', '#'
+    #sized.grid_2=button_to 'Assign Sized', '#', :class => 'thickbox'
+    #manual.grid_2.omega=button_to 'Manual', '#', :class => 'thickbox'
+  %hr.lclear
+  -unless @assignments.present?
+    .announce No assignments for user
+  -else
+    .data
+      -@assignments.each do |assignment|
+        .row[assignment]{ :class => cycle("odd", "even") }
+          %span.company=assignment.company
+          %span.prospect=assignment.prospect
+          %span.status=assignment.status.code if assignment.status.present?
+        .clear
+    =will_paginate @assignments

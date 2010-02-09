@@ -1,4 +1,6 @@
 class Admin::DashboardController < ApplicationController
+  layout 'admin'
+  
   access_control :DEFAULT => 'admin'
   
   def index

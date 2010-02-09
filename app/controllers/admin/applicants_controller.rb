@@ -1,8 +1,12 @@
 class Admin::ApplicantsController < ApplicationController
+  layout 'admin'
+  
   # GET /applicants
   # GET /applicants.xml
   def index
-    @applicants = Applicant.all
+    # @applicants = Applicant.all.sort_by{|f,l| [f.applicantlastname, f.applicantfirstname] <=> [l.applicantlastname, l.applicantfirstname] }
+    @applicants = Applicant.open
+    # .sort_by{|f,l| l.id <=> f.id } # sorted by ID (since no date) DESC
 
     respond_to do |format|
       format.html # index.html.erb
@@ -53,6 +57,46 @@ class Admin::ApplicantsController < ApplicationController
       end
     end
   end
+  
+  def onboard
+    respond_to do |format|
+      format.json do
+        @applicant = Applicant.find(params[:id])
+        if @applicant
+          @employee = @applicant.create_employee(params[:hired_at])
+          if @employee
+            if @employee.save
+              @user = @employee.create_user
+              if @user
+                if @user.save
+                  render :json => { :status => :ok, :user => { :login => @user.login, :name => @employee.full_name }}
+                else
+                  render :json => { :status => :unprocessable_entity, :errors => @user.errors }
+                end
+              else
+                render :json => { :status => :unprocessable_entity, :message => 'User could not be created' }
+              end
+            else
+              render :json => { :status => :unprocessable_entity, :errors => @employee.errors }
+            end
+          else
+            render :json => { :status => :unprocessable_entity, :message => 'Employee could not be created' }
+          end
+        else
+          render :json => { :status => :unprocessable_entity, :message => 'Applicant could not be found' }
+        end
+      end
+    end
+  end
+  
+  def reject
+    respond_to do |format|
+      format.json do
+        render head :ok
+      end
+    end
+  end
+      
 
   # PUT /applicants/1
   # PUT /applicants/1.xml
