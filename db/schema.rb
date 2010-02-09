@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100114223249) do
+ActiveRecord::Schema.define(:version => 20100209233725) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -64,6 +64,27 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.string   "comment"
     t.float    "pay_rate"
     t.string   "lcrp_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "answers", :force => true do |t|
+    t.integer  "question_id"
+    t.text     "text"
+    t.text     "short_text"
+    t.text     "help_text"
+    t.integer  "weight"
+    t.string   "response_class"
+    t.string   "reference_identifier"
+    t.string   "data_export_identifier"
+    t.string   "common_namespace"
+    t.string   "common_identifier"
+    t.integer  "display_order"
+    t.boolean  "is_exclusive"
+    t.boolean  "hide_label"
+    t.integer  "display_length"
+    t.string   "custom_class"
+    t.string   "custom_renderer"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -223,6 +244,31 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.datetime "updated_at"
   end
 
+  create_table "dependencies", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "question_group_id"
+    t.string   "rule"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dependency_conditions", :force => true do |t|
+    t.integer  "dependency_id"
+    t.string   "rule_key"
+    t.integer  "question_id"
+    t.string   "operator"
+    t.integer  "answer_id"
+    t.datetime "datetime_value"
+    t.integer  "integer_value"
+    t.float    "float_value"
+    t.string   "unit"
+    t.text     "text_value"
+    t.string   "string_value"
+    t.string   "response_other"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "emp_codes", :force => true do |t|
     t.string   "emp_code"
     t.string   "employee_size"
@@ -347,9 +393,11 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
   end
 
   add_index "leads", ["company"], :name => "index_leads_on_company"
+  add_index "leads", ["last_name"], :name => "index_leads_on_last_name"
   add_index "leads", ["name"], :name => "index_leads_on_name"
   add_index "leads", ["phone"], :name => "index_leads_on_phone", :unique => true
   add_index "leads", ["state"], :name => "index_leads_on_state"
+  add_index "leads", ["status_id"], :name => "index_leads_on_status_id"
   add_index "leads", ["timezone"], :name => "index_leads_on_timezone"
 
   create_table "leads_users", :id => false, :force => true do |t|
@@ -360,6 +408,9 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.datetime "updated_at"
     t.integer  "user_id"
   end
+
+  add_index "leads_users", ["lead_id"], :name => "index_leads_users_on_lead_id"
+  add_index "leads_users", ["user_id"], :name => "index_leads_users_on_user_id"
 
   create_table "mcs_codes", :force => true do |t|
     t.integer  "mcs_code_id"
@@ -422,82 +473,40 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.datetime "updated_at"
   end
 
-  create_table "questionnaire_responses", :force => true do |t|
-    t.integer  "lead_id",          :null => false
-    t.integer  "questionnaire_id", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "questionnaire_topic_answers", :force => true do |t|
-    t.integer  "questionnaire_topic_id",    :null => false
-    t.integer  "questionnaire_response_id", :null => false
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "questionnaire_topic_options", :force => true do |t|
-    t.integer  "questionnaire_topic_id", :null => false
-    t.text     "text",                   :null => false
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "questionnaire_topics", :force => true do |t|
-    t.integer  "questionnaire_id", :null => false
-    t.text     "text",             :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "questionnaires", :force => true do |t|
-    t.string   "name",       :null => false
+  create_table "question_groups", :force => true do |t|
+    t.text     "text"
+    t.text     "help_text"
+    t.string   "reference_identifier"
+    t.string   "data_export_identifier"
+    t.string   "common_namespace"
+    t.string   "common_identifier"
+    t.string   "display_type"
+    t.string   "custom_class"
+    t.string   "custom_renderer"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "questions", :force => true do |t|
-    t.string   "sic_division"
-    t.string   "q01"
-    t.string   "q02"
-    t.string   "q03"
-    t.string   "q04"
-    t.string   "q05"
-    t.string   "q06"
-    t.string   "q07"
-    t.string   "q08"
-    t.string   "q09"
-    t.string   "q10"
-    t.string   "q11"
-    t.string   "q12"
-    t.string   "q13"
-    t.string   "q14"
-    t.string   "q15"
-    t.string   "q16"
-    t.string   "q17"
-    t.string   "q18"
-    t.string   "q19"
-    t.string   "q20"
-    t.string   "q21"
-    t.string   "q22"
-    t.string   "q23"
-    t.string   "q24"
-    t.string   "q25"
-    t.string   "q26"
-    t.string   "q27"
-    t.string   "q28"
-    t.string   "q29"
-    t.string   "q30"
-    t.string   "q31"
-    t.string   "q32"
-    t.string   "q33"
-    t.string   "q34"
-    t.string   "q35"
-    t.string   "q36"
+    t.integer  "survey_section_id"
+    t.integer  "question_group_id"
+    t.text     "text"
+    t.text     "short_text"
+    t.text     "help_text"
+    t.string   "pick"
+    t.string   "reference_identifier"
+    t.string   "data_export_identifier"
+    t.string   "common_namespace"
+    t.string   "common_identifier"
+    t.integer  "display_order"
+    t.string   "display_type"
+    t.boolean  "is_mandatory"
+    t.integer  "display_width"
+    t.string   "custom_class"
+    t.string   "custom_renderer"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "correct_answer_id"
   end
 
   create_table "questions_by_lead_ids", :force => true do |t|
@@ -742,6 +751,32 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.string "resistance", :limit => 45, :null => false
   end
 
+  create_table "response_sets", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "survey_id"
+    t.string   "access_code"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "responses", :force => true do |t|
+    t.integer  "response_set_id"
+    t.integer  "question_id"
+    t.integer  "answer_id"
+    t.datetime "datetime_value"
+    t.integer  "integer_value"
+    t.float    "float_value"
+    t.string   "unit"
+    t.text     "text_value"
+    t.string   "string_value"
+    t.string   "response_other"
+    t.string   "response_group"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "title",      :null => false
     t.datetime "created_at"
@@ -892,6 +927,40 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.datetime "updated_at"
   end
 
+  add_index "statuses", ["code"], :name => "index_statuses_on_code"
+  add_index "statuses", ["state"], :name => "index_statuses_on_state"
+
+  create_table "survey_sections", :force => true do |t|
+    t.integer  "survey_id"
+    t.string   "title"
+    t.text     "description"
+    t.string   "reference_identifier"
+    t.string   "data_export_identifier"
+    t.string   "common_namespace"
+    t.string   "common_identifier"
+    t.integer  "display_order"
+    t.string   "custom_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "surveys", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "access_code"
+    t.string   "reference_identifier"
+    t.string   "data_export_identifier"
+    t.string   "common_namespace"
+    t.string   "common_identifier"
+    t.datetime "active_at"
+    t.datetime "inactive_at"
+    t.string   "css_url"
+    t.string   "custom_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "display_order"
+  end
+
   create_table "time_zones", :force => true do |t|
     t.string   "time_zone",   :limit => 1
     t.string   "description"
@@ -969,7 +1038,34 @@ ActiveRecord::Schema.define(:version => 20100114223249) do
     t.boolean  "nda_accepted",                             :default => false
   end
 
+  add_index "users", ["employee_id"], :name => "index_users_on_employee_id"
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+
+  create_table "validation_conditions", :force => true do |t|
+    t.integer  "validation_id"
+    t.string   "rule_key"
+    t.string   "operator"
+    t.integer  "question_id"
+    t.integer  "answer_id"
+    t.datetime "datetime_value"
+    t.integer  "integer_value"
+    t.float    "float_value"
+    t.string   "unit"
+    t.text     "text_value"
+    t.string   "string_value"
+    t.string   "response_other"
+    t.string   "regexp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "validations", :force => true do |t|
+    t.integer  "answer_id"
+    t.string   "rule"
+    t.string   "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "vol_codes", :force => true do |t|
     t.string   "vol_code"
