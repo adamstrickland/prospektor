@@ -32,6 +32,21 @@ div#body
   :width = !wd_bd
   :height 100%
   :background-color = !cl_main
+
+=invisible  
+  :margin-bottom -1px
+  :height 1px
+  :visibility hidden
+  
+hr.clear
+  +invisible
+  :clear both
+hr.lclear
+  +invisible
+  :clear left
+hr.rclear
+  +invisible
+  :clear right
     
 #hd   
   :width = !wd_bd
@@ -161,7 +176,11 @@ div#body
           :list-style none
           :text-decoration none
           li
-            :color = !g
+            :color = !w
+            :margin 0 0 0 10px
+            form
+              :text-align right
+              :margin-right 10px
             a
               :display block
               :text-decoration none
@@ -175,7 +194,6 @@ div#body
     #main
       :margin 0
       :width = !wd_main
-    
 #ft
   :width = !wd_bd
   :text-align center

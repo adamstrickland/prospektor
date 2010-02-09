@@ -45,6 +45,23 @@ class Lead < ActiveRecord::Base
   }
   # named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
   # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
+  # named_scope :open, 
+  named_scope :open, :conditions => " NOT EXISTS (
+                                      SELECT 1 
+                                      FROM sales S INNER JOIN 
+                                      	schedules SH ON (S.appointment_id = SH.id) INNER JOIN
+                                      	contacts C ON (SH.contact_id = C.id) INNER JOIN
+                                      	leads L ON (C.lead_id = L.id)
+                                      WHERE L.id = leads.id
+                                    ) AND NOT EXISTS (
+                                      SELECT 1
+                                      FROM leads L INNER JOIN
+                                        leads_users LU ON (L.id = LU.lead_id) INNER JOIN
+                                        users U ON (LU.user_id = U.id) INNER JOIN
+                                        employees E ON (U.employee_id = E.id)
+                                      WHERE E.active = 1
+                                      AND L.id = leads.id
+                                    )"
   
   after_save do |rec|
   end
@@ -77,9 +94,12 @@ class Lead < ActiveRecord::Base
   end
   
   def full_name
-    nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
-    "#{self.first_name} #{nickname}#{self.last_name}"
+    # nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
+    # "#{self.first_name} #{nickname}#{self.last_name}"
+    
+    [self.first_name, (self.salutation.present? && self.salutation != self.first_name) ? "\"#{self.salutation}\"" : nil, self.last_name].compact.join(" ")
   end
+  alias_method :prospect, :full_name
   
   def key
     Digest::SHA1.hexdigest(self.phone)

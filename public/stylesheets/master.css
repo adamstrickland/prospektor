@@ -29,6 +29,24 @@ div#body {
   height: 100%;
   background-color: #00549f; }
 
+hr.clear {
+  margin-bottom: -1px;
+  height: 1px;
+  visibility: hidden;
+  clear: both; }
+
+hr.lclear {
+  margin-bottom: -1px;
+  height: 1px;
+  visibility: hidden;
+  clear: left; }
+
+hr.rclear {
+  margin-bottom: -1px;
+  height: 1px;
+  visibility: hidden;
+  clear: right; }
+
 #hd {
   width: 960px;
   height: 140px;
@@ -144,7 +162,11 @@ div#body {
           list-style: none;
           text-decoration: none; }
           #bd #content #sidebar div.menu ul.menu li {
-            color: gray; }
+            color: white;
+            margin: 0 0 0 10px; }
+            #bd #content #sidebar div.menu ul.menu li form {
+              text-align: right;
+              margin-right: 10px; }
             #bd #content #sidebar div.menu ul.menu li a {
               display: block;
               text-decoration: none;

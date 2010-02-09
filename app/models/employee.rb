@@ -34,4 +34,8 @@ class Employee < ActiveRecord::Base
     ]
     variations.detect{ |u| User.find_by_login(u).blank? }
   end
+  
+  def full_name
+    [self.preferred_name || self.first_name, self.middle_initial, self.last_name].compact.join(" ")
+  end
 end

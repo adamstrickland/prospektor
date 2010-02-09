@@ -1,0 +1,33 @@
+=javascript_include_tag 'jquery.yaripe'
+#lead.primary
+  #demographics
+    =render :partial => 'leads/demographics', :locals => { :lead => lead }
+  #company
+    .name.h2=lead.company
+    #location
+      #city_state #{lead.city}, #{lead.state} (#{timezone_mapping(lead.timezone)})
+      %div{ :style => "margin-bottom:1em"} &nbsp;
+  / %hr
+  #addl_info
+    #sic_info.addl_info
+      .section_title SIC Information
+      .section_data
+        -(1..5).each do |i|
+          -if lead.send("sic_code_#{i}")
+            .sic{ :id => "sic_#{i}" }
+              %span.sic_code=lead.send("sic_code_#{i}")
+              %span.sic_desc=lead.send("sic_description_#{i}")
+    #misc_info.addl_info
+      .section_title Misc. Information
+      .section_data
+        -{ 'Year Established' => :year_established, 'Number of PCs' => :number_of_pcs, 'Headcount' => :employee_category, 'Sales' => :sales_category, 'Credit Rating' => :credit_rating }.each do |field, attrib|
+          -if lead.send(attrib)
+            .misc_item
+              %span.field=field
+              %span.value=lead.send(attrib)
+    %hr.clear
+#history.secondary
+  .title Lead History
+  #events
+    -lead.events.sort{ |fmr,ltr| ltr.created_at <=> fmr.created_at }.each do |e|
+      =render :partial => 'events/listing_item', :locals => { :event => e }

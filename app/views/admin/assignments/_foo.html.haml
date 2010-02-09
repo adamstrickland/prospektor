@@ -1,0 +1,15 @@
+#assignment-block.dialog.modal
+  .title Block Assignment
+  -modal_form(admin_user_assignments_path(user, :format => :json), :datatype => :json, :success => 'alert("HI");' ) do |f|
+    %fieldset
+      .fields.container_16
+        .row
+          .fieldname.grid_2.alpha
+            %label{ :for => :size } Block Size
+            .field.grid_5.omega=text_field_tag :size
+          .clear
+        .row
+          .button.grid_5.alpha.omega
+            %em
+              %button{ :type => 'submit' } Save
+          .clear

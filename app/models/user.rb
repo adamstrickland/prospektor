@@ -5,8 +5,9 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
 
-  # has_many :leads
+  has_and_belongs_to_many :roles
   has_and_belongs_to_many :leads
+  alias_attribute :assignments, :leads
   has_many :presentations
   has_many :appointments
   has_many :events
@@ -17,6 +18,7 @@ class User < ActiveRecord::Base
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true
   
+  
   def official_phone
     "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
   end
@@ -25,6 +27,13 @@ class User < ActiveRecord::Base
     # self.leads.callbacks(Time.now)
   end
   
+  # def assignments
+  #   self.leads
+  # end
+  # 
+  # def assignments=(val)
+  #   self.leads = val
+  # end
   
   # restful_authentication stuff...
 
@@ -92,7 +101,11 @@ class User < ActiveRecord::Base
   end
   
   def name
-    "#{self.employee.preferred_name} #{self.employee.last_name}"
+    unless self.employee.blank?
+      "#{self.employee.preferred_name} #{self.employee.last_name}"
+    else
+      self.login
+    end
   end
   
   def self.generate_password(size=8)

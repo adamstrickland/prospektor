@@ -1,0 +1,9 @@
+#admin-dashboard
+  %h2 Metrics
+  #login-activity.activity.widget
+    .title Logins
+    -@activity.each do |key, val|
+      .item
+        .metric=key.to_s.titleize
+        .value=val
+    %hr.lclear

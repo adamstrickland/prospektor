@@ -1,0 +1,24 @@
+#users
+  -unless @users.present?
+    .announce There are no users at this time
+  -else
+    .grid
+      .grid-head
+        %div.row
+          .info
+            .id.grid_2 User ID
+            .login.grid_3 Name/Login
+          %hr.lclear
+      .grid-data
+        -@users.each do |user|
+          %div.row[user]
+            .info
+              .id.grid_2.alpha=user.id
+              .login.grid_4=user.employee.full_name 
+            .details{ :style => 'display:none' }
+              .emp_id.grid_2=user.employee_id
+            .controls
+              .deactivate.grid_2=button_to_remote 'Deactivate', :url => deactivate_admin_user_path(user, :format => :json), :success => "alert('User deactivated');", :failure => "alert('Unable to deactivate user.  Please contact support.');"
+              .password.grid_2=button_to_remote 'Reset', :url => reset_password_admin_user_path(user, :format => :json), :success => "alert('Password reset');", :failure => "alert('Unable to reset password.  Please contact support.');"
+              .assignments.grid_2.omega=button_to 'Assignments', admin_user_assignments_path(user), :method => :get
+              %hr.lclear

@@ -1,4 +1,13 @@
 class Applicant < ActiveRecord::Base
+  validates_presence_of :applicantfirstname, :applicantlastname, :address, :city, :stateprovince, :zippostalcode, :country, :email, :businessphone
+
+  named_scope :open, :conditions => " NOT EXISTS (
+                                      SELECT 1 
+                                      FROM employees 
+                                      WHERE employees.last_name = applicants.applicantlastname
+                                      AND employees.first_name = applicants.applicantfirstname
+                                    )"
+  
   def create_employee(hire_date=Date.today)
     e = Employee.new
     e.first_name = self.applicantfirstname
@@ -6,11 +15,15 @@ class Applicant < ActiveRecord::Base
     e.last_name = self.applicantlastname
     e.preferred_name = self.applicantpreferredname
     e.social_security_number = self.socialsecuritynumber
-    e.gender = self.gender[0].chr.upcase
+    e.gender = self.gender[0].chr.upcase if self.gender else 'M'
     e.title = self.positionapplyingfor
-    e.department_name = case self.positionapplyingfor.downcase
-    when 'expert' then 'ES'
-    end
+    e.department_name = unless self.positionapplyingfor
+        'ES'
+      else
+        case self.positionapplyingfor.downcase
+          when 'expert', nil then 'ES'
+        end
+      end
     e.email_name = self.email
     e.address = self.address
     e.city = self.city
@@ -23,7 +36,7 @@ class Applicant < ActiveRecord::Base
     e.status_change_date = Date.today
     e.date_hired = hire_date
     e.emrgcy_contact_name = self.emergencycontactname
-    e.emrgcy_contact_phone = self.emergencycontactphone
+    e.emrgcy_contact_phone = self.emergencycontactphonenum
     e.active = true
     e.reports_to = self.reportstouserid
     
@@ -32,5 +45,9 @@ class Applicant < ActiveRecord::Base
     else
       nil
     end
+  end
+  
+  def full_name
+    "#{self.applicantlastname}, #{[self.applicantfirstname, "#{self.applicantpreferredname}", self.applicantmi].compact.join(" ")}"
   end
 end

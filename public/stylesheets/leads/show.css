@@ -1,9 +1,3 @@
-hr {
-  clear: both;
-  margin-bottom: -1px;
-  height: 1px;
-  visibility: hidden; }
-
 #main .primary {
   border-left-style: solid;
   border-left-width: 1px;

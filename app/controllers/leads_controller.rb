@@ -21,6 +21,19 @@ class LeadsController < ApplicationController
       format.xml  { render :xml => @lead }
     end
   end
+  
+  def find_by_phone
+    lead = Lead.find_by_phone(params[:phone])
+    if lead.nil?
+      if current_user.roles.map(&:title).include?('admin')
+        redirect_to :controller => 'admin/dashboard' 
+      else
+        redirect_to '/' 
+      end
+    else
+      redirect_to :action => 'show', :id => lead.id
+    end
+  end
 
   # GET /leads/new
   # GET /leads/new.xml

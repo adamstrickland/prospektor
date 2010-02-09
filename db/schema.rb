@@ -9,63 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
-
-  create_table "BCR", :force => true do |t|
-    t.datetime "date_completed"
-    t.string   "phone",            :limit => 10
-    t.string   "client_name",      :limit => 45
-    t.string   "client_title",     :limit => 45
-    t.string   "company",          :limit => 45
-    t.string   "general_1",        :limit => 1
-    t.string   "general_2",        :limit => 1
-    t.string   "general_3",        :limit => 1
-    t.string   "general_4",        :limit => 1
-    t.string   "employee_1",       :limit => 1
-    t.string   "employee_2",       :limit => 1
-    t.string   "employee_3",       :limit => 1
-    t.string   "employee_4",       :limit => 1
-    t.string   "employee_5",       :limit => 1
-    t.string   "employee_6",       :limit => 1
-    t.string   "finance_1",        :limit => 1
-    t.string   "budget_1",         :limit => 1
-    t.string   "budget_2",         :limit => 1
-    t.string   "budget_3",         :limit => 1
-    t.string   "budget_4",         :limit => 1
-    t.string   "accounting_1",     :limit => 1
-    t.string   "accounting_2",     :limit => 1
-    t.string   "accounting_3",     :limit => 1
-    t.string   "costs_1",          :limit => 1
-    t.string   "costs_2",          :limit => 1
-    t.string   "costs_3",          :limit => 1
-    t.string   "costs_4",          :limit => 1
-    t.string   "costs_5",          :limit => 1
-    t.string   "costs_6",          :limit => 1
-    t.string   "costs_7",          :limit => 1
-    t.string   "sales_1",          :limit => 1
-    t.string   "sales_2",          :limit => 1
-    t.string   "sales_3",          :limit => 1
-    t.string   "sales_4",          :limit => 1
-    t.string   "sales_5",          :limit => 1
-    t.string   "sales_6",          :limit => 1
-    t.string   "sales_7",          :limit => 1
-    t.string   "technology_1",     :limit => 1
-    t.string   "technology_2",     :limit => 1
-    t.string   "technology_3",     :limit => 1
-    t.string   "technology_4",     :limit => 1
-    t.string   "technology_5",     :limit => 1
-    t.string   "manufacturing_1",  :limit => 1
-    t.string   "manufacturing_2",  :limit => 1
-    t.string   "manufacturing_3",  :limit => 1
-    t.string   "manufacturing_4",  :limit => 1
-    t.string   "manufacturing_5",  :limit => 1
-    t.string   "manufacturing_6",  :limit => 1
-    t.string   "manufacturing_7",  :limit => 1
-    t.string   "manufacturing_8",  :limit => 1
-    t.string   "manufacturing_9",  :limit => 1
-    t.string   "manufacturing_10", :limit => 1
-    t.string   "manufacturing_11", :limit => 1
-  end
+ActiveRecord::Schema.define(:version => 20100114223249) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -478,6 +422,42 @@ ActiveRecord::Schema.define(:version => 0) do
     t.datetime "updated_at"
   end
 
+  create_table "questionnaire_responses", :force => true do |t|
+    t.integer  "lead_id",          :null => false
+    t.integer  "questionnaire_id", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "questionnaire_topic_answers", :force => true do |t|
+    t.integer  "questionnaire_topic_id",    :null => false
+    t.integer  "questionnaire_response_id", :null => false
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "questionnaire_topic_options", :force => true do |t|
+    t.integer  "questionnaire_topic_id", :null => false
+    t.text     "text",                   :null => false
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "questionnaire_topics", :force => true do |t|
+    t.integer  "questionnaire_id", :null => false
+    t.text     "text",             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "questionnaires", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "questions", :force => true do |t|
     t.string   "sic_division"
     t.string   "q01"
@@ -762,6 +742,17 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string "resistance", :limit => 45, :null => false
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "title",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer "role_id", :null => false
+    t.integer "user_id", :null => false
+  end
+
   create_table "sales", :force => true do |t|
     t.integer  "appointment_id"
     t.string   "client_referenc_number"
@@ -975,6 +966,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string   "mobile"
     t.integer  "employee_id"
     t.boolean  "first_time",                               :default => true
+    t.boolean  "nda_accepted",                             :default => false
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
