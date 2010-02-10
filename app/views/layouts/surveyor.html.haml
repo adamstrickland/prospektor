@@ -1,0 +1,24 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+  %head
+    %meta{ "meta-equiv" => "content-type", :content => "text/html;charset=UTF-8" }
+    %title=controller.action_name
+    =stylesheet_link_tag 'reset'
+    =stylesheet_link_tag 'themes/custom/surveyor/ui.theme'
+    =stylesheet_link_tag 'themes/custom/surveyor/ui.slider'
+    =stylesheet_link_tag 'surveyor'
+    =stylesheet_link_tag 'master'
+    %style{ :type => "text/css" }=yield :styles
+    -if Rails.env == 'production'
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+      =javascript_include_tag 'ui/minified/jquery-ui.min'
+    -else
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+      =javascript_include_tag 'ui/jquery-ui'
+    =javascript_include_tag 'jrails'
+    =javascript_include_tag 'surveyor'
+  %body
+    #flash=flash[:notice]
+    =yield
