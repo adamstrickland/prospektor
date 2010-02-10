@@ -3,15 +3,21 @@
   %head
     / %meta
     %title Prospektor
-    =stylesheet_link_tag '960gs/reset' 
+    =stylesheet_link_tag 'reset' 
     =stylesheet_link_tag '960gs/text' 
     =stylesheet_link_tag '960gs/960' 
     =stylesheet_link_tag 'thickbox' 
     =stylesheet_link_tag 'master' 
     =stylesheet_action_link_tag
     %style{ :type => "text/css" }=yield :styles
-    =javascript_include_tag 'jquery' 
-    =javascript_include_tag 'jquery-ui'
+    -if Rails.env == 'production'
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+      =javascript_include_tag 'ui/minified/jquery-ui.min'
+    -else
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+      =javascript_include_tag 'ui/jquery-ui'
     =javascript_include_tag 'jrails' 
     =javascript_include_tag 'thickbox' 
     =javascript_include_tag 'application' 
