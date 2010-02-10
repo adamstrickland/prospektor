@@ -1,0 +1,54 @@
+20100210004238_survey_section_1:
+  data_export_identifier: "general"
+  display_order: 1
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "General"
+20100210004238_survey_section_2:
+  data_export_identifier: "employees"
+  display_order: 2
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Employees"
+20100210004238_survey_section_3:
+  data_export_identifier: "finance"
+  display_order: 3
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Finance"
+20100210004238_survey_section_4:
+  data_export_identifier: "budgeting"
+  display_order: 4
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Budgeting"
+20100210004238_survey_section_5:
+  data_export_identifier: "accounting"
+  display_order: 5
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Accounting"
+20100210004238_survey_section_6:
+  data_export_identifier: "costs"
+  display_order: 6
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Costs"
+20100210004238_survey_section_7:
+  data_export_identifier: "sales"
+  display_order: 7
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Sales"
+20100210004238_survey_section_8:
+  data_export_identifier: "technology"
+  display_order: 8
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Technology"
+20100210004238_survey_section_9:
+  data_export_identifier: "manufacturing"
+  display_order: 9
+  reference_identifier: 
+  survey: 20100210004238_survey_1
+  title: "Manufacturing"

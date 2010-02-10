@@ -1,0 +1,539 @@
+20100210004238_question_1:
+  data_export_identifier: "are_your_companys_policies_defined"
+  display_order: 1
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "How clear are your company's policies defined?"
+  survey_section: 20100210004238_survey_section_1
+  text: "How clear are your company's policies defined?"
+20100210004238_question_2:
+  data_export_identifier: "planning_your_decision_making_process"
+  display_order: 2
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the role of planning in your decision-making process?"
+  survey_section: 20100210004238_survey_section_1
+  text: "What best describes the role of planning in your decision-making process?"
+20100210004238_question_3:
+  data_export_identifier: "your_attitude_toward_trade_associations"
+  display_order: 3
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your attitude toward trade associations?"
+  survey_section: 20100210004238_survey_section_1
+  text: "What best describes your attitude toward trade associations?"
+20100210004238_question_4:
+  data_export_identifier: "your_relationship_with_your_government"
+  display_order: 4
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your relationship with your government?"
+  survey_section: 20100210004238_survey_section_1
+  text: "What best describes your relationship with your government?"
+20100210004238_question_5:
+  data_export_identifier: "companys_industrial_relations_management_policy"
+  display_order: 5
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the company's industrial relations management policy?"
+  survey_section: 20100210004238_survey_section_2
+  text: "What best describes the company's industrial relations management policy?"
+20100210004238_question_6:
+  data_export_identifier: "your_industrial_relations_programs_plans"
+  display_order: 6
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your industrial relations program's plans?"
+  survey_section: 20100210004238_survey_section_2
+  text: "What best describes your industrial relations program's plans?"
+20100210004238_question_7:
+  data_export_identifier: "best_describes_your_selection_policy"
+  display_order: 7
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your selection policy?"
+  survey_section: 20100210004238_survey_section_2
+  text: "What best describes your selection policy?"
+20100210004238_question_8:
+  data_export_identifier: "describes_your_companys_compensation_packages"
+  display_order: 8
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your company's compensation packages?"
+  survey_section: 20100210004238_survey_section_2
+  text: "What best describes your company's compensation packages?"
+20100210004238_question_9:
+  data_export_identifier: "describes_your_organizations_incentive_plans"
+  display_order: 9
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your organization's incentive plans?"
+  survey_section: 20100210004238_survey_section_2
+  text: "What best describes your organization's incentive plans?"
+20100210004238_question_10:
+  data_export_identifier: "describes_your_records_keeping_policy"
+  display_order: 10
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your records-keeping policy?"
+  survey_section: 20100210004238_survey_section_2
+  text: "What best describes your records-keeping policy?"
+20100210004238_question_11:
+  data_export_identifier: "describes_your_financial_planning_procedures"
+  display_order: 11
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your financial planning procedures?"
+  survey_section: 20100210004238_survey_section_3
+  text: "What best describes your financial planning procedures?"
+20100210004238_question_12:
+  data_export_identifier: "state_your_organizations_cash_reserves"
+  display_order: 12
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the state of your organization's cash reserves?"
+  survey_section: 20100210004238_survey_section_3
+  text: "What best describes the state of your organization's cash reserves?"
+20100210004238_question_13:
+  data_export_identifier: "describes_your_budget_planning_process"
+  display_order: 13
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the your budget planning process?"
+  survey_section: 20100210004238_survey_section_4
+  text: "What best describes the your budget planning process?"
+20100210004238_question_14:
+  data_export_identifier: "best_describes_your_sales_program"
+  display_order: 14
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your sales program?"
+  survey_section: 20100210004238_survey_section_4
+  text: "What best describes your sales program?"
+20100210004238_question_15:
+  data_export_identifier: "describes_companys_pricing_control_policy"
+  display_order: 15
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the company's pricing control policy?"
+  survey_section: 20100210004238_survey_section_4
+  text: "What best describes the company's pricing control policy?"
+20100210004238_question_16:
+  data_export_identifier: "describes_your_performance_reporting_policy"
+  display_order: 16
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your performance reporting policy?"
+  survey_section: 20100210004238_survey_section_4
+  text: "What best describes your performance reporting policy?"
+20100210004238_question_17:
+  data_export_identifier: "you_describe_your_accounting_standards"
+  display_order: 17
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "How would you describe your accounting standards?"
+  survey_section: 20100210004238_survey_section_5
+  text: "How would you describe your accounting standards?"
+20100210004238_question_18:
+  data_export_identifier: "describes_state_your_accounting_information"
+  display_order: 18
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the state of your accounting information?"
+  survey_section: 20100210004238_survey_section_5
+  text: "What best describes the state of your accounting information?"
+20100210004238_question_19:
+  data_export_identifier: "describes_your_companys_accounting_technology"
+  display_order: 19
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your company's accounting technology?"
+  survey_section: 20100210004238_survey_section_5
+  text: "What best describes your company's accounting technology?"
+20100210004238_question_20:
+  data_export_identifier: "best_describes_your_costing_system"
+  display_order: 20
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your costing system?"
+  survey_section: 20100210004238_survey_section_6
+  text: "What best describes your costing system?"
+20100210004238_question_21:
+  data_export_identifier: "your_stance_towards_cost_information"
+  display_order: 21
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your stance towards cost information?"
+  survey_section: 20100210004238_survey_section_6
+  text: "What best describes your stance towards cost information?"
+20100210004238_question_22:
+  data_export_identifier: "state_your_historical_record_keeping"
+  display_order: 22
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the state of your historical record-keeping?"
+  survey_section: 20100210004238_survey_section_6
+  text: "What best describes the state of your historical record-keeping?"
+20100210004238_question_23:
+  data_export_identifier: "your_stance_towards_production_records"
+  display_order: 23
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your stance towards production records?"
+  survey_section: 20100210004238_survey_section_6
+  text: "What best describes your stance towards production records?"
+20100210004238_question_24:
+  data_export_identifier: "best_describes_your_estimating_policy"
+  display_order: 24
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your estimating policy?"
+  survey_section: 20100210004238_survey_section_6
+  text: "What best describes your estimating policy?"
+20100210004238_question_25:
+  data_export_identifier: "describes_your_profit_loss_calculation"
+  display_order: 25
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "Which best describes your profit & loss calculation?"
+  survey_section: 20100210004238_survey_section_6
+  text: "Which best describes your profit & loss calculation?"
+20100210004238_question_26:
+  data_export_identifier: "effect_sales_volume_your_organization"
+  display_order: 26
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What is the effect of sales volume on your organization?"
+  survey_section: 20100210004238_survey_section_6
+  text: "What is the effect of sales volume on your organization?"
+20100210004238_question_27:
+  data_export_identifier: "describes_your_sales_planning_policy"
+  display_order: 27
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your sales planning policy?"
+  survey_section: 20100210004238_survey_section_7
+  text: "What best describes your sales planning policy?"
+20100210004238_question_28:
+  data_export_identifier: "are_your_sales_budgets_defined"
+  display_order: 28
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "How are your sales budgets defined?"
+  survey_section: 20100210004238_survey_section_7
+  text: "How are your sales budgets defined?"
+20100210004238_question_29:
+  data_export_identifier: "how_are_your_prices_determined"
+  display_order: 29
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "How are your prices determined?"
+  survey_section: 20100210004238_survey_section_7
+  text: "How are your prices determined?"
+20100210004238_question_30:
+  data_export_identifier: "what_your_sales_analysis_policy"
+  display_order: 30
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What is your sales analysis policy?"
+  survey_section: 20100210004238_survey_section_7
+  text: "What is your sales analysis policy?"
+20100210004238_question_31:
+  data_export_identifier: "you_determine_your_sales_focus"
+  display_order: 31
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "How do you determine your sales focus?"
+  survey_section: 20100210004238_survey_section_7
+  text: "How do you determine your sales focus?"
+20100210004238_question_32:
+  data_export_identifier: "are_your_sales_forces_trained"
+  display_order: 32
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "How are your sales forces trained?"
+  survey_section: 20100210004238_survey_section_7
+  text: "How are your sales forces trained?"
+20100210004238_question_33:
+  data_export_identifier: "describes_your_sales_records_policy"
+  display_order: 33
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "Which best describes your sales records policy?"
+  survey_section: 20100210004238_survey_section_7
+  text: "Which best describes your sales records policy?"
+20100210004238_question_34:
+  data_export_identifier: "best_describes_your_technology_requirements"
+  display_order: 34
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your technology requirements?"
+  survey_section: 20100210004238_survey_section_8
+  text: "What best describes your technology requirements?"
+20100210004238_question_35:
+  data_export_identifier: "state_your_technology_infrastructure_hardware"
+  display_order: 35
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the state of your technology infrastructure hardware?"
+  survey_section: 20100210004238_survey_section_8
+  text: "What best describes the state of your technology infrastructure hardware?"
+20100210004238_question_36:
+  data_export_identifier: "state_your_technology_infrastructure_software"
+  display_order: 36
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the state of your technology infrastructure software?"
+  survey_section: 20100210004238_survey_section_8
+  text: "What best describes the state of your technology infrastructure software?"
+20100210004238_question_37:
+  data_export_identifier: "describes_companys_management_information_systems"
+  display_order: 37
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the company's management information systems?"
+  survey_section: 20100210004238_survey_section_8
+  text: "What best describes the company's management information systems?"
+20100210004238_question_38:
+  data_export_identifier: "best_describes_organizations_online_presence"
+  display_order: 38
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "Which best describes the organization's online presence?"
+  survey_section: 20100210004238_survey_section_8
+  text: "Which best describes the organization's online presence?"
+20100210004238_question_39:
+  data_export_identifier: "you_research_and_development_planning"
+  display_order: 39
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes you research and development planning?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes you research and development planning?"
+20100210004238_question_40:
+  data_export_identifier: "your_research_and_development_organization"
+  display_order: 40
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your research and development organization?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes your research and development organization?"
+20100210004238_question_41:
+  data_export_identifier: "research_and_development_teams_interaction"
+  display_order: 41
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "Which of the following best describes your research and development team's interaction?"
+  survey_section: 20100210004238_survey_section_9
+  text: "Which of the following best describes your research and development team's interaction?"
+20100210004238_question_42:
+  data_export_identifier: "best_describes_your_purchasing_policy"
+  display_order: 42
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your purchasing policy?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes your purchasing policy?"
+20100210004238_question_43:
+  data_export_identifier: "describes_companys_plant_engineering_situation"
+  display_order: 43
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the company's plant engineering situation?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes the company's plant engineering situation?"
+20100210004238_question_44:
+  data_export_identifier: "best_describes_your_production_operations"
+  display_order: 44
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "Which of the following best describes your production operations?"
+  survey_section: 20100210004238_survey_section_9
+  text: "Which of the following best describes your production operations?"
+20100210004238_question_45:
+  data_export_identifier: "describes_your_quality_control_process"
+  display_order: 45
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your quality control process?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes your quality control process?"
+20100210004238_question_46:
+  data_export_identifier: "tool_engineering_processes_are_place"
+  display_order: 46
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What tool engineering processes are in place?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What tool engineering processes are in place?"
+20100210004238_question_47:
+  data_export_identifier: "best_describes_organizations_engineering_methods"
+  display_order: 47
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes the organizations engineering methods?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes the organizations engineering methods?"
+20100210004238_question_48:
+  data_export_identifier: "best_describes_your_production_procedures"
+  display_order: 48
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "What best describes your production procedures?"
+  survey_section: 20100210004238_survey_section_9
+  text: "What best describes your production procedures?"
+20100210004238_question_49:
+  data_export_identifier: "best_describes_your_warehousing_program"
+  display_order: 49
+  display_type: default
+  is_mandatory: true
+  pick: one
+  question_group: 
+  reference_identifier: 
+  short_text: "Which of the following best describes your warehousing program?"
+  survey_section: 20100210004238_survey_section_9
+  text: "Which of the following best describes your warehousing program?"
