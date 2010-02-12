@@ -1,7 +1,7 @@
-require 'machinist/active_record'
-require 'faker'
-require 'sham'
-
+# require 'machinist/active_record'
+# require 'faker'
+# require 'sham'
+# 
 Sham.define do
   title { Faker::Lorem.words(5).join(' ') }
   name { Faker::Name.name }
@@ -32,32 +32,32 @@ Sham.define do
   msa(:unique => false) { (1..3).to_a.map{|i| Faker::Address.city}.join('--') }
   credit_score(:unique => false){ rand(800) }
 end
-
-Appointment.blueprint do
-  lead
-  scheduler { User.make }
-  client_email { Sham.email }
-  expert_email { Sham.email }
-  location { Faker::Address.street_address }
-  duration { 1 }
-  topic
-  session_date { 1.days.from_now }
-  session_time { Time.now.strftime("%I:%M%p") }
-end
-
-Comment.blueprint do
-  lead
-  user
-  comment { Faker::Lorem.paragraph }
-end
-
-Event.blueprint do
-  lead
-  user
-  action { 'Something' }
-  type { 'Foo' }
-end
-
+# 
+# Appointment.blueprint do
+#   lead
+#   scheduler { User.make }
+#   client_email { Sham.email }
+#   expert_email { Sham.email }
+#   location { Faker::Address.street_address }
+#   duration { 1 }
+#   topic
+#   session_date { 1.days.from_now }
+#   session_time { Time.now.strftime("%I:%M%p") }
+# end
+# 
+# Comment.blueprint do
+#   lead
+#   user
+#   comment { Faker::Lorem.paragraph }
+# end
+# 
+# Event.blueprint do
+#   lead
+#   user
+#   action { 'Something' }
+#   type { 'Foo' }
+# end
+# 
 Lead.blueprint do
   name
   last_name
@@ -93,28 +93,28 @@ Lead.blueprint do
   created_at { Sham.yesterday }
   user
 end
-
-Lead.blueprint(:assigned) do
-  aasm_state { :assigned }
-end
-
-Lead.blueprint(:free) do
-  aasm_state { :free }
-  user { nil }
-end
-
-Presentation.blueprint do
-  lead
-  user
-  url
-  email
-end
-
-Topic.blueprint do
-  name { Faker::Company.bs }
-  complimentary { true }
-end
-
+# 
+# Lead.blueprint(:assigned) do
+#   aasm_state { :assigned }
+# end
+# 
+# Lead.blueprint(:free) do
+#   aasm_state { :free }
+#   user { nil }
+# end
+# 
+# Presentation.blueprint do
+#   lead
+#   user
+#   url
+#   email
+# end
+# 
+# Topic.blueprint do
+#   name { Faker::Company.bs }
+#   complimentary { true }
+# end
+# 
 User.blueprint do
   login
   name
@@ -130,15 +130,15 @@ User.blueprint do
   extension { rand(9) % 2 == 0 ? '' : (1..3).map{|i| rand(9)}.join }
   mobile { Sham.phone }
 end
-
-CallQueue.blueprint do
-  name
-  user
-  queue_date { Date.today }
-end
-
-def make_queue_with_leads(attribs={})
-  CallQueue.make(attribs) do |q|
-    3.times { q.leads.make }
-  end
-end
+# 
+# CallQueue.blueprint do
+#   name
+#   user
+#   queue_date { Date.today }
+# end
+# 
+# def make_queue_with_leads(attribs={})
+#   CallQueue.make(attribs) do |q|
+#     3.times { q.leads.make }
+#   end
+# end
