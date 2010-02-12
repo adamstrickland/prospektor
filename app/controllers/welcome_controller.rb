@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   
   def index
     if logged_in?
-      redirect_to user_dashboard_url(current_user)
+      redirect_to dashboard_url
     else
       render :index
     end

@@ -7,6 +7,10 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.resource :session
+  map.with_options :controller => 'dashboard' do |opts|
+    opts.dashboard '/dashboard', :action => 'index'
+    opts.terms '/terms', :action => 'terms'
+  end
 
   map.resources :users do |users|
     # users.resources :call_queues, :only => [ :create, :index, :show ] do |cq|
@@ -16,8 +20,8 @@ ActionController::Routing::Routes.draw do |map|
     
     users.resources :reports, :only => [ :index, :show ]
     
-    users.dashboard '/dashboard', :controller => 'dashboard', :action => 'index'
-    users.terms '/terms', :controller => 'dashboard', :action => 'terms'
+    # users.dashboard '/dashboard', :controller => 'dashboard', :action => 'index'
+    # users.terms '/terms', :controller => 'dashboard', :action => 'terms'
   end
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
@@ -52,6 +56,11 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :applicants, :only => [ :index ], :member => { :onboard => :post, :reject => :post }
     # admin.resources :assignments, :only => [:index, :show], :member => { :create_block => :post, :new_block => :get, :all_leads => :get }
   end 
+  
+  # map.with_options :path_prefix => 'public' do |pub|
+  #   pub.bcr 'bcr', :controller => 'surveyor', :action => 'bcr'
+  # end
+  # map.unknown_survey '/public/unknown', :controller => 'surveyor', :action => 'unknown'
   
   map.welcome '/welcome', :controller => 'welcome', :action => 'index'
   

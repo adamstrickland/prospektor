@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
       self.current_user = user
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default(user_dashboard_url(user))
+      redirect_back_or_default(dashboard_url)
       flash[:notice] = "Logged in successfully"
     else
       Event.new(:user => user, :action => 'login', :qualifier => 'failed').save

@@ -15,15 +15,17 @@ class Applicant < ActiveRecord::Base
     e.last_name = self.applicantlastname
     e.preferred_name = self.applicantpreferredname
     e.social_security_number = self.socialsecuritynumber
-    e.gender = self.gender[0].chr.upcase if self.gender else 'M'
+    # e.gender = self.gender[0].chr.upcase if self.gender else 'M'
+    e.gender = (self.gender ? self.gender[0].chr.upcase : 'M')
     e.title = self.positionapplyingfor
-    e.department_name = unless self.positionapplyingfor
-        'ES'
-      else
-        case self.positionapplyingfor.downcase
-          when 'expert', nil then 'ES'
-        end
-      end
+    # e.department_name = unless self.positionapplyingfor
+    #     'ES'
+    #   else
+    #     case self.positionapplyingfor.downcase
+    #       when 'expert', nil then 'ES'
+    #     end
+    #   end
+    e.department_name = 'ES'
     e.email_name = self.email
     e.address = self.address
     e.city = self.city
@@ -42,8 +44,6 @@ class Applicant < ActiveRecord::Base
     
     if e.save
       e
-    else
-      nil
     end
   end
   

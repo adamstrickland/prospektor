@@ -56,4 +56,28 @@ Spec::Runner.configure do |config|
   # == Notes
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+  def app
+    @_app ||= ActionController::Integration::Session.new
+  end
+  
+  def flash
+    @_flash ||= app.flash
+  end
+
+  def login_as(user)
+    @current_user = mock_model(User)
+    User.stub!(:find_by_id).and_return(@current_user)
+    @current_user.stub!(:save).and_return(true)
+    controller.stub!(:current_user).and_return(@current_user)
+    case user
+      when :admin
+        User.stub!(:is_admin?).and_return(true)
+    end    
+    request.session[:user] = @current_user
+  end
+  # 
+  # def current_user
+  #   @current_user ||= mock_model(User)
+  # end
+    
 end
