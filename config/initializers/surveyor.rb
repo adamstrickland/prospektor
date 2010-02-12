@@ -9,4 +9,5 @@ Surveyor::Config.run do |config|
 end
 
 # require 'models/survey_extensions' # Extended the survey model
+require 'models/response_set_extensions' # Extended the ResponseSet model
 # require 'helpers/surveyor_helper_extensions' # Extend the surveyor helper

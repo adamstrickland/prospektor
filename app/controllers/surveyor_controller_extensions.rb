@@ -1,6 +1,3 @@
-require File.join(Rails.root, 'vendor', 'plugins', 'surveyor', 'app', 'models', 'response_set')
-# require File.join(Rails.root, 'app', 'models', 'response_set')
-
 module SurveyorControllerExtensions
   def self.included(base)
     base.extend(ClassMethods)
@@ -20,6 +17,7 @@ module SurveyorControllerExtensions
     
     def capture_lead_as_responder
       rs = ResponseSet.find_by_access_code(params[:response_set_code])
+      # unless rs.respond_to?('has_lead?') && rs.has_lead?
       unless rs.has_lead?
         lead = Lead.find_by_key(params[:key])
         if lead.present?
