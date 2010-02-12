@@ -1,4 +1,5 @@
 require 'digest/sha1'
+require 'base64'
 
 class Lead < ActiveRecord::Base
   # include AASM
@@ -14,6 +15,7 @@ class Lead < ActiveRecord::Base
   has_many :comments
   # has_and_belongs_to_many :queues # rm'd w/ impl of Touchpoints
   has_many :touchpoints
+  has_many :response_sets
   belongs_to :status
   
   # validations
@@ -102,7 +104,11 @@ class Lead < ActiveRecord::Base
   alias_method :prospect, :full_name
   
   def key
-    Digest::SHA1.hexdigest(self.phone)
+    Base64.encode64(self.phone).strip
+  end
+  
+  def self.find_by_key(key)
+    key && key.present? ? self.find_by_phone(:first, Base64.decode64(key.strip)) : nil
   end
   
   # def self.find_by_key(key)
