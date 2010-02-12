@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true
   
+  def is_admin?
+    self.roles.map(&:title).include?('admin')
+  end
   
   def official_phone
     "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
