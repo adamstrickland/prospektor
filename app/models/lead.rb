@@ -108,7 +108,7 @@ class Lead < ActiveRecord::Base
   end
   
   def self.find_by_key(key)
-    key && key.present? ? self.find_by_phone(:first, Base64.decode64(key.strip)) : nil
+    key && key.present? ? self.find_by_phone(Base64.decode64(key.strip)) : nil
   end
   
   # def self.find_by_key(key)
