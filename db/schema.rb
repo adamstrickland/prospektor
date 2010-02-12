@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100209233725) do
+ActiveRecord::Schema.define(:version => 20100211174813) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -759,7 +759,10 @@ ActiveRecord::Schema.define(:version => 20100209233725) do
     t.datetime "completed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "lead_id"
   end
+
+  add_index "response_sets", ["lead_id"], :name => "index_response_sets_on_lead_id"
 
   create_table "responses", :force => true do |t|
     t.integer  "response_set_id"
