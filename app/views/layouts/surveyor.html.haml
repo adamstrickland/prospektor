@@ -9,7 +9,7 @@
     =stylesheet_link_tag 'surveyor'
     =stylesheet_link_tag 'master'
     =stylesheet_link_tag 'surveyor.custom'
-    =stylesheet_link_tag @survey.title.underscore if @survey
+    / =stylesheet_link_tag @survey.title.underscore if @survey
     %style{ :type => "text/css" }=yield :styles
     -if Rails.env == 'production'
       =javascript_include_tag 'jquery' 

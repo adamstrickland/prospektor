@@ -1,0 +1,5 @@
+-form_tag(take_survey_path(:survey_code => @survey_code), :id => 'autotake') do 
+  -@identifiers.each do |ident|
+    =hidden_field_tag(ident[:key], ident[:value])
+:javascript
+  $('#autotake').submit()

@@ -57,9 +57,11 @@ ActionController::Routing::Routes.draw do |map|
     # admin.resources :assignments, :only => [:index, :show], :member => { :create_block => :post, :new_block => :get, :all_leads => :get }
   end 
   
-  # map.with_options :path_prefix => 'public' do |pub|
-  #   pub.bcr 'bcr', :controller => 'surveyor', :action => 'bcr'
-  # end
+  map.with_options :path_prefix => 'public' do |pub|
+    pub.with_options :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
+      surveys.bcr 'bcr', :action => 'get_bcr'
+    end
+  end
   # map.unknown_survey '/public/unknown', :controller => 'surveyor', :action => 'unknown'
   
   map.welcome '/welcome', :controller => 'welcome', :action => 'index'

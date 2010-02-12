@@ -13,20 +13,44 @@ describe SurveyorController do
   end
   
   describe "anyone," do
-    describe "if they want to use the plugin's default mechanism," do
-      it "should be able to get to the BCR survey" do
+    describe "using the surveyor mechanism," do
+      it "the survey is displayed" do
         post :create, :survey_code => @survey_code
         response.should redirect_to edit_my_survey_path(:survey_code => @survey_code, :response_set_code  => @response_code)
-        # response.should have_text('BCR')
       end
     end
     
-    describe "if they want to use the url from, for instance, an email," do
-      it "should be able to get to the BCR survey" # do
-      #         get :bcr
-      #         response.should redirect_to edit_my_survey_url(:survey_code => @survey_code, :response_set_code  => @response_code)
-      #         # response.should have_text('BCR')
-      #       end
+    describe "if the autotake page is used," do
+      before do
+      end
+      
+      describe "and a key is sent (if no key is sent, is same as default)," do
+        before do
+          @key = 'QWERTY'
+          @lead = mock_model(Lead)
+          Lead.should_receive(:find_by_key).with(@key).and_return(@lead)
+          
+          ResponseSet.stub!(:find_by_access_code).with(@response_code).and_return(@response_set)
+          @response_set.should_receive(:lead_id?).and_return(false)
+          @response_set.should_receive(:lead_id=).with(@lead)
+          @response_set.should_receive(:save).and_return(true)
+        end
+        
+        it "the response should be associated to the lead" do
+          post :create, :survey_code => @survey_code, :key => @key
+          response.should redirect_to edit_my_survey_path(:survey_code => @survey_code, :response_set_code  => @response_code)
+        end
+      end
+    end
+    
+    describe "if they use a static url," do
+      before do
+      end
+      
+      it "the autotake is renderd (which should take them to the survey itself)" do
+        get :get_bcr, :key => @key
+        response.should render_template 'surveyor/autotake.html.haml'
+      end
     end
   end
 end
