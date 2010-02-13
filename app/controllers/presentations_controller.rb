@@ -30,6 +30,7 @@ class PresentationsController < ApplicationController
     @lead = Lead.find(params[:lead_id])
     @presentation.email = @lead.email
     @touchpoint = Touchpoint.new( :call_window_start_at => Time.now + 15.minutes )
+    @topics = InformationTopic.all.sort{ |t| t.name }.map{ |t| [t.name, t.id] }
 
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }
@@ -45,12 +46,14 @@ class PresentationsController < ApplicationController
   # POST /presentations
   # POST /presentations.xml
   def create
+    lead = Lead.find_by_id(params[:lead_id])
+  
     @presentation = Presentation.new(params[:presentation])
-    @presentation.url = generate_url('http://demo.trigonsolutions.com/demo')
+    @presentation.lead = lead
+    # @presentation.url = generate_url('http://demo.trigonsolutions.com/demo')
+    @presentation.url = "#{@presentation.topic.url}?key=#{lead.key}"
     @presentation.user = current_user
     
-    lead = Lead.find_by_id(params[:lead_id])
-    @presentation.lead = lead
     
     # @touchpoint = Touchpoint.new(params[:touchpoint])
     # @touchpoint.lead = lead
@@ -69,11 +72,6 @@ class PresentationsController < ApplicationController
           render :json => { :status => :failure, :errors => @presentation.errors }
         }
       end
-      # if @presentation.save and @touchpoint.save
-      #   format.html { render :partial => 'events/listing_item', :locals => { :event => lead.events.last } }
-      # else
-      #   format.html { render :partial => 'common/errors', :status => :unprocessable_entity, :locals => { :errors => @presentation.errors } }
-      # end
     end
   end
 
@@ -105,11 +103,4 @@ class PresentationsController < ApplicationController
   #     format.xml  { head :ok }
   #   end
   # end
-  
-  private
-  def generate_url(prefix='')
-    'http://connectpro60851448.acrobat.com/information/'
-    # uuid = UUIDTools::UUID.timestamp_create.to_s
-    # "#{prefix}/#{uuid}"
-  end
 end

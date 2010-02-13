@@ -10,6 +10,11 @@
       .fields.container_16
         .row
           .fieldname.grid_2.alpha
+            %label{ :for => :topic_id } Topic
+          .field.grid_5.omega=f.select :topic_id, @topics, :selected => @presentation.topic_id || 1
+          .clear
+        .row
+          .fieldname.grid_2.alpha
             %label{ :for => :email } Email
           .field.grid_5.omega=f.text_field :email
           .clear
@@ -22,10 +27,15 @@
             #waiting
               =image_tag 'spinner.gif'
             #confirm
-              %p
-                Was the email received?
-              %em
-                %button{ :type => 'submit' } Resend
-              %em
-                %button{ :type => 'button', :onclick => "tb_remove();#{ update_page{ |p| p.redirect_to(next_lead_in_queue_url(@lead))} };" } Next
+              .ask
+                %p
+                  Was the email received?
+              .no
+                %em
+                  %button{ :type => 'submit' } Resend
+              .yes
+                %em
+                  %button{ :type => 'button', :onclick => "tb_remove()" } OK
+                %em
+                  %button{ :type => 'button', :onclick => "tb_remove();#{ update_page{ |p| p.redirect_to(next_lead_in_queue_url(@lead))} };" } Next
           .clear

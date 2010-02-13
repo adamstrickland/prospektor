@@ -8,7 +8,7 @@
 					.clear
 				.row
 					.fieldname.grid_2.alpha=f.label :topic
-					.field.grid_5.omega=f.select :topic_id, Topic.find_all_by_complimentary(true, :order => 'number').map{ |t| ["#{t.number.to_s.rjust(2, '0')} - #{t.name}", t.id] }
+					.field.grid_5.omega=f.select :topic_id, AnalysisTopic.find_all_by_complimentary(true, :order => 'number').map{ |t| ["#{t.number.to_s.rjust(2, '0')} - #{t.name}", t.id] }
 					.clear
 				.row
 					.fieldname.grid_2.alpha=f.label :location, 'Phone Number'
