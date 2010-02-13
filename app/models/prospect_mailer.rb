@@ -62,11 +62,12 @@ class ProspectMailer < ActionMailer::Base
   end
 
   def presentation_invitation(preso)
-    subject "Competition and How to Stay on Top"
+    subject "#{preso.topic.name} Information"
     recipients preso.email
     from sender(preso.user.email)
     sent_on Time.now
     body ({ 
+      :topic => preso.topic.name,
       :to => {
         :name => preso.lead.full_name,
         :company => preso.lead.company,
