@@ -1,2 +1,2 @@
-class ApplicantsControllerController < ApplicationController
+class ApplicantsController < ApplicationController
 end

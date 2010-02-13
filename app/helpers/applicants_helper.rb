@@ -1,2 +1,2 @@
-module ApplicantsControllerHelper
+module ApplicantsHelper
 end
