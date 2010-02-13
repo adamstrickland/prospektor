@@ -1,0 +1,2 @@
+module ApplicantsControllerHelper
+end
