@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100211174813) do
+ActiveRecord::Schema.define(:version => 20100213193452) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -445,7 +445,10 @@ ActiveRecord::Schema.define(:version => 20100211174813) do
     t.datetime "updated_at"
     t.date     "callback_date", :default => '2009-12-28',          :null => false
     t.time     "callback_time", :default => '2000-01-01 09:34:28', :null => false
+    t.integer  "topic_id"
   end
+
+  add_index "presentations", ["topic_id"], :name => "index_presentations_on_topic_id"
 
   create_table "prior_consultings", :force => true do |t|
     t.string   "bad_experience"
@@ -984,7 +987,11 @@ ActiveRecord::Schema.define(:version => 20100211174813) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
+    t.string   "type"
+    t.string   "information"
   end
+
+  add_index "topics", ["type"], :name => "index_topics_on_type"
 
   create_table "touchpoints", :force => true do |t|
     t.integer  "call_queue_id",         :null => false

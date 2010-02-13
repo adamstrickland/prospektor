@@ -1,3 +1,7 @@
 class Topic < ActiveRecord::Base
-  has_many :appointments
+    # t.string   "name",                            :null => false
+    # t.boolean  "complimentary", :default => true, :null => false
+    # t.integer  "number"
+    # t.string   "type"
+    # t.string   "information"
 end
