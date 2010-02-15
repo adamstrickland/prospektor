@@ -1,0 +1,10 @@
+id,"time_zone","description","created_at","updated_at"
+1,"E","Eastern Time Zone",NULL,NULL
+2,"C","Central Time Zone",NULL,NULL
+3,"M","Mountain Time Zone",NULL,NULL
+4,"P","Pacific Time Zone",NULL,NULL
+5,"A","Alaska Time Zone",NULL,NULL
+6,"H","Hawaii-Aleutian Time Zone",NULL,NULL
+
+
+

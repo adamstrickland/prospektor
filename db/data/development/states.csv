@@ -1,0 +1,55 @@
+id,"state","state_name","created_at","updated_at"
+1,"AK","Alaska",NULL,NULL
+2,"AL","Alabama",NULL,NULL
+3,"AR","Arkansas",NULL,NULL
+4,"AZ","Arizona",NULL,NULL
+5,"CA","California",NULL,NULL
+6,"CO","Colorado",NULL,NULL
+7,"CT","Connecticut",NULL,NULL
+8,"DC","District of Columbia",NULL,NULL
+9,"DE","Delaware",NULL,NULL
+10,"FL","Florida",NULL,NULL
+11,"GA","Georgia",NULL,NULL
+12,"HI","Hawaii",NULL,NULL
+13,"IA","Iowa",NULL,NULL
+14,"ID","Idaho",NULL,NULL
+15,"IL","Illinois",NULL,NULL
+16,"IN","Indiana",NULL,NULL
+17,"KS","Kansas",NULL,NULL
+18,"KY","Kentucky",NULL,NULL
+19,"LA","Louisiana",NULL,NULL
+20,"MA","Massachusetts",NULL,NULL
+21,"MD","Maryland",NULL,NULL
+22,"ME","Maine",NULL,NULL
+23,"MI","Michigan",NULL,NULL
+24,"MN","Minnesota",NULL,NULL
+25,"MO","Missouri",NULL,NULL
+26,"MS","Mississippi",NULL,NULL
+27,"MT","Montana",NULL,NULL
+28,"NC","North Carolina",NULL,NULL
+29,"ND","North Dakota",NULL,NULL
+30,"NE","Nebraska",NULL,NULL
+31,"NH","New Hampshire",NULL,NULL
+32,"NJ","New Jersey",NULL,NULL
+33,"NM","New Mexico",NULL,NULL
+34,"NV","Nevada",NULL,NULL
+35,"NY","New York",NULL,NULL
+36,"OH","Ohio",NULL,NULL
+37,"OK","Oklahoma",NULL,NULL
+38,"OR","Oregon",NULL,NULL
+39,"PA","Pennsylvania",NULL,NULL
+40,"RI","Rhode Island",NULL,NULL
+41,"SC","South Carolina",NULL,NULL
+42,"SD","South Dakota",NULL,NULL
+43,"TN","Tennessee",NULL,NULL
+44,"TX","Texas",NULL,NULL
+45,"UT","Utah",NULL,NULL
+46,"VA","Virginia",NULL,NULL
+47,"VT","Vermont",NULL,NULL
+48,"WA","Washington",NULL,NULL
+49,"WI","Wisconsin",NULL,NULL
+50,"WV","West Virginia",NULL,NULL
+51,"WY","Wyoming",NULL,NULL
+
+
+
