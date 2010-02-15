@@ -52,12 +52,12 @@ class Lead < ActiveRecord::Base
     :conditions => { :state_or_province => st }
   }
   named_scope :located_in_timezone_of, lambda { |st|
-    :joins => :state
+    :joins => [:states, :time_zones],
     :conditions => { 
       :state_or_province => st 
     }
   }
-  named_scope :valid, :joins => :status, :conditions => "status.state != 'dead' "
+  named_scope :valid, :joins => :statuses, :conditions => "status.state != 'dead' "
   named_scope :open, :conditions => " NOT EXISTS (
                                       SELECT 1 
                                       FROM sales S INNER JOIN 
