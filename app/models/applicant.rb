@@ -21,7 +21,7 @@ class Applicant < ActiveRecord::Base
   alias_attribute :position_applying_for, :positionapplyingfor
   alias_attribute :consulting_experience_description, :ancillarycomments
   alias_attribute :has_applied_before, :appliedtrigonbefore
-  alias_attribute :contacted_by, :reportstousername
+  # alias_attribute :contacted_by, :reportstousername
   alias_attribute :how_heard, :howheardoftrigon
   alias_attribute :highest_education, :highesteducationachieved
   alias_attribute :school, :edhistschool1

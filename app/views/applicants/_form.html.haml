@@ -14,7 +14,11 @@
       :font-style italic
 :javascript
   $(function(){
-    $('#applicant_first_name').focus();  
+    $('#applicant_first_name').focus();
+    
+    $('#applicant_first_name').blur(function(e){
+      $('applicant_preferred_name').val($(this).val());
+    });
   });
 .form.grid_12
   .demographics
@@ -24,16 +28,16 @@
         .value.grid_6=f.text_field :first_name
         .clear
       .row
+        .label.grid_4=f.label :preferred_name
+        .value.grid_6=f.text_field :preferred_name
+        .clear
+      .row
         .label.grid_4=f.label :middle_initial
         .value.grid_6=f.text_field :middle_initial
         .clear
       .row.required
         .label.grid_4=f.label :last_name
         .value.grid_6=f.text_field :last_name
-        .clear
-      .row
-        .label.grid_4=f.label :contacted_by
-        .value.grid_6=f.text_field :contacted_by
         .clear
       .row.required
         .label.grid_4=f.label :address
@@ -85,7 +89,7 @@
         .value.grid_6=f.select :years_experience, ['0-2 years', '3-5 years', '6-10 years', '10+ years'], { :include_blank => true }
         .clear
       .row
-        .label.grid_4=f.label :consulting_experience_description, "Please describe any consulting experience you have."
+        .label.grid_4=f.label :consulting_experience_description, "Please describe any consulting industry experience you have."
         .value.grid_6=f.text_area :consulting_experience_description, :rows => 10, :cols => 60
         .clear
       .row

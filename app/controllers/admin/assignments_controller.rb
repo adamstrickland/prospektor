@@ -79,9 +79,12 @@ class Admin::AssignmentsController < ApplicationController
   def create
     block_size = params[:size].to_i || 500
     user = User.find(params[:user_id])
-    assignments = Lead.open.select{ |lead| 
+    all_open_leads = Lead.valid.open
+    state_leads = all_open_leads.select{ |lead| 
       lead.state == user.employee.state_or_province   # may need to .strip.upcase for state compare?
-    }[0..(block_size - 1)]
+    }
+    possible_leads = state_leads
+    assignments = possible_leads[0..(block_size - 1)]
     user.leads << assignments
     
     respond_to do |format|

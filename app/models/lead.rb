@@ -48,6 +48,16 @@ class Lead < ActiveRecord::Base
   # named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
   # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
   # named_scope :open, 
+  named_scope :located_in_state_of, lambda { |st|
+    :conditions => { :state_or_province => st }
+  }
+  named_scope :located_in_timezone_of, lambda { |st|
+    :joins => :state
+    :conditions => { 
+      :state_or_province => st 
+    }
+  }
+  named_scope :valid, :joins => :status, :conditions => "status.state != 'dead' "
   named_scope :open, :conditions => " NOT EXISTS (
                                       SELECT 1 
                                       FROM sales S INNER JOIN 

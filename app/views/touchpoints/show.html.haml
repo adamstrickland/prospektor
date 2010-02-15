@@ -1,16 +1,4 @@
 =render :partial => 'leads/display', :locals => { :lead => @lead }
 
 -content_for :sidebar do
-  #actions.menu
-    .title Actions
-    %ul.menu
-      %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
-      %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'Send'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
-      %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
-      %li=link_to 'Edit', edit_lead_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
-  #help.menu
-    .title Help
-    %ul.menu
-      %li=link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
-      / %li=link_to 'Documentation', documentation_url(:height => 300, :width => 300), :class => 'thickbox'
-      %li=link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+  =render :partial => 'leads/sidebar_menu'
