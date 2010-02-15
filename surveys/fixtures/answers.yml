@@ -7,7 +7,7 @@
   reference_identifier: 
   response_class: "answer"
   short_text: p
-  text: "The company's policies and objectives clearly defined and understood by all."
+  text: "The company's policies and objectives are clearly defined and understood by all."
 20100210004238_answer_2:
   data_export_identifier: "not_clearly_defined_and_understood"
   display_order: 2

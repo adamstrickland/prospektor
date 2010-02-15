@@ -1,7 +1,41 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# one:
-#   column: value
-#
-# two:
-#   column: value
+--- 
+role_00002: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: analyst_sales_2
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 2
+role_00003: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: analyst_sales_3
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 3
+role_00004: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: analyst_sales_4
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 4
+role_00005: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: analyst_sales_5
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 5
+role_00006: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: admin
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 6
+role_00007: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: expert_scheduling
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 7
+role_00009: 
+  created_at: 2010-02-12 20:29:52 Z
+  title: analyst
+  updated_at: 2010-02-12 20:29:52 Z
+  id: 9
+role_00001: 
+  created_at: 2010-01-14 23:12:27 Z
+  title: analyst_sales_1
+  updated_at: 2010-01-14 23:12:27 Z
+  id: 1
