@@ -61,6 +61,7 @@ ActionController::Routing::Routes.draw do |map|
     pub.with_options :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
       surveys.bcr 'bcr', :action => 'get_bcr'
     end
+    pub.resources :applicants, :only => [:new, :create], :collection => { :thanks => :get }
   end
   # map.unknown_survey '/public/unknown', :controller => 'surveyor', :action => 'unknown'
   

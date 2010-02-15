@@ -1,0 +1,40 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+  %head
+    %meta{ "meta-equiv" => "content-type", :content => "text/html;charset=UTF-8" }
+    %title
+      -if controller_name == 'surveyor'
+        =@survey.present? ? @survey.title : 'Survey'
+      -else
+        =controller_name.titleize
+    =stylesheet_link_tag 'reset'
+    =stylesheet_link_tag '960gs/960'
+    =stylesheet_link_tag 'public'
+    %style{ :type => "text/css" }=yield :styles
+    -if Rails.env == 'production'
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+      =javascript_include_tag 'ui/minified/jquery-ui.min'
+    -else
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+      =javascript_include_tag 'ui/jquery-ui'
+    =javascript_include_tag 'jrails'
+  %body  
+    #page.container_16
+      #hd
+        #branding
+          #company Trigon Solutions
+          #logo=trigon_logo
+      .clear
+      #bd
+        #flash
+          #errors.error=flash[:errors]
+          #status=flash[:notice]
+        #content
+          #main=yield
+      .clear
+      #ft
+        / #copy
+        /   %hr.clear
+        /   &copy; 2010 Trigon Solutions, Inc.

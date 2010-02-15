@@ -232,10 +232,10 @@ a.button {
 
 #branding #logo img {
   position: relative;
-  top: -75px;
-  left: -310px;
+  top: -70px;
+  left: -270px;
   height: 60px;
   width: 70px; }
 #branding #company {
-  font-size: 12.5px;
-  left: -80px; }
+  font-size: 50px;
+  font-weight: bold; }

@@ -6,6 +6,13 @@ module ApplicationHelper
   #     alias_method :image_tag, :new_image_tag
   #   end
   # end
+  def trigon_logo
+    image_tag "trigon_logo.gif", :height => 150, :width => 150, :border => 0, :alt => "Trigon Solutions, Inc."
+  end
+  
+  def prospektor_logo
+    trigon_logo
+  end
   
   def javascript_action_include_tag
     # js_file_path = File.join(File.dirname(__FILE__), "..", "..", "public", "javascripts", controller_name, "#{action_name}.js")

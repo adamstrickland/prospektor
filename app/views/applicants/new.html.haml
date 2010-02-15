@@ -1,0 +1,21 @@
+%style
+  :sass
+    .introduction
+      p
+        :margin 1em
+      h1
+        :text-align center
+#applicant
+  .introduction
+    %h1 Online Application
+    %p 
+      Thank you for your interest in working for Trigon Solutions.  Please fill out the following form as completely as possible.  Please note that some fields are required; these are indicated
+      %span.required like this
+      %span .
+    %p
+      We will process your application as quickly as possible and get back to you in the next few business days.  Thanks!
+  .application
+    -form_for(@applicant) do |f|
+      =render :partial => 'form', :locals => { :f => f }
+      .row.grid_10{ :style => 'text-align:left;padding-bottom:3em' }
+        =submit_tag
