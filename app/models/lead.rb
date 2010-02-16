@@ -30,7 +30,11 @@ class Lead < ActiveRecord::Base
   
   # named_scope :queued, :conditions => { :aasm_state => [ :queued.to_s, :scheduled.to_s ] }
   # named_scope :available, 
-  named_scope :callbacks, lambda{ |t|
+  # named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
+  # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
+  # named_scope :open,
+  
+  named_scope :callbacks, lambda { |t|
     {
       :joins => :presentations,
       :conditions => [ 
@@ -45,19 +49,20 @@ class Lead < ActiveRecord::Base
       :order => 'leads.updated_at asc'
     }
   }
-  # named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
-  # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
-  # named_scope :open, 
   named_scope :located_in_state_of, lambda { |st|
-    :conditions => { :state_or_province => st }
-  }
-  named_scope :located_in_timezone_of, lambda { |st|
-    :joins => [:states, :time_zones],
-    :conditions => { 
-      :state_or_province => st 
+    {
+      :conditions => { :state => st.respond_to?(:state_name) ? st.state : st }
     }
   }
-  named_scope :valid, :joins => :statuses, :conditions => "status.state != 'dead' "
+  named_scope :located_in_timezone_of, lambda { |st|
+    {
+      :joins => ',states,time_zones',
+      :conditions => [
+        'time_zones.time_zone = :tz', { :tz => st.respond_to?(:state_name) ? st.time_zone.abbrev : State.find_by_state(st).time_zone.abbrev }
+      ]
+    }
+  }
+  named_scope :valid, :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', :conditions => "leads.status_id IS NULL OR statuses.state != 'dead' "
   named_scope :open, :conditions => " NOT EXISTS (
                                       SELECT 1 
                                       FROM sales S INNER JOIN 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100215044947) do
+ActiveRecord::Schema.define(:version => 20100215210912) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -918,11 +918,14 @@ ActiveRecord::Schema.define(:version => 20100215044947) do
   end
 
   create_table "states", :force => true do |t|
-    t.string   "state"
-    t.string   "state_name"
+    t.string   "state",        :limit => 2, :null => false
+    t.string   "state_name",                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "time_zone_id",              :null => false
   end
+
+  add_index "states", ["time_zone_id"], :name => "index_states_on_time_zone_id"
 
   create_table "statuses", :force => true do |t|
     t.string   "code",        :null => false

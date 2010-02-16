@@ -13,46 +13,65 @@ Spork.prefork do
   require 'machinist/active_record'
   require 'faker'
   require 'sham'
+  require 'nokogiri'
   require 'active_record/fixtures'
   # require 'webrat/integrations/rspec-rails'
   Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each{ |f| require f }
   
-  #load survey stuff
-  survey_fixture_dir = File.expand_path(File.join(Rails.root, 'surveys', 'fixtures'))
-  Fixtures.create_fixtures(survey_fixture_dir, Dir[File.join(survey_fixture_dir, "*.yml")].map{ |f| File.basename(f, ".yml").to_sym })
-  
-  Sham.reset(:before_all)
-  
-  def login_as(user)
-    @current_user = mock_model(User)
-    User.stub!(:find_by_id).and_return(@current_user)
-    @current_user.stub!(:save).and_return(true)
-    controller.stub!(:current_user).and_return(@current_user)
-    case user
-      when :admin
-        User.stub!(:is_admin?).and_return(true)
-    end    
-    request.session[:user] = @current_user
+  Spec::Runner.configure do |config|
+    def login_as(user)
+      @current_user = mock_model(User)
+      User.stub!(:find_by_id).and_return(@current_user)
+      @current_user.stub!(:save).and_return(true)
+      controller.stub!(:current_user).and_return(@current_user)
+      case user
+        when :admin
+          User.stub!(:is_admin?).and_return(true)
+      end    
+      request.session[:user] = @current_user
+    end
+    
+    # def current_user
+    #   @current_user ||= mock_model(User)
+    # end
+    # 
+    # def app
+    #   @_app ||= ActionController::Integration::Session.new
+    # end
+    # 
+    # def flash
+    #   @_flash ||= app.flash
+    # end
+    
+    config.use_transactional_fixtures = true
+    config.use_instantiated_fixtures  = false
+    config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+    config.global_fixtures = :states, :time_zones, :statuses, :topics
+    
+    config.before(:all) do
+      Sham.reset(:before_all)
+      
+      #load survey stuff
+      survey_fixture_dir = File.expand_path(File.join(Rails.root, 'surveys', 'fixtures'))
+      Fixtures.create_fixtures(survey_fixture_dir, Dir[File.join(survey_fixture_dir, "*.yml")].map{ |f| File.basename(f, ".yml").to_sym })
+      
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
+    end
+    
+    config.before(:each) do
+    end
+    
+    config.after do
+    end
   end
-  
-  # def current_user
-  #   @current_user ||= mock_model(User)
-  # end
-  # 
-  # def app
-  #   @_app ||= ActionController::Integration::Session.new
-  # end
-  # 
-  # def flash
-  #   @_flash ||= app.flash
-  # end
-  
 end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
   require 'spec/blueprints'
-  
+
   Sham.reset(:before_each)
 end
 
