@@ -26,16 +26,3 @@ config.action_mailer.delivery_method = :test
 # This is necessary if your schema can't be completely dumped by the schema dumper,
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
-
-
-
-# ActionMailer settings
-config.action_mailer.smtp_settings = {
-  :enable_starttls_auto => true,
-  :address => 'smtp.gmail.com',
-  :port => 587,
-  :domain => 'mockingbirdsoftware.com',
-  :authentication => :plain,
-  :user_name => 'trigon@mockingbirdsoftware.com',
-  :password => 'K59535'
-}
