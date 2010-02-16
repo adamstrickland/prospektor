@@ -1,0 +1,55 @@
+--- 
+topic_00002: 
+  number: 
+  name: Competition
+  created_at: 2010-02-16 22:54:50 Z
+  updated_at: 2010-02-16 22:54:50 Z
+  information: http://www.trigonsolutions.com/videos/competition%20list/index.html
+  id: 2
+  type: InformationTopic
+  complimentary: true
+topic_00003: 
+  number: 
+  name: Overall Picture
+  created_at: 2010-02-16 22:54:50 Z
+  updated_at: 2010-02-16 22:54:50 Z
+  information: http://www.trigonsolutions.com/videos/Topics%20Chart/index.html
+  id: 3
+  type: InformationTopic
+  complimentary: true
+topic_00004: 
+  number: 
+  name: What Do Our Clients Say?
+  created_at: 2010-02-16 22:54:50 Z
+  updated_at: 2010-02-16 22:54:50 Z
+  information: http://www.trigonsolutions.com/videos/What%20They%20Say%20.htm
+  id: 4
+  type: InformationTopic
+  complimentary: true
+topic_00005: 
+  number: 
+  name: What Do We Do?
+  created_at: 2010-02-16 22:54:50 Z
+  updated_at: 2010-02-16 22:54:50 Z
+  information: http://www.trigonsolutions.com/videos/What%20do%20We%20do/index.html
+  id: 5
+  type: InformationTopic
+  complimentary: true
+topic_00006: 
+  number: 
+  name: Who Are we?
+  created_at: 2010-02-16 22:54:50 Z
+  updated_at: 2010-02-16 22:54:50 Z
+  information: http://www.trigonsolutions.com/videos/Who%20are%20We/index.html
+  id: 6
+  type: InformationTopic
+  complimentary: true
+topic_00007: 
+  number: 
+  name: Business Condition Review
+  created_at: 2010-02-16 22:54:50 Z
+  updated_at: 2010-02-16 22:54:50 Z
+  information: http://www.trigonsolutions.com/videos/BCR200/index.html
+  id: 7
+  type: InformationTopic
+  complimentary: true
