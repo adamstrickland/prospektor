@@ -5,11 +5,12 @@
 Sham.define do
   title { Faker::Lorem.words(5).join(' ') }
   name { Faker::Name.name }
+  salutation { Faker::Name.name }
   company { Faker::Company.name }
   address { Faker::Address.street_address }
-  city { Faker::Address.city }
-  state { Faker::Address.us_state_abbr }
-  zip { Faker::Address.zip_code }
+  city(:unique => false) { Faker::Address.city }
+  state(:unique => false) { Faker::Address.us_state_abbr }
+  zip(:unique => false) { Faker::Address.zip_code }
   body { Faker::Lorem.paragraphs(3).join("\n\n") }
   either(:unique => false){ rand(2) == 0 }
   # url { "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}/#{Faker::Lorem.paragraphs(3).join.gsub(' ','')[0..26].split('').map{|c| c[0] }.map{|i| i.to_s.hex}.join}" }
@@ -32,36 +33,12 @@ Sham.define do
   msa(:unique => false) { (1..3).to_a.map{|i| Faker::Address.city}.join('--') }
   credit_score(:unique => false){ rand(800) }
 end
-# 
-# Appointment.blueprint do
-#   lead
-#   scheduler { User.make }
-#   client_email { Sham.email }
-#   expert_email { Sham.email }
-#   location { Faker::Address.street_address }
-#   duration { 1 }
-#   topic
-#   session_date { 1.days.from_now }
-#   session_time { Time.now.strftime("%I:%M%p") }
-# end
-# 
-# Comment.blueprint do
-#   lead
-#   user
-#   comment { Faker::Lorem.paragraph }
-# end
-# 
-# Event.blueprint do
-#   lead
-#   user
-#   action { 'Something' }
-#   type { 'Foo' }
-# end
-# 
+
 Lead.blueprint do
   name
   last_name
   first_name
+  salutation
   title { 'President' }
   gender { Sham.m_or_f }
   company
@@ -71,6 +48,9 @@ Lead.blueprint do
   state
   zip
   phone
+end
+
+Lead.blueprint(:full) do
   fax { Sham.phone }
   cell_phone { Sham.phone }
   employee_actual { Sham.count }
@@ -85,36 +65,35 @@ Lead.blueprint do
   square_footage { Sham.big_count }
   own_property { Sham.either }
   credit_score
-  credit_rating { 'Excellent' }
+  # credit_rating { 'Excellent' }
   source { 'RefUSA' }
   imported_at { 1.years.ago }
   timezone { 'C' }
   updated_at { Sham.yesterday }
   created_at { Sham.yesterday }
-  user
 end
-# 
-# Lead.blueprint(:assigned) do
-#   aasm_state { :assigned }
-# end
-# 
-# Lead.blueprint(:free) do
-#   aasm_state { :free }
-#   user { nil }
-# end
-# 
-# Presentation.blueprint do
-#   lead
-#   user
-#   url
-#   email
-# end
-# 
-# Topic.blueprint do
-#   name { Faker::Company.bs }
-#   complimentary { true }
-# end
-# 
+
+Employee.blueprint do
+  last_name
+  first_name
+  middle_initial
+  address
+  city
+  state_or_province{ Sham.state }
+  postal_code { Sham.zip }
+  business_phone { Sham.phone }
+  fax { Sham.phone }
+  cellular { Sham.phone }
+  phone
+  gender
+  email_name { Sham.email }
+  active { true }
+end
+
+Employee.blueprint(:inactive) do
+  active { false }
+end
+
 User.blueprint do
   login
   name
@@ -130,15 +109,3 @@ User.blueprint do
   extension { rand(9) % 2 == 0 ? '' : (1..3).map{|i| rand(9)}.join }
   mobile { Sham.phone }
 end
-# 
-# CallQueue.blueprint do
-#   name
-#   user
-#   queue_date { Date.today }
-# end
-# 
-# def make_queue_with_leads(attribs={})
-#   CallQueue.make(attribs) do |q|
-#     3.times { q.leads.make }
-#   end
-# end
