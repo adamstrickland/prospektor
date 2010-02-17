@@ -61,7 +61,7 @@ class PresentationsController < ApplicationController
 
     respond_to do |format|
       if @presentation.save
-        lead.status = Status.find_by_code('INV')
+        lead.status = LeadStatus.find_by_code('INV')
         lead.save
         
         format.json{

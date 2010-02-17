@@ -16,7 +16,7 @@ class Lead < ActiveRecord::Base
   # has_and_belongs_to_many :queues # rm'd w/ impl of Touchpoints
   has_many :touchpoints
   has_many :response_sets
-  belongs_to :status
+  belongs_to :status, :class_name => 'LeadStatus'
   
   # validations
   validates_email :email
@@ -63,22 +63,39 @@ class Lead < ActiveRecord::Base
     }
   }
   named_scope :valid, :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', :conditions => "leads.status_id IS NULL OR statuses.state != 'dead' "
-  named_scope :open, :conditions => " NOT EXISTS (
+  
+  named_scope :unsold, :conditions => " NOT EXISTS (
                                       SELECT 1 
                                       FROM sales S INNER JOIN 
                                       	schedules SH ON (S.appointment_id = SH.id) INNER JOIN
                                       	contacts C ON (SH.contact_id = C.id) INNER JOIN
                                       	leads L ON (C.lead_id = L.id)
                                       WHERE L.id = leads.id
-                                    ) AND NOT EXISTS (
+                                    )"
+                                    
+  # The E.active condition in the following uses an IN-clause due to translation of a Rails :boolean
+  # attribute type to the RDBMS's data type.  In MySQL, :boolean tranlates to TINYINT, hence the datum
+  # is stored as either a 1 or a 0.  In SQLite, however, a :boolean translates to a BOOLEAN, which under 
+  # the covers is a CHAR(1), which utilizes a 't' or 'f' to represent value.  Due to the test environment
+  # using SQLite, the specs were failing when the condition was written simply as 'E.active = 1', hence
+  # the translation to the IN-clause.  This should be regarded as, at best, a workaround and not deemed
+  # a good long-term solution.  
+  # Since this scope should prolly be split into 2 anyway (:unsold and :unowned, perhaps) and :open refactored
+  # to a class method, we'll leave it this way for now.
+  # TODO: make this more RoR-sy...  maybe use a negative_named_scope (http://agilewebdevelopment.com/plugins/negative_named_scope): refactor :vacant -> :owned & :negative => :vacant?
+  named_scope :vacant, :conditions => " NOT EXISTS (
                                       SELECT 1
                                       FROM leads L INNER JOIN
                                         leads_users LU ON (L.id = LU.lead_id) INNER JOIN
                                         users U ON (LU.user_id = U.id) INNER JOIN
                                         employees E ON (U.employee_id = E.id)
-                                      WHERE E.active = 1
+                                      WHERE E.active IN (1, 'y', 't', 'Y', 'T')
                                       AND L.id = leads.id
                                     )"
+                                    
+  def self.open
+    self.unsold.vacant
+  end
   
   after_save do |rec|
   end

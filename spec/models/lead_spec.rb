@@ -8,6 +8,7 @@ describe Lead do
       State.all.each do |s|
         Lead.make(:state => s.abbrev)
       end
+      @lead_count = 2601
     end
     
     describe "located in the same state" do
@@ -43,8 +44,7 @@ describe Lead do
           State.find_by_state(st).should_not be_nil
           timezone = TimeZone.find_by_time_zone(tz)
           timezone.should_not be_nil
-          # Lead.located_in_timezone_of(st).count.should eql(State.all.select{|s| s.time_zone == timezone}.count)
-          Lead.located_in_timezone_of(st).count.should eql(2601)
+          Lead.located_in_timezone_of(st).count.should eql(@lead_count)
         end
       end
       
@@ -54,8 +54,7 @@ describe Lead do
           state.should_not be_nil
           timezone = TimeZone.find_by_time_zone(tz)
           timezone.should_not be_nil
-          # Lead.located_in_timezone_of(state).count.should eql(State.all.select{|s| s.time_zone == timezone}.count)
-          Lead.located_in_timezone_of(state).count.should eql(2601)
+          Lead.located_in_timezone_of(state).count.should eql(@lead_count)
         end
       end
     end
@@ -68,7 +67,7 @@ describe Lead do
       describe "if some statuses have a dead state" do
         before do
           50.times do
-            Lead.make(:status => Status.find_by_code('DSC'))
+            Lead.make(:status => LeadStatus.find_by_code('DSC'))
           end
         end
         
@@ -79,7 +78,7 @@ describe Lead do
         it "will make a difference if some are not" do
           how_many = 10
           how_many.times do
-            Lead.make(:status => Status.find_by_code('NA'))
+            Lead.make(:status => LeadStatus.find_by_code('NA'))
           end
           Lead.valid.count.should eql(State.all.count + how_many)
         end
@@ -87,16 +86,42 @@ describe Lead do
     end
        
     describe "that are not" do
-      it "owned by someone else" do
-        e = Employee.make
-        u = User.make(:employee => e)
-        Lead.make(:users => [u])
-        Lead.open.count.should eql(State.all.count)
+      before do
+        @no_change = State.all.count
+        @one_more = @no_change+1
+      end
+      
+      it "owned by someone else that's an active employee" do
+        Lead.make(:users => [User.make(:employee => Employee.make)])
+        
+        Lead.unsold.should have(@one_more).items
+        Lead.vacant.should have(@no_change).items
+        Lead.open.should have(@no_change).items
+      end
+
+      it "owned by someone else that isn't an active employee" do
+        Lead.make(:users => [User.make(:employee => Employee.make(:inactive))])
+        
+        Lead.unsold.should have(@one_more).items
+        Lead.vacant.should have(@one_more).items
+        Lead.open.should have(@one_more).items
       end
       
       it "already a client" do
         Sale.make(:appointment => Schedule.make(:contact => Contact.make(:lead => Lead.make)))
-        Lead.open.count.should eql(State.all.count)
+        
+        Lead.unsold.should have(@no_change).items
+        Lead.vacant.should have(@one_more).items
+        Lead.open.should have(@no_change).items
+      end
+      
+      it "owned by an active employee plus already a client" do
+        Lead.make(:users => [User.make(:employee => Employee.make)])
+        Sale.make(:appointment => Schedule.make(:contact => Contact.make(:lead => Lead.make)))
+        
+        Lead.unsold.should have(@one_more).items
+        Lead.vacant.should have(@one_more).items
+        Lead.open.should have(@no_change).items
       end
     end
     

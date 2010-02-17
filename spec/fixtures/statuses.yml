@@ -5,7 +5,7 @@ status_1180954:
   updated_at: 2010-01-08 23:25:47 Z
   id: 1180954
   description: No Answer
-  context: Lead
+  type: LeadStatus
   state: assigned
 status_540450874: 
   created_at: 2010-01-08 23:25:47 Z
@@ -13,7 +13,7 @@ status_540450874:
   updated_at: 2010-01-08 23:25:47 Z
   id: 540450874
   description: Disconnected Number
-  context: Lead
+  type: LeadStatus
   state: dead
 status_852641379: 
   created_at: 2010-01-08 23:25:47 Z
@@ -21,7 +21,7 @@ status_852641379:
   updated_at: 2010-01-08 23:25:47 Z
   id: 852641379
   description: Duplicate
-  context: Lead
+  type: LeadStatus
   state: dead
 status_979352480: 
   created_at: 2010-01-08 23:25:47 Z
@@ -29,7 +29,7 @@ status_979352480:
   updated_at: 2010-01-08 23:25:47 Z
   id: 979352480
   description: Invite Sent
-  context: Lead
+  type: LeadStatus
   state: transfer
 status_979352481: 
   created_at: 2010-01-11 17:06:13 Z
@@ -37,7 +37,7 @@ status_979352481:
   updated_at: 2010-01-11 17:06:13 Z
   id: 979352481
   description: Call Back
-  context: Lead
+  type: LeadStatus
   state: assigned
 status_947279232: 
   created_at: 2010-01-08 23:25:47 Z
@@ -45,7 +45,7 @@ status_947279232:
   updated_at: 2010-01-08 23:25:47 Z
   id: 947279232
   description: Skipped
-  context: Lead
+  type: LeadStatus
   state: assigned
 status_777788361: 
   created_at: 2010-01-08 23:25:47 Z
@@ -53,7 +53,7 @@ status_777788361:
   updated_at: 2010-01-08 23:25:47 Z
   id: 777788361
   description: Wrong Business Type
-  context: Lead
+  type: LeadStatus
   state: dead
 status_121898072: 
   created_at: 2010-01-08 23:25:47 Z
@@ -61,7 +61,7 @@ status_121898072:
   updated_at: 2010-01-08 23:25:47 Z
   id: 121898072
   description: Accepted Client
-  context: Lead
+  type: LeadStatus
   state: transfer
 status_526044199: 
   created_at: 2010-01-08 23:25:47 Z
@@ -69,7 +69,7 @@ status_526044199:
   updated_at: 2010-01-08 23:25:47 Z
   id: 526044199
   description: Do Not Call
-  context: Lead
+  type: LeadStatus
   state: suspend
 status_197120362: 
   created_at: 2010-01-08 23:25:47 Z
@@ -77,7 +77,7 @@ status_197120362:
   updated_at: 2010-01-08 23:25:47 Z
   id: 197120362
   description: Voice Mail
-  context: Lead
+  type: LeadStatus
   state: assigned
 status_638854623: 
   created_at: 2010-01-08 23:25:47 Z
@@ -85,7 +85,7 @@ status_638854623:
   updated_at: 2010-01-08 23:25:47 Z
   id: 638854623
   description: Appointment Set
-  context: Appointment
+  type: AppointmentStatus
   state: transfer
 status_672730060: 
   created_at: 2010-01-08 23:25:47 Z
@@ -93,7 +93,7 @@ status_672730060:
   updated_at: 2010-01-08 23:25:47 Z
   id: 672730060
   description: Branch/Franchise Operation
-  context: Lead
+  type: LeadStatus
   state: dead
 status_750070513: 
   created_at: 2010-01-08 23:25:47 Z
@@ -101,7 +101,7 @@ status_750070513:
   updated_at: 2010-01-08 23:25:47 Z
   id: 750070513
   description: Call Back
-  context: Appointment
+  type: AppointmentStatus
   state: assigned
 status_760083250: 
   created_at: 2010-01-08 23:25:47 Z
@@ -109,7 +109,7 @@ status_760083250:
   updated_at: 2010-01-08 23:25:47 Z
   id: 760083250
   description: Below Minimum Standard
-  context: Lead
+  type: LeadStatus
   state: dead
 status_248089900: 
   created_at: 2010-01-08 23:25:47 Z
@@ -117,5 +117,5 @@ status_248089900:
   updated_at: 2010-01-08 23:25:47 Z
   id: 248089900
   description: No Interest
-  context: Lead
+  type: LeadStatus
   state: suspend

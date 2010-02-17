@@ -5,7 +5,7 @@
 Sham.define do
   title { Faker::Lorem.words(5).join(' ') }
   name { Faker::Name.name }
-  salutation { Faker::Name.name }
+  # salutation { Faker::Name.first_name }
   company { Faker::Company.name }
   address { Faker::Address.street_address }
   city(:unique => false) { Faker::Address.city }
@@ -23,7 +23,7 @@ Sham.define do
   login { Faker::Internet.user_name }
   last_name { Faker::Name.last_name }
   first_name { Faker::Name.first_name }
-  m_or_f(:unique => false){ rand(2) == 0 ? 'M' : 'F' }
+  gender(:unique => false){ rand(2) == 0 ? 'M' : 'F' }
   phone { Faker::PhoneNumber.phone_number.gsub(/\D/, '')[0..9] }
   count(:unique => false) { rand(99) }
   big_count(:unique => false) { rand(50) * 100 }
@@ -32,15 +32,17 @@ Sham.define do
   sic(:unique => false) { (1..6).to_a.map{|i| rand(9)}.join }
   msa(:unique => false) { (1..3).to_a.map{|i| Faker::Address.city}.join('--') }
   credit_score(:unique => false){ rand(800) }
+  client_reference_number{ |index| 288000 + index }
+  seq{ |index| index }
 end
 
 Lead.blueprint do
   name
   last_name
   first_name
-  salutation
+  salutation{ self.first_name }
   title { 'President' }
-  gender { Sham.m_or_f }
+  gender
   company
   year_established { 2000 }
   address
@@ -76,7 +78,7 @@ end
 Employee.blueprint do
   last_name
   first_name
-  middle_initial
+  middle_initial{ Faker::Name.first_name[0].chr }
   address
   city
   state_or_province{ Sham.state }
@@ -109,3 +111,34 @@ User.blueprint do
   extension { rand(9) % 2 == 0 ? '' : (1..3).map{|i| rand(9)}.join }
   mobile { Sham.phone }
 end
+
+Sale.blueprint do
+  appointment{ Schedule.make }
+  client_reference_number
+  rep{ Employee.make }
+  partner{ Employee.make }
+end
+
+Schedule.blueprint do
+  contact
+  employee
+  status{ AppointmentStatus.find_by_code('CB') }
+end
+
+Contact.blueprint do
+  lead
+  bc{ Employee.make }
+  analysis_topic{ AnalysisTopic.make }
+end
+
+AnalysisTopic.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  number{ Sham.seq }
+  type{ 'AnalysisTopic' }
+end
+
+# InformationTopic.blueprint do
+#   name{ Faker::Lorem.words(2).join(' ').titleize }
+#   type{ 'InformationTopic' }
+#   information{ "http://#{Faker::Internet.domain_name}/#{Faker::Lorem.words.join('/').downcase}" }
+# end

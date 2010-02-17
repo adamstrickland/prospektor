@@ -1,0 +1,2 @@
+class AppointmentStatus < Status
+end

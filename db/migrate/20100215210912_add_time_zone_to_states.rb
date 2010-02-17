@@ -1,12 +1,12 @@
 module InMigrate
   class State < ActiveRecord::Base
     set_table_name 'states'
-    belongs_to :time_zone, :class_name => InMigrate::TimeZone
+    belongs_to :time_zone, :class_name => 'InMigrate::TimeZone'
   end
   
   class TimeZone < ActiveRecord::Base
     set_table_name 'time_zones'
-    has_many :states, :class_name => InMigrate::State
+    has_many :states, :class_name => 'InMigrate::State'
   end
 end
 

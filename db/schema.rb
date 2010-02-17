@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100215210912) do
+ActiveRecord::Schema.define(:version => 20100217154502) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -95,8 +95,122 @@ ActiveRecord::Schema.define(:version => 20100215210912) do
 
   add_index "applicant_disposition_status", ["description"], :name => "description_UNIQUE", :unique => true
 
-# Could not dump table "applicants" because of following StandardError
-#   Unknown type 'bit(1)' for column 'appliedtrigonbefore'
+  create_table "applicants", :force => true do |t|
+    t.string  "applicantfirstname",         :limit => 45,                                                           :null => false
+    t.string  "applicantmi",                :limit => 1
+    t.string  "applicantlastname",          :limit => 45,                                                           :null => false
+    t.string  "applicantpreferredname",     :limit => 45
+    t.string  "positionapplyingfor",        :limit => 45
+    t.string  "address",                    :limit => 45,                                                           :null => false
+    t.string  "city",                       :limit => 45,                                                           :null => false
+    t.string  "stateprovince",              :limit => 45,                                                           :null => false
+    t.string  "zippostalcode",              :limit => 45,                                                           :null => false
+    t.string  "country",                    :limit => 45,                                                           :null => false
+    t.string  "email",                      :limit => 45,                                                           :null => false
+    t.string  "homephone",                  :limit => 10
+    t.string  "mobilephone",                :limit => 10
+    t.string  "businessphone",              :limit => 10,                                                           :null => false
+    t.boolean "appliedtrigonbefore",                                                             :default => false, :null => false
+    t.boolean "currentlyemployed",                                                               :default => false, :null => false
+    t.boolean "employercontactpermission",                                                       :default => false, :null => false
+    t.string  "highesteducationachieved",   :limit => 45
+    t.string  "positionexperience",         :limit => 45
+    t.string  "howheardoftrigon",           :limit => 45
+    t.string  "overallexperience",          :limit => 45
+    t.string  "availability",               :limit => 45
+    t.string  "refpersonalname1",           :limit => 45
+    t.string  "refpersonalname2",           :limit => 45
+    t.string  "refpersonalname3",           :limit => 45
+    t.string  "refpersonalphonenum1",       :limit => 10
+    t.string  "refpersonalphonenum2",       :limit => 10
+    t.string  "refpersonalphonenum3",       :limit => 10
+    t.integer "refpersonalyrs1"
+    t.integer "refpersonalyrs2"
+    t.integer "refpersonalyrs3"
+    t.string  "refpersonalrelation1",       :limit => 45
+    t.string  "refpersonalrelation2",       :limit => 45
+    t.string  "refpersonalrelation3",       :limit => 45
+    t.string  "refprofessionalname1",       :limit => 45
+    t.string  "refprofessionalname2",       :limit => 45
+    t.string  "refprofessionalname3",       :limit => 45
+    t.string  "refprofessionalphonenum1",   :limit => 10
+    t.string  "refprofessionalphonenum2",   :limit => 10
+    t.string  "refprofessionalphonenum3",   :limit => 10
+    t.string  "refprofessionalposition1",   :limit => 45
+    t.string  "refprofessionalposition2",   :limit => 45
+    t.string  "refprofessionalposition3",   :limit => 45
+    t.string  "refprofessionalrelation1",   :limit => 45
+    t.string  "refprofessionalrelation2",   :limit => 45
+    t.string  "refprofessionalrelation3",   :limit => 45
+    t.string  "computerliteracy",           :limit => 45
+    t.integer "skill_web"
+    t.integer "skill_word"
+    t.integer "skill_outlook"
+    t.integer "skill_excel"
+    t.integer "skill_access"
+    t.integer "skill_powerpoint"
+    t.string  "workrestrictions",           :limit => 45
+    t.boolean "hsinternetconnection",                                                            :default => false, :null => false
+    t.string  "edhistfrom1",                :limit => 45
+    t.string  "edhistfrom2",                :limit => 45
+    t.string  "edhistfrom3",                :limit => 45
+    t.string  "edhistfrom4",                :limit => 45
+    t.string  "edhistto1",                  :limit => 45
+    t.string  "edhistto2",                  :limit => 45
+    t.string  "edhistto3",                  :limit => 45
+    t.string  "edhistto4",                  :limit => 45
+    t.string  "edhistschool1",              :limit => 45
+    t.string  "edhistschool2",              :limit => 45
+    t.string  "edhistschool3",              :limit => 45
+    t.string  "edhistschool4",              :limit => 45
+    t.boolean "edhistgraduated1",                                                                :default => false, :null => false
+    t.boolean "edhistgraduated2",                                                                :default => false, :null => false
+    t.boolean "edhistgraduated3",                                                                :default => false, :null => false
+    t.boolean "edhistgraduated4",                                                                :default => false, :null => false
+    t.string  "edhistdegree1",              :limit => 45
+    t.string  "edhistdegree2",              :limit => 45
+    t.string  "edhistdegree3",              :limit => 45
+    t.string  "edhistdegree4",              :limit => 45
+    t.string  "edhistmajor1",               :limit => 45
+    t.string  "edhistmajor2",               :limit => 45
+    t.string  "edhistmajor3",               :limit => 45
+    t.string  "edhistmajor4",               :limit => 45
+    t.string  "emphistfrom1",               :limit => 45
+    t.string  "emphistfrom2",               :limit => 45
+    t.string  "emphistfrom3",               :limit => 45
+    t.string  "emphistfrom4",               :limit => 45
+    t.string  "emphistto1",                 :limit => 45
+    t.string  "emphistto2",                 :limit => 45
+    t.string  "emphistto3",                 :limit => 45
+    t.string  "emphistto4",                 :limit => 45
+    t.string  "emphistemployer1",           :limit => 45
+    t.string  "emphistemployer2",           :limit => 45
+    t.string  "emphistemployer3",           :limit => 45
+    t.string  "emphistemployer4",           :limit => 45
+    t.decimal "emphistincome1",                                   :precision => 19, :scale => 4
+    t.decimal "emphistincome2",                                   :precision => 19, :scale => 4
+    t.decimal "emphistincome3",                                   :precision => 19, :scale => 4
+    t.decimal "emphistincome4",                                   :precision => 19, :scale => 4
+    t.string  "emphistposition1",           :limit => 45
+    t.string  "emphistposition2",           :limit => 45
+    t.string  "emphistposition3",           :limit => 45
+    t.string  "emphistposition4",           :limit => 45
+    t.string  "emphistreason1",             :limit => 45
+    t.string  "emphistreason2",             :limit => 45
+    t.string  "emphistreason3",             :limit => 45
+    t.string  "emphistreason4",             :limit => 45
+    t.text    "ancillarycomments",          :limit => 2147483647
+    t.string  "applicantdispositionstatus", :limit => 45
+    t.boolean "icwa_received",                                                                   :default => false, :null => false
+    t.boolean "resume_received",                                                                 :default => false, :null => false
+    t.string  "socialsecuritynumber",       :limit => 9
+    t.string  "emergencycontactname",       :limit => 45
+    t.string  "emergencycontactphonenum",   :limit => 10
+    t.string  "reportstousername",          :limit => 45
+    t.integer "reportstouserid"
+    t.string  "gender",                     :limit => 6
+    t.boolean "has_voip",                                                                        :default => false
+  end
 
   create_table "appointment_statuses", :force => true do |t|
     t.integer  "appointment_status_id"
@@ -277,8 +391,60 @@ ActiveRecord::Schema.define(:version => 20100215210912) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "employees" because of following StandardError
-#   Unknown type 'bit(1)' for column 'w_2'
+  create_table "employees", :force => true do |t|
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "middle_initial",         :limit => 1
+    t.string   "preferred_name"
+    t.string   "social_security_number"
+    t.string   "department_name"
+    t.string   "gender",                 :limit => 6
+    t.string   "title"
+    t.string   "email_name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state_or_province"
+    t.string   "postal_code",            :limit => 6
+    t.string   "country"
+    t.string   "phone",                  :limit => 10
+    t.string   "fax",                    :limit => 10
+    t.string   "cellular",               :limit => 10
+    t.string   "business_phone",         :limit => 10
+    t.datetime "birthdate"
+    t.datetime "status_change_date"
+    t.datetime "date_hired"
+    t.boolean  "w_2",                                  :default => false, :null => false
+    t.boolean  "married",                              :default => false, :null => false
+    t.string   "spouse_name"
+    t.string   "exemptions"
+    t.string   "emrgcy_contact_name"
+    t.string   "emrgcy_contact_phone",   :limit => 10
+    t.boolean  "active",                               :default => false, :null => false
+    t.datetime "termination"
+    t.integer  "reports_to"
+    t.integer  "trainer_id"
+    t.string   "business_name"
+    t.integer  "fed_tax_id"
+    t.string   "business_card_name"
+    t.boolean  "emp_ap",                               :default => false, :null => false
+    t.boolean  "i_9_form",                             :default => false, :null => false
+    t.boolean  "i_9_i_ds",                             :default => false, :null => false
+    t.boolean  "liability_insurance",                  :default => false, :null => false
+    t.boolean  "w_4_form",                             :default => false, :null => false
+    t.boolean  "policy_signoff",                       :default => false, :null => false
+    t.boolean  "ewa",                                  :default => false, :null => false
+    t.boolean  "w_9",                                  :default => false, :null => false
+    t.boolean  "business_proof",                       :default => false, :null => false
+    t.datetime "resignation"
+    t.string   "notes"
+    t.integer  "extension"
+    t.string   "shift"
+    t.string   "program"
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", :force => true do |t|
     t.integer  "user_id"
@@ -934,10 +1100,12 @@ ActiveRecord::Schema.define(:version => 20100215210912) do
     t.string   "context"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type",        :null => false
   end
 
   add_index "statuses", ["code"], :name => "index_statuses_on_code"
   add_index "statuses", ["state"], :name => "index_statuses_on_state"
+  add_index "statuses", ["type"], :name => "index_status_type"
 
   create_table "survey_sections", :force => true do |t|
     t.integer  "survey_id"
