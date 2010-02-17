@@ -1,0 +1,23 @@
+alter table applicants  modify appliedtrigonbefore integer not null default 0;
+alter table applicants  modify currentlyemployed integer not null default 0;
+alter table applicants  modify employercontactpermission integer not null default 0;
+alter table applicants  modify hsinternetconnection integer not null default 0;
+alter table applicants  modify edhistgraduated1 integer not null default 0;
+alter table applicants  modify edhistgraduated2 integer not null default 0;
+alter table applicants  modify edhistgraduated3 integer not null default 0;
+alter table applicants  modify edhistgraduated4 integer not null default 0;
+alter table applicants  modify icwa_received integer not null default 0;
+alter table applicants  modify resume_received integer not null default 0;
+
+alter table employees  modify w_2 integer not null default 0;
+alter table employees  modify married integer not null default 0;
+alter table employees  modify active integer not null default 0;
+alter table employees  modify emp_ap integer not null default 0;
+alter table employees  modify i_9_form integer not null default 0;
+alter table employees  modify i_9_i_ds integer not null default 0;
+alter table employees  modify liability_insurance integer not null default 0;
+alter table employees  modify w_4_form integer not null default 0;
+alter table employees  modify policy_signoff integer not null default 0;
+alter table employees  modify ewa integer not null default 0;
+alter table employees  modify w_9 integer not null default 0;
+alter table employees  modify business_proof integer not null default 0;
