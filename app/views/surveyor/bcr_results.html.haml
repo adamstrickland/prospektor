@@ -13,50 +13,80 @@
       .tel (214) 361-0080
     #title Business Condition Review&trade;
   .result-chart
-    #piechart
-    #barchart
+    -if false and @response_set.responses.map{|r| r.question.survey_section.title.downcase}.include?('manufacturing')
+      .2col
+        .halfsies
+          #piechart{ :ht => 360, :wd => 400 }
+        .halfsies
+          #barchart{ :ht => 360, :wd => 400 }
+        %hr.clear
+    -else
+      #piechart{ :ht => 480, :wd => 800 }
+        =image_tag 'spinner.gif'
   .result-data
     #datatable
+      %table
+        %thead
+          %tr
+            %th.spacer
+            -@response_set.survey.sections.each do |sec|
+              %th{ :colspan => sec.questions.count }=sec.title
+            %th Total
+        %tbody
+          -@categories.each do |ans|
+            %tr
+              %td.category=ans
+              -@response_set.responses.each do |resp|
+                %td.answer=resp.answer.short_text == ans[0].chr.downcase ? '&#10022;' : '&nbsp;'
+              %td.total=@response_set.responses.select{|resp| resp.answer.short_text == ans[0].chr.downcase}.count
 
 -content_for :scripts do
   %script{ :src => "http://www.google.com/jsapi" }
   :javascript
     google.load('visualization', '1', {
       packages:[
-        'piechart'
+        'piechart',
       ]
     });
-
     
     google.setOnLoadCallback(function(){
       $(function(){
-        var piedata = new google.visualization.DataTable();
-        
-        piedata.addColumn('string', 'Section');
-        piedata.addColumn('number', 'Answers');
-        piedata.addRows([
-          ['Progressive', 11],
-          ['Average', 7],
-          ['Weak', 4],
-          ['N/A', 1],
-        ]);
-
+        //pie chart stuff
         var $piechart = $('#piechart');
-        var chart = new google.visualization.PieChart($piechart[0]);
-        chart.draw(piedata, {
-          width:800,
-          height:480,
-          is3D:true,
-          tooltipFontSize:16,
-          legend:'label',
+        $.getJSON(window.location+'.json', function(resp){
+          var chartdata = eval(resp).piechart;
+          $piechart.fadeOut(function(){
+            var piedata = new google.visualization.DataTable();
+
+            piedata.addColumn('string', 'Section');
+            piedata.addColumn('number', 'Answers');
+            piedata.addRows(chartdata);
+
+            new google.visualization.PieChart($piechart[0]).draw(piedata, {
+              width:$piechart.attr('wd'),
+              height:$piechart.attr('ht'),
+              is3D:true,
+              tooltipFontSize:16,
+              legend:'label',
+            });
+            
+            $piechart.fadeIn();
+          });
         });
-        
-        
       });
     });
   
 -content_for :styles do
+  :plain
+    /*
+    .result-data th{
+      -webkit-transform: rotate(-75deg);
+      -moz-transform: rotate(-75deg);
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    }
+    */
   :sass
+    @import /
     #results
       :position relative
       .result-header
@@ -70,7 +100,6 @@
           :float right
           :right 1em
         #title
-          / :border 1px solid yellow
           :clear both
           :text-align center
           :font
@@ -83,3 +112,34 @@
       .result-chart
         :margin 0 auto
         :text-align center
+        .2col
+          :margin 0 2em
+          .halfsies
+            :margin 0 auto
+            :text-align center
+            :float left
+            :width 49%
+      .result-data  
+        :padding-top 4em
+        :margin 0 auto
+        #datatable
+          table
+            :text-align center
+            :margin 0 auto
+            :border
+              :bottom solid 1px silver
+              :right solid 1px silver
+              :collapse collapse
+              :spacing 0
+            :empty-cells show
+            th,td
+              :margin 0
+              :border
+                :left solid 1px silver
+                :top solid 1px silver
+              :padding 3px
+            .spacer
+              :border-width 0
+            td.answer
+              :width 25px
+          

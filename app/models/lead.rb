@@ -237,4 +237,8 @@ class Lead < ActiveRecord::Base
   def dummy_reference_number
     "TL#{self.key.unpack('ccc').join}"
   end
+  
+  def is_manufacturer?
+    (1..10).map{|i| "sic_code_#{i}".to_sym }.map{|m| self.send(m) }.compact.map{|c| SicCode.find_by_code(c).division }.include?('D')
+  end
 end

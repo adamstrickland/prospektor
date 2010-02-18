@@ -31,8 +31,28 @@ module SurveyorControllerExtensions
         @survey = @response_set.survey
         @lead = Lead.find(@response_set.lead_id)
         case @survey.access_code
-        when 'bcr' then render :bcr_results
-        else render :generic_results
+        when 'bcr' 
+          @categories = ['Progressive', 'Average', 'Weak', 'N/A']
+          respond_to do |format|
+            format.html{ render :bcr_results }
+            format.json do
+              response_data = {
+                'piechart' => @categories.map{ |ans|
+                  [ans, @response_set.responses.select{|resp| resp.answer.short_text == ans[0].chr.downcase}.count]
+                }
+              }
+              if @response_set.responses.map{|r| r.question.survey_section.title.downcase}.include?('manufacturing')
+                response_data.merge!({ 
+                  'barchart' => @categories.map{ |ans|
+                    [ans, @response_set.responses.select{|r| r.question.survey_section.title.downcase == 'manufacturing'}.select{|resp| resp.answer.short_text == ans[0].chr.downcase}.count]
+                  }
+                })
+              end
+              render :json => response_data
+            end
+          end
+        else 
+          render :generic_results
         end
       end
     end

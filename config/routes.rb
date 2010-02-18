@@ -60,7 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :path_prefix => 'public' do |pub|
     pub.with_options :name_prefix => 'survey_', :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
       surveys.bcr 'bcr', :action => 'get_bcr'
-      surveys.results ':response_set_code/results', :action => 'results'
+      surveys.results ':response_set_code/results.:format', :action => 'results'
       surveys.unknown 'unknown', :action => 'unknown'
     end
     pub.resources :applicants, :only => [:new, :create], :collection => { :thanks => :get }
