@@ -30,8 +30,10 @@
           %tr
             %th.spacer
             -@response_set.survey.sections.each do |sec|
-              %th{ :colspan => sec.questions.count }=sec.title
-            %th Total
+              %th{ :colspan => sec.questions.count }
+                %span=sec.title
+            %th
+              %span Total
         %tbody
           -@categories.each do |ans|
             %tr
@@ -41,6 +43,7 @@
               %td.total=@response_set.responses.select{|resp| resp.answer.short_text == ans[0].chr.downcase}.count
 
 -content_for :scripts do
+  / =javascript_include_tag "jquery.rotate"
   %script{ :src => "http://www.google.com/jsapi" }
   :javascript
     google.load('visualization', '1', {
@@ -51,6 +54,8 @@
     
     google.setOnLoadCallback(function(){
       $(function(){
+        // $('#datatable table th span').rotate(-75);
+        
         //pie chart stuff
         var $piechart = $('#piechart');
         $.getJSON(window.location+'.json', function(resp){
@@ -77,16 +82,7 @@
     });
   
 -content_for :styles do
-  :plain
-    /*
-    .result-data th{
-      -webkit-transform: rotate(-75deg);
-      -moz-transform: rotate(-75deg);
-      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
-    }
-    */
   :sass
-    @import /
     #results
       :position relative
       .result-header
@@ -140,6 +136,13 @@
               :padding 3px
             .spacer
               :border-width 0
+            th
+              :height 120px
+              span
+                :display block
+                :-webkit-transform rotate(-75deg)
+                :-moz-transform rotate(-75deg)
+                :filter progid:DXImageTransform.Microsoft.BasicImage(rotation=2)
             td.answer
               :width 25px
           

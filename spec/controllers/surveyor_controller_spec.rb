@@ -88,10 +88,24 @@ describe SurveyorController do
       before do
       end
 
-      it "should render bcr results" do
-        @response_set.should_receive(:survey).and_return(@survey)
-        get :results, { :response_set_code => @response_code }
-        response.should render_template 'surveyor/bcr_results.html.haml'
+      describe "when getting the bcr" do
+        before do
+          @lead_id = 987
+          lead = mock_model(Lead)
+          @response_set.should_receive(:survey).and_return(@survey)
+          @response_set.should_receive(:lead_id).and_return(@lead_id)
+          Lead.should_receive(:find).with(@lead_id).and_return(lead)
+        end
+        
+        it "should render bcr results" do
+          get :results, { :response_set_code => @response_code }
+          response.should render_template 'surveyor/bcr_results.html.haml'
+        end
+        
+        it "should render json for chart data" do
+          get :results, { :response_set_code => @response_code, :format => :json }
+          # response.should have_text("piechart")
+        end
       end
 
       it "should render unknown for bad response code" do
