@@ -46,7 +46,7 @@ Spork.prefork do
     config.use_transactional_fixtures = true
     config.use_instantiated_fixtures  = false
     config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
-    config.global_fixtures = :states, :time_zones, :statuses, :topics
+    config.global_fixtures = :states, :time_zones, :statuses, :topics, :sic_codes
     
     config.before(:all) do
       Sham.reset(:before_all)
