@@ -1,4 +1,4 @@
-survey "BCR" do
+survey "Business Condition Review" do
   section "General" do    
     q "How clear are your company's policies defined?", :pick => :one
     a "The company's policies and objectives clearly defined and understood by all.", :short_text => :p
