@@ -4,6 +4,9 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   
+  class CustomNotFoundError < RuntimeError; end
+  class CustomSystemError < RuntimeError; end
+  
   before_filter :login_required
   # before_filter :prepare_session
   
@@ -12,6 +15,24 @@ class ApplicationController < ActionController::Base
   
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+  
+  def error
+    rescue_action_in_public CustomSystemError.new
+  end
+  
+  def not_found
+    rescue_action_in_public CustomNotFoundError.new
+  end
+
+  def rescue_action_in_public(exception)
+    case exception
+      when CustomNotFoundError, ::ActionController::UnknownAction then
+        render :template => "shared/404", :layout => "error", :status => "404"
+      else
+        @message = exception
+        render :template => "shared/500", :layout => "error", :status => "500"
+    end
+  end
   
   private
   
