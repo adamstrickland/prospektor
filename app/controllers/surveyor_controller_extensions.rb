@@ -7,7 +7,6 @@ module SurveyorControllerExtensions
     base.class_eval do
       # Same as typing in the class
       skip_before_filter :login_required
-      # before_filter :capture_lead_as_responder, :only => [:edit, :update]
       after_filter :capture_lead_as_responder, :only => [:create]
     end
   end
@@ -16,12 +15,6 @@ module SurveyorControllerExtensions
   end
   
   module InstanceMethods
-    # def get_bcr
-    #   # key = params[:key]
-    #   # post :create, :survey_code => 'bcr', :key => params[:key]
-    #   params[:survey_code] ||= 'bcr'
-    #   self.create
-    # end
     def get_bcr
       @survey_code = 'bcr'
       @identifiers = [
@@ -30,13 +23,25 @@ module SurveyorControllerExtensions
       render 'autotake'
     end
     
+    def results
+      @response_set = ResponseSet.find_by_access_code(params[:response_set_code])
+      if @response_set.blank?
+        render :unknown
+      else
+        @survey = @response_set.survey
+        @lead = Lead.find(@response_set.lead_id)
+        case @survey.access_code
+        when 'bcr' then render :bcr_results
+        else render :generic_results
+        end
+      end
+    end
+    
     protected
     
     def capture_lead_as_responder
-      # debugger
       if params.has_key?(:key) or params.has_key?('key')
         rs = @response_set || ResponseSet.find_by_access_code(params[:response_set_code])
-        # unless rs.has_lead?
         unless rs.lead_id?
           lead = Lead.find_by_key(params[:key])
           if lead.present?
@@ -45,6 +50,10 @@ module SurveyorControllerExtensions
           end
         end
       end
+    end
+    
+    def finish_path
+      survey_results_path(:response_set_code => params[:response_set_code])
     end
   end
   

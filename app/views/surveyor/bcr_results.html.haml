@@ -1,0 +1,85 @@
+#results
+  .result-header
+    -unless @lead.blank?
+      #lead
+        .refnum Client Reference Number: #{@lead.dummy_reference_number}
+        .prospect=@lead.full_name
+        .company=@lead.company
+        .phone=number_to_phone(@lead.phone, :area_code => true)
+    #corp
+      .name Trigon Solutions, Inc.
+      .addy 5646 Milton St, #610
+      .muni Dallas, TX 75206
+      .tel (214) 361-0080
+    #title Business Condition Review&trade;
+  .result-chart
+    #piechart
+    #barchart
+  .result-data
+    #datatable
+
+-content_for :scripts do
+  %script{ :src => "http://www.google.com/jsapi" }
+  :javascript
+    google.load('visualization', '1', {
+      packages:[
+        'piechart'
+      ]
+    });
+
+    
+    google.setOnLoadCallback(function(){
+      $(function(){
+        var piedata = new google.visualization.DataTable();
+        
+        piedata.addColumn('string', 'Section');
+        piedata.addColumn('number', 'Answers');
+        piedata.addRows([
+          ['Progressive', 11],
+          ['Average', 7],
+          ['Weak', 4],
+          ['N/A', 1],
+        ]);
+
+        var $piechart = $('#piechart');
+        var chart = new google.visualization.PieChart($piechart[0]);
+        chart.draw(piedata, {
+          width:800,
+          height:480,
+          is3D:true,
+          tooltipFontSize:16,
+          legend:'label',
+        });
+        
+        
+      });
+    });
+  
+-content_for :styles do
+  :sass
+    #results
+      :position relative
+      .result-header
+        #lead, #corp
+          :position absolute
+          :top 1em
+        #lead
+          :float left
+          :left 1em
+        #corp
+          :float right
+          :right 1em
+        #title
+          / :border 1px solid yellow
+          :clear both
+          :text-align center
+          :font
+            :size 24pt
+            :weight bold
+            :style italic
+          :padding
+            :top 4em
+            :bottom 1em
+      .result-chart
+        :margin 0 auto
+        :text-align center

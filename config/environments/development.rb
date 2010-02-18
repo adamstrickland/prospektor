@@ -9,7 +9,11 @@ config.cache_classes = false
 config.whiny_nils = true
 
 # Show full error reports and disable caching
+# config.action_controller.consider_all_requests_local = true
+
+# changed re: http://brian.pontarelli.com/2007/01/14/handling-rails-404-and-500-errors/
 config.action_controller.consider_all_requests_local = true
+
 config.action_view.debug_rjs                         = true
 config.action_controller.perform_caching             = false
 

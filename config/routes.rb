@@ -58,8 +58,10 @@ ActionController::Routing::Routes.draw do |map|
   end 
   
   map.with_options :path_prefix => 'public' do |pub|
-    pub.with_options :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
+    pub.with_options :name_prefix => 'survey_', :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
       surveys.bcr 'bcr', :action => 'get_bcr'
+      surveys.results ':response_set_code/results', :action => 'results'
+      surveys.unknown 'unknown', :action => 'unknown'
     end
     pub.resources :applicants, :only => [:new, :create], :collection => { :thanks => :get }
   end
@@ -116,4 +118,10 @@ ActionController::Routing::Routes.draw do |map|
   # consider removing or commenting them out if you're using named routes and resources.
   # map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
+  
+  map.with_options :controller => 'application' do |err|
+    err.error '/500', :action => 'error'
+    err.not_found '/404', :action => 'not_found'
+  end
+  map.connect '*', :controller => 'application', :action => 'not_found' unless ::ActionController::Base.consider_all_requests_local
 end
