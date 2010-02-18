@@ -17,5 +17,5 @@
   .application
     -form_for(@applicant) do |f|
       =render :partial => 'form', :locals => { :f => f }
-      .row.grid_10{ :style => 'text-align:left;padding-bottom:3em' }
-        =submit_tag
+      .row.grid_10{ :style => 'text-align:center;margin:0 auto;padding-bottom:3em' }
+        =submit_tag "Submit Application"

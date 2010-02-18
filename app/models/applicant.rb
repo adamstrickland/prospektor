@@ -75,6 +75,6 @@ class Applicant < ActiveRecord::Base
   end
   
   def full_name
-    "#{self.applicantlastname}, #{[self.applicantfirstname, "#{self.applicantpreferredname}", self.applicantmi].compact.join(" ")}"
+    [self.first_name, (self.preferred_name.present? && self.preferred_name != self.first_name) ? "\"#{self.preferred_name}\"" : nil, self.last_name].compact.join(" ")
   end
 end
