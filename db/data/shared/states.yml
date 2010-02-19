@@ -1,0 +1,358 @@
+--- 
+state_00041: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: South Carolina
+  id: 41
+  time_zone_id: 1
+  state: SC
+state_00029: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: North Dakota
+  id: 29
+  time_zone_id: 2
+  state: ND
+state_00007: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Connecticut
+  id: 7
+  time_zone_id: 1
+  state: CT
+state_00018: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Kentucky
+  id: 18
+  time_zone_id: 1
+  state: KY
+state_00030: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Nebraska
+  id: 30
+  time_zone_id: 2
+  state: NE
+state_00019: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Louisiana
+  id: 19
+  time_zone_id: 2
+  state: LA
+state_00008: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: District of Columbia
+  id: 8
+  time_zone_id: 1
+  state: DC
+state_00031: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: New Hampshire
+  id: 31
+  time_zone_id: 1
+  state: NH
+state_00009: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Delaware
+  id: 9
+  time_zone_id: 1
+  state: DE
+state_00020: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Massachusetts
+  id: 20
+  time_zone_id: 1
+  state: MA
+state_00042: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: South Dakota
+  id: 42
+  time_zone_id: 2
+  state: SD
+state_00043: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Tennessee
+  id: 43
+  time_zone_id: 2
+  state: TN
+state_00021: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Maryland
+  id: 21
+  time_zone_id: 1
+  state: MD
+state_00010: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Florida
+  id: 10
+  time_zone_id: 1
+  state: FL
+state_00032: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: New Jersey
+  id: 32
+  time_zone_id: 1
+  state: NJ
+state_00033: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: New Mexico
+  id: 33
+  time_zone_id: 3
+  state: NM
+state_00011: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Georgia
+  id: 11
+  time_zone_id: 1
+  state: GA
+state_00022: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Maine
+  id: 22
+  time_zone_id: 1
+  state: ME
+state_00044: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Texas
+  id: 44
+  time_zone_id: 2
+  state: TX
+state_00045: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Utah
+  id: 45
+  time_zone_id: 3
+  state: UT
+state_00023: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Michigan
+  id: 23
+  time_zone_id: 1
+  state: MI
+state_00001: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Alaska
+  id: 1
+  time_zone_id: 2
+  state: AK
+state_00012: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Hawaii
+  id: 12
+  time_zone_id: 6
+  state: HI
+state_00034: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Nevada
+  id: 34
+  time_zone_id: 4
+  state: NV
+state_00035: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: New York
+  id: 35
+  time_zone_id: 1
+  state: NY
+state_00013: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Iowa
+  id: 13
+  time_zone_id: 2
+  state: IA
+state_00002: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Alabama
+  id: 2
+  time_zone_id: 2
+  state: AL
+state_00024: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Minnesota
+  id: 24
+  time_zone_id: 2
+  state: MN
+state_00046: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Virginia
+  id: 46
+  time_zone_id: 1
+  state: VA
+state_00047: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Vermont
+  id: 47
+  time_zone_id: 1
+  state: VT
+state_00025: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Missouri
+  id: 25
+  time_zone_id: 2
+  state: MO
+state_00003: 
+  created_at: 
+  updated_at: 
+  state_name: Arkansas
+  id: 3
+  time_zone_id: 0
+  state: AR
+state_00014: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Idaho
+  id: 14
+  time_zone_id: 3
+  state: ID
+state_00036: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Ohio
+  id: 36
+  time_zone_id: 1
+  state: OH
+state_00037: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Oklahoma
+  id: 37
+  time_zone_id: 2
+  state: OK
+state_00015: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Illinois
+  id: 15
+  time_zone_id: 2
+  state: IL
+state_00004: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Arizona
+  id: 4
+  time_zone_id: 3
+  state: AZ
+state_00026: 
+  created_at: 
+  updated_at: 
+  state_name: Mississippi
+  id: 26
+  time_zone_id: 0
+  state: MS
+state_00048: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Washington
+  id: 48
+  time_zone_id: 4
+  state: WA
+state_00049: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Wisconsin
+  id: 49
+  time_zone_id: 2
+  state: WI
+state_00027: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Montana
+  id: 27
+  time_zone_id: 3
+  state: MT
+state_00005: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: California
+  id: 5
+  time_zone_id: 4
+  state: CA
+state_00016: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Indiana
+  id: 16
+  time_zone_id: 1
+  state: IN
+state_00038: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Oregon
+  id: 38
+  time_zone_id: 4
+  state: OR
+state_00050: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: West Virginia
+  id: 50
+  time_zone_id: 1
+  state: WV
+state_00051: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Wyoming
+  id: 51
+  time_zone_id: 3
+  state: WY
+state_00039: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Pennsylvania
+  id: 39
+  time_zone_id: 1
+  state: PA
+state_00017: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Kansas
+  id: 17
+  time_zone_id: 2
+  state: KS
+state_00006: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Colorado
+  id: 6
+  time_zone_id: 3
+  state: CO
+state_00028: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: North Carolina
+  id: 28
+  time_zone_id: 1
+  state: NC
+state_00040: 
+  created_at: 
+  updated_at: 2010-02-15 21:44:08 Z
+  state_name: Rhode Island
+  id: 40
+  time_zone_id: 1
+  state: RI

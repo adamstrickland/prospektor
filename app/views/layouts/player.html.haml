@@ -1,0 +1,37 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+  %head
+    %meta{ "meta-equiv" => "content-type", :content => "text/html;charset=UTF-8" }
+    %title=@title || "Trigon Solutions' Videos"
+    =stylesheet_link_tag 'reset'
+    %style{ :type => "text/css" }
+      :sass
+        object
+          :display block
+      =yield :styles
+    =render :partial => 'shared/google_analytics'
+    %script{ :src => "http://www.google.com/jsapi" }
+    -if Rails.env == 'production'
+      :javascript
+        google.load("jquery", "1.4.2");
+    -else
+      =javascript_include_tag 'jquery'
+    =javascript_include_tag 'jquery.swfobject'  
+    =javascript_include_tag 'jquery.timeout'
+    :javascript
+      google.load("swfobject", "2.2");
+      
+      var swfobject_defaults = {
+        height:'100%',
+        width:'100%',
+        params:{ 
+          allowscriptaccess:'always',
+          loop:'false',
+          bgcolor:'#000000',
+          quality:'high',
+          allowfullscreen:'true',
+        },
+      }
+    =yield :scripts
+  %body{ :topmargin => 0, :leftmargin => 0, :bgcolor => '#000000' }
+    #player
