@@ -1,7 +1,8 @@
 #users
   -unless @users.present?
     .announce There are no users at this time
-  -else
+  -else  
+    =will_paginate @users
     .grid
       .grid-head
         %div.row
@@ -19,6 +20,6 @@
               .emp_id.grid_2=user.employee_id
             .controls
               .deactivate.grid_2=button_to_remote 'Deactivate', :url => deactivate_admin_user_path(user, :format => :json), :success => "alert('User deactivated');", :failure => "alert('Unable to deactivate user.  Please contact support.');"
-              .password.grid_2=button_to_remote 'Reset', :url => reset_password_admin_user_path(user, :format => :json), :success => "alert('Password reset');", :failure => "alert('Unable to reset password.  Please contact support.');"
+              .password.grid_2=button_to_remote 'Password', :url => reset_password_admin_user_path(user, :format => :json), :success => "alert('Password reset');", :failure => "alert('Unable to reset password.  Please contact support.');"
               .assignments.grid_2.omega=button_to 'Assignments', admin_user_assignments_path(user), :method => :get
               %hr.lclear

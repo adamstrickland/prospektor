@@ -1,4 +1,5 @@
 class ApplicantsController < ApplicationController
+  skip_before_filter :login_required
   layout 'public', :only => [:new, :create, :thanks]
   
   def new

@@ -7,7 +7,7 @@
         %div.row
           .info
             .login.grid_4 Name
-            .position.grid_3 Position
+            .position.grid_3 Applied
           %hr.lclear
       .grid-data
         -@applicants.each do |applicant|
@@ -15,9 +15,15 @@
             .info.grid_7
               .listing.container_12{ :onclick => "$(this).parent().find('.details').toggle('blind', {}, 500);" }
                 .login.grid_4.alpha=applicant.full_name
-                .position.grid_3.omega=applicant.positionapplyingfor
+                .position.grid_3.omega=applicant.created_at
+              %hr.lclear
               .details.container_12{ :style => 'display:none' }
-                THis is some other info
+                .info
+                  -applicant.attributes.sort.select{|kv| kv[1].present? }.each do |kva|
+                    %div.attr{ :style => 'float:left;width:49%;'}
+                      %span.name=kva[0]
+                      %span.value=kva[1]
+                %hr.lclear
             .controls
               .deactivate.grid_2
                 =button_to_remote 'Reject', :url => reject_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant rejected');", :failure => "alert('Unable to reject applicant.  Please contact support.');"
