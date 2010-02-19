@@ -27,12 +27,14 @@ describe SurveyorController do
       describe "and a key is sent (if no key is sent, is same as default)," do
         before do
           @key = 'QWERTY'
+          @lead_id = 1022
           @lead = mock_model(Lead)
           Lead.should_receive(:find_by_key).with(@key).and_return(@lead)
+          @lead.stub!(:id).and_return(@lead_id)
           
           ResponseSet.stub!(:find_by_access_code).with(@response_code).and_return(@response_set)
           @response_set.should_receive(:lead_id?).and_return(false)
-          @response_set.should_receive(:lead_id=).with(@lead)
+          @response_set.should_receive(:lead_id=).with(@lead_id)
           @response_set.should_receive(:save).and_return(true)
         end
         

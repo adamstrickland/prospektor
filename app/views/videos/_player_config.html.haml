@@ -1,0 +1,20 @@
+:javascript
+  google.setOnLoadCallback(function(){
+    $(function(){
+      $.getJSON(location.href+'.json?key='+'#{@key}', function(resp){
+        $('#player').flash($.extend({swf:resp.swf}, swfobject_defaults));
+
+        if(resp.redirect){
+          $.doTimeout(500, function(){
+            $('#player').flash(function(){
+              if(this.TCurrentFrame('/') >= (this.TotalFrames() - 1)){
+                location.href = resp.redirect;
+                return false;
+              }
+            });
+            return true;
+          });
+        }
+      });
+    });
+  });
