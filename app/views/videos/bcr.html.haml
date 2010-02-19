@@ -1,12 +1,9 @@
-/ %param{ :name => 'movie', :value => @video_url }
-/ %embed{ {:src => @video_url, :type => 'application/x-shockwave-flash', :pluginspage => 'http://www.adobe.com/go/getflashplayer', :name => 'presentation', :width => '100%', :height => '100%' }.merge(@parameters) }
 -content_for :scripts do
   :javascript
     google.setOnLoadCallback(function(){
       $(function(){
         $.getJSON(location.href+'.json?key='+'#{@key}', function(resp){
           $('#player').flash({
-            // swf:'http://www.trigonsolutions.com/videos/BCR200/BCR200.swf',
             swf:resp.swf,
             params:{ 
               allowScriptAccess:'always',

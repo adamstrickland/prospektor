@@ -4,6 +4,7 @@ class VideosController < ApplicationController
   
   def bcr
     @key = params[:key]
+    @title = 'Business Condition Review'
     @video_url = "http://localhost:3000/bad_grin.swf" # 'http://www.trigonsolutions.com/videos/BCR200/BCR200.swf'
     @redirect_url = "http://localhost:3000/public/bcr?key=#{@key}"
     respond_to do |format|
