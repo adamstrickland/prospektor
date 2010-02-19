@@ -65,7 +65,7 @@ module SurveyorControllerExtensions
         unless rs.lead_id?
           lead = Lead.find_by_key(params[:key])
           if lead.present?
-            rs.lead_id = lead
+            rs.lead_id = lead.id
             rs.save
           end
         end
