@@ -63,6 +63,9 @@ ActionController::Routing::Routes.draw do |map|
       surveys.results ':response_set_code/results.:format', :action => 'results'
       surveys.unknown 'unknown', :action => 'unknown'
     end
+    pub.with_options :name_prefix => 'video_', :path_prefix => 'public/videos', :controller => 'videos', :conditions => { :method => :get } do |videos|
+      videos.bcr 'bcr.:format', :action => 'bcr'
+    end
     pub.resources :applicants, :only => [:new, :create], :collection => { :thanks => :get }
   end
   # map.unknown_survey '/public/unknown', :controller => 'surveyor', :action => 'unknown'
