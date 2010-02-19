@@ -1,0 +1,37 @@
+--- 
+time_zone_00005: 
+  created_at: 
+  updated_at: 
+  id: 5
+  time_zone: A
+  description: Alaska Time Zone
+time_zone_00006: 
+  created_at: 
+  updated_at: 
+  id: 6
+  time_zone: H
+  description: Hawaii-Aleutian Time Zone
+time_zone_00001: 
+  created_at: 
+  updated_at: 
+  id: 1
+  time_zone: E
+  description: Eastern Time Zone
+time_zone_00002: 
+  created_at: 
+  updated_at: 
+  id: 2
+  time_zone: C
+  description: Central Time Zone
+time_zone_00003: 
+  created_at: 
+  updated_at: 
+  id: 3
+  time_zone: M
+  description: Mountain Time Zone
+time_zone_00004: 
+  created_at: 
+  updated_at: 
+  id: 4
+  time_zone: P
+  description: Pacific Time Zone
