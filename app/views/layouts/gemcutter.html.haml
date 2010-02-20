@@ -1,0 +1,66 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+  %head
+    %meta{ 'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8' }
+  	%link{ :rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
+    %title Prospektor
+  	=stylesheet_link_tag '960gs/960'
+	  <!-- [if lt IE 8]>
+	  =stylesheet_link_tag 'ie7'
+	  <![endif]-->
+    =stylesheet_link_tag 'thickbox'
+    =stylesheet_link_tag 'prospektor'
+    =stylesheet_action_link_tag
+    %style{ :type => "text/css" }=yield :styles
+    -if Rails.env == 'production'
+      %script{ :src => "http://www.google.com/jsapi" }
+      :javascript
+        google.load("jquery", "1.4.2");
+      =javascript_include_tag 'jquery.form'
+    -else
+      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery.form'
+    =javascript_include_tag 'jrails' 
+    =javascript_include_tag 'thickbox' 
+    =javascript_action_include_tag
+    =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
+    =yield :scripts
+	%body
+		.flash
+		#hd.container_12
+			.prefix_1.grid_3.header
+				%h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
+			.grid_7.suffix_1.nav
+				%ul
+					%li=link_to(current_user.name, user_profile_url(current_user))
+					%li=link_to 'dashboard', user_dashboard_url(current_user)
+					%li=link_to 'leads', user_leads_url(current_user)
+					%li=link_to 'logout', logout_url
+				-form_tag :url => search_url
+					.text_field=text_field :query
+					=submit_tag 'Search'
+		#bd.container_12
+			.prefix_1.grid_10.suffix_1.main
+				.fold
+					.menu
+						=yield :menu
+					.blurb
+						.notice=flash[:notice]
+						.error=flash[:error]
+				.info
+					=yield
+		#ft.container_12
+			.prefix_1.grid_10.suffix_1.footer
+				.links
+					-[].each do |hash|
+						=link_to hash[:name], hash[:url]
+				.badges
+					=link_to('http://www.trigonsolutions.com', :target => '_blank') do
+						operated by
+						=image_tag('trigon_badge.gif')
+					=link_to('http://www.mockingbirdsoftware.com', :target => '_blank') do
+						designed by
+						=image_tag('mockingbirdsoftware.gif')
+					=link_to('http://rubyonrails.org', :target => '_blank') do
+						powered by
+						=image_tag('rubyonrails.gif')
