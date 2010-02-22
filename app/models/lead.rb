@@ -56,7 +56,8 @@ class Lead < ActiveRecord::Base
   }
   named_scope :located_in_timezone_of, lambda { |st|
     {
-      :joins => ',states,time_zones',
+      # :joins => ',states,time_zones',
+      :joins => 'INNER JOIN states ON (leads.state = states.state) INNER JOIN time_zones ON (states.time_zone_id = time_zones.id)',
       :conditions => [
         'time_zones.time_zone = :tz', { :tz => st.respond_to?(:state_name) ? st.time_zone.abbrev : State.find_by_state(st).time_zone.abbrev }
       ]

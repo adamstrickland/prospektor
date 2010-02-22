@@ -8,11 +8,11 @@ describe Lead do
       State.all.each do |s|
         Lead.make(:state => s.abbrev)
       end
-      @lead_count = 2601
+      @lead_count = 15 # 2601
     end
     
     describe "located in the same state" do
-      before do
+      before :each do
         @tx = 'TX'
         @texas = State.find_by_state(@tx)
         @texas.should_not be_nil
@@ -28,34 +28,46 @@ describe Lead do
     end
     
     describe "located in the same timezone" do
-      before do
-        @scenarios = {
-          'E' => 'ME',
-          'C' => 'TX',
-          'M' => 'CO',
-          'P' => 'CA',
-          'A' => 'AL',
-          'H' => 'HI'
-        }
+      before :each do
+        # @scenarios = {
+        #   'E' => {:st => 'ME', :expect => 7},
+        #   'C' => {:st => 'TX', :expect => @lead_count},
+        #   'M' => {:st => 'CO', :expect => 7},
+        #   'P' => {:st => 'CA', :expect => 7},
+        #   'A' => {:st => 'AL', :expect => 7},
+        #   'H' => {:st => 'HI', :expect => 7}
+        # }
       end
       
       it "when using state as string" do
-        @scenarios.each do |tz, st|
-          State.find_by_state(st).should_not be_nil
-          timezone = TimeZone.find_by_time_zone(tz)
-          timezone.should_not be_nil
-          Lead.located_in_timezone_of(st).count.should eql(@lead_count)
-        end
+        # @scenarios.each do |tz, st|
+        #   State.find_by_state(st[:st]).should_not be_nil
+        #   timezone = TimeZone.find_by_time_zone(tz)
+        #   timezone.should_not be_nil
+        #   Lead.located_in_timezone_of(st[:st]).count.should eql(timezone.states.count)
+        # end
+        state = State.find_by_state('TX')
+        state.should_not be_nil
+        timezone = TimeZone.find_by_time_zone('C')
+        timezone.should_not be_nil
+        timezone.states.should have(15).items
+        Lead.located_in_timezone_of('TX').should have(timezone.states.count).items
       end
       
       it "when using state as model" do
-        @scenarios.each do |tz, st|
-          state = State.find_by_state(st)
-          state.should_not be_nil
-          timezone = TimeZone.find_by_time_zone(tz)
-          timezone.should_not be_nil
-          Lead.located_in_timezone_of(state).count.should eql(@lead_count)
-        end
+        # @scenarios.each do |tz, st|
+        #   state = State.find_by_state(st[:st])
+        #   state.should_not be_nil
+        #   timezone = TimeZone.find_by_time_zone(tz)
+        #   timezone.should_not be_nil
+        #   Lead.located_in_timezone_of(state).count.should eql(timezone.states.count)
+        # end
+        state = State.find_by_state('TX')
+        state.should_not be_nil
+        timezone = TimeZone.find_by_time_zone('C')
+        timezone.should_not be_nil
+        timezone.states.should have(15).items
+        Lead.located_in_timezone_of(state).should have(timezone.states.count).items
       end
     end
     
