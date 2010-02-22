@@ -77,15 +77,15 @@
         .clear
   .postion
     %fieldset
+      =hidden_field_tag 'applicant[position_applying_for]', 'Sales'
+      / .row
+      /   .label.grid_4=f.label :position_applying_for, "What position are you applying for?"
+      /   / .value.grid_6=f.select :position_applying_for, ['Administration', 'Sales', 'Analysis', 'Consulting']
+      /   .value.grid_6
+      /     %span.hidden Sales
+      /   .clear
       .row
-        .label.grid_4=f.label :position_applying_for, "What position are you applying for?"
-        / .value.grid_6=f.select :position_applying_for, ['Administration', 'Sales', 'Analysis', 'Consulting']
-        .value.grid_6
-          %span.hidden Sales
-          =hidden_field_tag 'applicant[position_applying_for]', 'Sales' 
-        .clear
-      .row
-        .label.grid_4=f.label :years_experience, "Please indicate how much relevant experience you have."
+        .label.grid_4=f.label :years_experience, "Please indicate how much phone sales experience you have."
         .value.grid_6=f.select :years_experience, ['0-2 years', '3-5 years', '6-10 years', '10+ years'], { :include_blank => true }
         .clear
       .row
@@ -109,7 +109,7 @@
         .value.grid_6=f.text_field :school 
         .clear
       .row
-        .label.grid_4=f.label :has_internet, "Do you have an high-speed internet connection (e.g. DSL, Cable or better) at your disposal?"
+        .label.grid_4=f.label :has_internet, "Do you have a high-speed internet connection (e.g. DSL, Cable or better) at your disposal?"
         .value.grid_6=yes_no_radio(f, :has_internet)
         .clear
       .row
