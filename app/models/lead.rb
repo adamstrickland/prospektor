@@ -62,7 +62,7 @@ class Lead < ActiveRecord::Base
       ]
     }
   }
-  named_scope :valid, :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', :conditions => "leads.status_id IS NULL OR statuses.state != 'dead' "
+  named_scope :valid, :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', :conditions => "(leads.status_id IS NULL OR statuses.state != 'dead') AND leads.state != 'XX'"
   
   named_scope :unsold, :conditions => " NOT EXISTS (
                                       SELECT 1 

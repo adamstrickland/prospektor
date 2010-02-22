@@ -30,6 +30,7 @@ describe Admin::AssignmentsController do
       end  
         
       it "if enough leads are in the user's state, they should be assigned" do
+        @assignment_size = 5
         post :create, :size => @assignment_size, :user_id => @user_id, :format => 'json'
         response.should be_json_like(:assignments => @amount_in_each_state)
       end
@@ -45,6 +46,7 @@ describe Admin::AssignmentsController do
       end
       
       it "if there are not leads in the user's state's timezone, only assign from home state" do
+        @assignment_size = 5
         @all_states = State.all
         @all_states.reject{|s| @states_in_timezone.include?(s)}.each do |s|
           @amount_in_each_state.times{ Lead.make(:state => s) }
