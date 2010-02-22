@@ -12,21 +12,27 @@
       .grid-data
         -@applicants.each do |applicant|
           %div.row[applicant]
-            .info.grid_7
-              .listing.container_12{ :onclick => "$(this).parent().find('.details').toggle('blind', {}, 500);" }
+            .info
+              .listing{ :onclick => "$(this).parent().parent().find('.details').toggle('blind', {}, 500);" }
                 .login.grid_4.alpha=applicant.full_name
-                .position.grid_3.omega=applicant.created_at
-              %hr.lclear
-              .details.container_12{ :style => 'display:none' }
-                .info
-                  -applicant.attributes.sort.select{|kv| kv[1].present? }.each do |kva|
-                    %div.attr{ :style => 'float:left;width:49%;'}
-                      %span.name=kva[0]
-                      %span.value=kva[1]
-                %hr.lclear
+                .position.grid_3.omega=applicant.created_at.strftime('%Y-%m-%d %I:%M%p')
             .controls
               .deactivate.grid_2
                 =button_to_remote 'Reject', :url => reject_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant rejected');", :failure => "alert('Unable to reject applicant.  Please contact support.');"
               .password.grid_2
                 =button_to_remote 'Onboard', :url => onboard_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant onboarded');", :failure => "alert('Unable to onboard applicant.  Please contact support.');"
             %hr.lclear
+            .details{ :style => 'display:none' }
+              .info
+                -applicant.attributes.sort.reject{|kv| ['applicantfirstname','applicantlastname','id','created_at','updated_at'].include?(kv[0]) }.select{|kv| kv[1].present? }.each do |kva|
+                  %div.attr{ :style => 'float:left;width:49%;'}
+                    %span.name=kva[0]
+                    %span.value=kva[1]
+              %hr.lclear
+
+-content_for :styles do
+  :sass
+    .position
+      :text-align left
+    .details .info
+      :margin-left 5px

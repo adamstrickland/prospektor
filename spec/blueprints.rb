@@ -137,6 +137,18 @@ AnalysisTopic.blueprint do
   type{ 'AnalysisTopic' }
 end
 
+Applicant.blueprint do
+  first_name
+  last_name
+  address
+  city
+  state_province { Sham.state }
+  postal_code { Sham.zip }
+  country{ 'US' }
+  email
+  business_phone { Sham.phone }
+end
+
 # InformationTopic.blueprint do
 #   name{ Faker::Lorem.words(2).join(' ').titleize }
 #   type{ 'InformationTopic' }
