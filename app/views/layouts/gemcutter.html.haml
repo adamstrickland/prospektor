@@ -2,14 +2,15 @@
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
   %head
     %meta{ 'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8' }
-  	%link{ :rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
+    %link{ :rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
     %title Prospektor
-  	=stylesheet_link_tag '960gs/960'
-	  <!-- [if lt IE 8]>
-	  =stylesheet_link_tag 'ie7'
-	  <![endif]-->
+    =stylesheet_link_tag '960gs/960'
+    <!-- [if lt IE 8]>
+    =stylesheet_link_tag 'ie7'
+    <![endif]-->
     =stylesheet_link_tag 'thickbox'
-    =stylesheet_link_tag 'prospektor'
+    =stylesheet_link_tag 'gemcutter'
+    / # =stylesheet_link_tag 'prospektor'
     =stylesheet_action_link_tag
     %style{ :type => "text/css" }=yield :styles
     -if Rails.env == 'production'
@@ -25,42 +26,43 @@
     =javascript_action_include_tag
     =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
     =yield :scripts
-	%body
-		.flash
-		#hd.container_12
-			.prefix_1.grid_3.header
-				%h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
-			.grid_7.suffix_1.nav
-				%ul
-					%li=link_to(current_user.name, user_profile_url(current_user))
-					%li=link_to 'dashboard', user_dashboard_url(current_user)
-					%li=link_to 'leads', user_leads_url(current_user)
-					%li=link_to 'logout', logout_url
-				-form_tag :url => search_url
-					.text_field=text_field :query
-					=submit_tag 'Search'
-		#bd.container_12
-			.prefix_1.grid_10.suffix_1.main
-				.fold
-					.menu
-						=yield :menu
-					.blurb
-						.notice=flash[:notice]
-						.error=flash[:error]
-				.info
-					=yield
-		#ft.container_12
-			.prefix_1.grid_10.suffix_1.footer
-				.links
-					-[].each do |hash|
-						=link_to hash[:name], hash[:url]
-				.badges
-					=link_to('http://www.trigonsolutions.com', :target => '_blank') do
-						operated by
-						=image_tag('trigon_badge.gif')
-					=link_to('http://www.mockingbirdsoftware.com', :target => '_blank') do
-						designed by
-						=image_tag('mockingbirdsoftware.gif')
-					=link_to('http://rubyonrails.org', :target => '_blank') do
-						powered by
-						=image_tag('rubyonrails.gif')
+  %body
+    .flash
+    #hd.container_12
+      .prefix_1.grid_3.header
+        %h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
+      .grid_7.suffix_1.nav
+        -if logged_in?
+          %ul
+            %li=link_to(current_user.name, user_profile_url(current_user))
+            %li=link_to 'dashboard', dashboard_url
+            %li=link_to 'leads', user_call_queues_url(current_user)
+            %li=link_to 'logout', logout_url
+          -form_tag(search_url) do |sf|
+            .text_field=text_field_tag :query
+            =submit_tag 'Search'
+    #bd.container_12
+      .prefix_1.grid_10.suffix_1.main
+        .fold
+        .menu
+          =yield :menu
+        .blurb
+          .notice=flash[:notice]
+          .error=flash[:error]
+        .info
+          =yield
+    #ft.container_12
+      .prefix_1.grid_10.suffix_1.footer
+        .links
+          -[].each do |hash|
+            =link_to hash[:name], hash[:url]
+        .badges
+          %a{ :href => 'http://www.trigonsolutions.com', :target => '_blank'}
+            operated by
+            =image_tag('trigon_logo.gif')
+          %a{ :href => 'http://www.mockingbirdsoftware.com', :target => '_blank'}
+            designed by
+            =image_tag('rubyonrails.png')
+          %a{ :href => 'http://rubyonrails.org', :target => '_blank'}
+            powered by
+            =image_tag('rubyonrails.png')

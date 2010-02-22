@@ -1,0 +1,17 @@
+#mockup.content=Faker::Lorem.paragraphs
+
+-content_for :menu do
+  %ul
+    -Faker::Lorem.words(5).each do |w|
+      %li=link_to w, "http://#{Faker::Internet.domain_name}/#{w}"
+
+-content_for :styles do
+  :sass
+    #ft
+      .badges
+        img
+          :height 50px
+          
+
+-content_for :scripts do
+  :javascript
