@@ -1,0 +1,15 @@
+body a {
+  text-decoration: none; }
+  body a:link, body a:hover, body a:visited {
+    color: blue; }
+body #ft .badges img {
+  height: 40px;
+  filter: gray;
+  display: block;
+  margin: 0 auto; }
+body #ft .badges a {
+  color: gray;
+  display: block;
+  float: right;
+  text-align: center;
+  padding: 1em; }
