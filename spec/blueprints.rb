@@ -137,6 +137,31 @@ AnalysisTopic.blueprint do
   type{ 'AnalysisTopic' }
 end
 
+Applicant.blueprint do
+  first_name
+  preferred_name{ self.first_name }
+  middle_initial{ Faker::Name.first_name[0].chr }
+  last_name
+  address
+  city
+  state_province{ Sham.state }
+  postal_code{ Sham.zip }
+  country{ 'US' }
+  email
+  home_phone { Sham.phone }
+  mobile_phone { Sham.phone }
+  business_phone { Sham.phone }
+  position_applying_for { 'Sales' }
+  years_experience { '0-2 years' }
+  consulting_experience_description{ 'Some stuff' }
+  has_applied_before{ false }
+  how_heard{ 'Craigslist' }
+  highest_education { "Bachelor's Degree" }
+  school { 'The University of Texas at Austin' }
+  has_internet { true }
+  has_voip { false }
+end
+
 # InformationTopic.blueprint do
 #   name{ Faker::Lorem.words(2).join(' ').titleize }
 #   type{ 'InformationTopic' }

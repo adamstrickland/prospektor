@@ -71,18 +71,58 @@ describe SurveyorController do
     
     describe "when saving the survey," do
       before do
+      
+        @lead = mock_model(Lead)
+        @lead_id = 88746
+        Lead.stub!(:find).with(@lead_id).and_return(@lead)
+      
         @current_section_id = "99"
         @responses = {}
+        @response_set.should_receive(:save!).any_number_of_times.and_return(true)
+        @response_set.should_receive(:survey).at_least(:once).and_return(@survey)
+        @response_set.should_receive(:lead_id?).and_return(true)
+        @response_set.should_receive(:lead_id).and_return(@lead_id)
+        
+        @survey_section = mock_model(SurveySection)
+        # @survey_sections = [@survey_section]
+        @survey_section.should_receive(:with_includes).and_return(@survey_section)
+        # @survey_section.stub!(:find).with(any_args()).and_return(@survey_section)
+        @survey_section.should_receive(:first).and_return(@survey_section)        
+        @survey_section.should_receive(:title).and_return('Manufacturing')
+        
+        @survey.should_receive(:sections).and_return(@survey_section)
+      end
+      
+      describe "should redirect to the results" do
+        before :each do
+          @response_set.should_receive(:current_section_id=).with(@current_section_id)
+          @response_set.should_receive(:clear_responses)
+          @response_set.should_receive(:update_attributes).with(hash_including(:response_attributes => @responses, :response_group_attributes => {})).and_return(true)
+          @response_set.should_receive(:complete!)
+          @lead.should_receive(:is_manufacturer?).and_return(false)
+        end
+        
+        it "when at the end of the survey" do
+          @survey_section.stub!(:title).and_return('Something')
+          put :update, { :survey_code => @survey_code, :finish => true, :response_set_code => @response_code, :responses => @responses, :current_section_id => @current_section_id }
+          response.should redirect_to(@results_url)
+        end
+        
+        it "when at the manufacturer section and lead is not a manufacturer" do
+          put :update, { :survey_code => @survey_code, :response_set_code => @response_code, :responses => @responses, :current_section_id => @current_section_id }
+          response.should redirect_to(@results_url)
+        end
+      end  
+
+      it "should redirect to the next page when at the manufacturer section and lead is a manufacturer" do
         @response_set.should_receive(:current_section_id=).with(@current_section_id)
         @response_set.should_receive(:clear_responses)
         @response_set.should_receive(:update_attributes).with(hash_including(:response_attributes => @responses, :response_group_attributes => {})).and_return(true)
-        @response_set.should_receive(:complete!)
-        @response_set.should_receive(:save!).and_return(true)
-      end
-      
-      it "should redirect to the results" do
-        put :update, { :survey_code => @survey_code, :finish => true, :response_set_code => @response_code, :responses => @responses, :current_section_id => @current_section_id }
-        response.should redirect_to(@results_url)
+        
+        @lead.should_receive(:is_manufacturer?).and_return(true)
+        
+        put :update, { :survey_code => @survey_code, :response_set_code => @response_code, :responses => @responses, :current_section_id => @current_section_id }
+        response.should redirect_to edit_my_survey_url(:survey_code => @survey_code, :response_set_code => @response_code)
       end
     end  
 
@@ -105,8 +145,17 @@ describe SurveyorController do
         end
         
         it "should render json for chart data" do
-          get :results, { :response_set_code => @response_code, :format => :json }
-          # response.should have_text("piechart")
+          _expected = {
+            :piechart => [
+              ['Progressive', 0],
+              ['Average', 0],
+              ['Weak', 0],
+              ['N/A', 0]
+            ]
+          }
+          @response_set.stub!(:responses).and_return([])
+          get :results, { :response_set_code => @response_code, :format => 'json' }
+          response.should be_json_like(_expected)
         end
       end
 

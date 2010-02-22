@@ -8,6 +8,7 @@ module SurveyorControllerExtensions
       # Same as typing in the class
       skip_before_filter :login_required
       after_filter :capture_lead_as_responder, :only => [:create]
+      before_filter :intercept_update, :only => [:update]
     end
   end
   
@@ -74,6 +75,25 @@ module SurveyorControllerExtensions
     
     def finish_path
       survey_results_path(:response_set_code => params[:response_set_code])
+    end
+    
+    def intercept_update
+      rs = @response_set || ResponseSet.find_by_access_code(params[:response_set_code])
+      case rs.survey.access_code
+      when 'bcr' then intercept_update_bcr(rs)
+      end
+    end
+    
+    def intercept_update_bcr(response_set)
+      if response_set.lead_id?
+        @sections = response_set.survey.sections
+        @section = params[:section] ? @sections.with_includes.find(section_id_from(params[:section])) || @sections.with_includes.first : @sections.with_includes.first
+        if ['manufacturing'].include?(@section.title.downcase)
+          unless Lead.find(response_set.lead_id).is_manufacturer?
+            params[:finish] = true
+          end
+        end
+      end
     end
   end
   

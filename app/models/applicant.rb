@@ -58,7 +58,7 @@ class Applicant < ActiveRecord::Base
     e.city = self.city
     e.state_or_province = self.stateprovince
     e.postal_code = self.zippostalcode
-    e.country = ['US','USA'].include?(self.country) ? 'USA' : self.country
+    e.country = ['US','USA'].include?(self.country) ? 'US' : self.country
     e.phone = self.homephone
     e.cellular = self.mobilephone
     e.business_phone = self.businessphone

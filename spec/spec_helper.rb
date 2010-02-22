@@ -18,6 +18,12 @@ Spork.prefork do
   # require 'webrat/integrations/rspec-rails'
   Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each{ |f| require f }
   
+  Spec::Matchers.define :be_json_like do |hash|
+    match do |response|
+      ActiveSupport::JSON.decode(response.body) == ActiveSupport::JSON.decode(hash.to_json)
+    end
+  end
+  
   Spec::Runner.configure do |config|
     def login_as(user)
       @current_user = mock_model(User)

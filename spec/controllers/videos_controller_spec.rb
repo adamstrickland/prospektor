@@ -21,12 +21,12 @@ describe VideosController do
       
       it "with a key" do
         get :bcr, :format => 'json', :key => @key
-        ActiveSupport::JSON.decode(response.body).should eql(ActiveSupport::JSON.decode({:redirect => "#{@redirect_base_url}#{@key}"}.merge(@expect).to_json))
+        response.should be_json_like({:redirect => "#{@redirect_base_url}#{@key}"}.merge(@expect))
       end
       
       it "without a key" do
         get :bcr, :format => 'json'
-        ActiveSupport::JSON.decode(response.body).should eql(ActiveSupport::JSON.decode({:redirect => @redirect_base_url}.merge(@expect).to_json))
+        response.should be_json_like({:redirect => @redirect_base_url}.merge(@expect))
       end
     end
     
