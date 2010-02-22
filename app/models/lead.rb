@@ -113,7 +113,7 @@ class Lead < ActiveRecord::Base
           :action => 'updated'
         ).save
       else
-        old_val, new_val = vals[0] || 'Empty', vals[1]
+        old_val, new_val = vals[0] || 'Empty', vals[1] || vals[0]
         Event.new(
           :lead => rec, 
           :user => rec.owner, 
