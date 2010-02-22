@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
   end
   
   def ready_leads(amount=0)
-    self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}.sort{|fmr,ltr| fmr.updated_at <=> ltr.updated_at}[0..(amount-1)]
+    self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}.sort{ |l,r| l.updated_at <=> r.updated_at }[0..(amount-1)]
   end
   
   def name
