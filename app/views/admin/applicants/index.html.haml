@@ -15,7 +15,7 @@
             .info
               .listing{ :onclick => "$(this).parent().parent().find('.details').toggle('blind', {}, 500);" }
                 .login.grid_4.alpha=applicant.full_name
-                .position.grid_3.omega=applicant.created_at.strftime('%Y-%m-%d %I:%M%p') if applicant.created_at
+                .position.grid_3.omega=applicant.created_at.present? ? applicant.created_at.strftime('%Y-%m-%d %I:%M%p') : '&nbsp;'
             .controls
               .deactivate.grid_2
                 =button_to_remote 'Reject', :url => reject_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant rejected');", :failure => "alert('Unable to reject applicant.  Please contact support.');"
