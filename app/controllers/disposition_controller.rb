@@ -25,7 +25,7 @@ class DispositionController < ApplicationController
     # }
     # 
     
-    @disposition_options = Status.for_leads.reject{|s| s.code == 'CLIENT' or s.code == 'INV'}.map{|s| ["#{s.code} - #{s.description}", s.id] }
+    @disposition_options = LeadStatus.all.reject{|s| s.code == 'CLIENT' or s.code == 'INV'}.map{|s| ["#{s.code} - #{s.description}", s.id] }
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }
     end
