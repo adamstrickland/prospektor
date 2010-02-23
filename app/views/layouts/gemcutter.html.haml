@@ -10,6 +10,7 @@
     <![endif]-->
     =stylesheet_link_tag 'thickbox'
     =stylesheet_link_tag 'gemcutter'
+    =stylesheet_link_tag 'gemcutter-overrides'
     / # =stylesheet_link_tag 'prospektor'
     =stylesheet_action_link_tag
     %style{ :type => "text/css" }=yield :styles
@@ -19,34 +20,43 @@
         google.load("jquery", "1.4.2");
       =javascript_include_tag 'jquery.form'
     -else
-      =javascript_include_tag 'jquery' 
+      =javascript_include_tag 'jquery'
       =javascript_include_tag 'jquery.form'
+    =javascript_include_tag 'jquery.dropshadow'
     =javascript_include_tag 'jrails' 
     =javascript_include_tag 'thickbox' 
     =javascript_action_include_tag
     =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
+    :javascript
+      $(function(){
+        $('#hd header h1 a').dropShadow();
+      })
     =yield :scripts
   %body
     .flash
     #hd.container_12
-      .prefix_1.grid_4.header
-        %h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
-        .subtitle Your Key to Success
-      .grid_6.suffix_1.nav
-        -if logged_in?
-          %ul
-            %li=link_to(current_user.name, user_profile_url(current_user))
-            %li=link_to 'dashboard', dashboard_url
-            %li=link_to 'leads', user_call_queues_url(current_user)
-            %li=link_to 'logout', logout_url
-          -form_tag(search_url) do |sf|
-            .text_field=text_field_tag :query
-            =submit_tag 'Search', :id => 'search_submit'
+      .wrapper
+        .prefix_1.grid_4.header
+          .supertitle Trigon Solutions, Inc.
+          %h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
+          .subtitle Your Key to Success
+        .grid_6.suffix_1.nav
+          -if logged_in?
+            %ul
+              %li=link_to(current_user.name, user_profile_url(current_user))
+            %ul
+              %li=link_to 'dashboard', dashboard_url
+              %li=link_to 'leads', user_call_queues_url(current_user)
+              %li=link_to 'logout', logout_url
+            / -form_tag(search_url) do |sf|
+            /   .text_field=text_field_tag :query
+            /   =submit_tag 'Search', :id => 'search_submit'
+        %hr
     #bd.container_12
       .prefix_1.grid_10.suffix_1.main
-        .fold
         .menu
           =yield :menu
+        .fold
         .blurb
           .notice=flash[:notice]
           .error=flash[:error]
