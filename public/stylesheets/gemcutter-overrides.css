@@ -1,0 +1,43 @@
+body {
+  background: url('http://lab.rails2u.com/bgmaker/slash.png?margin=1&linecolor=3D3D3D&bgcolor=125BA8') repeat; }
+
+hr {
+  margin-bottom: -1px;
+  height: 1px;
+  visibility: hidden;
+  clear: both; }
+
+#hd .header .supertitle {
+  color: #eee;
+  top: 2.4em;
+  font-size: 10pt;
+  position: relative; }
+
+
+#bd .main {
+  padding-top: 0; }
+  #bd .main .menu {
+    text-align: right;
+    padding-top: 2.0em; }
+    #bd .main .menu ul {
+      display: block;
+      vertical-align: middle;
+      height: 25px; }
+      #bd .main .menu ul li {
+        font-size: 1.5em;
+        font-weight: 900;
+        display: inline-block;
+        vertical-align: middle; }
+        #bd .main .menu ul li a {
+          color: #EEE;
+          padding: 7px;
+          text-decoration: none;
+          text-shadow: 0 0 10px #000;
+          -moz-border-radius: 10px;
+          -webkit-border-radius: 10px;
+          margin-top: 5px; }
+          #bd .main .menu ul li a:hover {
+            text-decoration: none;
+            background: rgba(0,0,0,.2); }
+          #bd .main .menu ul li a#user_gravatar {
+            padding-top: 16px; }
