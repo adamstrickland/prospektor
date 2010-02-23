@@ -29,6 +29,41 @@ class User < ActiveRecord::Base
   def callbacks
     # self.leads.callbacks(Time.now)
   end
+
+  def login=(value)
+    write_attribute :login, (value ? value.downcase : nil)
+  end
+
+  def email=(value)
+    write_attribute :email, (value ? value.downcase : nil)
+  end
+
+  def ready_leads(amount=0)
+    # self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}.sort{ |l,r| l.updated_at <=> r.updated_at }[0..(amount-1)]
+    good_status_leads = self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}
+    
+    # foo.sort{|a,b|( a and b ) ? a <=> b : ( a ? -1 : 1 ) }
+    sorted_leads = good_status_leads.sort{ |l,r| 
+      if (l.updated_at and r.updated_at)
+        l.updated_at <=> r.updated_at
+      else
+        l.updated_at ? -1 : 1
+      end
+    }
+    sorted_leads[0..(amount-1)]
+  end
+
+  def name
+    unless self.employee.blank?
+      "#{self.employee.preferred_name} #{self.employee.last_name}"
+    else
+      self.login
+    end
+  end
+
+  def self.generate_password(size=8)
+    (0..(size-1)).map{ (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a)[rand((26+26+10))] }.join
+  end
   
   # def assignments
   #   self.leads
@@ -38,7 +73,11 @@ class User < ActiveRecord::Base
   #   self.leads = val
   # end
   
-  # restful_authentication stuff...
+  
+  
+  
+  
+  # RESTful_authentication stuff...
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -91,35 +130,8 @@ class User < ActiveRecord::Base
     u && u.authenticated?(password) ? u : nil
   end
 
-  def login=(value)
-    write_attribute :login, (value ? value.downcase : nil)
-  end
-
-  def email=(value)
-    write_attribute :email, (value ? value.downcase : nil)
-  end
-  
-  def ready_leads(amount=0)
-    self.leads.select{|l| l.status.nil? or l.status.state == 'assigned'}.sort{ |l,r| l.updated_at <=> r.updated_at }[0..(amount-1)]
-  end
-  
-  def name
-    unless self.employee.blank?
-      "#{self.employee.preferred_name} #{self.employee.last_name}"
-    else
-      self.login
-    end
-  end
-  
-  def self.generate_password(size=8)
-    (0..(size-1)).map{ (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a)[rand((26+26+10))] }.join
-  end
-
   protected
-    
     def make_activation_code
-        self.activation_code = self.class.make_token
+      self.activation_code = self.class.make_token
     end
-
-
 end
