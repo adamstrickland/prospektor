@@ -5,6 +5,8 @@ class Applicant < ActiveRecord::Base
   validates_length_of :mobile_phone, :is => 10, :allow_nil => true
   validates_length_of :home_phone, :is => 10, :allow_nil => true
   
+  has_one :employee
+  
   alias_attribute :first_name, :applicantfirstname
   alias_attribute :middle_initial, :applicantmi
   alias_attribute :last_name, :applicantlastname
@@ -79,6 +81,7 @@ class Applicant < ActiveRecord::Base
     e.emrgcy_contact_phone = self.emergencycontactphonenum
     e.active = true
     e.reports_to = self.reportstouserid
+    e.applicant = self
     
     if e.save
       e

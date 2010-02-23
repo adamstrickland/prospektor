@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218230006) do
+ActiveRecord::Schema.define(:version => 20100223191632) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -442,10 +442,9 @@ ActiveRecord::Schema.define(:version => 20100218230006) do
     t.integer  "extension"
     t.string   "shift"
     t.string   "program"
-    t.string   "username"
-    t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "applicant_id"
   end
 
   create_table "events", :force => true do |t|
