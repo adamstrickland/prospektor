@@ -1,5 +1,6 @@
 class Employee < ActiveRecord::Base
   has_one :user
+  belongs_to :applicant
 
   def create_user
     u = User.new
