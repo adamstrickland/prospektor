@@ -29,9 +29,10 @@
   %body
     .flash
     #hd.container_12
-      .prefix_1.grid_3.header
+      .prefix_1.grid_4.header
         %h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
-      .grid_7.suffix_1.nav
+        .subtitle Your Key to Success
+      .grid_6.suffix_1.nav
         -if logged_in?
           %ul
             %li=link_to(current_user.name, user_profile_url(current_user))
@@ -40,7 +41,7 @@
             %li=link_to 'logout', logout_url
           -form_tag(search_url) do |sf|
             .text_field=text_field_tag :query
-            =submit_tag 'Search'
+            =submit_tag 'Search', :id => 'search_submit'
     #bd.container_12
       .prefix_1.grid_10.suffix_1.main
         .fold
