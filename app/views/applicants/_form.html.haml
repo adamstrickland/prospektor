@@ -1,3 +1,4 @@
+=javascript_include_tag 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.js'
 %style
   :sass
     fieldset
@@ -9,71 +10,73 @@
           :margin-left 10px
         input[type="text"], select
           :width 100%
+        .error
+          :color red
     .required
       :font-weight bold
       :font-style italic
 :javascript
   $(function(){
-    $('#applicant_first_name').focus();
-    
+    $('#applicant .application form').validate();
+  
     $('#applicant_first_name').blur(function(e){
-      $('applicant_preferred_name').val($(this).val());
-    });
+      $('#applicant_preferred_name').val($(this).val());
+    }).focus();
   });
 .form.grid_12
   .demographics
     %fieldset
       .row.required
         .label.grid_4=f.label :first_name
-        .value.grid_6=f.text_field :first_name
+        .value.grid_6=f.text_field :first_name, :class => 'required'
         .clear
-      .row
-        .label.grid_4=f.label :preferred_name
-        .value.grid_6=f.text_field :preferred_name
+      .row.required
+        .label.grid_4=f.label :preferred_name, 'Nickname/Called By'
+        .value.grid_6=f.text_field :preferred_name, :class => 'required'
         .clear
       .row
         .label.grid_4=f.label :middle_initial
-        .value.grid_6=f.text_field :middle_initial
+        .value.grid_6=f.text_field :middle_initial, :minlength => 1, :maxlength => 1, :size => 1
         .clear
       .row.required
         .label.grid_4=f.label :last_name
-        .value.grid_6=f.text_field :last_name
+        .value.grid_6=f.text_field :last_name, :class => 'required'
         .clear
       .row.required
         .label.grid_4=f.label :address
-        .value.grid_6=f.text_field :address
+        .value.grid_6=f.text_field :address, :class => 'required'
         .clear
       .row.required
         .label.grid_4=f.label :city
-        .value.grid_6=f.text_field :city
+        .value.grid_6=f.text_field :city, :class => 'required'
         .clear
       .row.required
         .label.grid_4=f.label :state_province, "State or Province"
-        .value.grid_6=f.select :state_province, grouped_options_for_select(grouped_state_provinces_collection), { :include_blank => true }
+        .value.grid_6=f.select :state_province, grouped_options_for_select(grouped_state_provinces_collection), { :include_blank => true }, :class => 'required'
         .clear
       .row.required
         .label.grid_4=f.label :postal_code
-        .value.grid_6=f.text_field :postal_code
+        .value.grid_6=f.text_field :postal_code, :class => 'required digits'
         .clear
       .row.required
         .label.grid_4=f.label :country
-        .value.grid_6=f.select :country, [['USA', 'US'], ['Canada', 'CA'], ['Mexico', 'MX']], { :include_blank => true }
+        .value.grid_6=f.select :country, [['USA', 'US'], ['Canada', 'CA'], ['Mexico', 'MX']], { :include_blank => true }, :class => 'required'
         .clear
       .row.required
         .label.grid_4=f.label :email
-        .value.grid_6=f.text_field :email
+        .value.grid_6=f.text_field :email, :class => 'required email'
         .clear
       .row
         .label.grid_4=f.label :home_phone
-        .value.grid_6=f.text_field :home_phone, :maxlength => 10
+        .value.grid_6=f.text_field :home_phone, :minlength => 10, :maxlength => 10, :class => 'digits', :size => 10
         .clear
       .row
         .label.grid_4=f.label :mobile_phone
-        .value.grid_6=f.text_field :mobile_phone, :maxlength => 10
+        .value.grid_6=f.text_field :mobile_phone, :minlength => 10, :maxlength => 10, :class => 'digits', :size => 10
         .clear
       .row.required
         .label.grid_4=f.label :business_phone
-        .value.grid_6=f.text_field :business_phone, :maxlength => 10
+        .value.grid_6=f.text_field :business_phone, :minlength => 10, :maxlength => 10, :class => 'required digits', :size => 10
         .clear
   .postion
     %fieldset
