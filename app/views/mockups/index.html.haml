@@ -1,4 +1,5 @@
-#mockup.content=Faker::Lorem.paragraphs
+#mockup.content
+  %p=Faker::Lorem.paragraphs
 
 -content_for :menu do
   %ul
@@ -7,10 +8,33 @@
 
 -content_for :styles do
   :sass
+    .header
+      h1
+        a
+          :text-indent 0
+          :font
+            :size 32pt
+          :color #eee
+          :border-bottom 1px solid #eee
+      .subtitle
+        :font
+          :size 12pt
+          :weight bold
+        :color teal
+        :text-align right
+        :margin-right 20px
     #ft
       .badges
         img
           :height 50px
+          :display block
+          :margin 0 auto
+        a
+          :color gray
+          :display block
+          :float right
+          :text-align center
+          :padding 1em
           
 
 -content_for :scripts do
