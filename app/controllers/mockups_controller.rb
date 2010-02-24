@@ -6,5 +6,12 @@ class MockupsController < ApplicationController
   
   def index
   end
+  
+  def show
+    @lead = Lead.find(params[:id])
 
+    respond_to do |format|
+      format.html
+    end
+  end
 end
