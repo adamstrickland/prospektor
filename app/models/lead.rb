@@ -315,4 +315,8 @@ class Lead < ActiveRecord::Base
   def is_manufacturer?
     (1..10).map{|i| "sic_code_#{i}".to_sym }.map{|m| self.send(m) }.compact.map{|c| SicCode.find_by_code(c).division }.include?('D')
   end
+  
+  def gmt_offset
+    ([:e, :c, :m, :p, :a, :h].index(self.timezone.downcase.to_sym) + 4 + (Time.now.zone.index('ST') ? 1 : 0 )) * -1
+  end
 end

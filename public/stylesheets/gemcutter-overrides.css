@@ -61,9 +61,64 @@ hr {
   #bd .main .fold {
     height: 3em;
     margin: auto 1em; }
-    #bd .main .fold strong {
+    #bd .main .fold .tab {
       font-size: 2em;
       font-weight: bold; }
+      #bd .main .fold .tab strong {
+        color: #5e543e;
+        background-color: #cbc2ae;
+        -moz-border-radius: 10px 10px 0 0;
+        -webkit-border-radius: 10px 10px 0 0;
+        padding: 5px 15px 10px 15px; }
+  #bd .main .info .bottom {
+    height: 55em; }
+    #bd .main .info .bottom .tabbed {
+      margin: 2em 1em 1em 1em;
+      padding-top: 1em;
+      border-top-width: 1px;
+      border-top-style: solid;
+      border-top-color: #5e543e; }
+      #bd .main .info .bottom .tabbed .tabbed-items {
+        clear: both; }
+        #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper {
+          margin: 1em;
+          background-color: #cbc2ae;
+          border-width: 1px;
+          border-style: solid;
+          border-color: #5e543e;
+          overflow: auto;
+          height: 46em; }
+          #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper .tab-panel {
+            padding-left: 1em; }
+            #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper .tab-panel .item {
+              text-indent: -1em; }
+      #bd .main .info .bottom .tabbed ol.tabs {
+        margin: 1em 36px 0 36px; }
+        #bd .main .info .bottom .tabbed ol.tabs li {
+          font-weight: bold;
+          float: left;
+          padding: 8px 16px 9px 16px;
+          margin-left: 0.25em;
+          border-top-width: 1px;
+          border-right-width: 1px;
+          border-left-width: 1px;
+          border-style: solid;
+          border-color: #5e543e; }
+        #bd .main .info .bottom .tabbed ol.tabs li.active {
+          background-color: #cbc2ae;
+          border-bottom-color: #cbc2ae;
+          z-index: 99; }
+      #bd .main .info .bottom .tabbed .loading {
+        padding-top: 3em;
+        margin: auto;
+        text-align: center; }
+
+.twocol .lcol {
+  float: left;
+  margin: 0; }
+.twocol .rcol {
+  float: right;
+  margin: 0; }
 
 #ft .container_12 .footer {
   position: absolute;
@@ -71,6 +126,8 @@ hr {
   color: silver; }
   #ft .container_12 .footer a {
     color: silver; }
+  #ft .container_12 .footer .links #copyright {
+    padding-top: 1em; }
   #ft .container_12 .footer .badges img {
     padding-top: 3px;
     height: 50px;

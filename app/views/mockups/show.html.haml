@@ -1,10 +1,35 @@
 #mockup
   .content
-    .fold 
-      %strong=@lead.company
+    .fold
+      .tab
+        %strong=@lead.company
     .info
-      -3.times do
-        %p=Faker::Lorem.paragraphs
+      .top
+        .twocol
+          #demog.lcol
+            %p.prospect_name #{@lead.honorific} #{@lead.full_name}
+            %p.prospect_title=@lead.title.strip.titleize
+            %p.location 
+              %span.city #{@lead.city.strip.titleize},&nbsp;
+              %span.state=@lead.state.strip.upcase
+            %p.clock
+              Local Time:&nbsp;
+              %span.local_time{ :gmtoffset => @lead.gmt_offset }
+          .rcol
+            #phone
+              =@lead.formatted_phone
+              -if not @lead.extension.blank?
+                &nbsp;x&nbsp;#{@lead.extension}
+      %hr
+      .bottom
+        #metadata.tabbed
+          %ol.tabs
+            %li=link_to content_tag(:span, 'Comments'), lead_comments_url(@lead)
+            %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
+            %li=link_to content_tag(:span, 'Events'), lead_events_url(@lead)
+          .tabbed-items
+            .tabbed-item-wrapper
+              %p.tabbed-item{ :style => 'display:block' }
 
 -content_for :menu do  
   %ul
@@ -14,4 +39,57 @@
     %li=link_to 'Edit', edit_lead_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
     
 -content_for :scripts do
+  =javascript_include_tag "jquery.epiclock#{ '.min' if Rails.env == 'production' }"
+  =javascript_include_tag "http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"
   :javascript
+    $(function(){
+      $('#demog p.clock span.local_time').epiclock({
+        format:'g:i A',
+        gmt:true,
+        offset:{
+          hours:$('#demog p.clock span.local_time').attr("gmtoffset"),
+        }
+      }).clocks(EC_RUN);
+      
+      $('ol.tabs').tabs('.tabbed-items .tabbed-item', function(e, i){
+        this.getTabs().parent().removeClass('active').eq(i).addClass('active');
+        var pane = this.getPanes().eq(0);
+        var tab = this.getTabs().eq(i || 0);
+        pane.fadeOut(function(){
+          pane.addClass('loading').html('#{image_tag("loadingAnimation.gif")}');
+          pane.fadeIn(function(){        
+            $.get(tab.attr("href"), function(data){
+              pane.fadeOut(function(){            
+                pane.removeClass('loading').html(data).fadeIn();
+              });
+            });
+          });
+        });
+        return false;
+      });
+    });
+  
+-content_for :styles do
+  :sass
+    .info
+      .top
+        #demog
+          :width 60%
+          p
+            :margin-top 0
+            :margin-bottom 0
+          .prospect_name
+            :font-weight bold
+        #phone
+          :position relative
+          :right 1em
+          :background black
+          :-webkit-border-radius 10px
+          :-moz-border-radius 10px
+          :color white
+          :padding 10px
+          :font
+            :family Monaco, Consolas, 'Courier New', monospace
+            :size 3em
+            :weight bold
+  =stylesheet_link_tag 'epiclock'

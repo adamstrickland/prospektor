@@ -18,9 +18,11 @@
       %script{ :src => "http://www.google.com/jsapi" }
       :javascript
         google.load("jquery", "1.4.2");
+        //google.load("jqueryui", "1.7.2");
       =javascript_include_tag 'jquery.form'
     -else
       =javascript_include_tag 'jquery'
+      / =javascript_include_tag 'ui/jquery-ui'
       =javascript_include_tag 'jquery.form'
     =javascript_include_tag 'jquery.dropshadow'
     =javascript_include_tag 'jrails' 
@@ -67,13 +69,13 @@
     #ft
       .container_12
         .footer
-          .prefix_1.grid_4
-            #links.links
-              =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
-              =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
-          .grid_2
-            #copyright.links
-              %span &copy; 2010, Trigon Solutions, Inc.
+          .prefix_1.grid_6
+            .links
+              #links
+                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
+                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+              #copyright
+                %span &copy; 2010, Trigon Solutions, Inc.
           .suffix_1.grid_4
             #badges.badges
               %a{ :href => 'http://www.trigonsolutions.com', :target => '_blank'}

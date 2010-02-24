@@ -5,7 +5,7 @@ class EventsController < ApplicationController
     @events = Lead.find(params[:lead_id]).events.sort{ |fmr,ltr| ltr.created_at <=> fmr.created_at }
 
     respond_to do |format|
-      format.html { render 'index', :layout => false }
+      format.html { render :partial => 'index' }
       format.xml  { render :xml => @events }
     end
   end
