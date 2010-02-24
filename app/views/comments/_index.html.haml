@@ -1,0 +1,8 @@
+#comments.tab-panel
+  -3.times do
+    .item
+      [
+      %span.ts #{(Time.now - 1).strftime('%Y-%m-%d %H:%M')},
+      %span.user=current_user.employee.full_name
+      ]&nbsp;
+      %span.text=Faker::Lorem.paragraph

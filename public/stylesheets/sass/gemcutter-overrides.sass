@@ -5,7 +5,8 @@
 !cl_subtitle = gold
 !cl_menu_link = !cl_subtitle
 !cl_footer = silver
-
+!cl_tab = #cbc2ae
+!cl_copy = #5E543E
 
 body
   :background #125BA8 url('http://lab.rails2u.com/bgmaker/slash.png?margin=1&linecolor=3D3D3D&bgcolor=125BA8') repeat
@@ -51,10 +52,73 @@ hr
     .fold
       :height 3em
       :margin auto 1em
-      strong
+      .tab
+        strong
+          :color = !cl_copy
+          :background-color #cbc2ae
+          :-moz-border-radius 10px 10px 0 0 
+          :-webkit-border-radius 10px 10px 0 0 
+          :padding 5px 15px 10px 15px
         :font
           :size 2em
           :weight bold
+    .info      
+      .bottom
+        :height 55em
+        .tabbed
+          :margin 2em 1em 1em 1em
+          :padding-top 1em
+          :border-top
+            :width 1px
+            :style solid
+            :color = !cl_copy
+          .tabbed-items
+            :clear both
+            .tabbed-item-wrapper
+              / :padding 1em
+              :margin 1em
+              :background-color = !cl_tab
+              :border 
+                :width 1px
+                :style solid
+                :color = !cl_copy
+              :overflow auto
+              :height 46em
+              .tab-panel
+                :padding-left 1em
+                .item
+                  :text-indent -1em
+          ol.tabs
+            :margin 1em 36px 0 36px
+            li
+              :font-weight bold
+              :float left
+              :padding 8px 16px 9px 16px
+              :margin-left 0.25em
+              :border 
+                :top-width 1px 
+                :right-width 1px
+                :left-width 1px
+                :style solid
+                :color = !cl_copy
+            li.active
+              :background-color = !cl_tab
+              :border-bottom-color = !cl_tab
+              :z-index 99
+          .loading
+            :padding-top 3em
+            :margin auto
+            :text-align center
+
+
+.twocol
+  .lcol
+    :float left
+    :margin 0
+  .rcol
+    :float right
+    :margin 0
+        
 #ft
   .container_12
     .footer
@@ -63,6 +127,9 @@ hr
       :color = !cl_footer
       a
         :color = !cl_footer
+      .links
+        #copyright
+          :padding-top 1em
       .badges
         img
           :padding-top 3px

@@ -21,11 +21,12 @@ ActionController::Routing::Routes.draw do |map|
   map.search '/search', :controller => 'search', :action => 'show'
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
-  map.resources :leads, :member => { :next => :get, :demographics => :get } do |leads|
+  map.resources :leads, :member => { :next => :get, :demographics => :get, :history => :get } do |leads|
+    leads.resources :comments, :only => [ :new, :create, :index ]
+    leads.resources :events, :only => [ :new, :create, :index ]
+    
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
-    leads.resources :comments, :only => [ :new, :create ]
-    leads.resources :events, :only => [ :new, :create, :index ]
     leads.resources :disposition, :only => [ :new, :create ]
     leads.resources :suspend, :only => [ :new, :create ]
   end

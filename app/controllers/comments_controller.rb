@@ -20,6 +20,10 @@ class CommentsController < ApplicationController
   #     format.xml  { render :xml => @comment }
   #   end
   # end
+  
+  def index
+    render :partial => 'index'
+  end
 
   # GET /comments/new
   # GET /comments/new.xml

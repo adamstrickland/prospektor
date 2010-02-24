@@ -1,0 +1,8 @@
+#events.tab-panel
+  -@events.each do |event|
+    .item
+      [
+      %span.ts #{event.created_at.localtime.strftime('%Y-%m-%d %H:%M')},
+      %span.user=(event.user ? event.user.employee.full_name : 'N/A')
+      ]&nbsp;
+      %span.text #{event.action ? event.action.upcase : 'ACTION'}: #{event.message}

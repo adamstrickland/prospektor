@@ -22,6 +22,15 @@ class LeadsController < ApplicationController
     end
   end
   
+  def history
+    @lead = Lead.find(params[:id])
+    respond_to do |format|
+      format.html do
+        render :partial => 'history'
+      end
+    end
+  end
+  
   def find_by_phone
     lead = Lead.find_by_phone(params[:phone])
     if lead.nil?
