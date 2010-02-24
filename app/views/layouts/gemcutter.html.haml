@@ -34,8 +34,8 @@
     =yield :scripts
   %body
     .flash
-    #hd.container_12
-      .wrapper
+    #hd
+      .container_12
         .prefix_1.grid_4.header
           .supertitle Trigon Solutions, Inc.
           %h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
@@ -51,29 +51,47 @@
             / -form_tag(search_url) do |sf|
             /   .text_field=text_field_tag :query
             /   =submit_tag 'Search', :id => 'search_submit'
-        %hr
-    #bd.container_12
-      .prefix_1.grid_10.suffix_1.main
-        .menu
-          =yield :menu
-        .fold
-        .blurb
-          .notice=flash[:notice]
-          .error=flash[:error]
-        .info
+      %hr
+    #bd
+      .container_12
+        .prefix_1.grid_10.suffix_1.main
+          .menu
+            =yield :menu
+          / .fold Something Goes Here!
+          .blurb
+            .notice=flash[:notice]
+            .error=flash[:error]
+          / .info
           =yield
-    #ft.container_12
-      .prefix_1.grid_10.suffix_1.footer
-        .links
-          -[].each do |hash|
-            =link_to hash[:name], hash[:url]
-        .badges
-          %a{ :href => 'http://www.trigonsolutions.com', :target => '_blank'}
-            operated by
-            =image_tag('trigon_logo.gif')
-          %a{ :href => 'http://www.mockingbirdsoftware.com', :target => '_blank'}
-            designed by
-            =image_tag('rubyonrails.png')
-          %a{ :href => 'http://rubyonrails.org', :target => '_blank'}
-            powered by
-            =image_tag('rubyonrails.png')
+      %hr
+    #ft
+      .container_12
+        .footer
+          .prefix_1.grid_4
+            #links.links
+              =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
+              =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+          .grid_2
+            #copyright.links
+              %span &copy; 2010, Trigon Solutions, Inc.
+          .suffix_1.grid_4
+            #badges.badges
+              %a{ :href => 'http://www.trigonsolutions.com', :target => '_blank'}
+                operated by
+                =image_tag('trigon_logo.gif', :title => 'Trigon Solutions')
+                Trigon 
+                %br
+                Solutions
+              %a{ :href => 'http://www.mockingbirdsoftware.com', :target => '_blank'}
+                designed by
+                =image_tag('mockingbird_badge.gif', :title => 'Mockingbird Software')
+                Mockingbird
+                %br
+                Software
+              %a{ :href => 'http://rubyonrails.org', :target => '_blank'}
+                powered by
+                =image_tag('rubyonrails.png', :title => 'Ruby on Rails')
+                Ruby on
+                %br
+                Rails
+      %hr

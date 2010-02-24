@@ -1,5 +1,6 @@
+
 body {
-  background: url('http://lab.rails2u.com/bgmaker/slash.png?margin=1&linecolor=3D3D3D&bgcolor=125BA8') repeat; }
+  background: #125BA8 url('http://lab.rails2u.com/bgmaker/slash.png?margin=1&linecolor=3D3D3D&bgcolor=125BA8') repeat; }
 
 hr {
   margin-bottom: -1px;
@@ -7,12 +8,26 @@ hr {
   visibility: hidden;
   clear: both; }
 
-#hd .header .supertitle {
-  color: #eee;
-  top: 2.4em;
-  font-size: 10pt;
-  position: relative; }
-
+#hd {
+  background: url(/images/hd.jpg) repeat-x; }
+  #hd .header .supertitle {
+    color: #eeeeee;
+    top: 2.4em;
+    font-size: 10pt;
+    position: relative; }
+  #hd .header h1 a {
+    text-indent: 0;
+    font-size: 32pt;
+    color: #eeeeee;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #eeeeee; }
+  #hd .header .subtitle {
+    font-size: 12pt;
+    font-weight: bold;
+    color: gold;
+    text-align: right;
+    margin-right: 20px; }
 
 #bd .main {
   padding-top: 0; }
@@ -41,3 +56,29 @@ hr {
             background: rgba(0,0,0,.2); }
           #bd .main .menu ul li a#user_gravatar {
             padding-top: 16px; }
+    #bd .main .menu ul li a {
+      color: gold; }
+  #bd .main .fold {
+    height: 3em;
+    margin: auto 1em; }
+    #bd .main .fold strong {
+      font-size: 2em;
+      font-weight: bold; }
+
+#ft .container_12 .footer {
+  position: absolute;
+  bottom: 1em;
+  color: silver; }
+  #ft .container_12 .footer a {
+    color: silver; }
+  #ft .container_12 .footer .badges img {
+    padding-top: 3px;
+    height: 50px;
+    display: block;
+    margin: 0 auto; }
+  #ft .container_12 .footer .badges a {
+    display: block;
+    float: right;
+    text-align: center;
+    padding: 1em;
+    text-decoration: none; }

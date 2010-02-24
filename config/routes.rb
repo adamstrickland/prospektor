@@ -44,7 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   end 
   
   map.with_options :path_prefix => 'public' do |pub|
-    pub.resources :mockups, :only => [:index]
+    pub.resources :mockups, :only => [:index, :show]
     pub.with_options :name_prefix => 'survey_', :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
       surveys.bcr 'bcr', :action => 'get_bcr'
       surveys.results ':response_set_code/results.:format', :action => 'results'
