@@ -6,8 +6,13 @@
     .info
       .top
         .twocol
-          #demog.lcol
-            =render :partial => 'leads/demographics'
+          #prospect.lcol
+            #demog
+              =render :partial => 'leads/demographics'
+            #clock
+              %p.clock
+                Local Time:&nbsp;
+                %span.local_time{ :gmtoffset => @lead.gmt_offset }
           .rcol
             #phone
               =@lead.formatted_phone
@@ -36,11 +41,11 @@
   =javascript_include_tag "http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"
   :javascript
     $(function(){
-      $('#demog p.clock span.local_time').epiclock({
+      $('#prospect p.clock span.local_time').epiclock({
         format:'g:i A',
         gmt:true,
         offset:{
-          hours:$('#demog p.clock span.local_time').attr("gmtoffset"),
+          hours:$('#prospect p.clock span.local_time').attr("gmtoffset"),
         }
       }).clocks(EC_RUN);
       
@@ -66,7 +71,7 @@
   :sass
     .info
       .top
-        #demog
+        #prospect
           :width 60%
           p
             :margin-top 0

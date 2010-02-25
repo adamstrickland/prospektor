@@ -3,6 +3,3 @@
 %p.location 
   %span.city #{@lead.city.strip.titleize},&nbsp;
   %span.state=@lead.state.strip.upcase
-%p.clock
-  Local Time:&nbsp;
-  %span.local_time{ :gmtoffset => @lead.gmt_offset }
