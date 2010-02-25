@@ -7,14 +7,7 @@
       .top
         .twocol
           #demog.lcol
-            %p.prospect_name #{@lead.honorific} #{@lead.full_name}
-            %p.prospect_title=@lead.title.strip.titleize
-            %p.location 
-              %span.city #{@lead.city.strip.titleize},&nbsp;
-              %span.state=@lead.state.strip.upcase
-            %p.clock
-              Local Time:&nbsp;
-              %span.local_time{ :gmtoffset => @lead.gmt_offset }
+            =render :partial => 'leads/demographics'
           .rcol
             #phone
               =@lead.formatted_phone
@@ -25,7 +18,7 @@
         #metadata.tabbed
           %ol.tabs
             %li=link_to content_tag(:span, 'Comments'), lead_comments_url(@lead)
-            %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
+            / %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
             %li=link_to content_tag(:span, 'Events'), lead_events_url(@lead)
           .tabbed-items
             .tabbed-item-wrapper
@@ -79,7 +72,9 @@
             :margin-top 0
             :margin-bottom 0
           .prospect_name
-            :font-weight bold
+            :font
+              :weight bold
+              :size 2em
         #phone
           :position relative
           :right 1em
@@ -92,4 +87,22 @@
             :family Monaco, Consolas, 'Courier New', monospace
             :size 3em
             :weight bold
+    #add-comment
+      textarea
+        :height 300px
+        :width 100%
+    #edit-lead
+      .field
+        :margin 1em
+        :padding 1em
+        label, input
+          :font-size 1em
+        .value
+          :text-align left
+      .controls
+        :clear both
+        :margin-top 1em
+        :border-top 1px solid
+        :border-top-color = #eee
+        :padding-top 1em
   =stylesheet_link_tag 'epiclock'

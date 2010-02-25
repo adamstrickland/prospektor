@@ -1,0 +1,15 @@
+.container_4, .container_6, .container_8, .container_10 {
+  margin-left: auto;
+  margin-right: auto; }
+
+.container_4 {
+  width: 320px; }
+
+.container_6 {
+  width: 480px; }
+
+.container_8 {
+  width: 640px; }
+
+.container_10 {
+  width: 800px; }

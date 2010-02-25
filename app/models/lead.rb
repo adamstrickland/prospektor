@@ -186,7 +186,7 @@ class Lead < ActiveRecord::Base
           :action => 'updated'
         ).save
       else
-        old_val, new_val = vals[0] || 'Empty', vals[1] || vals[0]
+        old_val, new_val = (vals.count == 2 ? [vals[0], vals[1]] : ['Empty', vals[0]])
         Event.new(
           :lead => rec, 
           :user => rec.owner, 
@@ -205,7 +205,7 @@ class Lead < ActiveRecord::Base
     # nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
     # "#{self.first_name} #{nickname}#{self.last_name}"
     
-    [self.first_name, (self.salutation.present? && self.salutation != self.first_name) ? "\"#{self.salutation}\"" : nil, self.last_name].compact.join(" ")
+    [self.first_name, (self.salutation.present? && self.salutation != self.first_name) ? "\"#{self.salutation}\"" : nil, self.last_name].compact.join(" ") || self.name
   end
   alias_method :prospect, :full_name
   
