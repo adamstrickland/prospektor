@@ -5,6 +5,7 @@
     %link{ :rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
     %title Prospektor
     =stylesheet_link_tag '960gs/960'
+    =stylesheet_link_tag '960gs.subgrid'
     <!-- [if lt IE 8]>
     =stylesheet_link_tag 'ie7'
     <![endif]-->
@@ -44,12 +45,14 @@
           .subtitle Your Key to Success
         .grid_6.suffix_1.nav
           -if logged_in?
-            %ul
-              %li=link_to(current_user.name, user_profile_url(current_user))
+            %ul.linky
+              / %li=link_to(current_user.name, user_profile_url(current_user))
+              %li=current_user.name
+              %li.small
+                =link_to content_tag(:span, '(logout)'), logout_url
             %ul
               %li=link_to 'dashboard', dashboard_url
               %li=link_to 'leads', user_call_queues_url(current_user)
-              %li=link_to 'logout', logout_url
             / -form_tag(search_url) do |sf|
             /   .text_field=text_field_tag :query
             /   =submit_tag 'Search', :id => 'search_submit'

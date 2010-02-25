@@ -7,9 +7,11 @@
 !cl_footer = silver
 !cl_tab = #cbc2ae
 !cl_copy = #5E543E
+!cl_dark = #111
+!cl_pop = #8F0B0B
 
 body
-  :background #125BA8 url('http://lab.rails2u.com/bgmaker/slash.png?margin=1&linecolor=3D3D3D&bgcolor=125BA8') repeat
+  :background #125BA8 url(/images/hash_bkgrnd.png) repeat
 hr
   :margin-bottom -1px
   :height 1px
@@ -17,6 +19,21 @@ hr
   :clear both
 #hd
   :background url(/images/hd.jpg) repeat-x
+  .nav
+    ul.linky
+      :margin-bottom 1em
+      li.small
+        :font-size 0.5em
+      li
+        :color = !cl_header
+        :text-shadow 0 0 10px #000
+        a
+          :padding 7px
+          :text-decoration none
+          :text-shadow 0 0 0 0
+          &:hover
+            :text-decoration underline
+            :background 0
   .header
     .supertitle
       :color = !cl_header
@@ -81,15 +98,41 @@ hr
               :margin 1em
               :background-color = !cl_tab
               :border 
-                :width 1px
+                :width 3px
                 :style solid
                 :color = !cl_copy
-              :overflow auto
-              :height 48em
+              :height 480px
+              #comments
+                .item
+                  :border-top
+                    :width 1px
+                    :style solid
+                    :color = !cl_copy
+                  / :margin 1em
+                  :padding 1em 1em 1em 2em
+                  :margin
+                    :left -1em
+                  span.text
+                    :color = !cl_dark
+                  .byline
+                    :font
+                      :size 0.5em
+                      :weight bold
+                  &:hover
+                    :background-color = !cl_header
+                    .byline
+                      span.user
+                        :color = !cl_pop
+                  &:first-child
+                    :border 0
               .tab-panel
+                :overflow auto
                 :padding-left 1em
+                :height 430px
                 .item
                   :text-indent -1em
+                  .byline
+                    :text-align right
               .tab-panel.console
                 :padding 1em 1em 1em 2em
                 :background black
@@ -113,6 +156,7 @@ hr
               :margin-left 0.25em
               :-moz-border-radius 10px 10px 0 0 
               :-webkit-border-radius 10px 10px 0 0
+              :cursor hand
               :border 
                 :top-width 1px 
                 :right-width 1px
@@ -120,9 +164,10 @@ hr
                 :style solid
                 :color = !cl_copy
             li.active
-              :background-color = !cl_tab
-              :border-bottom-color = !cl_tab
-              :z-index 99
+              :background-color = !cl_copy
+              / :border-bottom-color = !cl_tab
+              a
+                :color = !cl_header
           .loading
             :padding-top 3em
             :margin auto
@@ -130,6 +175,8 @@ hr
 
 
 .twocol
+  .row
+    :clear both
   .lcol
     :float left
     :margin 0
@@ -160,4 +207,35 @@ hr
           :text-align center
           :padding 1em
           :text-decoration none
+
+#TB_window          
+  / :-moz-border-radius 10px
+  / :-webkit-border-radius 10px
+  #TB_title
+    / :-moz-border-radius 10px 10px 0 0 
+    / :-webkit-border-radius 10px 10px 0 0
+  #TB_ajaxContent  
+    / :-moz-border-radius 0 0 10px 10px
+    / :-webkit-border-radius 0 0 10px 10px
+    :overflow hidden
+    :background #125BA8 url(/images/hash_bkgrnd.png) repeat
+    .dialog
+      :color = !cl_header
+      a
+        :color = !cl_header
+        :text-decoration underline
+      .title,.controls
+        :margin 1em auto
+        :text-align center
+        :text-shadow 0 0 10px #000
+      .title
+        :font
+          :weight bold
+          :size 1.5em
+        :color = !cl_header
+      
+      
+      
+      
+      
       

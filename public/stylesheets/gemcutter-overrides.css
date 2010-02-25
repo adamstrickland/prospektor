@@ -1,6 +1,6 @@
 
 body {
-  background: #125BA8 url('http://lab.rails2u.com/bgmaker/slash.png?margin=1&linecolor=3D3D3D&bgcolor=125BA8') repeat; }
+  background: #125BA8 url(/images/hash_bkgrnd.png) repeat; }
 
 hr {
   margin-bottom: -1px;
@@ -10,6 +10,20 @@ hr {
 
 #hd {
   background: url(/images/hd.jpg) repeat-x; }
+  #hd .nav ul.linky {
+    margin-bottom: 1em; }
+    #hd .nav ul.linky li.small {
+      font-size: 0.5em; }
+    #hd .nav ul.linky li {
+      color: #eeeeee;
+      text-shadow: 0 0 10px #000; }
+      #hd .nav ul.linky li a {
+        padding: 7px;
+        text-decoration: none;
+        text-shadow: 0 0 0 0; }
+        #hd .nav ul.linky li a:hover {
+          text-decoration: underline;
+          background: 0; }
   #hd .header .supertitle {
     color: #eeeeee;
     top: 2.4em;
@@ -85,15 +99,35 @@ hr {
           -webkit-border-radius: 10px;
           margin: 1em;
           background-color: #cbc2ae;
-          border-width: 1px;
+          border-width: 3px;
           border-style: solid;
           border-color: #5e543e;
-          overflow: auto;
-          height: 48em; }
+          height: 480px; }
+          #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper #comments .item {
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: #5e543e;
+            padding: 1em 1em 1em 2em;
+            margin-left: -1em; }
+            #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper #comments .item span.text {
+              color: #111111; }
+            #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper #comments .item .byline {
+              font-size: 0.5em;
+              font-weight: bold; }
+            #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper #comments .item:hover {
+              background-color: #eeeeee; }
+              #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper #comments .item:hover .byline span.user {
+                color: #8f0b0b; }
+            #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper #comments .item:first-child {
+              border: 0; }
           #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper .tab-panel {
-            padding-left: 1em; }
+            overflow: auto;
+            padding-left: 1em;
+            height: 430px; }
             #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper .tab-panel .item {
               text-indent: -1em; }
+              #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper .tab-panel .item .byline {
+                text-align: right; }
           #bd .main .info .bottom .tabbed .tabbed-items .tabbed-item-wrapper .tab-panel.console {
             padding: 1em 1em 1em 2em;
             background: black;
@@ -114,20 +148,23 @@ hr {
           margin-left: 0.25em;
           -moz-border-radius: 10px 10px 0 0;
           -webkit-border-radius: 10px 10px 0 0;
+          cursor: hand;
           border-top-width: 1px;
           border-right-width: 1px;
           border-left-width: 1px;
           border-style: solid;
           border-color: #5e543e; }
         #bd .main .info .bottom .tabbed ol.tabs li.active {
-          background-color: #cbc2ae;
-          border-bottom-color: #cbc2ae;
-          z-index: 99; }
+          background-color: #5e543e; }
+          #bd .main .info .bottom .tabbed ol.tabs li.active a {
+            color: #eeeeee; }
       #bd .main .info .bottom .tabbed .loading {
         padding-top: 3em;
         margin: auto;
         text-align: center; }
 
+.twocol .row {
+  clear: both; }
 .twocol .lcol {
   float: left;
   margin: 0; }
@@ -154,3 +191,20 @@ hr {
     text-align: center;
     padding: 1em;
     text-decoration: none; }
+
+#TB_window #TB_ajaxContent {
+  overflow: hidden;
+  background: #125BA8 url(/images/hash_bkgrnd.png) repeat; }
+  #TB_window #TB_ajaxContent .dialog {
+    color: #eeeeee; }
+    #TB_window #TB_ajaxContent .dialog a {
+      color: #eeeeee;
+      text-decoration: underline; }
+    #TB_window #TB_ajaxContent .dialog .title, #TB_window #TB_ajaxContent .dialog .controls {
+      margin: 1em auto;
+      text-align: center;
+      text-shadow: 0 0 10px #000; }
+    #TB_window #TB_ajaxContent .dialog .title {
+      font-weight: bold;
+      font-size: 1.5em;
+      color: #eeeeee; }

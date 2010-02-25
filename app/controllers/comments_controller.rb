@@ -22,6 +22,7 @@ class CommentsController < ApplicationController
   # end
   
   def index
+    @comments = Lead.find(params[:lead_id]).comments.reject{|c| c.comment.blank? }.sort_by{|c| c.created_at }.reverse
     render :partial => 'index'
   end
 

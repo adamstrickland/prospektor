@@ -100,9 +100,7 @@ class LeadsController < ApplicationController
   # PUT /leads/:id/demographics
   def demographics
     @lead = Lead.find(params[:id])
-    respond_to do |format|
-      format.html{ render :partial => 'demographics', :locals => { :lead => @lead } }
-    end
+    render :partial => 'demographics'
   end
 
   # DELETE /leads/1

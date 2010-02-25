@@ -1,3 +1,20 @@
-#lead_editor.dialog.modal
-  -modal_form_for_with_history(@lead, lead_url(@lead, :format => :json), :method => :put, :success => "#{remote_function(:url => demographics_lead_url(@lead), :method => :get, :update => 'demographics')};") do |f|
-    =render :partial => 'form', :locals => { :lead => @lead, :form => f }
+#edit-lead.dialog
+  .title Lead Attributes
+  .form
+    -modal_form_for(@lead, lead_url(@lead, :format => :xml), :method => :put, :success => "#{remote_function(:url => demographics_lead_url(@lead), :method => :get, :update => 'demog')}; tb_remove();") do |f|
+      .fields.twocol
+        -[:first_name, :salutation, :last_name, :title, :phone, :extension].each do |field|
+          .row.field
+            .name.lcol=label :lead, field, field.to_s.titleize
+            .value.rcol=text_field :lead, field
+        .row.field
+          .name.lcol=label :lead, :gender
+          .value.rcol
+            =radio_button :lead, :gender, 'M'
+            Male
+            =radio_button :lead, :gender, 'F'
+            Female
+      .controls
+        =submit_tag 'Save'
+        or
+        =link_to_function 'Cancel', 'tb_remove();'
