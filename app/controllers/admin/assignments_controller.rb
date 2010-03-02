@@ -79,9 +79,14 @@ class Admin::AssignmentsController < ApplicationController
   def create
     block_size = params[:size].to_i || 500
     user = User.find(params[:user_id])
-    emp_state = user.employee.state_or_province
-    state_leads = Lead.valid.open.located_in_state_of(emp_state)
-    possible_leads = state_leads.count < block_size ? Lead.valid.open.located_in_timezone_of(emp_state) : state_leads
+    
+    if params[:time_zone]
+      possible_leads = Lead.open.located_in_timezone(params[:time_zone])
+    else
+      emp_state = user.employee.state_or_province
+      state_leads = Lead.open.located_in_state_of(emp_state)
+      possible_leads = state_leads.count < block_size ? Lead.open.located_in_timezone_of(emp_state) : state_leads
+    end
     assignments = possible_leads[0..(block_size - 1)]
     user.leads << assignments
     

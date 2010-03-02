@@ -221,7 +221,7 @@ state_00003:
   updated_at: 
   state_name: Arkansas
   id: 3
-  time_zone_id: 0
+  time_zone_id: 2
   state: AR
 state_00014: 
   created_at: 
@@ -263,7 +263,7 @@ state_00026:
   updated_at: 
   state_name: Mississippi
   id: 26
-  time_zone_id: 0
+  time_zone_id: 2
   state: MS
 state_00048: 
   created_at: 

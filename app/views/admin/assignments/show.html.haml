@@ -1,9 +1,9 @@
 #assignment
   .heading Assignments for: #{@user.employee.full_name}  
   #controls.container_12
-    #simple.grid_2.alpha=button_to 'Assign Block', '#'
-    #sized.grid_2=button_to 'Assign Sized', '#', :class => 'thickbox'
-    #manual.grid_2.omega=button_to 'Manual', '#', :class => 'thickbox'
+    #simple.grid_3.alpha=button_to 'Assign Block', '#'
+    #sized.grid_3.omega=button_to 'Assign...', '#', :class => 'thickbox'
+    / #manual.grid_2=button_to 'Manual', '#', :class => 'thickbox'
   %hr.lclear
   -unless @assignments.present?
     .announce No assignments for user
