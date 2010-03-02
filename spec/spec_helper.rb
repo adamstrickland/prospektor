@@ -22,6 +22,18 @@ Spork.prefork do
     match do |response|
       ActiveSupport::JSON.decode(response.body) == ActiveSupport::JSON.decode(hash.to_json)
     end
+
+    failure_message_for_should do |actual|
+      "expected #{ActiveSupport::JSON.decode(expected)} but received #{ActiveSupport::JSON.decode(actual.body)}"
+    end
+
+    failure_message_for_should_not do |actual|
+      "expected something other than #{ActiveSupport::JSON.decode(expected)} but received #{ActiveSupport::JSON.decode(actual.body)}"
+    end
+
+    description do
+      "be a JSON object like #{ActiveSupport::JSON.decode(expected)}"
+    end
   end
   
   Spec::Runner.configure do |config|

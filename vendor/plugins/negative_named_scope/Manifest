@@ -1,0 +1,11 @@
+CHANGELOG
+init.rb
+lib/negative_named_scope.rb
+LICENSE
+Manifest
+negative_named_scope.gemspec
+Rakefile
+README.rdoc
+spec/models.rb
+spec/negative_named_scope_spec.rb
+spec/spec_helper.rb
