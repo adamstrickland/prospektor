@@ -21,7 +21,7 @@ Sham.define do
   password(:unique => false) { User.password_digest('monkey', Sham.salt) }
   email { Faker::Internet.email }
   login { Faker::Internet.user_name }
-  last_name { Faker::Name.last_name }
+  last_name(:unique => false) { Faker::Name.last_name }
   first_name { Faker::Name.first_name }
   gender(:unique => false){ rand(2) == 0 ? 'M' : 'F' }
   phone { Faker::PhoneNumber.phone_number.gsub(/\D/, '')[0..9] }

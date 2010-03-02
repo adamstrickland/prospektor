@@ -38,7 +38,7 @@ describe Admin::AssignmentsController do
         
         @leads = (1..@amount_in_each_state).map{ mock_model(Lead) }
         
-        Lead.should_receive(:valid).at_least(:once).and_return(Lead)
+        # Lead.should_receive(:valid).at_least(:once).and_return(Lead)
         Lead.should_receive(:open).at_least(:once).and_return(Lead)
         Lead.should_receive(:located_in_state_of).with(@state).and_return(@leads)
       end  
