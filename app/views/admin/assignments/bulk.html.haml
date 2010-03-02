@@ -9,6 +9,11 @@
           .field.grid_5.omega=text_field_tag :size, 500
           .clear
         .row
+          .fieldname.grid_2.alpha
+            %label{ :for => :size } Time Zone
+          .field.grid_5.omega=select_tag :time_zone, [['Eastern', 'E'], ['Central', 'C'], ['Mountain', 'M'], ['Pacific', 'P'], ['Alaska', 'A'], ['Hawaii', 'H']], :include_blank => true
+          .clear
+        .row
           .button.grid_5.alpha.omega
             %em
               %button{ :type => 'submit' } Save
