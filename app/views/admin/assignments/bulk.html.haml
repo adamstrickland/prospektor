@@ -11,7 +11,7 @@
         .row
           .fieldname.grid_2.alpha
             %label{ :for => :size } Time Zone
-          .field.grid_5.omega=select_tag :time_zone, [['Eastern', 'E'], ['Central', 'C'], ['Mountain', 'M'], ['Pacific', 'P'], ['Alaska', 'A'], ['Hawaii', 'H']], :include_blank => true
+          .field.grid_5.omega=select_tag :time_zone, options_for_select([['Eastern', 'E'], ['Central', 'C'], ['Mountain', 'M'], ['Pacific', 'P'], ['Alaska', 'A'], ['Hawaii', 'H']]), :include_blank => true
           .clear
         .row
           .button.grid_5.alpha.omega
