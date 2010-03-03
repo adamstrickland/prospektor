@@ -34,6 +34,7 @@ Rails::Initializer.run do |config|
   config.gem 'rspec-rails', :lib => false, :version => '1.2.9'
   config.gem 'thoughtbot-shoulda', :lib => false, :source => 'http://gems.github.com', :version => '2.10.2'
   config.gem 'hoptoad_notifier'
+  config.gem 'chronic'
   # config.gem 'rails_sql_views', :version => '0.7.0'
   # config.gem 'cucumber', :version => '0.4.4'
   # config.gem 'webrat', :version => '0.5.3'
