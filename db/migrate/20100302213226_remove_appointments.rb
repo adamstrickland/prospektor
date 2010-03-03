@@ -40,7 +40,7 @@ class RemoveAppointments < ActiveRecord::Migration
 #    PRIMARY KEY (`id`)
 #  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
   def self.up
-    remove_table :appointments
+    drop_table :appointments
   end
 
   def self.down

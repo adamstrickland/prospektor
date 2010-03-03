@@ -41,13 +41,6 @@ class AlterAppointments < ActiveRecord::Migration
 #    `callback_at` datetime DEFAULT NULL,
 #    PRIMARY KEY (`id`)
 #  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
-
-  class NewAppointment < ActiveRecord::Base
-    set_table_name 'appointments'
-    belongs_to :lead
-    belongs_to :user
-    belongs_to :status, :class_name => 'AppointmentStatus'
-  end
   
   def self.up
     #first create the table
@@ -68,38 +61,9 @@ class AlterAppointments < ActiveRecord::Migration
       
       t.timestamps
     end
-    
-    #import data from schedules
-    AlterAppointments::NewAppointment.reset_column_information
-    
-    Schedule.all.each do |s|
-      a = AlterAppointments::NewAppointment.new
-      a.lead = s.contact.lead
-      a.user = s.employee.user
-      a.status = s.status
-      a.scheduled_at = if s.cb_date
-        if s.cb_time
-          t = s.cb_time.strftime('%H:%M')
-          d = s.cb_date.strftime('%Y-%m-%d')
-          Chronic.parse("#{d} #{t}")
-        else
-          s.cb_date
-        end
-      end
-      a.sale_probability = s.sale_probability
-      a.no_sale_reason = s.no_sale_reason
-      a.references_requested = (s.references_requested.strip == '1')
-      (1..3).each do |i|
-        a.send("problem_#{}=".to_sym, s.send("problem#{i}")) if s.send("problem#{i}")
-        a.send("impact_#{}=".to_sym, s.send("impact#{i}").to_i) if s.send("impact#{i}")
-      end
-      a.comments = s.comments
-      a.created_at = Chronic.parse(s.entered) if s.entered.present?
-      a.save
-    end
   end
 
   def self.down
-    remove_table :appointments
+    drop_table :appointments
   end
 end
