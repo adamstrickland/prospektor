@@ -75,6 +75,7 @@ class Lead < ActiveRecord::Base
     },
     :negative => false
     
+  # TODO: Revamp all these queries to use :appointments table
   named_scope :valid, 
     :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', 
     :conditions => "leads.state != 'XX' AND (
