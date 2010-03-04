@@ -219,6 +219,24 @@ describe Lead do
         Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol+1, :employee_code => @emp+1)
         Lead.qualified.should have(0).items
         # Lead.unqualified.should have(1).items
+        
+        
+      # GO AWAY??????
+      it "already a client" do
+        Sale.make(:appointment => Appointment.make(:lead => Lead.make))
+        
+        Lead.unsold.should have(@no_change).items
+        Lead.vacant.should have(@one_more).items
+        Lead.open.should have(@no_change).items
+      end
+      
+      it "owned by an active employee plus already a client" do
+        Lead.make(:users => [User.make(:employee => Employee.make)])
+        Sale.make(:appointment => Appointment.make(:lead => Lead.make))
+        
+        Lead.unsold.should have(@one_more).items
+        Lead.vacant.should have(@one_more).items
+        Lead.open.should have(@no_change).items
       end
     end
     

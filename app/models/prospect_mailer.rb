@@ -3,9 +3,10 @@ require 'mockingbird/smtp'
 class ProspectMailer < ActionMailer::Base
   def scheduled_appointment(appt)
     subject "Expert Session Requested"
-    recipients appt.client_email
-    cc appt.expert_email
-    from sender(appt.scheduler.email)
+    recipients appt.email
+    # cc appt.expert_email
+    cc 'acs@trigonsolutions.com'
+    from sender(appt.user.email)
     sent_on Time.now
     body({ 
       :to => {

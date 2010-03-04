@@ -113,10 +113,17 @@ User.blueprint do
 end
 
 Sale.blueprint do
-  appointment{ Schedule.make }
+  appointment{ Appointment.make }
   client_reference_number
   rep{ Employee.make }
   partner{ Employee.make }
+end
+
+Appointment.blueprint do
+  lead
+  user
+  status{ AppointmentStatus.find_by_code('CB') }
+  references_requested{ false }
 end
 
 Schedule.blueprint do
