@@ -42,6 +42,7 @@ hr
       :position relative 
     h1
       a
+        :background 0
         :text-indent 0
         :font
           :size 32pt
@@ -69,16 +70,22 @@ hr
     .fold
       :height 3em
       :margin auto 1em
-      .tab
-        strong
-          :color = !cl_copy
-          :background-color #cbc2ae
-          :-moz-border-radius 10px 10px 0 0 
-          :-webkit-border-radius 10px 10px 0 0 
-          :padding 5px 15px 10px 15px
+      strong
         :font
           :size 2em
           :weight bold
+      .tab
+        :color = !cl_copy
+        :background-color #cbc2ae
+        :-moz-border-radius 10px 10px 0 0 
+        :-webkit-border-radius 10px 10px 0 0 
+        :padding 5px 15px 10px 15px
+    .vessel
+      padding-top: 20px
+      padding-bottom: 20px
+      border: 5px solid #cbc2ae
+      -moz-border-radius: 10px
+      -webkit-border-radius: 10px
     .info      
       .bottom
         :height 55em
