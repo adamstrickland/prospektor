@@ -2,8 +2,8 @@ class Applicant < ActiveRecord::Base
   validates_presence_of :applicantfirstname, :applicantlastname, :applicantpreferredname, :address, :city, :stateprovince, :zippostalcode, :country, :email, :businessphone
   validates_email :email
   validates_length_of :business_phone, :is => 10
-  validates_length_of :mobile_phone, :is => 10, :allow_nil => true
-  validates_length_of :home_phone, :is => 10, :allow_nil => true
+  validates_length_of :mobile_phone, :is => 10, :allow_nil => true, :allow_blank => true
+  validates_length_of :home_phone, :is => 10, :allow_nil => true, :allow_blank => true
   
   has_one :employee
   
