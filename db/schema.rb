@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100302214000) do
+ActiveRecord::Schema.define(:version => 20100302213500) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -600,28 +600,6 @@ ActiveRecord::Schema.define(:version => 20100302214000) do
     t.datetime "updated_at"
   end
 
-  create_table "old_appointments", :force => true do |t|
-    t.integer  "contact_id"
-    t.datetime "cb_date"
-    t.datetime "cb_time"
-    t.integer  "sale_probability"
-    t.string   "comments"
-    t.string   "appt_status"
-    t.datetime "created_at"
-    t.integer  "user_id"
-    t.string   "references_requested"
-    t.string   "no_sale_reason"
-    t.string   "problem1"
-    t.string   "impact1"
-    t.string   "problem2"
-    t.string   "impact2"
-    t.string   "problem3"
-    t.string   "impact3"
-    t.datetime "updated_at"
-    t.string   "entered",              :limit => 45
-    t.datetime "callback_at"
-  end
-
   create_table "pays", :force => true do |t|
     t.datetime "date"
     t.integer  "bcid"
@@ -1018,6 +996,28 @@ ActiveRecord::Schema.define(:version => 20100302214000) do
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "schedules", :force => true do |t|
+    t.integer  "contact_id"
+    t.datetime "cb_date"
+    t.datetime "cb_time"
+    t.integer  "sale_probability"
+    t.string   "comments"
+    t.string   "appt_status"
+    t.datetime "created_at"
+    t.integer  "user_id"
+    t.string   "references_requested"
+    t.string   "no_sale_reason"
+    t.string   "problem1"
+    t.string   "impact1"
+    t.string   "problem2"
+    t.string   "impact2"
+    t.string   "problem3"
+    t.string   "impact3"
+    t.datetime "updated_at"
+    t.string   "entered",              :limit => 45
+    t.datetime "callback_at"
   end
 
   create_table "set_withs", :force => true do |t|

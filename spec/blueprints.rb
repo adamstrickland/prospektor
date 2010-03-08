@@ -124,6 +124,7 @@ Appointment.blueprint do
   user
   status{ AppointmentStatus.find_by_code('CB') }
   references_requested{ false }
+  scheduled_at { Date.today + 1 }
 end
 
 Schedule.blueprint do

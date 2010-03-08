@@ -106,16 +106,10 @@ describe Lead do
         end
         
         it "should filter out sold leads" do
+          @lead = Lead.unclaimed.first
+          @client = Contact.make(:lead => @lead)
           lambda{
-            @client = Contact.make(:lead => Lead.unclaimed.first)
-          }.should_not change(Lead.sold, :count)
-          
-          lambda{
-            @appt = Schedule.make(:contact => @client)
-          }.should_not change(Lead.sold, :count)
-
-          lambda{
-            Sale.make(:appointment => @appt)
+            Sale.make(:appointment => Appointment.make(:lead => @lead))
           }.should change(Lead.sold, :count).by(1)
         end
       end
@@ -219,25 +213,26 @@ describe Lead do
         Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol+1, :employee_code => @emp+1)
         Lead.qualified.should have(0).items
         # Lead.unqualified.should have(1).items
-        
-        
-      # GO AWAY??????
-      it "already a client" do
-        Sale.make(:appointment => Appointment.make(:lead => Lead.make))
-        
-        Lead.unsold.should have(@no_change).items
-        Lead.vacant.should have(@one_more).items
-        Lead.open.should have(@no_change).items
       end
-      
-      it "owned by an active employee plus already a client" do
-        Lead.make(:users => [User.make(:employee => Employee.make)])
-        Sale.make(:appointment => Appointment.make(:lead => Lead.make))
         
-        Lead.unsold.should have(@one_more).items
-        Lead.vacant.should have(@one_more).items
-        Lead.open.should have(@no_change).items
-      end
+        
+      # # GO AWAY??????
+      # it "already a client" do
+      #   Sale.make(:appointment => Appointment.make(:lead => Lead.make))
+      #   
+      #   Lead.unsold.should have(@no_change).items
+      #   Lead.vacant.should have(@one_more).items
+      #   Lead.open.should have(@no_change).items
+      # end
+      # 
+      # it "owned by an active employee plus already a client" do
+      #   Lead.make(:users => [User.make(:employee => Employee.make)])
+      #   Sale.make(:appointment => Appointment.make(:lead => Lead.make))
+      #   
+      #   Lead.unsold.should have(@one_more).items
+      #   Lead.vacant.should have(@one_more).items
+      #   Lead.open.should have(@no_change).items
+      # end
     end
     
     describe "by geo" do

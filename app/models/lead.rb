@@ -67,6 +67,8 @@ class Lead < ActiveRecord::Base
   named_scope :located_in_timezone,
     lambda{ |tz|
       {
+        # :include => [:status, :time_zone],
+        :select => 'leads.*',
         :joins => 'INNER JOIN states ON (leads.state = states.state) INNER JOIN time_zones ON (states.time_zone_id = time_zones.id)',
         :conditions => [
           'time_zones.time_zone = :tz', { :tz => tz.respond_to?(:abbrev) ? tz.abbrev : tz }
@@ -77,18 +79,21 @@ class Lead < ActiveRecord::Base
     
   # TODO: Revamp all these queries to use :appointments table
   named_scope :valid, 
-    :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', 
+    :include => [:status],
+    #:joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', 
     :conditions => "leads.state != 'XX' AND (
       leads.status_id IS NULL OR 
       statuses.state NOT IN ('dead', 'suspend', 'transfer')
     )",
     :negative => :invalid
   named_scope :dead, 
-    :joins => :status,
+    :include => [:status],
+    #:joins => :status,
     :conditions => ['statuses.state = ?', 'dead'], 
     :negative => false
-  named_scope :unclaimed, 
-    :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)',
+  named_scope :unclaimed,   
+    :include => [:status],
+    # :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)',
     :conditions => "leads.status_id IS NULL OR (statuses.state <> 'transfer' AND NOT EXISTS (
       SELECT 1
       FROM contacts C LEFT OUTER JOIN
@@ -99,7 +104,8 @@ class Lead < ActiveRecord::Base
     ))", 
     :negative => :claimed
   named_scope :unsuspended, 
-    :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)',
+    :include => [:status],
+    #:joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)',
     :conditions => "leads.status_id IS NULL OR statuses.state <> 'suspend'",
     :negative => :suspended
     
@@ -127,23 +133,23 @@ class Lead < ActiveRecord::Base
     :conditions => "EXISTS (
       SELECT 1 
       FROM sales S INNER JOIN 
-      	schedules SH ON (S.appointment_id = SH.id) INNER JOIN
-      	contacts C ON (SH.contact_id = C.id)
-      WHERE C.lead_id = leads.id
+      	appointments A ON (S.appointment_id = A.id)
+      WHERE A.lead_id = leads.id
     )", 
     :negative => :unsold
   named_scope :qualified,
+    # :include => [:sic_code],
+    :select => 'leads.*',
     :joins => 'INNER JOIN sic_codes ON (leads.sic_code_1 = sic_codes.sic_code)',
     :conditions => 'leads.employee_code >= sic_codes.emp AND 
       leads.sales_code >= sic_codes.vol
     ',
     :negative => :unqualified
     
-  named_scope :open,
-    :joins => 'INNER JOIN 
-      sic_codes ON (leads.sic_code_1 = sic_codes.sic_code) LEFT OUTER JOIN
-      statuses ON (leads.status_id = statuses.id)
-    ',
+  named_scope :open,  
+    :select => 'leads.*',
+    :include => [:status],
+    :joins => 'INNER JOIN sic_codes ON (leads.sic_code_1 = sic_codes.sic_code)',
     :conditions => "leads.employee_code >= sic_codes.emp AND 
       leads.sales_code >= sic_codes.vol AND 
       NOT EXISTS (
@@ -168,14 +174,8 @@ class Lead < ActiveRecord::Base
           )
         )
       )
-    "
-  
-  # def self.open
-  #   self.valid.unclaimed.vacant.qualified
-  # end
-  
-  after_save do |rec|
-  end
+    ",
+    :negative => false
   
   after_validation_on_update do |rec|
     rec.changes.each do |attrib, vals|

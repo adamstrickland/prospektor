@@ -95,14 +95,27 @@ describe Appointment do
   end
   
   it "should use the lead's email address" do
-    a = Appointment.make
+    l = Lead.make(:email => 'a@b.com')
+    a = Appointment.make(:lead => l)
     a.lead.should_not be_nil
-    a.lead.email.should_not be_nil
-    a.email.should eql(a.lead.email)
-    
+    a.email.should eql(l.email)
+  end
+  
+  it "should change the leads email addy if changed for the appt" do
+    # l = Lead.make(:readonly => false)
+    lead = mock_model(Lead)
+    old_email = 'ook@unseenuniversity.edu'
     new_email = 'a@b.com'
+    
+    lead.stub!(:id).and_return(99999)
+    lead.should_receive(:email=).with(new_email)
+    lead.stub!(:destroyed?).and_return(false)
+    lead.should_receive(:email).any_number_of_times
+    lead.should_receive(:full_name).any_number_of_times.and_return('Bill Gates')
+    lead.should_receive(:company).any_number_of_times.and_return('Microsoft')
+    lead.should_receive(:save!).any_number_of_times.and_return(true)
+    
+    a = Appointment.new(:lead => lead)
     a.email = new_email
-    a.email.should eql(new_email)
-    a.lead.email.should eql(new_email)
   end
 end

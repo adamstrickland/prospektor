@@ -15,7 +15,7 @@ class Appointment < ActiveRecord::Base
   end
   
   after_save do |rec|
-    what = "at: #{scheduled_at}, re: #{ (1..3).map{|i| self.send("problem_#{i}".to_sym) }.compact.join(';') }"
+    what = "at: #{rec.scheduled_at}, re: #{ rec.topics.join(';') }"
     what = "#{what[0..252]}..." if what.size > 255
     Event.new(
       :lead => rec.lead,
@@ -31,5 +31,9 @@ class Appointment < ActiveRecord::Base
   
   def email=(val)
     self.lead.email = val
+  end
+  
+  def topics
+    (1..3).map{|i| self.send("problem_#{i}".to_sym) }.compact
   end
 end
