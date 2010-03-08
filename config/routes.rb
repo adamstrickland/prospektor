@@ -13,6 +13,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users do |users|
     users.resources :leads, :only => [ :index, :show ], :member => { :next => :get }
+    users.resources :callbacks, :only => [ :index ]
     # users.resources :call_queues, :as => 'queues', :only => [ :create ], :member => { :empty => :get } do |cq|
     #   cq.resources :touchpoints, :as => 'calls', :only => [ :show ]
     # end
