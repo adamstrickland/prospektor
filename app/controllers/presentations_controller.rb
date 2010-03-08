@@ -30,7 +30,7 @@ class PresentationsController < ApplicationController
     @lead = Lead.find(params[:lead_id])
     @presentation.email = @lead.email
     @touchpoint = Touchpoint.new( :call_window_start_at => Time.now + 15.minutes )
-    @topics = InformationTopic.all.sort{ |t| t.name }.map{ |t| [t.name, t.id] }
+    @topics = InformationTopic.all.sort_by{ |t| t.name }.map{ |t| [t.name, t.id] }
 
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }

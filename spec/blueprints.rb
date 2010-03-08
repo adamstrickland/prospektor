@@ -21,7 +21,7 @@ Sham.define do
   password(:unique => false) { User.password_digest('monkey', Sham.salt) }
   email { Faker::Internet.email }
   login { Faker::Internet.user_name }
-  last_name { Faker::Name.last_name }
+  last_name(:unique => false) { Faker::Name.last_name }
   first_name { Faker::Name.first_name }
   gender(:unique => false){ rand(2) == 0 ? 'M' : 'F' }
   phone { Faker::PhoneNumber.phone_number.gsub(/\D/, '')[0..9] }
@@ -113,10 +113,18 @@ User.blueprint do
 end
 
 Sale.blueprint do
-  appointment{ Schedule.make }
+  appointment{ Appointment.make }
   client_reference_number
   rep{ Employee.make }
   partner{ Employee.make }
+end
+
+Appointment.blueprint do
+  lead
+  user
+  status{ AppointmentStatus.find_by_code('CB') }
+  references_requested{ false }
+  scheduled_at { Date.today + 1 }
 end
 
 Schedule.blueprint do

@@ -10,6 +10,7 @@ Spork.prefork do
   require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environment'))
   require 'spec/autorun'
   require 'spec/rails'
+  require 'remarkable_rails'
   require 'machinist/active_record'
   require 'faker'
   require 'sham'
@@ -21,6 +22,18 @@ Spork.prefork do
   Spec::Matchers.define :be_json_like do |hash|
     match do |response|
       ActiveSupport::JSON.decode(response.body) == ActiveSupport::JSON.decode(hash.to_json)
+    end
+
+    failure_message_for_should do |actual|
+      "expected #{ActiveSupport::JSON.decode(expected)} but received #{ActiveSupport::JSON.decode(actual.body)}"
+    end
+
+    failure_message_for_should_not do |actual|
+      "expected something other than #{ActiveSupport::JSON.decode(expected)} but received #{ActiveSupport::JSON.decode(actual.body)}"
+    end
+
+    description do
+      "be a JSON object like #{ActiveSupport::JSON.decode(expected)}"
     end
   end
   
@@ -52,7 +65,7 @@ Spork.prefork do
     config.use_transactional_fixtures = true
     config.use_instantiated_fixtures  = false
     config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
-    config.global_fixtures = :states, :time_zones, :statuses, :topics, :sic_codes
+    config.global_fixtures = :states, :time_zones, :statuses, :topics, :sic_codes, :roles
     
     config.before(:all) do
       Sham.reset(:before_all)

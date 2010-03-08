@@ -34,72 +34,148 @@ class Lead < ActiveRecord::Base
   # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
   # named_scope :open,
   
-  named_scope :callbacks, lambda { |t|
-    {
-      :joins => :presentations,
-      :conditions => [ 
-        'presentations.callback_date <= :cbdate and presentations.callback_time <= :cbtime and leads.aasm_state in (:states)', 
-        {
-          :cbdate => t.to_datetime, 
-          :cbtime => t,
-          # :states => [:assigned, :queued, :scheduled].map(&:to_s)
-          :states => [:scheduled].map(&:to_s)
-        }
-      ],
-      :order => 'leads.updated_at asc'
-    }
-  }
-  named_scope :located_in_state_of, lambda { |st|
-    {
-      :conditions => { :state => st.respond_to?(:state_name) ? st.state : st }
-    }
-  }
-  named_scope :located_in_timezone_of, lambda { |st|
-    {
-      # :joins => ',states,time_zones',
-      :joins => 'INNER JOIN states ON (leads.state = states.state) INNER JOIN time_zones ON (states.time_zone_id = time_zones.id)',
-      :conditions => [
-        'time_zones.time_zone = :tz', { :tz => st.respond_to?(:state_name) ? st.time_zone.abbrev : State.find_by_state(st).time_zone.abbrev }
-      ]
-    }
-  }
-  named_scope :valid, :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', :conditions => "(leads.status_id IS NULL OR statuses.state != 'dead') AND leads.state != 'XX'"
+  named_scope :callbacks, 
+    lambda { |t|
+      {
+        :joins => :presentations,
+        :conditions => [ 
+          'presentations.callback_date <= :cbdate and presentations.callback_time <= :cbtime and leads.aasm_state in (:states)', 
+          {
+            :cbdate => t.to_datetime, 
+            :cbtime => t,
+            # :states => [:assigned, :queued, :scheduled].map(&:to_s)
+            :states => [:scheduled].map(&:to_s)
+          }
+        ],
+        :order => 'leads.updated_at desc'
+      }
+    },
+    :negative => false
+    
+  named_scope :located_in_state_of, 
+    lambda { |st|
+      {
+        :conditions => { :state => st.respond_to?(:state_name) ? st.state : st }
+      }
+    },
+    :negative => false
   
-  named_scope :unsold, :conditions => " NOT EXISTS (
-                                      SELECT 1 
-                                      FROM sales S INNER JOIN 
-                                      	schedules SH ON (S.appointment_id = SH.id) INNER JOIN
-                                      	contacts C ON (SH.contact_id = C.id) INNER JOIN
-                                      	leads L ON (C.lead_id = L.id)
-                                      WHERE L.id = leads.id
-                                    )"
-                                    
-  # The E.active condition in the following uses an IN-clause due to translation of a Rails :boolean
-  # attribute type to the RDBMS's data type.  In MySQL, :boolean tranlates to TINYINT, hence the datum
-  # is stored as either a 1 or a 0.  In SQLite, however, a :boolean translates to a BOOLEAN, which under 
-  # the covers is a CHAR(1), which utilizes a 't' or 'f' to represent value.  Due to the test environment
-  # using SQLite, the specs were failing when the condition was written simply as 'E.active = 1', hence
-  # the translation to the IN-clause.  This should be regarded as, at best, a workaround and not deemed
-  # a good long-term solution.  
-  # Since this scope should prolly be split into 2 anyway (:unsold and :unowned, perhaps) and :open refactored
-  # to a class method, we'll leave it this way for now.
-  # TODO: make this more RoR-sy...  maybe use a negative_named_scope (http://agilewebdevelopment.com/plugins/negative_named_scope): refactor :vacant -> :owned & :negative => :vacant?
-  named_scope :vacant, :conditions => " NOT EXISTS (
-                                      SELECT 1
-                                      FROM leads L INNER JOIN
-                                        leads_users LU ON (L.id = LU.lead_id) INNER JOIN
-                                        users U ON (LU.user_id = U.id) INNER JOIN
-                                        employees E ON (U.employee_id = E.id)
-                                      WHERE E.active IN (1, 'y', 't', 'Y', 'T')
-                                      AND L.id = leads.id
-                                    )"
-                                    
-  def self.open
-    self.unsold.vacant
+  def self.located_in_timezone_of(st)
+    self.located_in_timezone(st.respond_to?(:state_name) ? st.time_zone.abbrev : State.find_by_state(st).time_zone.abbrev)
   end
   
-  after_save do |rec|
-  end
+  named_scope :located_in_timezone,
+    lambda{ |tz|
+      {
+        # :include => [:status, :time_zone],
+        :select => 'leads.*',
+        :joins => 'INNER JOIN states ON (leads.state = states.state) INNER JOIN time_zones ON (states.time_zone_id = time_zones.id)',
+        :conditions => [
+          'time_zones.time_zone = :tz', { :tz => tz.respond_to?(:abbrev) ? tz.abbrev : tz }
+        ]
+      }
+    },
+    :negative => false
+    
+  # TODO: Revamp all these queries to use :appointments table
+  named_scope :valid, 
+    :include => [:status],
+    #:joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', 
+    :conditions => "leads.state != 'XX' AND (
+      leads.status_id IS NULL OR 
+      statuses.state NOT IN ('dead', 'suspend', 'transfer')
+    )",
+    :negative => :invalid
+  named_scope :dead, 
+    :include => [:status],
+    #:joins => :status,
+    :conditions => ['statuses.state = ?', 'dead'], 
+    :negative => false
+  named_scope :unclaimed,   
+    :include => [:status],
+    # :joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)',
+    :conditions => "leads.status_id IS NULL OR (statuses.state <> 'transfer' AND NOT EXISTS (
+      SELECT 1
+      FROM contacts C LEFT OUTER JOIN
+        schedules K ON (C.id = K.contact_id) LEFT OUTER JOIN
+        sales S ON (K.id = S.appointment_id)
+      WHERE
+        C.lead_id = leads.id
+    ))", 
+    :negative => :claimed
+  named_scope :unsuspended, 
+    :include => [:status],
+    #:joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)',
+    :conditions => "leads.status_id IS NULL OR statuses.state <> 'suspend'",
+    :negative => :suspended
+    
+  named_scope :client, 
+    :conditions => 'EXISTS (
+      SELECT 1
+      FROM contacts C INNER JOIN
+        schedules K ON (C.id = K.contact_id) LEFT OUTER JOIN
+        sales S ON (K.id = S.appointment_id)
+      WHERE
+        C.lead_id = leads.id
+    )'
+  named_scope :held,
+    :conditions => "EXISTS (
+      SELECT 1
+      FROM leads L INNER JOIN
+        leads_users LU ON (L.id = LU.lead_id) INNER JOIN
+        users U ON (LU.user_id = U.id) INNER JOIN
+        employees E ON (U.employee_id = E.id)
+      WHERE E.active IN (1, 'y', 't', 'Y', 'T')
+      AND L.id = leads.id
+    )", 
+    :negative => :vacant
+  named_scope :sold, 
+    :conditions => "EXISTS (
+      SELECT 1 
+      FROM sales S INNER JOIN 
+      	appointments A ON (S.appointment_id = A.id)
+      WHERE A.lead_id = leads.id
+    )", 
+    :negative => :unsold
+  named_scope :qualified,
+    # :include => [:sic_code],
+    :select => 'leads.*',
+    :joins => 'INNER JOIN sic_codes ON (leads.sic_code_1 = sic_codes.sic_code)',
+    :conditions => 'leads.employee_code >= sic_codes.emp AND 
+      leads.sales_code >= sic_codes.vol
+    ',
+    :negative => :unqualified
+    
+  named_scope :open,  
+    :select => 'leads.*',
+    :include => [:status],
+    :joins => 'INNER JOIN sic_codes ON (leads.sic_code_1 = sic_codes.sic_code)',
+    :conditions => "leads.employee_code >= sic_codes.emp AND 
+      leads.sales_code >= sic_codes.vol AND 
+      NOT EXISTS (
+        SELECT 1
+        FROM leads L INNER JOIN
+          leads_users LU ON (L.id = LU.lead_id) INNER JOIN
+          users U ON (LU.user_id = U.id) INNER JOIN
+          employees E ON (U.employee_id = E.id)
+        WHERE E.active IN (1, 'y', 't', 'Y', 'T')
+        AND L.id = leads.id
+      ) AND 
+      (
+        leads.status_id IS NULL OR (
+          statuses.state NOT IN ('dead', 'suspend', 'transfer') AND 
+          NOT EXISTS (
+            SELECT 1
+            FROM contacts C LEFT OUTER JOIN
+              schedules K ON (C.id = K.contact_id) LEFT OUTER JOIN
+              sales S ON (K.id = S.appointment_id)
+            WHERE
+              C.lead_id = leads.id
+          )
+        )
+      )
+    ",
+    :negative => false
   
   after_validation_on_update do |rec|
     rec.changes.each do |attrib, vals|

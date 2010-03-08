@@ -183,10 +183,12 @@ hr.rclear {
   #TB_window #TB_ajaxContent .modal {
     width: 100%;
     color: white; }
-    #TB_window #TB_ajaxContent .modal fieldset .row {
-      padding: 10px 20px; }
-      #TB_window #TB_ajaxContent .modal fieldset .row .button em button {
-        padding: 5px 10px; }
+    #TB_window #TB_ajaxContent .modal fieldset {
+      border: 0; }
+      #TB_window #TB_ajaxContent .modal fieldset .row {
+        padding: 10px 20px; }
+        #TB_window #TB_ajaxContent .modal fieldset .row .button em button {
+          padding: 5px 10px; }
     #TB_window #TB_ajaxContent .modal .widget .single {
       margin: 0 auto;
       text-align: center; }

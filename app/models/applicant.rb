@@ -1,6 +1,11 @@
 class Applicant < ActiveRecord::Base
-  validates_presence_of :applicantfirstname, :applicantlastname, :address, :city, :stateprovince, :zippostalcode, :country, :email, :businessphone
+  validates_presence_of :applicantfirstname, :applicantlastname, :applicantpreferredname, :address, :city, :stateprovince, :zippostalcode, :country, :email, :businessphone
   validates_email :email
+  validates_length_of :business_phone, :is => 10
+  validates_length_of :mobile_phone, :is => 10, :allow_nil => true, :allow_blank => true
+  validates_length_of :home_phone, :is => 10, :allow_nil => true, :allow_blank => true
+  
+  has_one :employee
   
   alias_attribute :first_name, :applicantfirstname
   alias_attribute :middle_initial, :applicantmi
@@ -34,6 +39,14 @@ class Applicant < ActiveRecord::Base
                                       WHERE employees.last_name = applicants.applicantlastname
                                       AND employees.first_name = applicants.applicantfirstname
                                     )"
+  def before_validation_on_create
+    [:home_phone, :business_phone, :mobile_phone].each do |a|
+      phone = self.send(a)
+      if phone.present?
+        self.send("#{a}=".to_sym, phone.gsub(/[^0-9]/, ""))
+      end
+    end
+  end
   
   def create_employee(hire_date=Date.today)
     e = Employee.new
@@ -68,6 +81,7 @@ class Applicant < ActiveRecord::Base
     e.emrgcy_contact_phone = self.emergencycontactphonenum
     e.active = true
     e.reports_to = self.reportstouserid
+    e.applicant = self
     
     if e.save
       e

@@ -2,7 +2,7 @@ class Contact < ActiveRecord::Base
   belongs_to :lead
   belongs_to :bc, :foreign_key => 'bcid', :class_name => 'Employee'
   belongs_to :analysis_topic, :foreign_key => 'expert_topic', :class_name => 'AnalysisTopic'
-  has_one :appointment, :class_name => 'Schedule'
+  has_one :appointment
   alias_attribute :received_at, :rcvd
   
   validates_presence_of :lead

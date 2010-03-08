@@ -1,144 +1,338 @@
 require 'spec_helper'
 
 describe Lead do
-  describe "should get filtered when" do
-    before(:each) do
-      # fixtures :states, :time_zones
-      
-      State.all.each do |s|
-        Lead.make(:state => s.abbrev)
-      end
-      @lead_count = 15 # 2601
-    end
-    
-    describe "located in the same state" do
+  describe "scoped" do 
+    describe "by status" do
       before :each do
-        @tx = 'TX'
-        @texas = State.find_by_state(@tx)
-        @texas.should_not be_nil
+        #create one for each status, plus one w/ a NULL status
+        LeadStatus.all.each do |ls|
+          Lead.make(:status => ls)
+        end
+        Lead.make(:status => nil)
+        @all = Lead.count
       end
-      
-      it "when using state as string" do
-        Lead.located_in_state_of(@tx).count.should eql(1)
-      end
-      
-      it "when using state as model" do
-        Lead.located_in_state_of(@texas).count.should eql(1)
-      end
-    end
     
-    describe "located in the same timezone" do
-      before :each do
-        # @scenarios = {
-        #   'E' => {:st => 'ME', :expect => 7},
-        #   'C' => {:st => 'TX', :expect => @lead_count},
-        #   'M' => {:st => 'CO', :expect => 7},
-        #   'P' => {:st => 'CA', :expect => 7},
-        #   'A' => {:st => 'AL', :expect => 7},
-        #   'H' => {:st => 'HI', :expect => 7}
-        # }
+      it "should have some valid" do
+        Lead.valid.should have(5).items
       end
       
-      it "when using state as string" do
-        # @scenarios.each do |tz, st|
-        #   State.find_by_state(st[:st]).should_not be_nil
-        #   timezone = TimeZone.find_by_time_zone(tz)
-        #   timezone.should_not be_nil
-        #   Lead.located_in_timezone_of(st[:st]).count.should eql(timezone.states.count)
-        # end
-        state = State.find_by_state('TX')
-        state.should_not be_nil
-        timezone = TimeZone.find_by_time_zone('C')
-        timezone.should_not be_nil
-        timezone.states.should have(15).items
-        Lead.located_in_timezone_of('TX').should have(timezone.states.count).items
+      it "should have some invalid" do
+        Lead.invalid.should have(9).items
       end
-      
-      it "when using state as model" do
-        # @scenarios.each do |tz, st|
-        #   state = State.find_by_state(st[:st])
-        #   state.should_not be_nil
-        #   timezone = TimeZone.find_by_time_zone(tz)
-        #   timezone.should_not be_nil
-        #   Lead.located_in_timezone_of(state).count.should eql(timezone.states.count)
-        # end
-        state = State.find_by_state('TX')
-        state.should_not be_nil
-        timezone = TimeZone.find_by_time_zone('C')
-        timezone.should_not be_nil
-        timezone.states.should have(15).items
-        Lead.located_in_timezone_of(state).should have(timezone.states.count).items
-      end
-    end
     
-    describe "that are not dead" do
-      it "if all statuses are null" do
-        Lead.valid.count.should eql(State.all.count)
+      it "should have some dead" do
+        Lead.dead.should have(5).items
       end
       
-      describe "if some statuses have a dead state" do
-        before do
-          50.times do
-            Lead.make(:status => LeadStatus.find_by_code('DSC'))
-          end
-        end
-        
-        it "shouldn't make a difference" do
-          Lead.valid.count.should eql(State.all.count)
-        end
-      
-        it "will make a difference if some are not" do
-          how_many = 10
-          how_many.times do
-            Lead.make(:status => LeadStatus.find_by_code('NA'))
-          end
-          Lead.valid.count.should eql(State.all.count + how_many)
-        end
-      end
-    end
-       
-    describe "that are not" do
-      before do
-        @no_change = State.all.count
-        @one_more = @no_change+1
+      # it "should have some alive" do
+      #   Lead.alive.should have(9).items
+      # end
+    
+      it "should have some claimed" do
+        Lead.claimed.should have(2).items
       end
       
-      it "owned by someone else that's an active employee" do
-        Lead.make(:users => [User.make(:employee => Employee.make)])
-        
-        Lead.unsold.should have(@one_more).items
-        Lead.vacant.should have(@no_change).items
-        Lead.open.should have(@no_change).items
+      it "should have some unclaimed" do
+        Lead.unclaimed.should have(12).items
+      end
+    
+      it "should have some suspended" do
+        Lead.suspended.should have(2).items
+      end 
+      
+      it "should have some unsuspended" do
+        Lead.unsuspended.should have(12).items
       end
 
-      it "owned by someone else that isn't an active employee" do
-        Lead.make(:users => [User.make(:employee => Employee.make(:inactive))])
+      describe "in combination with other data points" do
+        before :each do
+          # @lead = Lead.valid.first
+        end
         
-        Lead.unsold.should have(@one_more).items
-        Lead.vacant.should have(@one_more).items
-        Lead.open.should have(@one_more).items
-      end
-      
-      it "already a client" do
-        Sale.make(:appointment => Schedule.make(:contact => Contact.make(:lead => Lead.make)))
+        it "should also check the state for validity" do
+          lambda{
+            Lead.make(:status => nil, :state => 'XX')
+          }.should_not change(Lead.valid, :count)
+        end
         
-        Lead.unsold.should have(@no_change).items
-        Lead.vacant.should have(@one_more).items
-        Lead.open.should have(@no_change).items
-      end
-      
-      it "owned by an active employee plus already a client" do
-        Lead.make(:users => [User.make(:employee => Employee.make)])
-        Sale.make(:appointment => Schedule.make(:contact => Contact.make(:lead => Lead.make)))
+        it "should have unclaimed if not already a contact" do
+          lambda{
+            Contact.make(:lead => Lead.make(:status => LeadStatus.find_by_state('assigned')))
+          }.should_not change(Lead.unclaimed, :count)
+          
+          lambda{
+            Contact.make(:lead => Lead.unclaimed.first)
+          }.should change(Lead.unclaimed, :count).by(-1)
+        end
         
-        Lead.unsold.should have(@one_more).items
-        Lead.vacant.should have(@one_more).items
-        Lead.open.should have(@no_change).items
+        it "should filter out leads that are already clients" do
+          lambda{
+            @client = Contact.make(:lead => Lead.unclaimed.first)
+          }.should_not change(Lead.client, :count)
+          
+          lambda{
+            Schedule.make(:contact => @client)
+          }.should change(Lead.client, :count).by(1)
+        end
+        
+        describe "should filter out leads that are already owned" do
+          describe "by active employees" do
+            before :each do
+              @zaphod = User.make(:employee => Employee.make)
+            end
+            
+            it "as held" do
+              lambda{
+                @zaphod.leads << Lead.unclaimed.first
+                @zaphod.save
+              }.should change(Lead.held, :count).by(1)
+            end
+            
+            it "as vacant" do
+              lambda{
+                @zaphod.leads << Lead.unclaimed.first
+                @zaphod.save
+              }.should change(Lead.vacant, :count).by(-1)
+            end
+          end
+          
+          it "but not by inactive employees" do
+            @trillian = User.make(:employee => Employee.make(:inactive))
+            lambda{
+              @trillian.leads << Lead.unclaimed.first
+              @trillian.save
+            }.should_not change(Lead.held, :count)
+          end
+        end
+        
+        it "should filter out sold leads" do
+          @lead = Lead.unclaimed.first
+          @client = Contact.make(:lead => @lead)
+          lambda{
+            Sale.make(:appointment => Appointment.make(:lead => @lead))
+          }.should change(Lead.sold, :count).by(1)
+        end
       end
     end
     
-    # it "that are not already clients"
-    # 
-    # it "are scheduled for callback"
+    describe "should find qualified leads where: " do
+      before :each do
+        @vol = 4
+        @emp = 3
+        acceptables = SicCode.acceptable
+        acceptables.should have(140).items
+        @good = acceptables.detect{|sc| sc.vol.to_i == @vol and sc.emp.to_i == @emp }
+        @good.should_not be_nil
+        @good.vol.should eql(@vol.to_s)
+        @good.emp.should eql(@emp.to_s)
+        @good.acceptable.should be_true
+        @good_sic = @good.sic_code
+        @bad_sic = SicCode.all.detect{|sc| not sc.is_acceptable? }.sic_code
+      end
+      
+      it "good sic, > sales, = emps" do
+        l = Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol+1, :employee_code => @emp)
+        l.sic_code_1.should eql(@good_sic)
+        Lead.qualified.should have(1).items
+        # Lead.unqualified.should have(0).items
+      end 
+      
+      it "good sic, = sales, = emps" do
+        Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol, :employee_code => @emp)
+        Lead.qualified.should have(1).items
+        # Lead.unqualified.should have(0).items
+      end
+
+      it "good sic, < sales, = emps" do
+        Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol-1, :employee_code => @emp)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+      
+      it "good sic, = sales, > emps" do
+        Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol, :employee_code => @emp+1)
+        Lead.qualified.should have(1).items
+        # Lead.unqualified.should have(0).items
+      end
+      
+      it "good sic, = sales, < emps" do
+        Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol, :employee_code => @emp-1)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+      
+      it "good sic, < sales, < emps" do
+        Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol-1, :employee_code => @emp-1)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+
+      it "good sic, > sales, > emps" do
+        Lead.make(:sic_code_1 => @good_sic, :sales_code => @vol+1, :employee_code => @emp+1)
+        Lead.qualified.should have(1).items
+        # Lead.unqualified.should have(0).items
+      end
+
+      it "bad sic, > sales, = emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol+1, :employee_code => @emp)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end 
+
+      it "bad sic, = sales, = emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol, :employee_code => @emp)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+
+      it "bad sic, < sales, = emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol-1, :employee_code => @emp)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+
+      it "bad sic, = sales, > emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol, :employee_code => @emp+1)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+
+      it "bad sic, = sales, < emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol, :employee_code => @emp-1)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+
+      it "bad sic, < sales, < emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol-1, :employee_code => @emp-1)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+
+      it "bad sic, > sales, > emps" do
+        Lead.make(:sic_code_1 => @bad_sic, :sales_code => @vol+1, :employee_code => @emp+1)
+        Lead.qualified.should have(0).items
+        # Lead.unqualified.should have(1).items
+      end
+        
+        
+      # # GO AWAY??????
+      # it "already a client" do
+      #   Sale.make(:appointment => Appointment.make(:lead => Lead.make))
+      #   
+      #   Lead.unsold.should have(@no_change).items
+      #   Lead.vacant.should have(@one_more).items
+      #   Lead.open.should have(@no_change).items
+      # end
+      # 
+      # it "owned by an active employee plus already a client" do
+      #   Lead.make(:users => [User.make(:employee => Employee.make)])
+      #   Sale.make(:appointment => Appointment.make(:lead => Lead.make))
+      #   
+      #   Lead.unsold.should have(@one_more).items
+      #   Lead.vacant.should have(@one_more).items
+      #   Lead.open.should have(@no_change).items
+      # end
+    end
+    
+    describe "by geo" do
+      before :each do
+        State.all.each do |s|
+          Lead.make(:state => s.abbrev)
+        end
+      end
+      
+      it "should have one per state" do
+        State.all.each do |s|
+          Lead.located_in_state_of(s).should have(1).items
+          Lead.located_in_state_of(s.abbrev).should have(1).items
+        end
+      end
+      
+      it "should have some in each state's timezone" do
+        State.all.each do |s|
+          # puts s.abbrev
+          Lead.located_in_timezone_of(s).should have(s.time_zone.states.count).items
+          Lead.located_in_timezone_of(s.abbrev).should have(s.time_zone.states.count).items
+        end
+      end
+      
+      it "should have some in each timezone" do
+        TimeZone.all.each do |tz|
+          Lead.located_in_timezone(tz).should have(tz.states.count).items
+          Lead.located_in_timezone(tz.abbrev).should have(tz.states.count).items
+        end
+      end
+    end
   end
+  
+  describe "avaiable for assignment" do
+    #generate each and every scenario:
+    # => qualified & unqualified
+    # => vacant & held
+    # => claimed & unclaimed
+    # => valid & invalid
+    
+    before :each do
+      @good_sic = SicCode.acceptable.detect{|sc| sc.vol.to_i == 4 and sc.emp.to_i == 3 }.sic_code
+      @bad_sic = SicCode.all.detect{|sc| not sc.is_acceptable? }.sic_code
+      @sics = [@good_sic, @bad_sic]
+      
+      @owners = [nil, User.make(:employee => Employee.make), User.make(:employee => Employee.make(:inactive))]
+      
+      @provinces = ['TX', 'XX']
+      
+      @statii = LeadStatus.all + [nil]
+    end
+    
+    # it "should be valid" do
+    #   @statii.each do |status|
+    #     params = {:sic_code_1 => @good_sic, :state => 'TX'}
+    #     params[:status] = status unless status.nil?
+    #   
+    #     Lead.make(params)
+    #   end
+    #   Lead.open.should have(Lead.valid.count).items
+    # end
+    # 
+    # it "should be unclaimed" do
+    #   Lead.make(:status => nil)
+    #   Lead.unclaimed.should have(1).items
+    #   Lead.open.should have(1).items
+    # end
+    # 
+    # it "should be vacant" do
+    # end
+    # 
+    # it "should be qualified" do
+    #   Lead.make(:sic_code_1 => @good_sic, :sales_code => 4, :employee_code => 3)
+    #   Lead.qualified.should have(1).items
+    #   Lead.open.should have(1).items
+    # end
+    
+    it "should be vacant, unclaimed, valid and qualified" do
+      @sics.each do |sic|
+        @owners.each do |user|
+          @provinces.each do |state|
+            @statii.each do |status|
+              params = {
+                :sic_code_1 => sic, 
+                :state => state,
+                :sales_code => 4,
+                :employee_code => 3,
+              }
+              params[:users] = [user] unless user.nil?
+              params[:status] = status unless status.nil?
+            
+              Lead.make(params)
+              Contact.make(:lead => Lead.make(params))
+            end
+          end
+        end
+      end
+      
+      Lead.all.should have(@statii.count * @provinces.count * @owners.count * @sics.count * 2).items
+      Lead.open.should have(24).items # have(6 * 1 * 2 * 1 * 1).items
+    end
+  end 
 end

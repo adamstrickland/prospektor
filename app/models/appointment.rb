@@ -1,20 +1,39 @@
 require 'yaml'
 
 class Appointment < ActiveRecord::Base
-  belongs_to :scheduler, :class_name => 'User'
   belongs_to :lead
-  belongs_to :topic
+  belongs_to :user
+  belongs_to :status, :class_name => 'AppointmentStatus'
   
-  after_save do |rec| 
-    Event.new(
-      :lead => rec.lead, 
-      :user => rec.scheduler, 
-      :qualifier => "#{rec.class.to_s} (#{rec.topic.name})", 
-      :action => 'scheduled', 
-      :params => { :to => rec.client_email }.to_yaml
-    ).save 
+  validates_presence_of :lead, :user, :status, :duration, :sale_probability
+  validates_length_of :no_sale_reason, :maximum => 2000, :allow_nil => true
+  validates_numericality_of :duration
+  validates_numericality_of :sale_probability, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 100
+  (1..3).each do |i|
+    validates_length_of "problem_#{i}".to_sym, :maximum => 255, :allow_nil => true
+    validates_numericality_of "impact_#{i}".to_sym, :allow_nil => true
   end
   
-  validates_email :expert_email, :client_email
-  validates_presence_of :expert_email, :client_email, :scheduler, :lead, :location, :duration, :session_date, :session_time
+  after_save do |rec|
+    what = "at: #{rec.scheduled_at}, re: #{ rec.topics.join(';') }"
+    what = "#{what[0..252]}..." if what.size > 255
+    Event.new(
+      :lead => rec.lead,
+      :user => rec.user,
+      :qualifier => what,
+      :action => 'scheduled'
+    ).save
+  end
+  
+  def email
+    self.lead.email
+  end
+  
+  def email=(val)
+    self.lead.email = val
+  end
+  
+  def topics
+    (1..3).map{|i| self.send("problem_#{i}".to_sym) }.compact
+  end
 end

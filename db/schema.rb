@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218230006) do
+ActiveRecord::Schema.define(:version => 20100302213500) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -226,18 +226,24 @@ ActiveRecord::Schema.define(:version => 20100218230006) do
   end
 
   create_table "appointments", :force => true do |t|
-    t.string   "client_email",                  :null => false
-    t.string   "expert_email",                  :null => false
-    t.string   "location",                      :null => false
-    t.float    "duration",     :default => 1.0, :null => false
-    t.text     "notes"
-    t.date     "session_date",                  :null => false
-    t.time     "session_time",                  :null => false
-    t.integer  "lead_id",                       :null => false
-    t.integer  "scheduler_id",                  :null => false
+    t.integer  "lead_id",                                                                                          :null => false
+    t.integer  "user_id",                                                                                          :null => false
+    t.integer  "status_id",                                                                                        :null => false
+    t.string   "status_type",                                                     :default => "AppointmentStatus"
+    t.datetime "scheduled_at"
+    t.integer  "duration",                                                        :default => 0,                   :null => false
+    t.integer  "sale_probability",     :limit => 2, :precision => 2, :scale => 0, :default => 0,                   :null => false
+    t.string   "no_sale_reason"
+    t.boolean  "references_requested",                                            :default => false
+    t.string   "problem_1"
+    t.integer  "impact_1"
+    t.string   "problem_2"
+    t.integer  "impact_2"
+    t.string   "problem_3"
+    t.integer  "impact_3"
+    t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "topic_id",     :default => 1
   end
 
   create_table "bc_hot_buttons", :force => true do |t|
@@ -442,10 +448,9 @@ ActiveRecord::Schema.define(:version => 20100218230006) do
     t.integer  "extension"
     t.string   "shift"
     t.string   "program"
-    t.string   "username"
-    t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "applicant_id"
   end
 
   create_table "events", :force => true do |t|
