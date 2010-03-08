@@ -1,51 +1,46 @@
-%style
-  :sass
-    .gsfn_list_widget
-      :font-size 12px
-      :width 250px
-      :padding 10px
-      img
-        :border none
-      a.widget-title
-        :color #000
-        :display block
-        :margin-bottom 10px
-        :font-weight bold
-      .powered_by
-        :margin-top 8px
-        :padding-top 8px
-        :border-top 1px solid #ddd
-        a
-          :color #333
-          :font-size 90%
-      #gsfn_content
-        ul
-          :list-style none
-        li
-          :text-align left
-          :margin-bottom 6px
-        a.gsfn_link
-          :line-height 1
-        span.time
-          :font-size 90%
-          :padding-left 3px
-        p.gsfn_summary
-          :margin-top 2px      
 #dashboard
-  .dashboard
-    #news.item
-    #upcoming.item
-      .title
-        %h3 What's Around the Corner?
-      .content
-        %p Hope everyone had a great holiday.  As we start 2010, I'd like to make you aware of some exciting changes coming around at Trigon in the next few months.
-        %p As you can see, the new Prospektor system is now online.  Initially, only for Expert Schedulers, but we'll be rolling it out to the rest of the sales force in the near future.
-        %p We also wanted to keep you in the loop on the planned features and enhancements, and also to invite you, our users, to participate in the growth of this application.  Feel free to use the Feedback widget on the left hand side of the screen to make suggestions, report bugs, or make comments on the application.
-        %p We've already got a pretty good laundry list going, including some of the following:
-        %ul
-          %li VOIP dialing from the application
-          %li A Reporting section, containing detailed performance and income reports
-          %li Proactive training based upon individual performance metrics
-          %li Take a look at our #{ link_to 'Feedback', 'http://www.getsatisfaction.com/trigon_solutions', :target => '_blank' } over at #{ link_to 'Get Satisfaction', 'http://www.getsatisfaction.com', :target => '_blank' } site for more ideas
-        %p Happy New Year and enjoy your new career as part of the Trigon Team!
-      .sig Adam Strickland, Chief Technology Officer
+  .content
+    .fold
+      %strong Dashboard
+    .vessel
+      #loading{ :style => "display:none"} loading...
+      #calendar
+      %hr
+      
+-content_for :scripts do
+  -if Rails.env == 'production'
+    :javascript
+      google.load("jqueryui", "1.7.2")
+    =javascript_include_tag "fullcalendar.min"
+  -else
+    =javascript_include_tag 'ui/ui.core','ui/ui.draggable','ui/ui.droppable','ui/ui.resizable'
+    =javascript_include_tag "fullcalendar"
+  :javascript
+    $(document).ready(function(){
+      $('#calendar').fullCalendar({
+        editable:true,
+        events:'#{user_leads_calendar_url(current_user)}.json',
+        eventDrop:function(event,delta){
+          alert(event.title+' was moved '+delta+' days\n(should probably update your database)');
+        },
+        loading:function(bool){
+          bool ? $('#loading').show() : $('#loading').hide()
+        }
+      })
+    });  
+        
+-content_for :styles do
+  =stylesheet_link_tag 'fullcalendar'
+  %style{ :type => "text/css" }
+    :sass
+      #calendar
+        :margin 0 auto
+      #loading
+        :position absolute
+        :top 5px
+        :right 5px
+      .twocol
+        :height 600px
+        .lcol,.rcol
+          :width 45%
+          :border 1px solid red

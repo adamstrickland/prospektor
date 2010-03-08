@@ -30,6 +30,7 @@ hr {
     font-size: 10pt;
     position: relative; }
   #hd .header h1 a {
+    background: 0;
     text-indent: 0;
     font-size: 32pt;
     color: #eeeeee;
@@ -75,15 +76,21 @@ hr {
   #bd .main .fold {
     height: 3em;
     margin: auto 1em; }
-    #bd .main .fold .tab {
+    #bd .main .fold strong {
       font-size: 2em;
       font-weight: bold; }
-      #bd .main .fold .tab strong {
-        color: #5e543e;
-        background-color: #cbc2ae;
-        -moz-border-radius: 10px 10px 0 0;
-        -webkit-border-radius: 10px 10px 0 0;
-        padding: 5px 15px 10px 15px; }
+    #bd .main .fold .tab {
+      color: #5e543e;
+      background-color: #cbc2ae;
+      -moz-border-radius: 10px 10px 0 0;
+      -webkit-border-radius: 10px 10px 0 0;
+      padding: 5px 15px 10px 15px; }
+  #bd .main .vessel {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 5px solid #cbc2ae;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px; }
   #bd .main .info .bottom {
     height: 55em; }
     #bd .main .info .bottom .tabbed {

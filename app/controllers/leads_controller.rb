@@ -3,7 +3,7 @@ class LeadsController < ApplicationController
   # GET /leads.xml
   def index
     # @leads = Lead.all
-    @leads = Lead.paginate :page => (params[:page] || 1)
+    @leads = User.find(:user_id).leads.paginate :page => (params[:page] || 1)
 
     respond_to do |format|
       format.html # index.html.erb

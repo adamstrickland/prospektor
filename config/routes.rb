@@ -12,16 +12,17 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :users do |users|
-    users.resources :call_queues, :as => 'queues', :only => [ :create ], :member => { :empty => :get } do |cq|
-      cq.resources :touchpoints, :as => 'calls', :only => [ :show ]
-    end
+    users.resources :leads, :only => [ :index, :show ], :member => { :next => :get }
+    # users.resources :call_queues, :as => 'queues', :only => [ :create ], :member => { :empty => :get } do |cq|
+    #   cq.resources :touchpoints, :as => 'calls', :only => [ :show ]
+    # end
     users.resources :reports, :only => [ :index, :show ]
     users.profile 'profile', :controller => 'users', :action => 'show'
   end
   map.search '/search', :controller => 'search', :action => 'show'
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
-  map.resources :leads, :member => { :next => :get, :demographics => :get, :history => :get } do |leads|
+  map.resources :leads, :member => { :demographics => :get, :history => :get } do |leads|
     leads.resources :comments, :only => [ :new, :create, :index ]
     leads.resources :events, :only => [ :new, :create, :index ]
     

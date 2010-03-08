@@ -89,8 +89,7 @@ body {
     width: 280px;
     height: 51px;
     text-indent: -9999px;
-    text-decoration: none;
-    background: url(/images/rubygems.png); }
+    text-decoration: none; }
 
 .nav {
   text-align: right;
