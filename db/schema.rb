@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100302213500) do
+ActiveRecord::Schema.define(:version => 20100308215549) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -260,6 +260,20 @@ ActiveRecord::Schema.define(:version => 20100302213500) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "call_backs", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.datetime "callback_at", :null => false
+    t.integer  "lead_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "call_backs", ["callback_at"], :name => "index_call_backs_on_callback_at"
+  add_index "call_backs", ["lead_id"], :name => "index_call_backs_on_lead_id"
+  add_index "call_backs", ["user_id", "callback_at"], :name => "index_call_backs_on_user_id_and_callback_at"
+  add_index "call_backs", ["user_id", "lead_id"], :name => "index_call_backs_on_user_id_and_lead_id"
+  add_index "call_backs", ["user_id"], :name => "index_call_backs_on_user_id"
 
   create_table "call_queues", :force => true do |t|
     t.string   "name",       :null => false
@@ -598,6 +612,28 @@ ActiveRecord::Schema.define(:version => 20100302213500) do
     t.string   "mcs_job_status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "merge_schedules", :force => true do |t|
+    t.integer  "contact_id"
+    t.datetime "cb_date"
+    t.datetime "cb_time"
+    t.integer  "sale_probability"
+    t.string   "comments"
+    t.string   "appt_status"
+    t.datetime "created_at"
+    t.integer  "user_id"
+    t.string   "references_requested"
+    t.string   "no_sale_reason"
+    t.string   "problem1"
+    t.string   "impact1"
+    t.string   "problem2"
+    t.string   "impact2"
+    t.string   "problem3"
+    t.string   "impact3"
+    t.datetime "updated_at"
+    t.string   "entered",              :limit => 45
+    t.datetime "callback_at"
   end
 
   create_table "pays", :force => true do |t|

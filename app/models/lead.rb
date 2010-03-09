@@ -17,6 +17,7 @@ class Lead < ActiveRecord::Base
   has_many :touchpoints
   has_many :response_sets
   belongs_to :status, :class_name => 'LeadStatus'
+  has_many :call_backs
   
   # validations
   validates_email :email

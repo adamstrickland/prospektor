@@ -2,11 +2,22 @@
   .content
     .fold
       %strong Dashboard
-    .vessel
-      #loading{ :style => "display:none"} loading...
-      #calendar
+    .holder
+      / #loading{ :style => "display:none"} loading...
+      .calendar
+        #calendar
+      .control
+        / =button_to 'Start Calling!', user_leads_url(current_user)
+        =link_to image_tag('start_calling.png'), user_leads_url(current_user)
       %hr
-      
+
+-content_for :menu do  
+  %ul
+    %li=link_to_function content_tag(:span, 'Print'), 'window.print();'
+    / %li=link_to content_tag(:span, 'Print Day'), user_agenda_day_print_url(current_user, :height => 300, :width => 500), :class => 'thickbox'
+    / %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
+
+
 -content_for :scripts do
   -if Rails.env == 'production'
     :javascript
@@ -18,10 +29,34 @@
   :javascript
     $(document).ready(function(){
       $('#calendar').fullCalendar({
+        defaultView:'agendaWeek',
+        header: {
+      		left: '',
+      		center: 'title',
+      		right: ''
+      	},
+      	/*timeFormat:{
+      	  agenda:''
+      	},*/      	
+      	titleFormat: {
+      		week: "'Callbacks for 'MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+      	},
+      	firstHour:8,
+      	slotMinutes:15,
+      	/*slotMinutes:30,*/
+      	defaultEventMinutes:15,
+      	allDayText:'open',
+      	weekends:false,
+      	allDayDefault:true,
         editable:true,
-        events:'#{user_leads_calendar_url(current_user)}.json',
-        eventDrop:function(event,delta){
-          alert(event.title+' was moved '+delta+' days\n(should probably update your database)');
+        events:'#{user_call_backs_url(current_user, :format => 'json')}',
+        eventDrop:function(event,dayDelta,minDelta,allDay,ev,ui){
+          $.post('/callbacks/'+event.id+'.json', {
+            _method:'put',
+            callback_at:event.start
+          }, function(data, status, xhr){
+          
+          }, 'json');
         },
         loading:function(bool){
           bool ? $('#loading').show() : $('#loading').hide()
@@ -33,8 +68,64 @@
   =stylesheet_link_tag 'fullcalendar'
   %style{ :type => "text/css" }
     :sass
+      =dark_chocolate
+        :background-color #5E543E
+        :color #ebe3d1
+        :font-weight bold
+      =milk_chocolate  
+        :background-color #ebe3d1
+        :color #5E543E
+      =blue_hash
+        :background #125BA8 url(/images/hash_bkgrnd.png) repeat
+        :color white
+        
       #calendar
         :margin 0 auto
+        table.fc-header
+          :margin 1em auto
+          h2.fc-header-title
+            :font
+              :size 2em
+              :weight bold
+        / .fc-widget-content
+        /   :border 0
+        .fc-content
+          +milk_chocolate
+          .fc-agenda-head
+            table
+              tr.fc-first
+                / +dark_chocolate
+                +blue_hash
+                :font-size 1.5em
+                :height 2.5em
+                th
+                  :vertical-align center
+                  :padding 0.5em 0
+          tr
+            th.fc-state-default
+              / +dark_chocolate
+              +blue_hash
+          / .fc
+          /   .fc-agenda
+          /     th,td
+          /       :border-left-width 1px
+          /       :border-top-width 1px
+          .fc-state-highlight
+            .fc-day-number
+              :color #333
+          / .fc-event-time
+          /   :display none
+      #dashboard
+        .control
+          :margin 1em auto 0 auto
+          :text-align center
+          div
+            input[type='submit']
+              :font
+                :size 2.5em
+                :weight bold
+              / :background-color gold
+              
       #loading
         :position absolute
         :top 5px

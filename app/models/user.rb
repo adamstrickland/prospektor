@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :call_queues
   belongs_to :employee
+  has_many :call_backs
+  alias_attribute :callbacks, :call_backs
   
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true
@@ -25,10 +27,10 @@ class User < ActiveRecord::Base
   def official_phone
     "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
   end
-  
-  def callbacks
-    # self.leads.callbacks(Time.now)
-  end
+  # 
+  # def callbacks
+  #   # self.leads.callbacks(Time.now)
+  # end
 
   def login=(value)
     write_attribute :login, (value ? value.downcase : nil)

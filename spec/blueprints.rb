@@ -170,6 +170,12 @@ Applicant.blueprint do
   has_voip { false }
 end
 
+CallBack.blueprint do
+  lead
+  user
+  callback_at{ Chronic.parse("#{Date.tomorrow} 12:00pm") }
+end
+
 # InformationTopic.blueprint do
 #   name{ Faker::Lorem.words(2).join(' ').titleize }
 #   type{ 'InformationTopic' }

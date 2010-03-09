@@ -28,20 +28,19 @@
     =javascript_action_include_tag
     =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
     :javascript
-      $(document).ready(function(){ 
+      $(function(){
+        $('#hd header h1 a').dropShadow();
+                
         feedback_widget = new GSFN.feedback_widget({
           container:'getsatisfaction', 
           company:'trigon_solutions'
         });
       })
-      
-      $(function(){
-        $('#hd header h1 a').dropShadow();
-      })
     =yield :scripts
   %body
     .flash
     #hd
+      #getsatisfaction
       .container_12
         .prefix_1.grid_4.header
           .supertitle Trigon Solutions, Inc.
