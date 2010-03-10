@@ -1,0 +1,2 @@
+class LeadEvent < Event
+end
