@@ -5,6 +5,32 @@ describe Applicant do
     @applicant = Applicant.make
   end
   
+  describe "should order open applicants by create date" do
+    it "if ordered first" do
+      applicant1 = @applicant
+      applicant2 = Applicant.make
+      applicant2.created_at = 1.days.from_now
+      applicant2.save!
+      applicant2.created_at.should > applicant1.created_at
+      applicants = Applicant.open
+      applicants.should have(2).items
+      applicants[0].should eql(applicant1)
+      applicants[1].should eql(applicant2)    
+    end
+    
+    it "if unordered first" do
+      applicant1 = @applicant
+      applicant2 = Applicant.make
+      applicant2.created_at = 3.days.ago
+      applicant2.save!
+      applicant2.created_at.should < applicant1.created_at
+      applicants = Applicant.open
+      applicants.should have(2).items
+      applicants[1].should eql(applicant1)
+      applicants[0].should eql(applicant2)
+    end
+  end
+  
   describe "methods" do
   
     it "should create an employee with today as the hire date" do
