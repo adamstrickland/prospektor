@@ -8,7 +8,7 @@
         #calendar
       .control
         / =button_to 'Start Calling!', user_leads_url(current_user)
-        =link_to image_tag('start_calling.png'), user_leads_url(current_user)
+        =link_to image_tag('start_calling.png'), user_call_manager_url(current_user)
       %hr
 
 -content_for :menu do  
@@ -39,7 +39,7 @@
       	  agenda:''
       	},*/      	
       	titleFormat: {
-      		week: "'Callbacks for 'MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+      		week: "'Callbacks for 'MMM d[ yyyy]{ '-'[ MMM] d, yyyy}",
       	},
       	firstHour:8,
       	slotMinutes:15,

@@ -28,30 +28,6 @@ class Lead < ActiveRecord::Base
   # will_paginate; show up to 100/page
   cattr_reader :per_page
   @@per_page = 100
-  
-  # named_scope :queued, :conditions => { :aasm_state => [ :queued.to_s, :scheduled.to_s ] }
-  # named_scope :available, 
-  # named_scope :open, :conditions => { :aasm_state => [:assigned, :queued].map(&:to_s) }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
-  # named_scope :open, :conditions => { :status_id => ['NULL'] }, :order => ['leads.updated_at', :zip, :city, :county, :state].join(',')
-  # named_scope :open,
-  
-  named_scope :callbacks, 
-    lambda { |t|
-      {
-        :joins => :presentations,
-        :conditions => [ 
-          'presentations.callback_date <= :cbdate and presentations.callback_time <= :cbtime and leads.aasm_state in (:states)', 
-          {
-            :cbdate => t.to_datetime, 
-            :cbtime => t,
-            # :states => [:assigned, :queued, :scheduled].map(&:to_s)
-            :states => [:scheduled].map(&:to_s)
-          }
-        ],
-        :order => 'leads.updated_at desc'
-      }
-    },
-    :negative => false
     
   named_scope :located_in_state_of, 
     lambda { |st|
