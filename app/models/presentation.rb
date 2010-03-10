@@ -4,13 +4,7 @@ class Presentation < ActiveRecord::Base
   belongs_to :topic
   
   after_save do |rec|
-    Event.new(
-      :lead => rec.lead,
-      :user => rec.user,
-      :qualifier => rec.topic ? rec.topic.name : 'BCR',
-      :action => 'invited',
-      :params => { :to => rec.email }.to_yaml
-    ).save
+    LeadEvent.sent(rec.lead, rec.topic.name, rec.user, { :to => rec.email })
   end
   
   validates_presence_of :email, :url, :user, :lead, :topic

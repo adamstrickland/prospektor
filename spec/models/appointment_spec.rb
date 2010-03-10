@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 # belongs_to :lead
 # belongs_to :user
@@ -47,6 +47,12 @@ describe Appointment do
     
     it "should be valid with all params" do
       Appointment.new(@params).should be_valid
+    end
+    
+    it "should create an event on successful save" do
+      lambda{
+        Appointment.new(@params).save!
+      }.should change(LeadEvent, :count).by(1)
     end
     
     it "should require a lead" do

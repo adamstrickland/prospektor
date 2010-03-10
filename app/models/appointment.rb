@@ -15,14 +15,9 @@ class Appointment < ActiveRecord::Base
   end
   
   after_save do |rec|
-    what = "at: #{rec.scheduled_at}, re: #{ rec.topics.join(';') }"
-    what = "#{what[0..252]}..." if what.size > 255
-    Event.new(
-      :lead => rec.lead,
-      :user => rec.user,
-      :qualifier => what,
-      :action => 'scheduled'
-    ).save
+    # what = "at: #{rec.scheduled_at}, re: #{ rec.topics.join(';') }"
+    # what = "#{what[0..252]}..." if what.size > 255
+   LeadEvent.set_appointment(rec.lead, rec.scheduled_at, rec.user)
   end
   
   def email

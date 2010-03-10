@@ -159,7 +159,7 @@ class Lead < ActiveRecord::Base
       puts "ATTR: #{attrib}, VALS: #{vals}"
       if ['status_id', :status_id].include?(attrib)
         old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v).code }
-        Event.new(
+        LeadEvent.new(
           :lead => rec, 
           :user => rec.owner, 
           :qualifier => "Changed Status from #{old_status} to #{new_status}", 
@@ -167,7 +167,7 @@ class Lead < ActiveRecord::Base
         ).save
       else
         old_val, new_val = (vals.count == 2 ? [vals[0], vals[1]] : ['Empty', vals[0]])
-        Event.new(
+        LeadEvent.new(
           :lead => rec, 
           :user => rec.owner, 
           :qualifier => "Attribute #{attrib.camelize} from #{old_val} to #{new_val}", 

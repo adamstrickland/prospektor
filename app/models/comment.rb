@@ -3,11 +3,6 @@ class Comment < ActiveRecord::Base
   belongs_to :lead
   
   after_save do |rec| 
-    Event.new(
-      :lead => rec.lead, 
-      :user => rec.user, 
-      :qualifier => rec.comment, 
-      :action => 'commented'
-    ).save 
+    LeadEvent.commented(rec.lead, current_user || rec.user)
   end
 end

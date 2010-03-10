@@ -145,6 +145,12 @@ AnalysisTopic.blueprint do
   type{ 'AnalysisTopic' }
 end
 
+InformationTopic.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  url{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}" }
+  type{ 'InformationTopic' }
+end
+
 Applicant.blueprint do
   first_name
   preferred_name{ self.first_name }
@@ -174,6 +180,13 @@ CallBack.blueprint do
   lead
   user
   callback_at{ Chronic.parse("#{Date.tomorrow} 12:00pm") }
+end
+
+Presentation.blueprint do
+  lead
+  user
+  email
+  topic{ InformationTopic.make }
 end
 
 # InformationTopic.blueprint do

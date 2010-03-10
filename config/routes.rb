@@ -30,12 +30,13 @@ ActionController::Routing::Routes.draw do |map|
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
   map.resources :leads, :member => { :demographics => :get, :history => :get } do |leads|
     leads.resources :comments, :only => [ :new, :create, :index ]
-    leads.resources :events, :only => [ :new, :create, :index ]
+    leads.resources :events, :only => [ :index ]
+    # leads.resources :events, :only => [ :new, :create, :index ]
     
+    # TODO: should move these to :member methods    
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
     leads.resources :disposition, :only => [ :new, :create ]
-    # leads.resources :suspend, :only => [ :new, :create ]
   end
   
   map.namespace :admin do |admin|
