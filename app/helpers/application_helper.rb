@@ -145,22 +145,22 @@ module ApplicationHelper
     end
   end
   
-  def next_lead_in_queue_url(current_lead, user=current_user)
-    cq = user.call_queues.last
-    next_entry = cq.touchpoints.detect{|tp| tp.lead == current_lead}.next
-    if next_entry.nil?
-      more_leads = user.ready_leads
-      if more_leads.blank?
-        empty_user_call_queue_url(user, cq)
-      else
-        next_lead = more_leads.first
-        cq.leads << more_leads
-        next_entry = cq.touchpoints.detect{|tp| tp.lead == next_lead}
-        cq.save
-        user_call_queue_touchpoint_url(user, cq, next_entry)
-      end
-    else
-      user_call_queue_touchpoint_url(user, cq, next_entry)
-    end
-  end
+  # def next_lead_in_queue_url(current_lead, user=current_user)
+  #   cq = user.call_queues.last
+  #   next_entry = cq.touchpoints.detect{|tp| tp.lead == current_lead}.next
+  #   if next_entry.nil?
+  #     more_leads = user.ready_leads
+  #     if more_leads.blank?
+  #       empty_user_call_queue_url(user, cq)
+  #     else
+  #       next_lead = more_leads.first
+  #       cq.leads << more_leads
+  #       next_entry = cq.touchpoints.detect{|tp| tp.lead == next_lead}
+  #       cq.save
+  #       user_call_queue_touchpoint_url(user, cq, next_entry)
+  #     end
+  #   else
+  #     user_call_queue_touchpoint_url(user, cq, next_entry)
+  #   end
+  # end
 end

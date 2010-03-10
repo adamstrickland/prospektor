@@ -13,8 +13,6 @@ class Lead < ActiveRecord::Base
   has_many :appointments
   has_many :events
   has_many :comments
-  # has_and_belongs_to_many :queues # rm'd w/ impl of Touchpoints
-  has_many :touchpoints
   has_many :response_sets
   belongs_to :status, :class_name => 'LeadStatus'
   has_many :call_backs

@@ -1,35 +1,13 @@
 require 'uuidtools'
 
 class PresentationsController < ApplicationController
-  # # GET /presentations
-  # # GET /presentations.xml
-  # def index
-  #   @presentations = Presentation.all
-  # 
-  #   respond_to do |format|
-  #     format.html # index.html.erb
-  #     format.xml  { render :xml => @presentations }
-  #   end
-  # end
-  # 
-  # # GET /presentations/1
-  # # GET /presentations/1.xml
-  # def show
-  #   @presentation = Presentation.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     format.html # show.html.erb
-  #     format.xml  { render :xml => @presentation }
-  #   end
-  # end
-
   # GET /presentations/new
   # GET /presentations/new.xml
   def new
     @presentation = Presentation.new
     @lead = Lead.find(params[:lead_id])
     @presentation.email = @lead.email
-    @touchpoint = Touchpoint.new( :call_window_start_at => Time.now + 15.minutes )
+    # @touchpoint = Touchpoint.new( :call_window_start_at => Time.now + 15.minutes )
     @topics = InformationTopic.all.sort_by{ |t| t.name }.map{ |t| [t.name, t.id] }
 
     respond_to do |format|
@@ -38,11 +16,6 @@ class PresentationsController < ApplicationController
     end
   end
 
-  # # GET /presentations/1/edit
-  # def edit
-  #   @presentation = Presentation.find(params[:id])
-  # end
-
   # POST /presentations
   # POST /presentations.xml
   def create
@@ -50,14 +23,9 @@ class PresentationsController < ApplicationController
   
     @presentation = Presentation.new(params[:presentation])
     @presentation.lead = lead
-    # @presentation.url = generate_url('http://demo.trigonsolutions.com/demo')
     @presentation.url = "#{@presentation.topic.url}?key=#{lead.key}"
     @presentation.user = current_user
     
-    
-    # @touchpoint = Touchpoint.new(params[:touchpoint])
-    # @touchpoint.lead = lead
-    # @touchpoint.call_queue = lead.touchpoints.last.call_queue
 
     respond_to do |format|
       if @presentation.save
@@ -74,33 +42,4 @@ class PresentationsController < ApplicationController
       end
     end
   end
-
-  # # PUT /presentations/1
-  # # PUT /presentations/1.xml
-  # def update
-  #   @presentation = Presentation.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     if @presentation.update_attributes(params[:presentation])
-  #       flash[:notice] = 'Presentation was successfully updated.'
-  #       format.html { redirect_to(@presentation) }
-  #       format.xml  { head :ok }
-  #     else
-  #       format.html { render :action => "edit" }
-  #       format.xml  { render :xml => @presentation.errors, :status => :unprocessable_entity }
-  #     end
-  #   end
-  # end
-  # 
-  # # DELETE /presentations/1
-  # # DELETE /presentations/1.xml
-  # def destroy
-  #   @presentation = Presentation.find(params[:id])
-  #   @presentation.destroy
-  # 
-  #   respond_to do |format|
-  #     format.html { redirect_to(presentations_url) }
-  #     format.xml  { head :ok }
-  #   end
-  # end
 end
