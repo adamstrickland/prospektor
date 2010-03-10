@@ -2,6 +2,8 @@ class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :lead
   
+  validates_presence_of :action
+  
   def message
     "#{self.action} #{self.qualifier}"
   end

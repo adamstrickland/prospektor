@@ -12,7 +12,8 @@ class SessionsController < ApplicationController
     logout_keeping_session!
     user = User.authenticate(params[:login], params[:password])
     if user
-      Event.new(:user => user, :action => 'login', :qualifier => 'success').save
+      # Event.new(:user => user, :action => 'login', :qualifier => 'success').save
+      UserEvent.login_success(user)
       # Protects against session fixation attacks, causes request forgery
       # protection if user resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
@@ -23,7 +24,8 @@ class SessionsController < ApplicationController
       redirect_back_or_default(dashboard_url)
       flash[:notice] = "Logged in successfully"
     else
-      Event.new(:user => user, :action => 'login', :qualifier => 'failed').save
+      UserEvent.login_failed(user)
+      # Event.new(:user => user, :action => 'login', :qualifier => 'failed').save
       note_failed_signin
       @login       = params[:login]
       @remember_me = params[:remember_me]
@@ -32,7 +34,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    Event.new(:user => current_user, :action => 'logout').save
+    UserEvent.logout(current_user)
+    # Event.new(:user => current_user, :action => 'logout').save
     logout_killing_session!
     flash[:notice] = "You have been logged out."
     redirect_back_or_default('/')

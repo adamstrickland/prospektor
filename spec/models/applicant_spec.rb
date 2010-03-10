@@ -26,8 +26,8 @@ describe Applicant do
       applicant2.created_at.should < applicant1.created_at
       applicants = Applicant.open
       applicants.should have(2).items
-      applicants[1].should eql(applicant1)
       applicants[0].should eql(applicant2)
+      applicants[1].should eql(applicant1)
     end
   end
   
