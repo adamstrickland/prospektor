@@ -1,15 +1,14 @@
-#dashboard
-  .content
-    .fold
-      %strong Dashboard
-    .holder
-      / #loading{ :style => "display:none"} loading...
-      .calendar
-        #calendar
-      .control
-        / =button_to 'Start Calling!', user_leads_url(current_user)
-        =link_to image_tag('start_calling.png'), user_call_manager_url(current_user)
-      %hr
+.content
+  .fold
+    %strong Dashboard
+  .holder
+    / #loading{ :style => "display:none"} loading...
+    .calendar
+      #calendar
+    .control
+      / =button_to 'Start Calling!', user_leads_url(current_user)
+      =link_to image_tag('start_calling.png'), user_call_manager_url(current_user)
+    %hr
 
 -content_for :menu do  
   %ul

@@ -1,33 +1,32 @@
-#lead
-  .content
-    .fold
-      .tab
-        %strong=@lead.company.strip
-    .info
-      .top
-        .twocol
-          #prospect.lcol
-            #demog
-              =render :partial => 'leads/demographics'
-            #clock
-              %p.clock
-                Local Time:&nbsp;
-                %span.local_time{ :gmtoffset => @lead.gmt_offset }
-          .rcol
-            #phone
-              =@lead.formatted_phone
-              -if not @lead.extension.blank?
-                &nbsp;x&nbsp;#{@lead.extension}
-      %hr
-      .bottom
-        #metadata.tabbed
-          %ol.tabs
-            %li=link_to content_tag(:span, 'Comments'), lead_comments_url(@lead)
-            / %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
-            %li=link_to content_tag(:span, 'Events'), lead_events_url(@lead)
-          .tabbed-items
-            .tabbed-item-wrapper
-              %p.tabbed-item{ :style => 'display:block' }
+.content
+  .fold
+    .tab
+      %strong=@lead.company.strip
+  .info
+    .top
+      .twocol
+        #prospect.lcol
+          #demog
+            =render :partial => 'leads/demographics'
+          #clock
+            %p.clock
+              Local Time:&nbsp;
+              %span.local_time{ :gmtoffset => @lead.gmt_offset }
+        .rcol
+          #phone
+            =@lead.formatted_phone
+            -if not @lead.extension.blank?
+              &nbsp;x&nbsp;#{@lead.extension}
+    %hr
+    .bottom
+      #metadata.tabbed
+        %ol.tabs
+          %li=link_to content_tag(:span, 'Comments'), lead_comments_url(@lead)
+          / %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
+          %li=link_to content_tag(:span, 'Events'), lead_events_url(@lead)
+        .tabbed-items
+          .tabbed-item-wrapper
+            %p.tabbed-item{ :style => 'display:block' }
 
 -content_for :menu do  
   %ul
