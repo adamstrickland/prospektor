@@ -5,7 +5,7 @@ class WelcomeController < ApplicationController
     if logged_in?
       redirect_to dashboard_url
     else
-      render :index
+      redirect_to :controller => 'sessions', :action => 'new'
     end
   end
 end

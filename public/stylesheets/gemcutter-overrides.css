@@ -8,6 +8,10 @@ hr {
   visibility: hidden;
   clear: both; }
 
+.centered {
+  margin: 0 auto;
+  text-align: center; }
+
 #hd {
   background: url(/images/hd.jpg) repeat-x; }
   #hd .nav ul.linky {

@@ -1,0 +1,35 @@
+#login
+  .fold
+    %strong Log In
+  .vessel
+    .centered
+      -form_tag session_path do
+        .row.twocol
+          .lcol=label_tag :login
+          .rcol=text_field_tag :login, @login
+        .row.twocol
+          .lcol=label_tag :password
+          .rcol=password_field_tag :password, nil
+        .row.twocol
+          .lcol=label_tag :remember_me, 'Remember me?'
+          .rcol=check_box_tag :remember_me, 1, @remember_me
+        .row.centered=submit_tag 'Login'
+
+-content_for :scripts do
+  :javascript
+    $(function(){
+      $('#login').focus();
+    });
+    
+-content_for :styles do
+  %style
+    :sass
+      #login
+        .centered
+          :width 300px
+          .row
+            :padding 1em
+          .twocol
+            .rcol,.lcol
+              :width 49%
+              :text-align left
