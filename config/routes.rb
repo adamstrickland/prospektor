@@ -35,7 +35,7 @@ ActionController::Routing::Routes.draw do |map|
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
     leads.resources :disposition, :only => [ :new, :create ]
-    leads.resources :suspend, :only => [ :new, :create ]
+    # leads.resources :suspend, :only => [ :new, :create ]
   end
   
   map.namespace :admin do |admin|
