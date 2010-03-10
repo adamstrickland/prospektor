@@ -71,10 +71,7 @@
             .notice=flash[:notice]
             .error=flash[:error]
           / .info
-          .main
-            %div{ :id => controller_name }
-              %div{ :id => action_name }
-                =yield
+          =yield
       %hr
     #ft
       .container_12
