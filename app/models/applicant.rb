@@ -33,12 +33,16 @@ class Applicant < ActiveRecord::Base
   alias_attribute :has_internet, :hsinternetconnection
   alias_attribute :work_restrictions, :workrestrictions
 
-  named_scope :open, :conditions => " NOT EXISTS (
-                                      SELECT 1 
-                                      FROM employees 
-                                      WHERE employees.last_name = applicants.applicantlastname
-                                      AND employees.first_name = applicants.applicantfirstname
-                                    )"
+  named_scope :open, 
+    :conditions => " NOT EXISTS (
+      SELECT 1 
+      FROM employees 
+      WHERE employees.last_name = applicants.applicantlastname
+      AND employees.first_name = applicants.applicantfirstname
+    )",
+    :order => 'created_at ASC'
+      
+      
   def before_validation_on_create
     [:home_phone, :business_phone, :mobile_phone].each do |a|
       phone = self.send(a)
