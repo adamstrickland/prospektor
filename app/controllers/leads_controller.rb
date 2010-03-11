@@ -2,23 +2,39 @@ class LeadsController < ApplicationController
   # GET /leads
   # GET /leads.xml
   def index
-    # @leads = Lead.all
-    @leads = User.find(params[:user_id]).leads.paginate :page => (params[:page] || 1)
-
+    page = params[:page] || 1
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @leads }
+      format.html do
+        if params.key?(:user_id)
+          unless current_user.is_admin? or current_user.id == params[:user_id].to_i
+            render :template => 'error'
+          else
+            @leads = User.find(params[:user_id]).leads.paginate :page => page
+          end
+        else
+          unless current_user.is_admin?
+            render :template => 'error'
+          else
+            @leads = Lead.all.paginate :page => page
+          end
+        end
+      end
     end
   end
 
   # GET /leads/1
   # GET /leads/1.xml
   def show
-    @lead = Lead.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @lead }
+      format.html do
+        @lead = Lead.find(params[:id])
+        if current_user.is_admin? or (params.key?(:user_id) && current_user.id == params[:user_id].to_i && @user = User.find(params[:user_id]))
+          UserEvent.access_lead(@lead, @user) if @user
+          render
+        else
+          render :template => 'error'
+        end
+      end
     end
   end
   

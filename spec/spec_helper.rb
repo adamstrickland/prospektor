@@ -43,14 +43,23 @@ Spork.prefork do
   Spec::Runner.configure do |config|
     def login_as(user)
       @current_user = mock_model(User)
-      User.stub!(:find_by_id).and_return(@current_user)
+      User.stub!(:find_by_id).with(any_args()).and_return(@current_user)
+      User.stub!(:find).with(any_args()).and_return(@current_user)
       @current_user.stub!(:save).and_return(true)
+      @current_user.stub!(:id).and_return(1)
+      @current_user.stub!(:destroyed?).and_return(false)
+      @emp = mock_model(Employee)
+      @current_user.stub!(:has_attribute?).with('employee_id').and_return(true)
+      @current_user.stub!(:employee).and_return(@emp)
       controller.stub!(:current_user).and_return(@current_user)
       case user
         when :admin
-          User.stub!(:is_admin?).and_return(true)
+          @current_user.stub!(:is_admin?).and_return(true)
+        else
+          @current_user.stub!(:is_admin?).and_return(false)
       end    
       request.session[:user] = @current_user
+      @current_user
     end
     
     # def current_user
