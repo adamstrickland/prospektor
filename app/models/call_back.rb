@@ -15,7 +15,8 @@ class CallBack < ActiveRecord::Base
       from, *ignored = *optional
       from ||= Date.today
       {
-        :conditions => ['callback_at >= ? and callback_at <= ?', from, to]
+        :conditions => ['callback_at >= ? and callback_at <= ?', from, to],
+        :order => 'callback_at ASC, created_at ASC'
       }
     },
     :negative => false

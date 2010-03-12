@@ -10,7 +10,8 @@ class CallManagerController < ApplicationController
     # if so, show that lead
     # if not, pull one off @user.leads
     if near_callbacks.present?
-      redirect_to user_lead_url(@user, near_callbacks.first.lead)
+      lead = near_callbacks.first.lead
+      redirect_to user_lead_url(@user, lead)
     else
       ready_leads = @user.leads.valid
       if ready_leads.present?
