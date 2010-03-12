@@ -12,6 +12,12 @@ hr {
   margin: 0 auto;
   text-align: center; }
 
+
+
+
+
+
+
 #hd {
   background: url(/images/hd.jpg) repeat-x; }
   #hd .nav ul.linky {
@@ -89,6 +95,9 @@ hr {
       -moz-border-radius: 10px 10px 0 0;
       -webkit-border-radius: 10px 10px 0 0;
       padding: 5px 15px 10px 15px; }
+      #bd .main .fold .tab a {
+        background: url(/images/url_external.png) top right no-repeat;
+        padding-right: 12px; }
   #bd .main .vessel {
     padding-top: 20px;
     padding-bottom: 20px;

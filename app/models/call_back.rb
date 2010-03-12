@@ -20,4 +20,6 @@ class CallBack < ActiveRecord::Base
       }
     },
     :negative => false
+  
+  named_scope :next
 end

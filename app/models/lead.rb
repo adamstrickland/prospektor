@@ -254,7 +254,6 @@ class Lead < ActiveRecord::Base
   
   def employee_category
     cat = case (self.employee_code || 0).to_i
-      when 0 then 'N/A'
       when 1 then '1 - 4'
       when 2 then '5 - 9'
       when 3 then '10 - 19'
@@ -264,13 +263,13 @@ class Lead < ActiveRecord::Base
       when 7 then '250 - 499'
       when 8 then '500 - 999'
       when 9 then '1,000+'
+      else 'N/A'
     end
     "#{cat} employees"
   end
   
   def sales_category
     case (self.sales_code || 0).to_i
-    when 0 then 'N/A'
     when 1 then '$0 - $499K'
     when 2 then '$500K - $999K'
     when 3 then '$1M - $2.49M'
@@ -283,6 +282,7 @@ class Lead < ActiveRecord::Base
     when 10 then '$250M - $499M'
     when 11 then '$500M - $999M'
     when 12 then '$1B+'
+    else 'N/A'
     end
   end
   
@@ -292,6 +292,18 @@ class Lead < ActiveRecord::Base
   
   def is_manufacturer?
     (1..10).map{|i| "sic_code_#{i}".to_sym }.map{|m| self.send(m) }.compact.map{|c| SicCode.find_by_code(c).division }.include?('D')
+  end
+  
+  def primary_sic
+    SicCode.find_by_code(self.sic_code_1)
+  end
+  
+  def primary_sic_division
+    self.primary_sic.division
+  end
+  
+  def business_type
+    self.primary_sic.division_name
   end
   
   def gmt_offset

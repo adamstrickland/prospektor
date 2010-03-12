@@ -32,4 +32,17 @@ class SicCode < ActiveRecord::Base
   def is_acceptable=(val)
     self.acceptable = val ? 'Yes' : 'No'
   end
+  
+  def division_name
+    case self.division
+      when 'A' then :agrigculture
+      when 'B' then :mining
+      when 'C' then :construction
+      when 'D' then :manufacturing
+      when 'E' then :transportation
+      when 'F' then :wholesale
+      when 'G' then :retail
+      when 'I' then :services
+    end
+  end
 end

@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.session_expiry '/expires', :controller => 'sessions', :action => 'session_expiry'
   map.resource :session
   
   map.with_options :controller => 'dashboard' do |opts|
@@ -28,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
   map.search '/search', :controller => 'search', :action => 'show'
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
-  map.resources :leads, :member => { :demographics => :get, :history => :get } do |leads|
+  map.resources :leads, :member => { :demographics => :get, :history => :get, :details => :get } do |leads|
     leads.resources :comments, :only => [ :new, :create, :index ]
     leads.resources :events, :only => [ :index ]
     # leads.resources :events, :only => [ :new, :create, :index ]

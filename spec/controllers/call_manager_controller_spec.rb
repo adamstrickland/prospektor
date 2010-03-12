@@ -92,6 +92,8 @@ describe CallManagerController do
             get_next.should redirect_to(user_lead_url(@user, @callbacks.first.lead))
           end
           
+          it "should show the closer one if they're not at the same time"
+          
           it "should show the older callback lead if there's more than one" do
             six_months_ago = 6.months.ago
             cb = make_callback(:created_at => six_months_ago, :callback_at => @callbacks.first.callback_at)
@@ -140,49 +142,54 @@ describe CallManagerController do
             	before :each do
             	end
 
-              describe "if their last activity was lead_access" do
-              	before :each do
-              	end
-
-                it "should show the pool lead"
-                it "should take note of the skipped callback"
-              end
-            
-              # describe "if their last activity was login" do
-              # end
-            
-              describe "if their last activity was anything else" do
-              	before :each do
-              	end
-
-                it "should show the callback lead"
-              end
+              # describe "if their last activity was lead_access" do
+              #                 before :each do
+              #                 end
+              # 
+              #                 it "should show the pool lead"
+              #                 it "should take note of the skipped callback"
+              #               end
+              #             
+              #               # describe "if their last activity was login" do
+              #               # end
+              #             
+              #               describe "if their last activity was anything else" do
+              #                 before :each do
+              #                 end
+              # 
+              #                 it "should show the callback lead"
+              #               end
+              it "should show the callback lead"
             end
         
             describe "if there are some both prior to and since the user's last activity and now" do
             	before :each do
             	end
 
-              describe "if their last activity was lead_access" do
-              	before :each do
-              	end
+              it "should show the prior callback lead first"
+              it "should show the tweener callback lead second"
+              it "should show the pool lead third"
 
-                it "should show the tweener callback lead first"
-                it "should show the prior callback lead second"
-                it "should show the pool lead third"
-              end
-            
-              # describe "if their last activity was login" do
+              # describe "if their last activity was lead_access" do
+              #   before :each do
+              #   end
+              # 
+              #   it "should show the tweener callback lead first"
+              #   it "should show the prior callback lead second"
+              #   it "should show the pool lead third"
               # end
-            
-              describe "if their last activity was anything else" do
-              	before :each do
-              	end
-
-                it "should show the prior callback lead first"
-                it "should show the tweener callback lead second"
-                it "should show the pool lead third"
-              end
+              #             
+              # # describe "if their last activity was login" do
+              # # end
+              #             
+              # describe "if their last activity was anything else" do
+              #   before :each do
+              #   end
+              # 
+              #   it "should show the prior callback lead first"
+              #   it "should show the tweener callback lead second"
+              #   it "should show the pool lead third"
+              # end
             end
           end
         end
