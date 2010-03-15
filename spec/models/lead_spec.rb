@@ -334,5 +334,53 @@ describe Lead do
       Lead.all.should have(@statii.count * @provinces.count * @owners.count * @sics.count * 2).items
       Lead.open.should have(24).items # have(6 * 1 * 2 * 1 * 1).items
     end
-  end 
+  end
+  
+  describe "lifecycle callbacks" do
+    before :each do
+      @lead = Lead.make
+      @user = User.make(:unsaved)
+      @user.leads << @lead
+      @user.save
+    end
+    
+    describe "if the lead has a callback" do
+      before :each do
+        # @callback = CallBack.make(:lead => lead, :user => @user)
+        # @callback.status.should eql(CallBackStatus.uncalled)
+        @callback = mock_model(CallBack)
+        @callback.stub!(:user).and_return(@user)
+        @callback.stub!(:[]=).with("lead_id", @lead.id)
+        @callback.should_receive(:save).with(any_args()).and_return(true)
+        @lead.call_backs = [@callback]
+      end
+      
+      describe "the status of the callback should be set to called" do
+        before :each do
+          @callback.should_receive(:status).and_return(CallBackStatus.uncalled)
+          # @callback.should_receive(:callback_at).and_return(1.hour.ago)
+          @callback.should_receive(:status=).with(CallBackStatus.complete)
+          @callback.should_receive(:save).with(any_args()).and_return(true)
+          
+          # @lead.call_backs.should be_present
+          # lead_callbacks = @lead.call_backs
+          # lead_callbacks.should eql([@callback])
+          # lead_callbacks.should have(1).items
+          # lead_callback = lead_callbacks.first
+          # lead_callback.user.should eql(@lead.owner)
+          # lead_callback.callback_at.should < Time.now
+          # lead_callback.status.code.should eql(CallBackStatus.uncalled.code)
+        end
+        
+        it "when invoking update_callbacks" do
+          @lead.send(:update_callbacks)
+        end
+
+        it "when the lead is saved" do
+          @lead.sic_code_9 = '12345'
+          @lead.save
+        end
+      end
+    end
+  end
 end

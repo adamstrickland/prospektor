@@ -152,28 +152,40 @@ class Lead < ActiveRecord::Base
     ",
     :negative => false
   
-  after_validation_on_update do |rec|
-    rec.changes.each do |attrib, vals|
-      puts "ATTR: #{attrib}, VALS: #{vals}"
-      if ['status_id', :status_id].include?(attrib)
-        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v).code }
-        LeadEvent.new(
-          :lead => rec, 
-          :user => rec.owner, 
-          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
-          :action => 'updated'
-        ).save
-      else
-        old_val, new_val = (vals.count == 2 ? [vals[0], vals[1]] : ['Empty', vals[0]])
-        LeadEvent.new(
-          :lead => rec, 
-          :user => rec.owner, 
-          :qualifier => "Attribute #{attrib.camelize} from #{old_val} to #{new_val}", 
-          :action => 'updated'
-        ).save
-      end
-    end
-  end
+  after_validation_on_update :log_event
+  after_save :update_callbacks
+  
+  # after_validation_on_update do |rec|
+  #    rec.changes.each do |attrib, vals|
+  #      # puts "ATTR: #{attrib}, VALS: #{vals}"
+  #      if ['status_id', :status_id].include?(attrib)
+  #        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v).code }
+  #        LeadEvent.new(
+  #          :lead => rec, 
+  #          :user => rec.owner, 
+  #          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
+  #          :action => 'updated'
+  #        ).save
+  #      else
+  #        old_val, new_val = (vals.count == 2 ? [vals[0], vals[1]] : ['Empty', vals[0]])
+  #        LeadEvent.new(
+  #          :lead => rec, 
+  #          :user => rec.owner, 
+  #          :qualifier => "Attribute #{attrib.camelize} from #{old_val} to #{new_val}", 
+  #          :action => 'updated'
+  #        ).save
+  #      end
+  #    end
+  #  end
+  #  
+  #  after_save do |lead|
+  #    if lead.call_backs.present?
+  #      lead.call_backs.select{|cb| cb.user == lead.owner && cb.callback_at < Time.now && cb.status.code == 'UN'}.each do |cb|
+  #        cb.status = CallBackStatus.find_by_code('CP')
+  #        cb.save
+  #      end
+  #    end
+  #  end
   
   def casual_name
     self.name
@@ -308,5 +320,39 @@ class Lead < ActiveRecord::Base
   
   def gmt_offset
     ([:e, :c, :m, :p, :a, :h].index(self.timezone.downcase.to_sym) + 4 + (Time.now.zone.index('ST') ? 1 : 0 )) * -1
+  end
+  
+  private
+  
+  def log_event
+    self.changes.each do |attrib, vals|
+      # puts "ATTR: #{attrib}, VALS: #{vals}"
+      if ['status_id', :status_id].include?(attrib)
+        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v).code }
+        LeadEvent.new(
+          :lead => self, 
+          :user => self.owner, 
+          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
+          :action => 'updated'
+        ).save
+      else
+        old_val, new_val = (vals.count == 2 ? [vals[0], vals[1]] : ['Empty', vals[0]])
+        LeadEvent.new(
+          :lead => self, 
+          :user => self.owner, 
+          :qualifier => "Attribute #{attrib.camelize} from #{old_val} to #{new_val}", 
+          :action => 'updated'
+        ).save
+      end
+    end
+  end
+  
+  def update_callbacks
+   if self.call_backs.present?
+      self.call_backs.select{|cb| cb.user == self.owner && cb.status.code == 'UN'}.each do |cb|
+        cb.status = CallBackStatus.find_by_code('CP')
+        cb.save
+      end
+    end
   end
 end

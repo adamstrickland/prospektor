@@ -97,6 +97,12 @@ describe LeadsController do
     end
   end
   
+  describe "call manager" do
+    it "should always show lead from the next_in_queue" do
+      
+    end
+  end
+  
   describe "changes" do
     describe "via adding" do
     end

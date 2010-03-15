@@ -1,3 +1,4 @@
+require 'chronic'
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
@@ -19,6 +20,20 @@ class User < ActiveRecord::Base
   
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true
+  
+  def next_lead_in_queue
+    # if self.call_backs.present? and (uncalled = self.call_backs.window(3.minutes.from_now, Chronic.parse("#{Date.today} 12:00am")).uncalled)
+    if self.call_backs.present?
+      uncalled = self.call_backs.window(3.minutes.from_now, Chronic.parse("#{Date.today} 12:00am")).uncalled
+      return uncalled.first.lead if uncalled.present?
+      # uncalled.sort_by{ |f,l|
+      #    [f.callback_at, f.created_at] <=> [l.callback_at, l.created_at]
+      #  }.first.lead
+      # uncalled.first.lead
+    end
+      
+    self.leads.valid.first
+  end
   
   def is_admin?
     self.roles.map(&:title).include?('admin')

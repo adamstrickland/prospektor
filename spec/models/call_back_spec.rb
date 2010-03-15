@@ -3,9 +3,10 @@ require 'spec_helper'
 describe CallBack do
   before :each do
     cb = LeadStatus.find_by_code('CB')
-    CallBack.make(:callback_at => 2.days.ago, :lead => Lead.make(:status => cb))
-    CallBack.make(:callback_at => 2.days.from_now, :lead => Lead.make(:status => cb))
-    CallBack.make(:callback_at => 10.days.from_now, :lead => Lead.make(:status => cb))
+    @callback_times = [2.days.ago, 2.days.from_now, 10.days.from_now]
+    @callbacks = @callback_times.map do |t|
+      CallBack.make(:callback_at => t, :lead => Lead.make(:status => cb))
+    end
   end
   
   describe "should return all the callbacks in the given window" do
@@ -62,5 +63,37 @@ describe CallBack do
   
     # it "should stack the stale callbacks into today's schedule" do
     # end
+  end
+  
+  describe "should return all uncalled callbacks" do
+    it "when asked" do
+      CallBack.uncalled.should have(@callbacks.count).items
+    end
+    
+    it "should filter out leads once they've been called'" do
+      callback = @callbacks.first
+      lead = callback.lead
+      # lead.updated_at.should <= callback.updated_at
+      # lead.sic_code_9 = '12345' # do something so that the save occurs
+      # 
+      # Lead.should_receive(:after_save)
+      # lead.save!
+      # lead.updated_at.should > callback.updated_at
+      
+      complete = CallBackStatus.complete
+      callback.status = complete
+      callback.save!
+      
+      callback.status.should eql(complete)
+      
+      uncalled = CallBack.uncalled
+      uncalled.should_not include(callback)
+      uncalled.each do |cb|
+        cb.status.should_not eql(complete)
+      end
+      
+      uncalled.should have(@callbacks.count - 1).items
+      uncalled.map{|cb| cb.lead}.should_not include(lead)
+    end
   end
 end

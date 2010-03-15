@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100310190048) do
+ActiveRecord::Schema.define(:version => 20100315161835) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -262,11 +262,12 @@ ActiveRecord::Schema.define(:version => 20100310190048) do
   end
 
   create_table "call_backs", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.datetime "callback_at", :null => false
+    t.integer  "user_id",                            :null => false
+    t.datetime "callback_at",                        :null => false
     t.integer  "lead_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "status_id",   :default => 979352484, :null => false
   end
 
   add_index "call_backs", ["callback_at"], :name => "index_call_backs_on_callback_at"
