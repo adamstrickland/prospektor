@@ -32,7 +32,12 @@ class User < ActiveRecord::Base
       # uncalled.first.lead
     end
       
-    self.leads.valid.first
+    self.pool.first
+  end
+  
+  def pool
+    # self.leads.valid.sort{|f,l| (f.status and l.status) ? f.updated_at <=> l.updated_at : (l.status ? -1 : 1) }
+    self.leads.untouched + self.leads.touched
   end
   
   def is_admin?

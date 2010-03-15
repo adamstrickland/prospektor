@@ -9,9 +9,12 @@
 !cl_copy = #5E543E
 !cl_dark = #111
 !cl_pop = #8F0B0B
+!cl_body = #125BA8
+!cl_folder = #ebe3d1
 
 body
-  :background #125BA8 url(/images/hash_bkgrnd.png) repeat
+  :background url(/images/hash_bkgrnd.png) repeat
+  :background-color = !cl_body
 hr
   :margin-bottom -1px
   :height 1px
@@ -85,7 +88,7 @@ hr
           :weight bold
       .tab
         :color = !cl_copy
-        :background-color #cbc2ae
+        :background-color = !cl_tab
         :-moz-border-radius 10px 10px 0 0 
         :-webkit-border-radius 10px 10px 0 0 
         :padding 5px 15px 10px 15px
@@ -94,9 +97,10 @@ hr
           / :background url(/images/url_external.png) 102% 0 no-repeat
           :padding-right 12px
     .vessel
-      padding-top: 20px
-      padding-bottom: 20px
-      border: 5px solid #cbc2ae
+      :padding-top 20px
+      :padding-bottom 20px
+      :border 5px solid
+      :border-color = !cl_tab
       -moz-border-radius: 10px
       -webkit-border-radius: 10px
     .info      
@@ -253,9 +257,48 @@ hr
           :weight bold
           :size 1.5em
         :color = !cl_header
-      
-      
-      
-      
-      
-      
+      ol.tabs  
+        :margin 1em 1em 0 0
+        li
+          :-moz-border-radius 10px 10px 0 0
+          :-webkit-border-radius 10px 10px 0 0
+          :padding 1em
+          :margin 0 1px 0 0 
+          :font-weight bold
+          :float left
+          :border-width 1px 1px 0 1px
+          :border-style solid
+          :border-color = !cl_copy
+          :border-bottom 1px solid
+          :background-color = !cl_tab
+          :border-bottom-color = !cl_copy
+          .active
+            :background-color = !cl_header
+          a
+            :text-decoration none
+            :color = !cl_copy
+          a.current
+            / :color = !cl_header
+            / :background-color = !cl_copy
+            :text-decoration underline
+      .panes
+        :background-color = !cl_tab
+        :color = !cl_copy
+        :margin-top -4px
+        / :top -1px
+        :height 200px
+        :padding 1em
+        :-moz-border-radius 0 10px 10px 10px
+        :-webkit-border-radius 0 10px 10px 10px
+        / :border 1px solid silver
+        :border
+          :width 1px 
+          :style solid
+          :color = !cl_copy
+        .pane
+          :overflow auto
+          .row
+            :padding 1em
+            textarea
+              :height 8em
+              :width 25em

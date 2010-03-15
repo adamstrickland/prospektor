@@ -1,5 +1,7 @@
 class DispositionController < ApplicationController
   def new
+    @tabs = [:callback, :schedule, :book_sale, :other]
+  
     @lead = Lead.find(params[:lead_id])
     
     # respond_to do |format|
@@ -24,8 +26,7 @@ class DispositionController < ApplicationController
     #   'No Thanks' => :suspend
     # }
     # 
-    
-    @disposition_options = LeadStatus.all.reject{|s| s.code == 'CLIENT' or s.code == 'INV'}.map{|s| ["#{s.code} - #{s.description}", s.id] }
+    @disposition_options = LeadStatus.all.reject{|s| ['CB', 'CLIENT', 'INV'].include?(s.code)}.map{|s| ["#{s.code} - #{s.description}", s.id] }
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }
     end

@@ -53,7 +53,16 @@ class Lead < ActiveRecord::Base
     :negative => false
     
   # TODO: Revamp all these queries to use :appointments table
+  named_scope :untouched,
+    :conditions => 'leads.status_id IS NULL',
+    :order => 'leads.updated_at ASC',
+    :negative => false
+  named_scope :touched,
+    :include => :status,
+    :conditions => "leads.status_id IS NOT NULL AND statuses.state = 'assigned'",
+    :order => 'leads.updated_at ASC'
   named_scope :valid, 
+    :select => 'leads.*',
     :include => [:status],
     #:joins => 'LEFT OUTER JOIN statuses ON (leads.status_id = statuses.id)', 
     :conditions => "leads.state != 'XX' AND (

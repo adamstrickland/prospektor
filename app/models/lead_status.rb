@@ -6,4 +6,8 @@ class LeadStatus < Status
   def self.no_interest
     self.find_by_code('NI')
   end
+  
+  def self.skip
+    self.find_by_code('SKIP')
+  end
 end

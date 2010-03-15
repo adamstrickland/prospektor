@@ -1,6 +1,7 @@
 
 body {
-  background: #125BA8 url(/images/hash_bkgrnd.png) repeat; }
+  background: url(/images/hash_bkgrnd.png) repeat;
+  background-color: #125ba8; }
 
 hr {
   margin-bottom: -1px;
@@ -101,7 +102,8 @@ hr {
   #bd .main .vessel {
     padding-top: 20px;
     padding-bottom: 20px;
-    border: 5px solid #cbc2ae;
+    border: 5px solid;
+    border-color: #cbc2ae;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px; }
   #bd .main .info .bottom {
@@ -228,3 +230,43 @@ hr {
       font-weight: bold;
       font-size: 1.5em;
       color: #eeeeee; }
+    #TB_window #TB_ajaxContent .dialog ol.tabs {
+      margin: 1em 1em 0 0; }
+      #TB_window #TB_ajaxContent .dialog ol.tabs li {
+        -moz-border-radius: 10px 10px 0 0;
+        -webkit-border-radius: 10px 10px 0 0;
+        padding: 1em;
+        margin: 0 1px 0 0;
+        font-weight: bold;
+        float: left;
+        border-width: 1px 1px 0 1px;
+        border-style: solid;
+        border-color: #5e543e;
+        border-bottom: 1px solid;
+        background-color: #cbc2ae;
+        border-bottom-color: #5e543e; }
+        #TB_window #TB_ajaxContent .dialog ol.tabs li .active {
+          background-color: #eeeeee; }
+        #TB_window #TB_ajaxContent .dialog ol.tabs li a {
+          text-decoration: none;
+          color: #5e543e; }
+        #TB_window #TB_ajaxContent .dialog ol.tabs li a.current {
+          text-decoration: underline; }
+    #TB_window #TB_ajaxContent .dialog .panes {
+      background-color: #cbc2ae;
+      color: #5e543e;
+      margin-top: -4px;
+      height: 200px;
+      padding: 1em;
+      -moz-border-radius: 0 10px 10px 10px;
+      -webkit-border-radius: 0 10px 10px 10px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: #5e543e; }
+      #TB_window #TB_ajaxContent .dialog .panes .pane {
+        overflow: auto; }
+        #TB_window #TB_ajaxContent .dialog .panes .pane .row {
+          padding: 1em; }
+          #TB_window #TB_ajaxContent .dialog .panes .pane .row textarea {
+            height: 8em;
+            width: 25em; }

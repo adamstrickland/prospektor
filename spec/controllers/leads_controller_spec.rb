@@ -101,6 +101,9 @@ describe LeadsController do
     it "should always show lead from the next_in_queue" do
       
     end
+    
+    it "should serve pool leads" do 
+    end
   end
   
   describe "changes" do

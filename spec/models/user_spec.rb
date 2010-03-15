@@ -178,6 +178,27 @@ describe User do
         lead = @user.next_lead_in_queue
         lead.should eql(@leads.first)
       end
+      
+      describe "ordered by" do
+        it "should sort the leads by status, then by last upd date" do
+          statused_leads = @leads[0..-2].map_with_index do |l,i|
+            l.status = LeadStatus.skip
+            # l.updated_at = i.days.ago
+            l.save!
+          end
+          # @user.pool.map{|l| l.id}.should eql([4,3,2,1,0].map{|i| @leads[i].id})
+          @user.pool.map{|l| l.id}.should eql([4,0,1,2,3].map{|i| @leads[i].id})
+        end
+        
+        it "should show the empty status leads at the top" do
+          statused_leads = @leads[0..-2].map do |l|
+            l.status = LeadStatus.skip
+            l.save!
+          end
+          lead = @user.next_lead_in_queue
+          statused_leads.should_not include(lead)
+        end
+      end
     end
     
     describe "should return the callback lead" do

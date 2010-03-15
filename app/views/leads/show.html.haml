@@ -63,7 +63,7 @@
         }
       }).clocks(EC_RUN);
       
-      $('ol.tabs').tabs('.tabbed-items .tabbed-item', function(e, i){
+      $('#metadata ol.tabs').tabs('.tabbed-items .tabbed-item', function(e, i){
         this.getTabs().parent().removeClass('active').eq(i).addClass('active');
         var pane = this.getPanes().eq(0);
         var tab = this.getTabs().eq(i || 0);
