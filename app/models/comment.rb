@@ -3,6 +3,6 @@ class Comment < ActiveRecord::Base
   belongs_to :lead
   
   after_save do |rec| 
-    LeadEvent.commented(rec.lead, current_user || rec.user)
+    LeadEvent.comment(rec.lead, rec.user)
   end
 end

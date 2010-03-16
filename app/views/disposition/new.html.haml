@@ -32,11 +32,12 @@
           .fields
             .row.field.at
               Callback At:
-              =select_datetime 1.week.from_now
+              / =select_datetime 1.week.from_now
+              =text_field_tag :callback_at
             .row.field.comments
               Comments:
               =text_area_tag :comments
-            =hidden_field_tag :disposition, LeadStatus.find_by_code('CB').id
+            =hidden_field_tag :disposition, 'CB'
           .controls
             =submit_tag 'Save'
       #schedule.pane
@@ -44,11 +45,12 @@
           .fields
             .row.field.at
               Callback At:
-              =select_datetime 1.week.from_now
+              / =select_datetime 1.week.from_now
+              =text_field_tag :callback_at
             .row.field.comments
               Comments:
               =text_area_tag :comments
-            =hidden_field_tag :disposition, LeadStatus.find_by_code('VM').id
+            =hidden_field_tag :disposition, 'VM'
           .controls
             =submit_tag 'Save'
       #booksale.pane
@@ -57,7 +59,7 @@
             .row.field.comments
               Comments:
               =text_area_tag :comments
-            =hidden_field_tag :disposition, LeadStatus.find_by_code('CB').id
+            =hidden_field_tag :disposition, 'BS'
           .controls
             =submit_tag 'Save'
       #otherdisp.pane
