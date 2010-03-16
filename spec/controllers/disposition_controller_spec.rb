@@ -7,7 +7,7 @@ describe DispositionController do
     Lead.stub!(:find).with(any_args()).and_return(@lead)
   end
   
-  describe "on new" do
+  describe "on GET" do
     it "should show the dispo modal" do
       get :new, :lead_id => @lead.id
       assigns[:lead].should eql(@lead)
@@ -15,7 +15,7 @@ describe DispositionController do
     end
   end
   
-  describe "on create" do
+  describe "on POST" do
     before :each do
       @lead.should_receive(:save).and_return(true)
       

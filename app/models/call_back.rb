@@ -3,6 +3,8 @@ class CallBack < ActiveRecord::Base
   belongs_to :lead
   belongs_to :status, :class_name => 'CallBackStatus'
   
+  validates_presence_of :callback_at, :user, :lead, :status
+  
   named_scope :stale,
     :joins => 'INNER JOIN leads L ON (call_backs.lead_id = L.id) LEFT OUTER JOIN statuses T ON (L.status_id = T.id)',
     :conditions => ["callback_at < ? AND (
