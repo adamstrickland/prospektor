@@ -1,38 +1,49 @@
-#applicants
+.content
   -unless @applicants.present?
-    .announce There are no open applicants at this time
+    .announce No Applicants
   -else
-    .grid
-      .grid-head
-        %div.row
-          .info
-            .login.grid_4 Name
-            .position.grid_3 Applied
-          %hr.lclear
-      .grid-data
-        -@applicants.each do |applicant|
-          %div.row[applicant]
-            .info
-              .listing{ :onclick => "$(this).parent().parent().find('.details').toggle('blind', {}, 500);" }
-                .login.grid_4.alpha=applicant.full_name
-                .position.grid_3.omega=applicant.created_at.present? ? applicant.created_at.strftime('%Y-%m-%d %I:%M%p') : '&nbsp;'
-            .controls
-              .deactivate.grid_2
-                =button_to_remote 'Reject', :url => reject_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant rejected');", :failure => "alert('Unable to reject applicant.  Please contact support.');"
-              .password.grid_2
-                =button_to_remote 'Onboard', :url => onboard_admin_applicant_path(applicant, :format => :json), :success => "alert('Applicant onboarded');", :failure => "alert('Unable to onboard applicant.  Please contact support.');"
-            %hr.lclear
-            .details{ :style => 'display:none' }
-              .info
-                -applicant.attributes.sort.reject{|kv| ['applicantfirstname','applicantlastname','id','created_at','updated_at'].include?(kv[0]) }.select{|kv| kv[1].present? }.each do |kva|
-                  %div.attr{ :style => 'float:left;width:49%;'}
-                    %span.name=kva[0]
-                    %span.value=kva[1]
-              %hr.lclear
-
+    .data
+      .row.header
+        %span.name Name
+        %span.applied Applied At
+      -@applicants.each do |app|
+        .row[app]{ :class => cycle("odd", "even"), :onclick => "$(this).parent().parent().find('.expanded-details').toggle('blind', {}, 500);" }
+          .details
+            %span.name=app.full_name
+            %span.applied=(app.created_at.present? ? app.created_at.strftime('%Y-%m-%d %H:%M') : 'N/A')
+            %span.controls
+              =link_to_remote 'Reject', :url => reject_admin_applicant_path(app, :format => :json), :success => "alert('Applicant rejected');", :failure => "alert('Unable to reject applicant.  Please contact support.');"
+              =link_to_remote 'Onboard', :url => onboard_admin_applicant_path(app, :format => :json), :success => "alert('Applicant onboarded');", :failure => "alert('Unable to onboard applicant.  Please contact support.');"
+          .expanded-details{ :style => 'display:none' }
+            -app.attributes.sort.reject{|kv| ['applicantfirstname','applicantlastname','id','created_at','updated_at'].include?(kv[0]) }.select{|kv| kv[1].present? }.each do |kva|
+              %div.attr{ :style => 'float:left;width:49%;'}
+                %span.name=kva[0]
+                %span.value=kva[1]
+            %hr
+      =will_paginate @applicants
+      
 -content_for :styles do
-  :sass
-    .position
-      :text-align left
-    .details .info
-      :margin-left 5px
+  %style
+    :sass
+      .data
+        .row
+          :padding 0.25em 0.5em
+          &:hover
+            :background-color black
+          span
+            :display inline-block
+          span.name
+            :font-weight bold
+            :width 200px
+          span.applied
+            :width 150px
+          .controls
+            a
+              :color gold
+              :padding 0 0.5em
+              &:hover
+                :text-decoration underline
+        .header
+          span
+            :font
+              :weight bold

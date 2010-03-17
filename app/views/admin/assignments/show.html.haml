@@ -1,18 +1,46 @@
-#assignment
-  .heading Assignments for: #{@user.employee.full_name}  
-  #controls.container_12
-    #simple.grid_3.alpha=button_to 'Assign Block', '#'
-    #sized.grid_3.omega=button_to 'Assign...', '#', :class => 'thickbox'
-    / #manual.grid_2=button_to 'Manual', '#', :class => 'thickbox'
-  %hr.lclear
+.content
   -unless @assignments.present?
-    .announce No assignments for user
+    .announce No Assignments for #{@user.employee.full_name}
   -else
+    .announce Assignments for #{@user.employee.full_name}
+    .controls
+      =button_to 'Assign Block', '#'
+      =button_to 'Assign...', '#', :class => 'thickbox'
     .data
-      -@assignments.each do |assignment|
-        .row[assignment]{ :class => cycle("odd", "even") }
-          %span.company=assignment.company
-          %span.prospect=assignment.prospect
-          %span.status=assignment.status.code if assignment.status.present?
-        .clear
-    =will_paginate @assignments
+      .row.header
+        %span.name Prospect
+        %span.company Company
+        %span.location Location
+        %span.status Status
+      -@assignments.each do |lead|
+        .row[lead]{ :class => cycle("odd", "even") }
+          %span.name=lead.full_name
+          %span.company=lead.company
+          %span.location #{lead.city}, #{lead.state}
+          %span.status=(lead.status.blank? ? '&nbsp;' : lead.status.code)
+      =will_paginate @assignments
+      
+-content_for :styles do
+  %style
+    :sass
+      .data
+        .row
+          :padding 0.25em 0.5em
+          &:hover
+            :background-color black
+          span
+            :display inline-block
+          span.name
+            :font-weight bold
+            :width 200px
+          span.company
+            :width 200px
+          span.location
+            :width 200px
+          span.status
+            :width 50px
+        .header
+          span
+            :font
+              :weight bold
+              :size 12pt

@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'open-uri'
+
 class HelpController < ApplicationController
   layout false
   def pdf
@@ -31,6 +34,12 @@ class HelpController < ApplicationController
         'Creating Pain' => "#{@www_sa}/Creating Pain.htm",
       },
     }
+    
+    # doc = Nokogiri::HTML(open("#{www_root}/Sales%20Aides.htm"))
+    # 
+    # #sections
+    # doc.search('table table table td').search('b>font[size="3"],font[size="3"]>b').each do |sec|
+    # end
   end
   
   def training_videos

@@ -5,7 +5,7 @@ class Admin::ApplicantsController < ApplicationController
   # GET /applicants.xml
   def index
     # @applicants = Applicant.all.sort_by{|f,l| [f.applicantlastname, f.applicantfirstname] <=> [l.applicantlastname, l.applicantfirstname] }
-    @applicants = Applicant.open
+    @applicants = Applicant.open.paginate :page => params[:page] || 1, :per_page => 25
     # .sort_by{|f,l| l.id <=> f.id } # sorted by ID (since no date) DESC
 
     respond_to do |format|
