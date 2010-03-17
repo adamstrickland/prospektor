@@ -6,7 +6,8 @@ class ProspectMailer < ActionMailer::Base
     recipients appt.email
     # cc appt.expert_email
     cc 'acs@trigonsolutions.com'
-    from sender(appt.user.present? ? appt.user.email : 'acs@trigonsolutions.com')
+    # from sender(appt.user.present? ? appt.user.email : 'acs@trigonsolutions.com')
+    from system_sender
     sent_on Time.now
     body({ 
       :to => {
@@ -32,7 +33,8 @@ class ProspectMailer < ActionMailer::Base
     # cc appt.expert_email
     cc 'acs@trigonsolutions.com'
     # from "#{appt.scheduler.name} <#{appt.scheduler.email}>"
-    from sender(appt.user.present? ? appt.user.email : 'acs@trigonsolutions.com')
+    # from sender(appt.user.present? ? appt.user.email : 'acs@trigonsolutions.com')
+    from system_sender
     sent_on Time.now
     content_type "multipart/mixed"
     parameters = { 
@@ -66,8 +68,9 @@ class ProspectMailer < ActionMailer::Base
   def presentation_invitation(preso)
     subject "#{preso.topic.name} Information"
     recipients preso.email
-    from sender(preso.user.email)
+    from named_sender
     sent_on Time.now
+    headers['Reply-To'] = named_sender
     body ({ 
       :topic => preso.topic.name,
       :to => {
@@ -86,7 +89,7 @@ class ProspectMailer < ActionMailer::Base
   def bcr_invitation(preso)
     subject "BCR Request"
     recipients preso.email
-    from sender(preso.user.email)
+    from system_sender
     sent_on Time.now
     body ({ 
       :to => {
@@ -105,7 +108,7 @@ class ProspectMailer < ActionMailer::Base
   def topics_listing(preso)
     subject "Expert Session Complimentary Topics"
     recipients preso.email
-    from sender(preso.user.email)
+    from system_sender
     sent_on Time.now
     body ({ 
       :to => {
@@ -131,5 +134,16 @@ class ProspectMailer < ActionMailer::Base
       else
         from_email
       end
+    end
+    
+    def system_sender
+      "system@trigonsolutions.com"
+    end
+    
+    # TODO: fix TMail to work around bug that puts in angle brackets around entire from parameter
+    def named_sender
+      # "'Trigon Solutions' <#{system_sender}>"
+      # system_sender
+      
     end
 end

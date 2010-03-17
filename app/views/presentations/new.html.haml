@@ -13,13 +13,13 @@
       .fields.twocol
         .row.field
           .lcol Topic
-          .rcol=f.select :topic_id, @topics, :selected => @presentation.topic_id || 1
+          .rcol=f.select :topic_id, @topics, :selected => @presentation.topic_id || 2
         .row.field
           .lcol Email
           .rcol=f.text_field :email
       .controls
         #original
-          =submit_tag 'Save'
+          =submit_tag 'Send'
           or
           =link_to_function 'Cancel', 'tb_remove();'
         #waiting
