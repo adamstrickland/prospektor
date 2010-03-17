@@ -10,11 +10,11 @@
       =link_to image_tag('start_calling.png'), user_call_manager_url(current_user)
     %hr
 
--content_for :menu do  
-  %ul
-    %li=link_to_function content_tag(:span, 'Print'), 'window.print();'
-    / %li=link_to content_tag(:span, 'Print Day'), user_agenda_day_print_url(current_user, :height => 300, :width => 500), :class => 'thickbox'
-    / %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
+/ -content_for :menu do  
+/   %ul
+/     %li=link_to_function content_tag(:span, 'Print'), 'window.print();'
+/     / %li=link_to content_tag(:span, 'Print Day'), user_agenda_day_print_url(current_user, :height => 300, :width => 500), :class => 'thickbox'
+/     / %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
 
 
 -content_for :scripts do
@@ -86,14 +86,11 @@
             :font
               :size 2em
               :weight bold
-        / .fc-widget-content
-        /   :border 0
         .fc-content
           +milk_chocolate
           .fc-agenda-head
             table
               tr.fc-first
-                / +dark_chocolate
                 +blue_hash
                 :font-size 1.5em
                 :height 2.5em
@@ -102,18 +99,10 @@
                   :padding 0.5em 0
           tr
             th.fc-state-default
-              / +dark_chocolate
               +blue_hash
-          / .fc
-          /   .fc-agenda
-          /     th,td
-          /       :border-left-width 1px
-          /       :border-top-width 1px
           .fc-state-highlight
             .fc-day-number
               :color #333
-          / .fc-event-time
-          /   :display none
       #dashboard
         .control
           :margin 1em auto 0 auto
@@ -122,15 +111,8 @@
             input[type='submit']
               :font
                 :size 2.5em
-                :weight bold
-              / :background-color gold
-              
+                :weight bold              
       #loading
         :position absolute
         :top 5px
         :right 5px
-      .twocol
-        :height 600px
-        .lcol,.rcol
-          :width 45%
-          :border 1px solid red

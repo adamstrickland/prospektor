@@ -1,0 +1,39 @@
+@import ../colors.sass
+@import ../measures.sass
+
+#getting_started
+  .vessel
+    :height = !ht_viewport
+#getting_started,#nda
+  .vessel
+    :overflow auto
+    :padding 1em
+    :font-size 1em    
+  .agreement
+    .choice
+      :width 49.75%
+      :float left
+      :text-align center
+      :margin 0 auto
+  h1,h2,p
+    :padding-bottom 0.5em
+  h1,h2
+    :padding-top 0.5em
+    :font-weight bold
+  h1
+    :font-size 2em
+  h2
+    :font-size 1.5em
+    :font-style italic
+  ol
+    :list-style-type decimal
+  ul
+    :list-style-type circle
+  ol,ul
+    :padding-left 1em
+    :margin-left 0.25em
+    li
+      :padding-left 1em
+      :margin-left 0.25em
+  h2,.highlight
+    :color = !cl_subtitle

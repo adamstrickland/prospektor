@@ -42,13 +42,11 @@ describe DashboardController do
           @current_user.stub!(:first_time?).and_return(true)
         end
         
-        # it "show the first time info page" do
-        #   @current_user.should_receive(:first_time=).once
-        #   get :index
-        #   response.should render_template 'dashboard/first_time.html.haml'
-        # end
-        
-        it "show the first time info page"
+        it "show the getting started page" do
+          @current_user.should_receive(:first_time=).once
+          get :index
+          response.should render_template 'dashboard/getting_started.html.haml'
+        end
       end
       
       describe "if they've used the app before," do
@@ -56,11 +54,10 @@ describe DashboardController do
           @current_user.stub!(:first_time?).and_return(false)
         end
         
-        it "show the regular dashboard"
-        # it "show the regular dashboard" do
-        #   get :index
-        #   response.should render_template 'dashboard/index.html.haml'
-        # end
+        it "show the regular dashboard" do
+          get :index
+          response.should render_template 'dashboard/index.html.haml'
+        end
       end
     end
   end

@@ -1,243 +1,102 @@
+/*
+Sass::SyntaxError: Undefined variable: "!w".
+on line 12 of ./app/sass/admin/assignments/../../_scheme.sass
 
-* {
-  margin: 0px;
-  padding: 0px; }
+8: 
+9: !sz_font = 12.5px
+10: !fm_font = "Verdana, Arial, Helvetica, sans-serif"
+11: 
+12: !cl_brdr = !w
+13: !cl_text = !w
+14: !cl_body = !prim_emB
+15: !cl_main = !prim
+16: !cl_link = !secB
+17: !cl_hovr = !comp
+18: !cl_menu = !secB
 
-html, body {
-  height: 100%; }
 
-body {
-  font-size: 12.5px;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  color: white;
-  background-color: #003667; }
-  body >div {
-    margin: 0 auto; }
-
-a {
-  text-decoration: none;
-  color: #00a667; }
-  a:link, a:visited {
-    text-decoration: none;
-    color: #00a667; }
-  a:hover {
-    text-decoration: underline;
-    color: #f69000; }
-
-div#body {
-  width: 960px;
-  height: 100%;
-  background-color: #00549f; }
-
-hr.clear {
-  margin-bottom: -1px;
-  height: 1px;
-  visibility: hidden;
-  clear: both; }
-
-hr.lclear {
-  margin-bottom: -1px;
-  height: 1px;
-  visibility: hidden;
-  clear: left; }
-
-hr.rclear {
-  margin-bottom: -1px;
-  height: 1px;
-  visibility: hidden;
-  clear: right; }
-
-#hd {
-  width: 960px;
-  height: 140px;
-  top: 2em;
-  position: relative; }
-  #hd div {
-    position: relative; }
-  #hd #branding {
-    text-align: center; }
-    #hd #branding #application {
-      font-size: 50px;
-      font-weight: bold;
-      color: white;
-      text-decoration: underline; }
-    #hd #branding #subtitle {
-      color: #00a667;
-      position: relative;
-      top: -15px;
-      font-weight: bold;
-      left: 560px;
-      float: left; }
-  #hd #identity {
-    width: 180px;
-    position: absolute;
-    right: 0.75em;
-    top: 0;
-    float: right;
-    background-color: #1e4d77; }
-    #hd #identity * {
-      margin: 1em; }
-    #hd #identity #login {
-      font-weight: bold; }
-    #hd #identity .act {
-      display: block;
-      text-align: right; }
-      #hd #identity .act a:link, #hd #identity .act a:visited {
-        color: #f69000; }
-      #hd #identity .act a:hover {
-        color: #00a667; }
-
-#bd {
-  width: 960px; }
-  #bd #nav #navbar ul {
-    background-color: #0700ab;
-    list-style: none;
-    width: 100%;
-    margin: 0;
-    padding: 0.2em 0;
-    text-align: center; }
-    #bd #nav #navbar ul li {
-      display: inline;
-      width: 10em; }
-      #bd #nav #navbar ul li a {
-        padding: 0.2em 1em;
-        text-decoration: none;
-        color: #f69000;
-        height: 3em;
-        text-align: center;
-        margin: auto;
-        font-size: 25px; }
-        #bd #nav #navbar ul li a:hover {
-          background-color: #3b35d5;
-          color: white; }
-  #bd #nav a {
-    font-weight: bold; }
-  #bd #flash {
-    font-weight: bold; }
-    #bd #flash .error {
-      color: red; }
-    #bd #flash .status {
-      color: green; }
-  #bd #content {
-    margin: 0;
-    text-align: left; }
-    #bd #content >div {
-      padding: 1em; }
-    #bd #content #sidebar {
-      width: 180px;
-      float: right; }
-      #bd #content #sidebar div.menu {
-        border-left-style: solid;
-        border-left-width: 1px;
-        border-left-color: !cl_brdr;
-        border-bottom-style: dotted;
-        border-bottom-width: 1px;
-        border-bottom-color: !cl_brdr;
-        background-color: #00a667;
-        margin: 0 0 0 0.25em;
-        width: 180px;
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-size: 16.5px; }
-        #bd #content #sidebar div.menu .title {
-          display: block;
-          text-align: center;
-          border-bottom: 1px solid;
-          border-bottom-color: #003667;
-          padding: 1em 0 !important; }
-          #bd #content #sidebar div.menu .title.name {
-            background-color: #0700ab; }
-        #bd #content #sidebar div.menu ul.menu {
-          list-style: none;
-          text-decoration: none; }
-          #bd #content #sidebar div.menu ul.menu li {
-            color: white;
-            margin: 0 0 0 10px; }
-            #bd #content #sidebar div.menu ul.menu li form {
-              text-align: right;
-              margin-right: 10px; }
-            #bd #content #sidebar div.menu ul.menu li a {
-              display: block;
-              text-decoration: none;
-              background-image: none;
-              height: 100%; }
-              #bd #content #sidebar div.menu ul.menu li a:link, #bd #content #sidebar div.menu ul.menu li a:visited {
-                color: white; }
-              #bd #content #sidebar div.menu ul.menu li a:hover {
-                background-color: #35d297;
-                color: black; }
-    #bd #content #main {
-      margin: 0;
-      width: 720px; }
-
-#ft {
-  width: 960px;
-  text-align: center;
-  margin: 0 auto;
-  position: absolute;
-  bottom: 1em; }
-
-#TB_window #TB_ajaxContent {
-  background-color: #003667;
-  overflow: hidden; }
-  #TB_window #TB_ajaxContent .modal {
-    width: 100%;
-    color: white; }
-    #TB_window #TB_ajaxContent .modal fieldset {
-      border: 0; }
-      #TB_window #TB_ajaxContent .modal fieldset .row {
-        padding: 10px 20px; }
-        #TB_window #TB_ajaxContent .modal fieldset .row .button em button {
-          padding: 5px 10px; }
-    #TB_window #TB_ajaxContent .modal .widget .single {
-      margin: 0 auto;
-      text-align: center; }
-    #TB_window #TB_ajaxContent .modal .widget .right {
-      text-align: right; }
-    #TB_window #TB_ajaxContent .modal .widget .widget_item {
-      margin: 1em; }
-  #TB_window #TB_ajaxContent a {
-    text-decoration: none;
-    color: #00a667 !important; }
-    #TB_window #TB_ajaxContent a:link, #TB_window #TB_ajaxContent a:visited {
-      text-decoration: none;
-      color: #00a667 !important; }
-    #TB_window #TB_ajaxContent a:hover {
-      text-decoration: underline;
-      color: #f69000 !important; }
-
-.clear {
-  overflow: hidden;
-  width: 100%; }
-
-a.button {
-  background: transparent url('/images/bg_button_a.gif') no-repeat scroll top right;
-  color: #444;
-  display: block;
-  float: left;
-  height: 24px;
-  margin-right: 6px;
-  padding-right: 18px;
-  text-decoration: none; }
-  a.button span {
-    background: transparent url('/images/bg_button_span.gif') no-repeat;
-    display: block;
-    line-height: 14px;
-    padding: 5px 0 5px 18px; }
-  a.button:active {
-    background-position: bottom right;
-    color: #000;
-    outline: none; }
-    a.button:active span {
-      background-position: bottom left;
-      padding: 6px 0 4px 18px; }
-
-#branding #logo img {
-  position: relative;
-  top: -70px;
-  left: -270px;
-  height: 60px;
-  width: 70px; }
-#branding #company {
-  font-size: 50px;
-  font-weight: bold; }
+Backtrace:
+./app/sass/admin/assignments/../../_scheme.sass:12
+./app/sass/admin/assignments/../../_scheme.sass:12
+./app/sass/admin/assignments/../../_scheme.sass:12
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/script/variable.rb:27:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/variable_node.rb:27:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:158:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `map'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/import_node.rb:35:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:181:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:158:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `map'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/import_node.rb:35:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:181:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:158:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `map'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:202:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:193:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:181:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:158:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/tree/node.rb:103:in `render'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:94:in `update_stylesheet'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:80:in `update_stylesheets'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:75:in `each'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:75:in `update_stylesheets'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:73:in `each'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:73:in `update_stylesheets'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin.rb:60:in `check_for_updates'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.13/rails/../lib/sass/plugin/rails.rb:18:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.5/lib/action_controller/test_process.rb:567:in `process_with_test'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.5/lib/action_controller/test_process.rb:447:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.5/lib/action_controller/test_process.rb:403:in `post'
+./spec/controllers/disposition_controller_spec.rb:72
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_methods.rb:40:in `instance_eval'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_methods.rb:40:in `execute'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/timeout.rb:53:in `timeout'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_methods.rb:37:in `execute'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_group_methods.rb:214:in `run_examples'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_group_methods.rb:212:in `each'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_group_methods.rb:212:in `run_examples'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/example/example_group_methods.rb:103:in `run'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/runner/example_group_runner.rb:23:in `run'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/runner/example_group_runner.rb:22:in `each'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/runner/example_group_runner.rb:22:in `run'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/runner/options.rb:151:in `run_examples'
+/Library/Ruby/Gems/1.8/gems/rspec-1.2.9/lib/spec/runner/command_line.rb:9:in `run'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/lib/spork/test_framework/rspec.rb:6:in `run_tests'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/run_strategy/forking.rb:13:in `run'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/forker.rb:20:in `initialize'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/forker.rb:18:in `fork'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/forker.rb:18:in `initialize'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/run_strategy/forking.rb:9:in `new'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/run_strategy/forking.rb:9:in `run'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/server.rb:46:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1562:in `__send__'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1562:in `perform_without_block'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1522:in `perform'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1596:in `main_loop'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1592:in `loop'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1592:in `main_loop'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1588:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1588:in `main_loop'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1437:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1434:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1434:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1354:in `initialize'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1634:in `new'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/drb/drb.rb:1634:in `start_service'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/server.rb:28:in `listen'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/server.rb:20:in `run'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/runner.rb:77:in `run'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/../lib/spork/runner.rb:12:in `run'
+/Library/Ruby/Gems/1.8/gems/spork-0.7.3/bin/spork:10
+/usr/bin/spork:19:in `load'
+/usr/bin/spork:19
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Sass::SyntaxError: Undefined variable: \"!w\".\A on line 12 of ./app/sass/admin/assignments/../../_scheme.sass\A \A 8: \A 9: !sz_font = 12.5px\A 10: !fm_font = \"Verdana, Arial, Helvetica, sans-serif\"\A 11: \A 12: !cl_brdr = !w\A 13: !cl_text = !w\A 14: !cl_body = !prim_emB\A 15: !cl_main = !prim\A 16: !cl_link = !secB\A 17: !cl_hovr = !comp\A 18: !cl_menu = !secB\A "; }
