@@ -6,7 +6,6 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-# require 'lib/custom_validations'
 require 'mockingbird/custom_validations'
 
 Rails::Initializer.run do |config|
