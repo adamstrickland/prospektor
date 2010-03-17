@@ -7,8 +7,8 @@
         =@survey.present? ? @survey.title : 'Survey'
       -else
         =controller_name.titleize
-    =stylesheet_link_tag 'reset'
-    =stylesheet_link_tag '960gs/960'
+    =thirdparty_stylesheet_link_tag '960gs/reset'
+    =thirdparty_stylesheet_link_tag '960gs/960'
     =stylesheet_link_tag 'public'
     %style{ :type => "text/css" }=yield :styles
     -if Rails.env == 'production'

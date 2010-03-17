@@ -1,17 +1,145 @@
-=render :partial => 'leads/display', :locals => { :lead => @lead }
+.content
+  .fold
+    .tab
+      %strong
+        =link_to_if @lead.web.present?, @lead.company.strip, "http://#{@lead.web}", :target => "_blank"
+      / =link_to image_tag('url_external.png', :class => 'external'), "http://#{@lead.web}", :target => "_blank" if @lead.web.present?
+  .info
+    .top
+      .twocol
+        #prospect.lcol
+          #demog
+            =render :partial => 'leads/demographics'
+          #clock
+            %p.clock
+              Local Time:&nbsp;
+              %span.local_time{ :gmtoffset => @lead.gmt_offset }
+        .rcol
+          #phone
+            =@lead.formatted_phone
+            -if not @lead.extension.blank?
+              &nbsp;x&nbsp;#{@lead.extension}
+          #info
+            %span#business_type{ :title => @lead.sic_description_1 }=@lead.primary_sic_division.to_s.upcase
+            %span#sales_code{ :title => @lead.sales_category }=@lead.sales_code
+            %span#employee_code{ :title => @lead.employee_category }=@lead.employee_code
+            / =image_tag "#{@lead.business_type.to_s}.gif", :title => @lead.sic_description_1
+            / =image_tag "sales_category_#{@lead.sales_code}.gif", :title => @lead.sales_category
+            / =image_tag "employee_category_#{@lead.employee_code}.gif", :title => @lead.employee_category
+    %hr
+    .bottom
+      #metadata.tabbed
+        %ol.tabs
+          %li=link_to content_tag(:span, 'Comments'), lead_comments_url(@lead)
+          / %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
+          %li=link_to content_tag(:span, 'Events'), lead_events_url(@lead)
+          %li=link_to content_tag(:span, 'Details'), details_lead_url(@lead)
+        .tabbed-items
+          .tabbed-item-wrapper
+            %p.tabbed-item{ :style => 'display:block' }
+      / # TODO: next_callback
+      / #next_callback
+      /   -if current_user.callbacks.next.present?
+      /     ="Callback: #{current_user.callbacks.next.first.lead.company.strip} at #{current_user.callbacks.next.first.callback_at.to_s('%H:%M')}"
 
--content_for :sidebar do
-  =render :partial => 'leads/sidebar_menu'
-  / #actions.menu
-  /     .title Actions
-  /     %ul.menu
-  /       %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
-  /       %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'BCR'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
-  /       %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
-  /       %li=link_to 'Edit', edit_lead_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
-  /   #help.menu
-  /     .title Help
-  /     %ul.menu
-  /       %li=link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
-  /       / %li=link_to 'Documentation', documentation_url(:height => 300, :width => 300), :class => 'thickbox'
-  /       %li=link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+-content_for :menu do  
+  %ul
+    %li=link_to content_tag(:span, 'Next'), user_call_manager_url(current_user) if current_user.is_admin?
+    %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
+    %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'Send'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
+    %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
+    %li=link_to 'Edit', edit_lead_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
+    
+-content_for :scripts do
+  =javascript_include_tag "jquery.epiclock#{ '.min' if Rails.env == 'production' }"
+  =javascript_include_tag "http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"
+  :javascript
+    $(function(){
+      $('#prospect p.clock span.local_time').epiclock({
+        format:'g:i A',
+        gmt:true,
+        offset:{
+          hours:$('#prospect p.clock span.local_time').attr("gmtoffset"),
+        }
+      }).clocks(EC_RUN);
+      
+      $('#metadata ol.tabs').tabs('.tabbed-items .tabbed-item', function(e, i){
+        this.getTabs().parent().removeClass('active').eq(i).addClass('active');
+        var pane = this.getPanes().eq(0);
+        var tab = this.getTabs().eq(i || 0);
+        pane.fadeOut(function(){
+          pane.addClass('loading').html('#{image_tag("loadingAnimation.gif")}');
+          pane.fadeIn(function(){        
+            $.get(tab.attr("href"), function(data){
+              pane.fadeOut(function(){            
+                pane.removeClass('loading').html(data).fadeIn();
+              });
+            });
+          });
+        });
+        return false;
+      });
+    });
+  
+-content_for :styles do
+  =thirdparty_stylesheet_link_tag 'epiclock'
+  %style{ :type => "text/css" }
+    :sass
+      .info
+        .top
+          #prospect
+            :width 60%
+            p
+              :margin-top 0
+              :margin-bottom 0
+            .prospect_name
+              :font
+                :weight bold
+                :size 2em
+          #info
+            :position relative
+            :right 3em
+            :top 2em
+            span
+              :text-align center
+              :font
+                :weight bold
+                :size 3em
+              :padding 1em
+              :color #eee
+            #business_type
+              :background url(/images/gray_circle.gif) center center no-repeat
+            #sales_code
+              :background url(/images/red_circle.gif) center center no-repeat
+            #employee_code
+              :background url(/images/purple_circle.gif) center center no-repeat
+          #phone
+            :position relative
+            :right 1em
+            :background black
+            :-webkit-border-radius 10px
+            :-moz-border-radius 10px
+            :color white
+            :padding 10px
+            :font
+              :family Monaco, Consolas, 'Courier New', monospace
+              :size 3em
+              :weight bold
+      #add-comment
+        textarea
+          :height 300px
+          :width 100%
+      #edit-lead
+        .field
+          :margin 1em
+          :padding 1em
+          label, input
+            :font-size 1em
+          .value
+            :text-align left
+        .controls
+          :clear both
+          :margin-top 1em
+          :border-top 1px solid
+          :border-top-color = #eee
+          :padding-top 1em

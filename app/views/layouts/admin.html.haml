@@ -1,22 +1,21 @@
--content_for :sidebar do
-  #actions.menu
-    .title Admin
-    %ul.menu
-      / %li=link_to 'Assignments', admin_assignments_path
-      %li=link_to 'Users', admin_users_path
-      %li=link_to 'Applicants', admin_applicants_path
-  #actions.menu
-    .title Support
-    %ul.menu
-      %li
-        Find Lead
-        %ul.menu
-          %li Phone
-          -form_tag '/', {:method => :get, :id => 'go_to_lead'} do
-            =text_field_tag 'phone', nil, :size => 10
-            =submit_tag 'Go'
+-content_for :menu do
+  %ul.menu
+    / %li=link_to 'Assignments', admin_assignments_path
+    %li=link_to 'Users', admin_users_path
+    %li=link_to 'Applicants', admin_applicants_path
+    %li=link_to 'Quick Find', '#', :id => 'quick_find'
+
+  #quick_find_form{ :style => 'display:none' }
+    -form_tag '/', {:method => :get, :id => 'go_to_lead'} do
+      =text_field_tag 'phone', nil, :size => 10
+      =submit_tag 'Go'
+        
   :javascript
     $(function(){
+      $('#quick_find').click(function(e){
+        $('#quick_find_form').slideToggle("slow");
+      });
+      
       $('#go_to_lead').submit(function(e){
         var phone = $(this).find("input[name='phone']").val().replace(/-/gi, "");
         if(phone && phone.length == 10){
@@ -26,5 +25,15 @@
         return false;
       });
     });
+    
+  %style
+    :sass
+      #quick_find_form
+        :position relative
+        :top 0
+        :left 0
+        :float right
+        input[type='text']
+          :width 15em
     
 =render :file => 'layouts/application'

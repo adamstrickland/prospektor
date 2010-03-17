@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.session_expiry '/expires', :controller => 'sessions', :action => 'session_expiry'
   map.resource :session
   
   map.with_options :controller => 'dashboard' do |opts|
@@ -11,21 +12,34 @@ ActionController::Routing::Routes.draw do |map|
     opts.terms '/terms', :action => 'terms'
   end
 
+  map.resources :call_backs, :as => 'callbacks', :only => [ :update ]
   map.resources :users do |users|
-    users.resources :call_queues, :as => 'queues', :only => [ :create ], :member => { :empty => :get } do |cq|
-      cq.resources :touchpoints, :as => 'calls', :only => [ :show ]
-    end
+    # users.call_manager 'cm', :controller => 'call_manager', :action => 'next'
+    users.call_manager 'cm', :controller => 'leads', :action => 'call_manager'
+
+    users.resources :leads, :only => [ :index, :show ], :member => { :empty => :get }
+    users.resources :call_backs, :as => 'callbacks', :only => [ :index ]
+    
+    
+    
+    # users.resources :call_queues, :as => 'queues', :only => [ :create ], :member => { :empty => :get } do |cq|
+    #   cq.resources :touchpoints, :as => 'calls', :only => [ :show ]
+    # end
     users.resources :reports, :only => [ :index, :show ]
+    users.profile 'profile', :controller => 'users', :action => 'show'
   end
+  map.search '/search', :controller => 'search', :action => 'show'
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
-  map.resources :leads, :member => { :next => :get, :demographics => :get } do |leads|
+  map.resources :leads, :member => { :demographics => :get, :history => :get, :details => :get } do |leads|
+    leads.resources :comments, :only => [ :new, :create, :index ]
+    leads.resources :events, :only => [ :index ]
+    # leads.resources :events, :only => [ :new, :create, :index ]
+    
+    # TODO: should move these to :member methods    
     leads.resources :presentations, :only => [ :new, :create ]
     leads.resources :appointments, :only => [ :new, :create ]
-    leads.resources :comments, :only => [ :new, :create ]
-    leads.resources :events, :only => [ :new, :create, :index ]
     leads.resources :disposition, :only => [ :new, :create ]
-    leads.resources :suspend, :only => [ :new, :create ]
   end
   
   map.namespace :admin do |admin|
@@ -42,6 +56,7 @@ ActionController::Routing::Routes.draw do |map|
   end 
   
   map.with_options :path_prefix => 'public' do |pub|
+    pub.resources :mockups, :only => [:index, :show]
     pub.with_options :name_prefix => 'survey_', :controller => 'surveyor', :conditions => { :method => :get } do |surveys|
       surveys.bcr 'bcr', :action => 'get_bcr'
       surveys.results ':response_set_code/results.:format', :action => 'results'

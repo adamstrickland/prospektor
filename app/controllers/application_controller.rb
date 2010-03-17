@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   class CustomSystemError < RuntimeError; end
   
   before_filter :login_required
+  before_filter :update_activity_time, :except => :session_expiry
   # before_filter :prepare_session
   
   helper :all # include all helpers, all the time
@@ -33,6 +34,20 @@ class ApplicationController < ActionController::Base
   #       render :template => "shared/500", :layout => "error", :status => "500"
   #   end
   # end
+  
+  def update_activity_time
+    session[:expires_at] = 30.minutes.from_now
+  end
+  
+  def session_expiry
+    @time_left = (session[:expires_at] - Time.now).to_i
+    unless @time_left > 0
+      logout_keeping_session!
+      # redirect_back_or_default(login_url)
+      render :partial => 'shared/redirect'
+    end
+    render :partial => 'shared/session_expiry'
+  end
   
   private
   

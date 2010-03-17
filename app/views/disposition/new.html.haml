@@ -1,48 +1,78 @@
-%style{ :type => 'text/css' }
-  :sass
-    #disposition
-      .quick
-        :padding 10px 0
-        :border-bottom
-          :width 1px
-          :style solid
-          :color #FFF
-        .hit
-          :width 32.5%
-          :float left
-          :text-align center
-          :margin 0 auto
-
 #disposition.dialog.modal
-  .quick
-    -[:skip, :vm, :cb].each do |hit|
-      %div.hit{ :id => hit.to_s }
-        -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => update_page{|p| p.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
-          =hidden_field_tag :disposition, LeadStatus.find_by_code(hit.to_s.upcase).id
-          =submit_tag hit.to_s.upcase
-    .clear
-  .full
-    -modal_form_with_history(lead_disposition_index_url(@lead, :format => :json), :success => update_page{|page| page.redirect_to(next_lead_in_queue_url(@lead))} ) do |f|
-      %fieldset
-        .fields.container_16
-          .row
-            .fieldname.grid_2.alpha
-              %label{ :for => :disposition } Disposition
-            .field.grid_5.omega=select_tag :disposition, options_for_select(@disposition_options), :id => 'disposition_select'
-            .clear
-          #overlay
-          .row
-            .fieldname.grid_2.alpha
-              %label{ :for => :comment } Comment
-            .field.grid_5.omega=text_area_tag :comment, nil, :cols => 40, :rows => 12
-            .clear
-          .row
-            .button.grid_6.prefix_2.alpha.omega
-              %em
-                %button{ :type => 'submit' } Save
-            .clear
-            
+  #skip{ :style => 'float:right' }
+    -disposition_form(@lead) do |f|
+      =hidden_field_tag :disposition, LeadStatus.find_by_code('SKIP').id
+      =submit_tag 'Skip Lead'
+  #disposition_tabs
+    %ol.tabs
+      %li
+        %a{ :href => '#' }
+          %span Call Back
+          %br
+          %span (Decision)
+      %li
+        %a{ :href => '#' }
+          %span Schedule
+          %br
+          %span (Next Call)
+      %li
+        %a{ :href => '#' }
+          %span Book
+          %br
+          %span Sale
+      %li
+        %a{ :href => '#' }
+          %span Other
+          %br
+          %span Disp.
+    %hr
+    .panes
+      #callback.pane
+        -disposition_form(@lead) do |f|
+          .fields
+            .row.field.at
+              Callback At:
+              / =select_datetime 1.week.from_now
+              =text_field_tag :callback_at
+            .row.field.comments
+              Comments:
+              =text_area_tag :comments
+            =hidden_field_tag :disposition, 'CB'
+          .controls
+            =submit_tag 'Save'
+      #schedule.pane
+        -disposition_form(@lead) do |f|
+          .fields
+            .row.field.at
+              Callback At:
+              / =select_datetime 1.week.from_now
+              =text_field_tag :callback_at
+            .row.field.comments
+              Comments:
+              =text_area_tag :comments
+            =hidden_field_tag :disposition, 'VM'
+          .controls
+            =submit_tag 'Save'
+      #booksale.pane
+        -disposition_form(@lead) do |f|
+          .fields
+            .row.field.comments
+              Comments:
+              =text_area_tag :comments
+            =hidden_field_tag :disposition, 'BS'
+          .controls
+            =submit_tag 'Save'
+      #otherdisp.pane
+        -disposition_form(@lead) do |f|
+          .fields
+            .row.field.dispo
+              Disposition
+              =select_tag :disposition, options_for_select(@disposition_options), :id => 'disposition_select'
+            .row.field.comments
+              Comments:
+              =text_area_tag :comments
+          .controls
+            =submit_tag 'Save'
+
 :javascript
-  $('#disposition_select').change(function(){
-    
-  });
+  $('#disposition_tabs ol.tabs').tabs('div.panes > div');

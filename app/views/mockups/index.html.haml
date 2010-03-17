@@ -1,0 +1,18 @@
+#mockup
+  .content
+    .fold 
+      %strong Something Goes Here
+    .info
+      %p=Faker::Lorem.paragraphs
+
+-content_for :menu do
+  %ul
+    -Faker::Lorem.words(5).each do |w|
+      %li=link_to w, "http://#{Faker::Internet.domain_name}/#{w}"
+
+-content_for :styles do
+  :sass
+          
+
+-content_for :scripts do
+  :javascript

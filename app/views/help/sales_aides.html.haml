@@ -1,10 +1,19 @@
+%style
+  :sass
+    ul.help
+      :font-size 1em
+      li
+        :margin-top 0.5em
+        :margin-left 0.5em
 #sales_aides.help.dialog.modal
   %h2 Sales Aides
   %ul.help
-    -@entries.each_pair do |hdg, grp|
-      %li
-        =hdg
-        %ul.help
-          -grp.each_pair do |name, url|
-            %li=link_to name, url, :target => '_blank'
-    %li=link_to 'Glossary of Terms', "#{@www_sa}/Glossary.htm", :target => '_blank'
+    %li=link_to 'Keys to Your Success', "#{@sales_aides_root_url}/7-Step Program.htm", :target => "_blank"
+    %li=link_to 'Presentation', "#{@sales_aides_root_url}/ACS Presentation.htm", :target => "_blank"
+    %li=link_to 'Meeting Resistances', "#{@sales_aides_root_url}/Resistances.htm", :target => "_blank"
+    %li=link_to 'Power Closes', "#{@sales_aides_root_url}/Power Closes.htm", :target => "_blank"
+    %li=link_to 'Creating Pain', "#{@sales_aides_root_url}/Creating Pain.htm", :target => "_blank"
+    %li=link_to 'Does Your Interview Pass This Test?', "#{@sales_aides_root_url}/Does Your Interview Pass This Test.htm", :target => "_blank"
+    %li=link_to 'Sales Problem Identifier', "#{@sales_aides_root_url}/Sales Problem Identifier.htm", :target => "_blank"
+    %li=link_to 'Glossary of Terms', "#{@sales_aides_root_url}/Glossary.htm", :target => "_blank"
+    %li=link_to 'Prospect Videos', "#{@website_root_url}/Videos/List.htm", :target => "_blank"

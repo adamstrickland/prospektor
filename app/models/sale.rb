@@ -1,5 +1,5 @@
 class Sale < ActiveRecord::Base
-  belongs_to :appointment, :class_name => 'Schedule'
+  belongs_to :appointment
   belongs_to :rep, :class_name => 'Employee'
   belongs_to :partner, :foreign_key => 'par_id', :class_name => 'Employee'
   alias_attribute :booked_at, :booked

@@ -6,7 +6,6 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-# require 'lib/custom_validations'
 require 'mockingbird/custom_validations'
 
 Rails::Initializer.run do |config|
@@ -34,6 +33,10 @@ Rails::Initializer.run do |config|
   config.gem 'rspec-rails', :lib => false, :version => '1.2.9'
   config.gem 'thoughtbot-shoulda', :lib => false, :source => 'http://gems.github.com', :version => '2.10.2'
   config.gem 'hoptoad_notifier'
+  config.gem 'chronic'
+  config.gem "rspec", :lib => false
+  config.gem "rspec-rails", :lib => false
+  config.gem "remarkable_rails", :lib => false
   # config.gem 'rails_sql_views', :version => '0.7.0'
   # config.gem 'cucumber', :version => '0.4.4'
   # config.gem 'webrat', :version => '0.5.3'
@@ -65,3 +68,6 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
+
+Sass::Plugin.options[:template_location] = './app/sass'
+Sass::Plugin.options[:css_location] = './public/stylesheets/system'

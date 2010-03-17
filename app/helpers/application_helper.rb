@@ -31,13 +31,13 @@ module ApplicationHelper
     # if File.exists?(js_file_path)
     #   javascript_include_tag File.join(controller_name, action_name)
     # end
-    asset_in_public('stylesheets') do |f|
+    asset_in_public(File.join('stylesheets', 'system')) do |f|
       stylesheet_link_tag f
     end
   end
   
   def asset_in_public(subdir, &block)
-    public_path = File.join(File.dirname(__FILE__), '..', '..', 'public')
+    public_path = File.join(Rails.root, 'public')
     file_glob = File.join(public_path, subdir, controller.class.controller_path, "#{action_name}.*")
     if Dir.glob(file_glob).map{|f| File.exists?(f)}.delete_if{|b| !b}.size > 0
       yield(File.join(controller.class.controller_path, action_name))
@@ -145,22 +145,22 @@ module ApplicationHelper
     end
   end
   
-  def next_lead_in_queue_url(current_lead, user=current_user)
-    cq = user.call_queues.last
-    next_entry = cq.touchpoints.detect{|tp| tp.lead == current_lead}.next
-    if next_entry.nil?
-      more_leads = user.ready_leads
-      if more_leads.blank?
-        empty_user_call_queue_url(user, cq)
-      else
-        next_lead = more_leads.first
-        cq.leads << more_leads
-        next_entry = cq.touchpoints.detect{|tp| tp.lead == next_lead}
-        cq.save
-        user_call_queue_touchpoint_url(user, cq, next_entry)
-      end
-    else
-      user_call_queue_touchpoint_url(user, cq, next_entry)
-    end
-  end
+  # def next_lead_in_queue_url(current_lead, user=current_user)
+  #   cq = user.call_queues.last
+  #   next_entry = cq.touchpoints.detect{|tp| tp.lead == current_lead}.next
+  #   if next_entry.nil?
+  #     more_leads = user.ready_leads
+  #     if more_leads.blank?
+  #       empty_user_call_queue_url(user, cq)
+  #     else
+  #       next_lead = more_leads.first
+  #       cq.leads << more_leads
+  #       next_entry = cq.touchpoints.detect{|tp| tp.lead == next_lead}
+  #       cq.save
+  #       user_call_queue_touchpoint_url(user, cq, next_entry)
+  #     end
+  #   else
+  #     user_call_queue_touchpoint_url(user, cq, next_entry)
+  #   end
+  # end
 end

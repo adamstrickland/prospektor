@@ -1,0 +1,6 @@
+#details.tab-panel
+  -@lead.attributes.reject{|k,v| ['aasm_state', 'id'].include?(k) }.sort.each do |k,v|
+    .item
+      %strong=k.titleize
+      %span :
+      %span=v
