@@ -67,12 +67,10 @@
         .prefix_1.grid_10.suffix_1.main
           .menu
             =yield :menu
-          / .fold Something Goes Here!
-          .blurb
-            #error.flash=flash[:error]
-            #warn.flash
-            #notice.flash=flash[:notice]
-          / .info
+          / .blurb
+          /   #error.flash=flash[:error]
+          /   #warn.flash
+          /   #notice.flash=flash[:notice]
           .main
             %div{ :id => controller_name }
               %div{ :id => action_name }
@@ -84,8 +82,8 @@
           .prefix_1.grid_6
             .links
               #links
-                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
-                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox' if controller_name != 'sessions'
+                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox' if controller_name != 'sessions'
               #copyright
                 %span &copy; 2010, Trigon Solutions, Inc.
           .suffix_1.grid_4

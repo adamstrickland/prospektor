@@ -67,13 +67,15 @@
   =thirdparty_stylesheet_link_tag 'fullcalendar'
   %style{ :type => "text/css" }
     :sass
+      @import scheme.sass
+      
       =dark_chocolate
-        :background-color #5E543E
-        :color #ebe3d1
+        :background-color = !cl_copy
+        :color = !cl_folder
         :font-weight bold
       =milk_chocolate  
-        :background-color #ebe3d1
-        :color #5E543E
+        :background-color = !cl_folder
+        :color = !cl_copy
       =blue_hash
         :background #125BA8 url(/images/hash_bkgrnd.png) repeat
         :color white
@@ -102,16 +104,14 @@
               +blue_hash
           .fc-state-highlight
             .fc-day-number
-              :color #333
+              :color = !cl_footer
       #dashboard
         .control
           :margin 1em auto 0 auto
           :text-align center
-          div
-            input[type='submit']
-              :font
-                :size 2.5em
-                :weight bold              
+          a
+            :position relative
+            :z-index 99             
       #loading
         :position absolute
         :top 5px
