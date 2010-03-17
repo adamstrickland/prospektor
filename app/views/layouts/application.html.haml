@@ -31,6 +31,10 @@
     :javascript
       $(function(){
         $('#hd header h1 a').dropShadow();
+        
+        $('#help_menu').click(function(e){
+          $('#help_links').slideToggle(400);
+        });
                 
         feedback_widget = new GSFN.feedback_widget({
           container:'getsatisfaction', 
@@ -58,6 +62,12 @@
               %li=link_to 'dashboard', dashboard_url
               %li=link_to 'leads', user_leads_url(current_user)
               %li=link_to 'admin', admin_dashboard_url if current_user.is_admin?
+              %li=link_to 'help', '#', :id => 'help_menu'
+            #help_links.dropdown{ :style => 'display:none' }
+              %div
+                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
+              %div
+                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
             / -form_tag(search_url) do |sf|
             /   .text_field=text_field_tag :query
             /   =submit_tag 'Search', :id => 'search_submit'
@@ -81,9 +91,6 @@
         .footer
           .prefix_1.grid_6
             .links
-              #links
-                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox' if controller_name != 'sessions'
-                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox' if controller_name != 'sessions'
               #copyright
                 %span &copy; 2010, Trigon Solutions, Inc.
           .suffix_1.grid_4

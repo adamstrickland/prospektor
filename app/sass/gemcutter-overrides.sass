@@ -15,12 +15,20 @@ hr
 #hd
   :background url(/images/hd.jpg) repeat-x
   .nav
+    :color = !cl_header
+    .dropdown
+      :float right
+      :text-align right
+      a
+        :color = !cl_header
+        :padding-bottom 0.5em
+        &:hover
+          :text-decoration underline
     ul.linky
       :margin-bottom 1em
       li.small
         :font-size 0.5em
       li
-        :color = !cl_header
         :text-shadow 0 0 10px #000
         a
           :padding 7px
