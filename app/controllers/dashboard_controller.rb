@@ -9,8 +9,8 @@ class DashboardController < ApplicationController
         current_user.save
         render 'getting_started'
       else  
-        render 'getting_started'
-        # render 'index'
+        # render 'getting_started'
+        render 'index'
       end
     end
   end
