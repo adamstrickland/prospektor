@@ -45,8 +45,9 @@ class ApplicationController < ActionController::Base
       logout_keeping_session!
       # redirect_back_or_default(login_url)
       render :partial => 'shared/redirect'
+    else
+      render :partial => 'shared/session_expiry'
     end
-    render :partial => 'shared/session_expiry'
   end
   
   private

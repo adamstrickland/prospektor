@@ -31,6 +31,8 @@ describe DispositionController do
       @callback_at_string = @callback_at_date.strftime('%m/%d/%Y at %H:%M:%S %p')
     end
     
+    it "should not double-insert the comment on a dispo"
+    
     describe "the status should be updated" do
       def expect_status(code)
         @lead.should_receive(:status=).with(LeadStatus.find_by_code(code))
@@ -57,6 +59,7 @@ describe DispositionController do
           post :create, :lead_id => @lead.id, :disposition => 'VM', :callback_at => @callback_at_string, :format => 'json'
         end
         
+        
         describe "should also create one using a text field if supplied" do
           # it "or using a datetime picker" do
           #   expect_status('CB')
@@ -73,7 +76,16 @@ describe DispositionController do
           end
         end
       end
-    
+      
+      it "if the no date provided, use tomorrow" do
+        callback = mock_model(CallBack)
+        CallBack.should_receive(:new).with(hash_including(:callback_at => Chronic.parse('tomorrow at 9am'))).and_return(callback)
+        callbacks = mock_model(Array)
+        callbacks.should_receive(:<<).with(callback)
+        @lead.should_receive(:call_backs).and_return(callbacks)
+        expect_status('VM')
+        post :create, :lead_id => @lead.id, :disposition => 'VM', :format => 'json'
+      end
     
       # it "should create a callback if the status is RS" do
       #   @lead.call_backs.should have(0).items
@@ -88,9 +100,11 @@ describe DispositionController do
         post :create, :lead_id => @lead.id, :disposition => 'BS', :format => 'json'
       end
     
-      it "should otherwise update the status" do
-        expect_status('NI')
-        post :create, :lead_id => @lead.id, :disposition => 'NI', :date => @callback_at, :format => 'json'
+      LeadStatus.all.reject{|s| ['CB','BS','VM'].include?(s.code)}.each do |ls|
+        it "should otherwise update the status as #{ls.code}" do
+          expect_status(ls.code)
+          post :create, :lead_id => @lead.id, :disposition => ls.code, :date => @callback_at, :format => 'json'
+        end
       end
       
       it "should create a comment if a comment is supplied" do

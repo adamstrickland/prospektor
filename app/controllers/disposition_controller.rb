@@ -3,7 +3,7 @@ require 'chronic'
 class DispositionController < ApplicationController
   def new
     @lead = Lead.find(params[:lead_id])
-    @disposition_options = LeadStatus.all.reject{|s| ['CB', 'CLIENT', 'INV'].include?(s.code)}.map{|s| ["#{s.code} - #{s.description}", s.code] }
+    @disposition_options = LeadStatus.all.reject{|s| ['CB', 'CLIENT', 'INV', 'VM'].include?(s.code)}.map{|s| ["#{s.code} - #{s.description}", s.code] }
     respond_to do |format|
       format.html { render 'new', :layout => 'modal' }
     end
@@ -22,11 +22,19 @@ class DispositionController < ApplicationController
       else
         if ['CB','RS','VM'].include?(params[:disposition])
           # create a callback, set status to @status
-          callback_at = params[:callback_at] ? Chronic.parse(params[:callback_at]) : Time.new(params[:date])
+          callback_at = if params[:callback_at]
+                          Chronic.parse(params[:callback_at])
+                        else
+                          if params[:date]
+                            Time.new(params[:date])
+                          else
+                            Chronic.parse('tomorrow at 9am')
+                          end
+                        end
           callback = CallBack.new(:user => @user, :callback_at => callback_at)
           @lead.call_backs << callback
         end
-        @status = LeadStatus.find_by_code(params[:disposition])
+        @status = LeadStatus.find_by_code(params[:disposition]) # || LeadStatus.find(params[:disposition])
       end
     
       @lead.status = @status
