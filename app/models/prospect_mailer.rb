@@ -4,9 +4,7 @@ class ProspectMailer < ActionMailer::Base
   def scheduled_appointment(appt)
     subject "Expert Session Requested"
     recipients appt.email
-    # cc appt.expert_email
     cc 'acs@trigonsolutions.com'
-    # from sender(appt.user.present? ? appt.user.email : 'acs@trigonsolutions.com')
     from system_sender
     sent_on Time.now
     body({ 
@@ -30,10 +28,7 @@ class ProspectMailer < ActionMailer::Base
   def confirmed_appointment(appt)
     subject "Expert Session Reservation Confirmed"
     recipients appt.email
-    # cc appt.expert_email
     cc 'acs@trigonsolutions.com'
-    # from "#{appt.scheduler.name} <#{appt.scheduler.email}>"
-    # from sender(appt.user.present? ? appt.user.email : 'acs@trigonsolutions.com')
     from system_sender
     sent_on Time.now
     content_type "multipart/mixed"
@@ -56,94 +51,98 @@ class ProspectMailer < ActionMailer::Base
     part :content_type => 'multipart/alternative' do |mixed|
       mixed.part 'text/plain' do |p|
         p.body = render_message('confirmed_appointment.text.plain', parameters)
-        # p.transfer_encoding = 'base64'
       end
       mixed.part 'text/html' do |h|
         h.body = render_message('confirmed_appointment.text.html', parameters)
       end
     end
-    # attachment :content_type => 'text/calendar', :body => generate_ics(appt)
   end
 
   def presentation_invitation(preso)
-    subject "#{preso.topic.name} Information"
-    recipients preso.email
-    from named_sender
-    sent_on Time.now
-    headers['Reply-To'] = named_sender
-    body ({ 
-      :topic => preso.topic.name,
-      :to => {
-        :name => preso.lead.full_name,
-        :company => preso.lead.company,
-        :email => preso.email
-      }, 
-      :url => preso.url, 
-      :sender => {
-        :name => preso.user.name,
-        :phone => preso.user.official_phone
+    send_using(
+      :subject => "#{preso.topic.name} Information", 
+      :to => preso.email, 
+      :body => {
+        :topic => preso.topic.name,
+        :to => {
+          :name => preso.lead.full_name,
+          :company => preso.lead.company,
+          :email => preso.email
+        }, 
+        :url => preso.url, 
+        :sender => {
+          :name => preso.user.name,
+          :phone => preso.user.official_phone
+        }
       }
-    })
+    )
   end
 
-  def bcr_invitation(preso)
-    subject "BCR Request"
-    recipients preso.email
-    from system_sender
-    sent_on Time.now
-    body ({ 
-      :to => {
-        :name => preso.lead.full_name,
-        :company => preso.lead.company,
-        :email => preso.email
-      }, 
-      :url => "http://www.trigonsolutions.com/videos/BCR200/index.html?key=#{preso.lead.key}", 
-      :sender => {
-        :name => preso.user.name,
-        :phone => preso.user.official_phone
-      }
-    })
-  end
+  # def bcr_invitation(preso)
+  #   subject "BCR Request"
+  #   recipients preso.email
+  #   from system_sender
+  #   sent_on Time.now
+  #   body ({ 
+  #     :to => {
+  #       :name => preso.lead.full_name,
+  #       :company => preso.lead.company,
+  #       :email => preso.email
+  #     }, 
+  #     :url => "http://www.trigonsolutions.com/videos/BCR200/index.html?key=#{preso.lead.key}", 
+  #     :sender => {
+  #       :name => preso.user.name,
+  #       :phone => preso.user.official_phone
+  #     }
+  #   })
+  # end
   
-  def topics_listing(preso)
-    subject "Expert Session Complimentary Topics"
-    recipients preso.email
-    from system_sender
-    sent_on Time.now
-    body ({ 
-      :to => {
-        :name => preso.lead.full_name,
-        :company => preso.lead.company,
-        :email => preso.email
-      }, 
-      :sender => {
-        :name => preso.user.name,
-        :phone => preso.user.official_phone
-      },
-      :topics => Topic.find_all_by_complimentary(true).map{|t| t.name}
-    })
-  end
+  # def topics_listing(preso)
+  #     subject "Expert Session Complimentary Topics"
+  #     recipients preso.email
+  #     from system_sender
+  #     sent_on Time.now
+  #     body ({ 
+  #       :to => {
+  #         :name => preso.lead.full_name,
+  #         :company => preso.lead.company,
+  #         :email => preso.email
+  #       }, 
+  #       :sender => {
+  #         :name => preso.user.name,
+  #         :phone => preso.user.official_phone
+  #       },
+  #       :topics => Topic.find_all_by_complimentary(true).map{|t| t.name}
+  #     })
+  #   end
   
   protected
-    def generate_ics
+    def send_using(options={})
+      options[:from] ||= system_sender
+      options[:at] ||= Time.now
+      options[:body] ||= {}
+      
+      subject options[:subject]
+      recipients options[:to]
+      from options[:from]
+      sent_on options[:at]
+      headers options[:headers] if options[:headers]
+      body options[:body]
     end
     
-    def sender(from_email)
-      if Rails.configuration.action_mailer.delivery_method == :test || Rails.configuration.action_mailer.smtp_settings[:address] =~ /smtp\.((gmail)|(googlemail))\.com/
-        'trigon@mockingbirdsoftware.com'
-      else
-        from_email
-      end
-    end
-    
-    def system_sender
+    def system_email
       "system@trigonsolutions.com"
     end
     
-    # TODO: fix TMail to work around bug that puts in angle brackets around entire from parameter
-    def named_sender
-      # "'Trigon Solutions' <#{system_sender}>"
-      # system_sender
-      
+    def system_sender
+      named_sender('Trigon Solutions')
+    end
+    
+    def named_sender(name)
+      "'#{name}' <#{system_email}>"  
+    end
+    
+    def user_sender(user)
+      named_sender(user.employee.full_name)
     end
 end

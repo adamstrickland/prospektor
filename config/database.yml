@@ -26,6 +26,6 @@ production:
   username: prospektor
   password: t1ll@m00k
   host: localhost
-
+  
 cucumber:
   <<: *TEST

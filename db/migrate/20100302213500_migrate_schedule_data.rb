@@ -15,7 +15,7 @@ class MigrateScheduleData < ActiveRecord::Migration
       a = MigrateScheduleData::NewAppointment.new
       a.id = s.id
       a.lead = s.contact.lead
-      a.user = s.employee.user
+      a.user = s.employee.user || User.find_by_login('gniblack')
       a.status = s.status
       a.scheduled_at = if s.cb_date
         if s.cb_time
@@ -30,8 +30,8 @@ class MigrateScheduleData < ActiveRecord::Migration
       a.no_sale_reason = s.no_sale_reason
       a.references_requested = (s.references_requested.present? and s.references_requested.strip == '1')
       (1..3).each do |i|
-        a.send("problem_#{}=".to_sym, s.send("problem#{i}")) if s.send("problem#{i}")
-        a.send("impact_#{}=".to_sym, s.send("impact#{i}").to_i) if s.send("impact#{i}")
+        a.send("problem_#{i}=".to_sym, s.send("problem#{i}")) if s.send("problem#{i}")
+        a.send("impact_#{i}=".to_sym, s.send("impact#{i}").to_i) if s.send("impact#{i}")
       end
       a.comments = s.comments
       a.created_at = Chronic.parse(s.entered) if s.entered.present?
