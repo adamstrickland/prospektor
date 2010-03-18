@@ -25,7 +25,7 @@
     =javascript_include_tag 'jquery.dropshadow'
     =javascript_include_tag 'jrails' 
     =javascript_include_tag 'thickbox'
-    =periodically_call_remote :url => session_expiry_url, :update => 'warn' if Rails.env != 'development'
+    =periodically_call_remote :url => session_expiry_url, :frequency => 60, :update => 'warn' if logged_in? and Rails.env != 'development'
     =javascript_action_include_tag
     =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
     :javascript
