@@ -28,7 +28,7 @@ class LeadsController < ApplicationController
     next_lead = @user.next_lead_in_queue
     
     if next_lead.blank?
-      redirect_to user_leads_empty_url(@user)
+      redirect_to empty_user_leads_url(@user)
     else  
       redirect_to user_lead_url(@user, next_lead)
     end

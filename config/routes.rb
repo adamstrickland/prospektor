@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
     # users.call_manager 'cm', :controller => 'call_manager', :action => 'next'
     users.call_manager 'cm', :controller => 'leads', :action => 'call_manager'
 
-    users.resources :leads, :only => [ :index, :show ], :member => { :empty => :get }
+    users.resources :leads, :only => [ :index, :show ], :collection => { :empty => :get }
     users.resources :call_backs, :as => 'callbacks', :only => [ :index ]
     
     
