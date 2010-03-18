@@ -3,11 +3,11 @@
   %head
     %meta{ "meta-equiv" => "content-type", :content => "text/html;charset=UTF-8" }
     %title=@survey.present? ? @survey.title : 'Survey'
-    =stylesheet_link_tag 'reset'
-    =stylesheet_link_tag 'themes/custom/surveyor/ui.theme'
-    =stylesheet_link_tag 'themes/custom/surveyor/ui.slider'
-    =stylesheet_link_tag 'surveyor'
-    =stylesheet_link_tag 'master'
+    =thirdparty_stylesheet_link_tag '960gs/reset'
+    =thirdparty_stylesheet_link_tag 'themes/custom/surveyor/ui.theme'
+    =thirdparty_stylesheet_link_tag 'themes/custom/surveyor/ui.slider'
+    =thirdparty_stylesheet_link_tag 'surveyor'
+    / =stylesheet_link_tag 'master'
     =stylesheet_link_tag 'surveyor.custom'
     / =stylesheet_link_tag @survey.title.underscore if @survey
     %style{ :type => "text/css" }

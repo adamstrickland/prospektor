@@ -113,10 +113,18 @@ User.blueprint do
 end
 
 Sale.blueprint do
-  appointment{ Schedule.make }
+  appointment{ Appointment.make }
   client_reference_number
   rep{ Employee.make }
   partner{ Employee.make }
+end
+
+Appointment.blueprint do
+  lead
+  user
+  status{ AppointmentStatus.find_by_code('CB') }
+  references_requested{ false }
+  scheduled_at { Date.today + 1 }
 end
 
 Schedule.blueprint do
@@ -135,6 +143,12 @@ AnalysisTopic.blueprint do
   name{ Faker::Lorem.words(2).join(' ').titleize }
   number{ Sham.seq }
   type{ 'AnalysisTopic' }
+end
+
+InformationTopic.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  url{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}" }
+  type{ 'InformationTopic' }
 end
 
 Applicant.blueprint do
@@ -160,6 +174,19 @@ Applicant.blueprint do
   school { 'The University of Texas at Austin' }
   has_internet { true }
   has_voip { false }
+end
+
+CallBack.blueprint do
+  lead
+  user
+  callback_at{ Chronic.parse("#{Date.tomorrow} 12:00pm") }
+end
+
+Presentation.blueprint do
+  lead
+  user
+  email
+  topic{ InformationTopic.make }
 end
 
 # InformationTopic.blueprint do

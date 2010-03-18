@@ -1,0 +1,14 @@
+#comments.tab-panel
+  -unless @comments.present?
+    .item
+      No comments
+  -else
+    -@comments.each do |comment|
+      .item
+        %span.text #{comment.comment}
+        .byline
+          -if comment.user
+            by
+            %span.user=comment.user.employee.full_name
+          at
+          %span.ts=comment.created_at.localtime.strftime('%Y-%m-%d %H:%M')

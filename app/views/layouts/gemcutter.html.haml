@@ -1,0 +1,102 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+  %head
+    %meta{ 'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8' }
+    %link{ :rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
+    %title Prospektor
+    =stylesheet_link_tag '960gs/960'
+    =stylesheet_link_tag '960gs.subgrid'
+    <!-- [if lt IE 8]>
+    =stylesheet_link_tag 'ie7'
+    <![endif]-->
+    =stylesheet_link_tag 'thickbox'
+    =stylesheet_link_tag 'gemcutter'
+    =stylesheet_link_tag 'gemcutter-overrides'
+    / # =stylesheet_link_tag 'prospektor'
+    =stylesheet_action_link_tag
+    %style{ :type => "text/css" }=yield :styles
+    -if Rails.env == 'production'
+      %script{ :src => "http://www.google.com/jsapi" }
+      :javascript
+        google.load("jquery", "1.4.2");
+        //google.load("jqueryui", "1.7.2");
+      =javascript_include_tag 'jquery.form'
+    -else
+      =javascript_include_tag 'jquery'
+      / =javascript_include_tag 'ui/jquery-ui'
+      =javascript_include_tag 'jquery.form'
+    =javascript_include_tag 'jquery.dropshadow'
+    =javascript_include_tag 'jrails' 
+    =javascript_include_tag 'thickbox' 
+    =javascript_action_include_tag
+    =javascript_include_tag 'http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js'
+    :javascript
+      $(function(){
+        $('#hd header h1 a').dropShadow();
+      })
+    =yield :scripts
+  %body
+    .flash
+    #hd
+      .container_12
+        .prefix_1.grid_4.header
+          .supertitle Trigon Solutions, Inc.
+          %h1=link_to 'Prospektor', 'http://sales.trigonsolutions.com/'
+          .subtitle Your Key to Success
+        .grid_6.suffix_1.nav
+          -if logged_in?
+            %ul.linky
+              / %li=link_to(current_user.name, user_profile_url(current_user))
+              %li=current_user.name
+              %li.small
+                =link_to content_tag(:span, '(logout)'), logout_url
+            %ul
+              %li=link_to 'dashboard', dashboard_url
+              %li=link_to 'leads', user_call_queues_url(current_user)
+            / -form_tag(search_url) do |sf|
+            /   .text_field=text_field_tag :query
+            /   =submit_tag 'Search', :id => 'search_submit'
+      %hr
+    #bd
+      .container_12
+        .prefix_1.grid_10.suffix_1.main
+          .menu
+            =yield :menu
+          / .fold Something Goes Here!
+          .blurb
+            .notice=flash[:notice]
+            .error=flash[:error]
+          / .info
+          =yield
+      %hr
+    #ft
+      .container_12
+        .footer
+          .prefix_1.grid_6
+            .links
+              #links
+                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
+                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+              #copyright
+                %span &copy; 2010, Trigon Solutions, Inc.
+          .suffix_1.grid_4
+            #badges.badges
+              %a{ :href => 'http://www.trigonsolutions.com', :target => '_blank'}
+                operated by
+                =image_tag('trigon_logo.gif', :title => 'Trigon Solutions')
+                Trigon 
+                %br
+                Solutions
+              %a{ :href => 'http://www.mockingbirdsoftware.com', :target => '_blank'}
+                designed by
+                =image_tag('mockingbird_badge.gif', :title => 'Mockingbird Software')
+                Mockingbird
+                %br
+                Software
+              %a{ :href => 'http://rubyonrails.org', :target => '_blank'}
+                powered by
+                =image_tag('rubyonrails.png', :title => 'Ruby on Rails')
+                Ruby on
+                %br
+                Rails
+      %hr

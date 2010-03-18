@@ -7,8 +7,9 @@ class DashboardController < ApplicationController
       if current_user.respond_to?('first_time?') and current_user.first_time?
         current_user.first_time = false
         current_user.save
-        render 'first_time'
-      else
+        render 'getting_started'
+      else  
+        # render 'getting_started'
         render 'index'
       end
     end

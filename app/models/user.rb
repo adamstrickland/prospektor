@@ -1,3 +1,4 @@
+require 'chronic'
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
@@ -14,9 +15,30 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :call_queues
   belongs_to :employee
+  has_many :call_backs
+  alias_attribute :callbacks, :call_backs
   
   validates_length_of :phone, :maximum => 10
   validates_length_of :mobile, :maximum => 10, :allow_nil => true
+  
+  def next_lead_in_queue
+    # if self.call_backs.present? and (uncalled = self.call_backs.window(3.minutes.from_now, Chronic.parse("#{Date.today} 12:00am")).uncalled)
+    if self.call_backs.present?
+      uncalled = self.call_backs.window(3.minutes.from_now, Chronic.parse("#{Date.today} 12:00am")).uncalled
+      return uncalled.first.lead if uncalled.present?
+      # uncalled.sort_by{ |f,l|
+      #    [f.callback_at, f.created_at] <=> [l.callback_at, l.created_at]
+      #  }.first.lead
+      # uncalled.first.lead
+    end
+      
+    self.pool.first
+  end
+  
+  def pool
+    # self.leads.valid.sort{|f,l| (f.status and l.status) ? f.updated_at <=> l.updated_at : (l.status ? -1 : 1) }
+    self.leads.untouched + self.leads.touched
+  end
   
   def is_admin?
     self.roles.map(&:title).include?('admin')
@@ -25,10 +47,10 @@ class User < ActiveRecord::Base
   def official_phone
     "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
   end
-  
-  def callbacks
-    # self.leads.callbacks(Time.now)
-  end
+  # 
+  # def callbacks
+  #   # self.leads.callbacks(Time.now)
+  # end
 
   def login=(value)
     write_attribute :login, (value ? value.downcase : nil)

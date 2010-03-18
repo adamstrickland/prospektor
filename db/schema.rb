@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100223191632) do
+ActiveRecord::Schema.define(:version => 20100315161835) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -226,18 +226,24 @@ ActiveRecord::Schema.define(:version => 20100223191632) do
   end
 
   create_table "appointments", :force => true do |t|
-    t.string   "client_email",                  :null => false
-    t.string   "expert_email",                  :null => false
-    t.string   "location",                      :null => false
-    t.float    "duration",     :default => 1.0, :null => false
-    t.text     "notes"
-    t.date     "session_date",                  :null => false
-    t.time     "session_time",                  :null => false
-    t.integer  "lead_id",                       :null => false
-    t.integer  "scheduler_id",                  :null => false
+    t.integer  "lead_id",                                                                                          :null => false
+    t.integer  "user_id",                                                                                          :null => false
+    t.integer  "status_id",                                                                                        :null => false
+    t.string   "status_type",                                                     :default => "AppointmentStatus"
+    t.datetime "scheduled_at"
+    t.integer  "duration",                                                        :default => 0,                   :null => false
+    t.integer  "sale_probability",     :limit => 2, :precision => 2, :scale => 0, :default => 0,                   :null => false
+    t.string   "no_sale_reason"
+    t.boolean  "references_requested",                                            :default => false
+    t.string   "problem_1"
+    t.integer  "impact_1"
+    t.string   "problem_2"
+    t.integer  "impact_2"
+    t.string   "problem_3"
+    t.integer  "impact_3"
+    t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "topic_id",     :default => 1
   end
 
   create_table "bc_hot_buttons", :force => true do |t|
@@ -254,6 +260,21 @@ ActiveRecord::Schema.define(:version => 20100223191632) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "call_backs", :force => true do |t|
+    t.integer  "user_id",                            :null => false
+    t.datetime "callback_at",                        :null => false
+    t.integer  "lead_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "status_id",   :default => 979352484, :null => false
+  end
+
+  add_index "call_backs", ["callback_at"], :name => "index_call_backs_on_callback_at"
+  add_index "call_backs", ["lead_id"], :name => "index_call_backs_on_lead_id"
+  add_index "call_backs", ["user_id", "callback_at"], :name => "index_call_backs_on_user_id_and_callback_at"
+  add_index "call_backs", ["user_id", "lead_id"], :name => "index_call_backs_on_user_id_and_lead_id"
+  add_index "call_backs", ["user_id"], :name => "index_call_backs_on_user_id"
 
   create_table "call_queues", :force => true do |t|
     t.string   "name",       :null => false
@@ -452,9 +473,10 @@ ActiveRecord::Schema.define(:version => 20100223191632) do
     t.integer  "lead_id"
     t.string   "action"
     t.string   "qualifier"
-    t.string   "params"
+    t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
   end
 
   create_table "expense_reimbursements", :force => true do |t|
@@ -592,6 +614,28 @@ ActiveRecord::Schema.define(:version => 20100223191632) do
     t.string   "mcs_job_status"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "merge_schedules", :force => true do |t|
+    t.integer  "contact_id"
+    t.datetime "cb_date"
+    t.datetime "cb_time"
+    t.integer  "sale_probability"
+    t.string   "comments"
+    t.string   "appt_status"
+    t.datetime "created_at"
+    t.integer  "user_id"
+    t.string   "references_requested"
+    t.string   "no_sale_reason"
+    t.string   "problem1"
+    t.string   "impact1"
+    t.string   "problem2"
+    t.string   "impact2"
+    t.string   "problem3"
+    t.string   "impact3"
+    t.datetime "updated_at"
+    t.string   "entered",              :limit => 45
+    t.datetime "callback_at"
   end
 
   create_table "pays", :force => true do |t|

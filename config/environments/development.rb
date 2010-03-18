@@ -28,8 +28,8 @@ config.action_mailer.smtp_settings = {
   :enable_starttls_auto => true,
   :address => 'smtp.gmail.com',
   :port => 587,
-  :domain => 'mockingbirdsoftware.com',
+  :domain => 'trigonsolutions.com',
   :authentication => :plain,
-  :user_name => 'trigon@mockingbirdsoftware.com',
-  :password => 'K59535'
+  :user_name => 'system@trigonsolutions.com',
+  :password => '267Y92'
 }

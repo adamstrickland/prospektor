@@ -1,2 +1,5 @@
-.demographics
-  =render :partial => 'leads/demographics_popup_edit', :locals => { :lead => lead }
+%p.prospect_name #{@lead.honorific} #{@lead.full_name}
+%p.prospect_title=@lead.title.strip.titleize
+%p.location 
+  %span.city #{@lead.city.strip.titleize},&nbsp;
+  %span.state=@lead.state.strip.upcase

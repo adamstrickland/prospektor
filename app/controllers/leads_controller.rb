@@ -2,23 +2,69 @@ class LeadsController < ApplicationController
   # GET /leads
   # GET /leads.xml
   def index
-    # @leads = Lead.all
-    @leads = Lead.paginate :page => (params[:page] || 1)
-
+    page = params[:page] || 1
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @leads }
+      format.html do
+        if params.key?(:user_id)
+          unless current_user.is_admin? or current_user.id == params[:user_id].to_i
+            render :template => 'error'
+          else
+            @leads = User.find(params[:user_id]).leads.paginate :page => page
+          end
+        else
+          unless current_user.is_admin?
+            render :template => 'error'
+          else
+            @leads = Lead.all.paginate :page => page
+          end
+        end
+      end
+    end
+  end
+
+  def call_manager
+    @user = User.find(params[:user_id])
+    
+    next_lead = @user.next_lead_in_queue
+    
+    if next_lead.blank?
+      redirect_to user_leads_empty_url(@user)
+    else  
+      redirect_to user_lead_url(@user, next_lead)
     end
   end
 
   # GET /leads/1
   # GET /leads/1.xml
   def show
-    @lead = Lead.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @lead }
+      format.html do
+        @lead = Lead.find(params[:id])
+        if current_user.is_admin? or (params.key?(:user_id) && current_user.id == params[:user_id].to_i && @user = User.find(params[:user_id]))
+          UserEvent.access_lead(@lead, @user) if @user
+          render
+        else
+          render :template => 'error'
+        end
+      end
+    end
+  end
+  
+  def history
+    @lead = Lead.find(params[:id])
+    respond_to do |format|
+      format.html do
+        render :partial => 'history'
+      end
+    end
+  end
+  
+  def details
+    @lead = Lead.find(params[:id])
+    respond_to do |format|
+      format.html do
+        render :partial => 'details'
+      end
     end
   end
   
@@ -91,9 +137,7 @@ class LeadsController < ApplicationController
   # PUT /leads/:id/demographics
   def demographics
     @lead = Lead.find(params[:id])
-    respond_to do |format|
-      format.html{ render :partial => 'demographics', :locals => { :lead => @lead } }
-    end
+    render :partial => 'demographics'
   end
 
   # DELETE /leads/1

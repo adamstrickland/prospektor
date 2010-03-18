@@ -42,10 +42,10 @@ describe DashboardController do
           @current_user.stub!(:first_time?).and_return(true)
         end
         
-        it "show the first time info page" do
+        it "show the getting started page" do
           @current_user.should_receive(:first_time=).once
           get :index
-          response.should render_template 'dashboard/first_time.html.haml'
+          response.should render_template 'dashboard/getting_started.html.haml'
         end
       end
       

@@ -1,15 +1,9 @@
-#comment.dialog.modal
-	.title Add a comment below
-	-modal_form_for_with_history(@comment, lead_comments_url(@lead)) do |f|
-		%fieldset
-			.fields.container_16
-				.row
-					.field.grid_5.alpha.omega=f.text_area :comment, :cols => 45
-					.clear
-				.row
-					.button.grid_5.alpha.omega
-						%em
-							%button{ :type => 'submit' } Save
-					.clear
-						
-						
+#add-comment.dialog
+  .title Add a comment below
+  -modal_form_for(@comment, lead_comments_url(@lead), :success => "#{remote_function(:url => lead_comments_url(@lead), :method => :get, :update => 'comments')}; tb_remove();") do |f|
+    .fields
+      .value=f.text_area :comment, :cols => 45
+    .controls
+      =submit_tag 'Save'
+      or
+      =link_to_function 'Cancel', 'tb_remove();'

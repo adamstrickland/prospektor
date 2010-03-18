@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'open-uri'
+
 class HelpController < ApplicationController
   layout false
   def pdf
@@ -14,23 +17,11 @@ class HelpController < ApplicationController
   end
   
   def sales_aides
-    # Just scrape http://www.trigonsolutions.com/Sales%20Aides.htm ???
-    @www_root = 'http://www.trigonsolutions.com'
-    @www_sa = "#{@www_root}/SalesAides"
-    @entries = {
-      'Expert Services' => {
-        "Presentation" => "#{@www_sa}/BCR_Presentation.htm",
-        'BCR Presentation Training' => "#{@www_sa}/BCR Presentation Training Video/BCR Presentation Training Video.swf",
-      },
-      'Analytical Services' => {
-        'Presentation' => "#{@www_sa}/ACS Presentation.htm",
-        'Keys to Your Success' => "#{@www_sa}/7-Step Program.htm",
-        'Sales Problem Identifier' => "#{@www_sa}/Sales Problem Identifier.htm",
-        'Meeting Resistances' => "#{@www_sa}/Resistances.htm",
-        'Power Closes' => "#{@www_sa}/Power Closes.htm",
-        'Creating Pain' => "#{@www_sa}/Creating Pain.htm",
-      },
-    }
+    @website_root_url = 'http://www.trigonsolutions.com'
+    @sales_aides_root_url = "#{@website_root_url}/SalesAides"
+    
+    # doc = Nokogiri::HTML(open("#{@website_root_url}/Sales%20Aides.htm"))
+    # doc.search('table table table td p a')
   end
   
   def training_videos

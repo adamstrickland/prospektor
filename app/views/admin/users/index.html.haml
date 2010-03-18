@@ -1,25 +1,54 @@
-#users
+.content
   -unless @users.present?
-    .announce There are no users at this time
-  -else  
-    =will_paginate @users
-    .grid
-      .grid-head
-        %div.row
-          .info
-            .id.grid_2 User ID
-            .login.grid_3 Name/Login
-          %hr.lclear
-      .grid-data
-        -@users.each do |user|
-          %div.row[user]
-            .info
-              .id.grid_2.alpha=user.id
-              .login.grid_4=user.employee.full_name 
-            .details{ :style => 'display:none' }
-              .emp_id.grid_2=user.employee_id
-            .controls
-              .deactivate.grid_2=button_to_remote 'Deactivate', :url => deactivate_admin_user_path(user, :format => :json), :success => "alert('User deactivated');", :failure => "alert('Unable to deactivate user.  Please contact support.');"
-              .password.grid_2=button_to_remote 'Password', :url => reset_password_admin_user_path(user, :format => :json), :success => "alert('Password reset');", :failure => "alert('Unable to reset password.  Please contact support.');"
-              .assignments.grid_2.omega=button_to 'Assignments', admin_user_assignments_path(user), :method => :get
-              %hr.lclear
+    .announce No Users
+  -else
+    .data
+      .row.header
+        %span.name Employee
+        %span.login Login
+        %span.assignments Assignments
+        %span.status Last Activity
+      -@users.each do |user|
+        .row[user]{ :class => cycle("odd", "even") }
+          .details
+            %span.name=user.employee.full_name
+            %span.login=user.login
+            %span.assignments=user.leads.count
+            %span.status=user.updated_at.strftime('%Y-%m-%d %H:%M')
+            %span.controls
+              =link_to_remote 'Deactivate', :url => deactivate_admin_user_path(user, :format => :json), :success => "alert('User deactivated');", :failure => "alert('Unable to deactivate user.  Please contact support.');"
+              =link_to_remote 'Reset Password', :url => reset_password_admin_user_path(user, :format => :json), :success => "alert('Password reset');", :failure => "alert('Unable to reset password.  Please contact support.');"
+              =link_to 'Assignments...', admin_user_assignments_path(user), :method => :get
+      =will_paginate @users
+      
+-content_for :styles do
+  %style
+    :sass
+      .data
+        .row
+          :padding 0.25em 0.5em
+          &:hover
+            :background-color black
+          span
+            :display inline-block
+          span.name
+            :font-weight bold
+            :width 150px
+          span.login
+            :width 100px
+          span.assignments
+            :width 75px
+          span.status
+            :width 100px
+          span.controls
+            :width 250px
+          .controls
+            a
+              :color gold
+              :padding 0 0.5em
+              &:hover
+                :text-decoration underline
+        .header
+          span
+            :font
+              :weight bold

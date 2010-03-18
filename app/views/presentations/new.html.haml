@@ -4,38 +4,31 @@
       :position relative
       :z-index 99
       :display none
-#presentation.dialog.modal
-  -modal_form_for_with_history(@presentation, lead_presentations_url(@lead), :loading => "$('#original,#confirm').fadeOut(function(){ $('#waiting').fadeIn(); });", :complete => "$('#waiting').fadeOut(function(){ $('#confirm').fadeIn(); });" ) do |f|
-    %fieldset
-      .fields.container_16
-        .row
-          .fieldname.grid_2.alpha
-            %label{ :for => :topic_id } Topic
-          .field.grid_5.omega=f.select :topic_id, @topics, :selected => @presentation.topic_id || 1
-          .clear
-        .row
-          .fieldname.grid_2.alpha
-            %label{ :for => :email } Email
-          .field.grid_5.omega=f.text_field :email
-          .clear
-        .row
-          .button.grid_5.prefix_2.alpha.omega{'text-align' => 'right'}
-            #original
-              %em
-                %button{ :type => 'submit', :selected => true } Send
-              %span.cancel or #{link_to_function 'Cancel', 'tb_remove();' }
-            #waiting
-              =image_tag 'spinner.gif'
-            #confirm
-              .ask
-                %p
-                  Was the email received?
-              .no
-                %em
-                  %button{ :type => 'submit' } Resend
-              .yes
-                %em
-                  %button{ :type => 'button', :onclick => "tb_remove()" } OK
-                %em
-                  %button{ :type => 'button', :onclick => "tb_remove();#{ update_page{ |p| p.redirect_to(next_lead_in_queue_url(@lead))} };" } Next
-          .clear
+    .controls,.row
+      :padding-top 1em
+#send-info.dialog
+  .title Send Information Email
+  .form
+    -modal_form_for_with_history(@presentation, lead_presentations_url(@lead), :loading => "$('#original,#confirm').fadeOut(function(){ $('#waiting').fadeIn(); });", :complete => "$('#waiting').fadeOut(function(){ $('#confirm').fadeIn(); });" ) do |f|
+      .fields.twocol
+        .row.field
+          .lcol Topic
+          .rcol=f.select :topic_id, @topics, :selected => @presentation.topic_id || 2
+        .row.field
+          .lcol Email
+          .rcol=f.text_field :email
+      .controls
+        #original
+          =submit_tag 'Send'
+          or
+          =link_to_function 'Cancel', 'tb_remove();'
+        #waiting
+          =image_tag 'loadingAnimation.gif'
+        #confirm
+          .ask
+            %p Was the email received?
+          .no
+            =submit_tag 'Resend'
+          .yes
+            =button_to_function 'OK', 'tb_remove()'
+            =button_to_function 'Next', "tb_remove();#{ update_page{ |p| p.redirect_to(user_call_manager_url(current_user))} };"

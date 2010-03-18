@@ -1,0 +1,69 @@
+.content
+  .fold
+    %strong Log In
+  .vessel
+    .centered
+      -form_tag session_path do
+        .row.twocol
+          .lcol=label_tag :login
+          .rcol=text_field_tag :login, @login
+        .row.twocol
+          .lcol=label_tag :password
+          .rcol=password_field_tag :password, nil
+        .row.twocol
+          .lcol=label_tag :remember_me, 'Remember me?'
+          .rcol=check_box_tag :remember_me, 1, @remember_me
+        .row.centered=submit_tag 'Login'
+#browser_detect_message{ :style => 'display:none' }
+  .modal
+    .message 
+      %p#masthead.centered
+        %strong Warning
+      %p You are using a browser not supported by Prospektor.
+      %p There may be some inconsistencies in the application when using an unsupported browser.
+      %p A standards-compliant browser such as Firefox or Chrome is recommended.  Both are fast and free of charge.  Chrome can be downloaded from #{link_to 'here', 'http://www.google.com/chrome'}, and Firefox from #{link_to 'here', 'http://www.mozilla.com/firefox'}.
+      %p Click 'OK' to continue, or 'Cancel' to watch a piano-playing feline.
+    .controls.centered
+      =link_to_function 'OK', 'tb_remove();'
+      %span or
+      =link_to_function 'Cancel', "tb_remove(); window.location.href = 'http://www.youtube.com/watch?v=J---aiyznGQ';"
+
+-content_for :scripts do
+  :javascript
+    $(function(){
+      var dev = false;
+      if($.browser.msie || dev){
+        tb_show("Icky Browser", "#TB_inline?height=300&width=300&inlineId=browser_detect_message&modal=true");
+      }
+      $('#login').focus();
+      
+    });
+    
+-content_for :styles do
+  %style
+    :sass
+      @import scheme.sass
+      #TB_window
+        .modal          
+          :color = !cl_silver
+          .message
+            #masthead
+              :color = !cl_red
+              :background-color = !cl_silver
+            strong
+              :font-weight bold
+              :font-size 1.5em
+            p
+              :padding-bottom 0.5em
+          a
+            :font-weight bold
+            :color = !cl_gold
+      .content
+        .centered
+          :width 300px
+          .row
+            :padding 1em
+          .twocol
+            .rcol,.lcol
+              :width 49%
+              :text-align left
