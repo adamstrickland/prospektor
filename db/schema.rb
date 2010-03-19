@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(:version => 20100315161835) do
     t.string   "emphistreason2",             :limit => 45
     t.string   "emphistreason3",             :limit => 45
     t.string   "emphistreason4",             :limit => 45
-    t.text     "ancillarycomments",          :limit => 2147483647
+    t.text     "ancillarycomments"
     t.string   "applicantdispositionstatus", :limit => 45
     t.boolean  "icwa_received",                                                                   :default => false, :null => false
     t.boolean  "resume_received",                                                                 :default => false, :null => false
