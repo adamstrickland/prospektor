@@ -1,0 +1,3 @@
+=javascript_include_tag "#{request.protocol || 'http://'}www.google-analytics.com/ga.js"
+:javascript
+  try { var pageTracker = _gat._getTracker('#{tracking_id}'); pageTracker._trackPageview(); } catch(err) {}

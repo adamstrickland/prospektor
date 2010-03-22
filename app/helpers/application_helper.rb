@@ -116,6 +116,11 @@ module ApplicationHelper
     end
   end
   
+  def include_google_analytics(tracking_id)
+    # concat(render(:partial => 'common/google_analytics', :locals => { :tracking_id => tracking_id}))
+    render(:partial => 'common/google_analytics', :locals => { :tracking_id => tracking_id})
+  end
+  
   def block_to_partial(partial_name, options = {}, &block)
     options.merge!(:body => capture(&block))
     concat(render(:partial => partial_name, :locals => options))
