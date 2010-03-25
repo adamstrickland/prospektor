@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
-  map.wiki_root '/wiki'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
@@ -8,6 +6,21 @@ ActionController::Routing::Routes.draw do |map|
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.session_expiry '/expires', :controller => 'sessions', :action => 'session_expiry'
   map.resource :session
+  
+  map.wiki_root '/wiki'
+  map.wiki_pages '/wiki/all', :controller => 'wiki_pages', :root => '/wiki', :action => 'all'
+  # map.with_options :controller => 'wiki_pages', :path_prefix => '/wiki', :root => '/wiki' do |wiki|
+  #   wiki.wiki_pages 'all', :action => 'all', :conditions => {:method => :get }
+  #   wiki.edit_wiki_page 'edit/:path', :action => 'edit', :conditions => {:method => :get }
+  #   wiki.wiki_page ':path', :action => 'show', :conditions => {:method => :get}
+  #   wiki.wiki_page_history 'history/:path', :action => 'history', :conditions => {:method => :get }
+  #   wiki.wiki_page_compare 'compare/:path', :action => 'compare', :conditions => {:method => :get }
+  #   
+  #   wiki.new_wiki_page 'new', :action => 'new', :conditions => {:method => :get }
+  #   wiki.create_wiki_page 'create', :action => 'create', :conditions => {:method => :post }
+  #   wiki.destroy_wiki_page ':path', :action => 'destroy', :conditions => {:method => :delete }
+  #   wiki.update_wiki_page ':path', :action => 'update', :conditions => {:method => :put }
+  # end
   
   map.with_options :controller => 'dashboard' do |opts|
     opts.dashboard '/dashboard', :action => 'index'

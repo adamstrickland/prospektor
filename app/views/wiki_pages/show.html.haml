@@ -1,0 +1,10 @@
+.content.twocol
+  =wiki_page_style
+  %h1=@page.title
+  .lcol
+    / =render :partial => 'toc'
+  .rcol
+    =wiki_page_info
+    =wiki_page_actions
+    .wiki_content
+      =wiki_content @page.content
