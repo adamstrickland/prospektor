@@ -14,7 +14,7 @@ class CallBacksController < ApplicationController
         @callbacks = @user.call_backs || []
         # @callbacks = (5.days.ago..10.days.from_now).map{ |d| CallBack.new( :user => @user, :lead => Lead.first, :callback_at => d)}
         # @callbacks = [CallBack.new(:user => @user, :lead => Lead.first, :callback_at => Chronic.parse("#{Date.today} 12:00pm"))]
-        full_calendar_response = @callbacks.map do |cb|
+        full_calendar_response = @callbacks.uniq.map do |cb|
           mapping_base = {
             :id => cb.id,
             :title => cb.lead.company,

@@ -29,30 +29,12 @@
     .panes
       #callback.pane
         -disposition_form(@lead) do |f|
-          .fields
-            .row.field.at
-              Callback At:
-              / =select_datetime 1.week.from_now
-              =text_field_tag :callback_at
-            .row.field.comments
-              Comments:
-              =text_area_tag :comments
-            =hidden_field_tag :disposition, 'CB'
-          .controls
-            =submit_tag 'Save'
+          =render :partial => 'callback_pane_form'
+          =hidden_field_tag :disposition, 'CB'
       #schedule.pane
         -disposition_form(@lead) do |f|
-          .fields
-            .row.field.at
-              Callback At:
-              / =select_datetime 1.week.from_now
-              =text_field_tag :callback_at
-            .row.field.comments
-              Comments:
-              =text_area_tag :comments
-            =hidden_field_tag :disposition, 'VM'
-          .controls
-            =submit_tag 'Save'
+          =render :partial => 'callback_pane_form'
+          =hidden_field_tag :disposition, 'VM'
       #booksale.pane
         -disposition_form(@lead) do |f|
           .fields
