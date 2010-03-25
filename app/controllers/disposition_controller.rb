@@ -31,7 +31,7 @@ class DispositionController < ApplicationController
                             Chronic.parse('tomorrow at 9am')
                           end
                         end
-          callback = CallBack.new(:user => @user, :callback_at => callback_at)
+          callback = CallBack.new(:user => @user, :callback_at => callback_at, :status => CallBackStatus.find_by_code('UN'))
           @lead.call_backs << callback
         end
         @status = LeadStatus.find_by_code(params[:disposition]) # || LeadStatus.find(params[:disposition])

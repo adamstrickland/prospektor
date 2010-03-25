@@ -37,8 +37,9 @@ class Applicant < ActiveRecord::Base
     :conditions => " NOT EXISTS (
       SELECT 1 
       FROM employees 
-      WHERE employees.last_name = applicants.applicantlastname
-      AND employees.first_name = applicants.applicantfirstname
+      WHERE (employees.last_name = applicants.applicantlastname
+      AND employees.first_name = applicants.applicantfirstname) OR
+      (employees.applicant_id = applicants.id)
     )",
     :order => 'created_at ASC'
       

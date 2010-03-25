@@ -1,0 +1,16 @@
+.content
+  =wiki_page_style
+  %h1 Edit Wiki Page
+  -wiki_page_form do |f|
+    =f.hidden_field :previous_version_number, :value => f.object.last_version_number
+    -[:path, :title, :content, :comment].each do |fld|
+      %p
+        =wt fld.to_s.titleize
+        %br
+        -if fld == :content
+          =f.text_area fld
+        -else
+          =f.text_field fld
+    =submit_tag 'Save Page', :class => 'submit'
+.reference
+  =link_to 'Textile Reference', 'http://textile.thresholdstate.com/', :target => '_blank'

@@ -1,0 +1,11 @@
+.fields
+  .row.field.at
+    Callback At:
+    / =select_datetime 1.week.from_now
+    =text_field_tag :callback_at
+    %span.ex (e.g. 'tomorrow', '1/1/2011' or '4/1/2010 at 9am')
+  .row.field.comments
+    Comments:
+    =text_area_tag :comments
+.controls
+  =submit_tag 'Save'

@@ -68,6 +68,8 @@
                 =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
               %div
                 =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+              %div
+                =link_to 'Trigon Wiki', wiki_pages_url, :target => '_blank'
             / -form_tag(search_url) do |sf|
             /   .text_field=text_field_tag :query
             /   =submit_tag 'Search', :id => 'search_submit'
@@ -114,3 +116,4 @@
                 %br
                 Rails
       %hr
+    =include_google_analytics('UA-15348508-1') if Rails.env == 'production'
