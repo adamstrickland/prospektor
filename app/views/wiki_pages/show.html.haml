@@ -1,0 +1,11 @@
+.content
+  =wiki_page_style
+  %h1=@page.title
+  .twocol
+    .lcol
+      =render :partial => 'toc'
+    .rcol{ :style => 'overflow:auto;height:480px;padding:0 20px' }
+      =wiki_page_info
+      =wiki_page_actions
+      .wiki_content{ :style => 'font-size:8px' }
+        =wiki_content @page.content

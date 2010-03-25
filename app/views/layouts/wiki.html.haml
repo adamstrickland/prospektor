@@ -1,0 +1,35 @@
+-content_for :menu do
+  %ul.menu
+    -if edit_allowed?
+      %li=link_to 'New', '#', :id => 'new_wiki_menu'
+      / -if @page
+      /   %li=link_to 'Edit', wiki_page_edit_path(@page)
+      /   / %li=link_to 'Compare', wiki_page_compare_path(@page)
+      /   %li=link_to 'History', wiki_page_history_path(@page)
+  %div
+    #new_wiki_submenu.dropdown{ :style => 'display:none' }
+      -form_tag wiki_link(''), :method => :get, :id => 'new_wiki_form' do
+        =text_field_tag 'topic', nil
+        =submit_tag 'Create'
+        
+  :javascript
+    $(function(){
+      $('#new_wiki_menu').click(function(e){
+        $('#new_wiki_submenu').slideToggle("slow");
+      });
+      $('#new_wiki_form').submit(function(e){
+        topic = $(this).find('input[name="topic"]').val().replace(/\s/gi, "_");
+        $(this).attr('action', $(this).attr('action')+'/'+topic);
+      });
+    });
+      
+  %style
+    :sass
+      #wiki_pages
+        .twocol
+          .lcol
+            :width 20%
+          .rcol
+            :width 80%
+    
+=render :file => 'layouts/application'

@@ -1,5 +1,4 @@
-class Admin::AssignmentsController < ApplicationController
-  layout 'admin'
+class Admin::AssignmentsController < Admin::AdminController
   
   # GET /assignments
   # GET /assignments.xml

@@ -40,8 +40,12 @@ class User < ActiveRecord::Base
     self.leads.untouched + self.leads.touched
   end
   
+  def has_role?(role)
+    self.roles.map(&:title).include?(role)
+  end
+  
   def is_admin?
-    self.roles.map(&:title).include?('admin')
+    self.has_role?('admin')
   end
   
   def official_phone

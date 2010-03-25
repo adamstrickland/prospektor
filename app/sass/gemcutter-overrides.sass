@@ -12,13 +12,16 @@ hr
 .centered
   :margin 0 auto
   :text-align center
+  
+.dropdown
+  :float right
+  :text-align right
+  
 #hd
   :background url(/images/hd.jpg) repeat-x
   .nav
     :color = !cl_header
     .dropdown
-      :float right
-      :text-align right
       a
         :color = !cl_header
         :padding-bottom 0.5em
@@ -63,6 +66,13 @@ hr
       :margin-right 20px
 #bd
   .main
+    h1
+      :padding-bottom 1em
+      :font
+        :size 2.5em
+        :weight bold        
+    a
+      :color = !cl_menu_link
     :padding-top 0
     .menu
       +gemcutter_nav  
@@ -186,6 +196,8 @@ hr
 .twocol
   .row
     :clear both
+  .lcol,.rcol
+    :width 50%
   .lcol
     :float left
     :margin 0
