@@ -37,6 +37,7 @@ Rails::Initializer.run do |config|
   config.gem "remarkable_rails", :lib => false
   config.gem "nokogiri", :lib => false
   config.gem 'newrelic_rpm'
+  config.gem 'irwi'
   # config.gem 'rails_sql_views', :version => '0.7.0'
   # config.gem 'cucumber', :version => '0.4.4'
   # config.gem 'webrat', :version => '0.5.3'
