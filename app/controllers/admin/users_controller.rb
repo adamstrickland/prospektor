@@ -1,5 +1,4 @@
-class Admin::UsersController < ApplicationController
-  layout 'admin'
+class Admin::UsersController < Admin::AdminController
   
   # GET /users
   # GET /users.xml

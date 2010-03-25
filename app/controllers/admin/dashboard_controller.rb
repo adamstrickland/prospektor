@@ -1,7 +1,4 @@
-class Admin::DashboardController < ApplicationController
-  layout 'admin'
-  
-  access_control :DEFAULT => 'admin'
+class Admin::DashboardController < Admin::AdminController
   
   def index
     activity_for_period = lambda do |start, finish|
