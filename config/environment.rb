@@ -38,7 +38,7 @@ Rails::Initializer.run do |config|
   config.gem 'newrelic_rpm'
   config.gem 'irwi'
   config.gem 'RedCloth'
-  config.gem 'BlueCloth'
+  # config.gem 'BlueCloth'
   # config.gem 'diff-lcs'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
