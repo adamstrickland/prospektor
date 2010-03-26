@@ -24,7 +24,6 @@ Rails::Initializer.run do |config|
   # config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
   
   config.gem 'uuidtools', :version => '2.1.1'
-  # config.gem 'gemcutter', :version => '0.1.6'
   config.gem 'fastercsv', :version => '1.5.0'
   config.gem 'faker', :version => '0.3.1'
   config.gem 'machinist', :source => 'http://gemcutter.org', :version => '1.0.5'
@@ -38,15 +37,9 @@ Rails::Initializer.run do |config|
   config.gem "nokogiri", :lib => false
   config.gem 'newrelic_rpm'
   config.gem 'irwi'
-  # config.gem 'rails_sql_views', :version => '0.7.0'
-  # config.gem 'cucumber', :version => '0.4.4'
-  # config.gem 'webrat', :version => '0.5.3'
-  # config.gem 'term-ansicolor', :version => '1.0.4'
-  # config.gem 'treetop', :version => '1.4.2'
-  # config.gem 'diff-lcs', :version => '1.1.2'
-  # config.gem 'nokogiri', :version => '1.4.0'
-  # config.gem 'builder', :version => '2.1.2'
-  # config.gem 'spork', :version => '0.7.3'
+  config.gem 'RedCloth'
+  config.gem 'BlueCloth'
+  # config.gem 'diff-lcs'
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
