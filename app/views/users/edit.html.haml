@@ -1,0 +1,11 @@
+#edit-user
+  .title User
+  .form
+    -form_for(@user, user_url(@user), :method => :put) do |f|
+      .fields.twocol      
+        -[:last_name, :first_name, :middle_initial, :address, :city, :state, :zip_postal_code, :country, :email, :home_phone, :mobile_phone, :business_phone, :emergency_contact_name, :emergency_contact_phone, federal_tax_id, :bank_routing_number, :bank_account_number].each do |field|
+          .row.field
+            .name.lcol=label :user, field, field.to_s.titleize
+            .value.rcol=text_field :user, field
+      .controls
+        =submit_tag 'Save'

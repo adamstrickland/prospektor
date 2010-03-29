@@ -37,4 +37,14 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
     end
   end
+  
+  def edit
+    @user = User.find(params[:id])
+    if current_user.is_admin? or (current_user.id == @user.id)
+      render :template => 'edit'
+    else  
+      Notifier.deliver_snoop_alert(current_user, request)
+      render :template => 'quit_snooping'
+    end
+  end
 end
