@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Applicant do
+  include ObserverTestHelperMethods
+  
+  before :all do
+    disable_observers
+  end
+  
   before :each do
     @applicant = Applicant.make
   end

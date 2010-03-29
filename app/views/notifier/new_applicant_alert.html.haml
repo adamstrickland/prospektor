@@ -1,0 +1,4 @@
+%p A new applicant has applied to come onboard!
+-[:full_name, :home_phone, :business_phone, :mobile_phone].each do |attrib|
+  %p #{attrib.to_s.titleize}: #{@applicant.send(attrib)}
+%p To onboard them, click #{ link_to 'here', onboard_admin_applicant_url(@applicant) }.

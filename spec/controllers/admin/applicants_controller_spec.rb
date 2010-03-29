@@ -2,14 +2,14 @@ require File.join(Rails.root, 'spec', 'spec_helper')
 
 describe Admin::ApplicantsController do
   before :each do
-    login_as :admin
+    @admin = login_as :admin
   end
   
   describe "if trying to onboard an applicant" do
     before :each do      
       @applicant = mock_model(Applicant)
-      @employee = mock_model(Employee)
-      @user = mock_model(User)
+      @user = mock_user :any
+      @employee = @user.employee
       @applicant_id = @applicant.id.to_s
       @post_params = { :id => @applicant_id, :hired_at => Time.now }
       
