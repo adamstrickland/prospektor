@@ -31,11 +31,8 @@ class Admin::UsersController < Admin::AdminController
   def deactivate
     respond_to do |format|
       format.json do
-        @user = User.find(params[:id])
-        @user.activation_code = 'DEACTIVATED'
-        @user.activated_at = nil
-    
-        if @user.save
+        @user = User.find(params[:id])    
+        if @user.deactivate!
           head :ok
         else
           head :bad_request

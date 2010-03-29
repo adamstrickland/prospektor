@@ -99,6 +99,16 @@ class User < ActiveRecord::Base
   #   self.leads = val
   # end
   
+  def deactivate
+    self.activation_code = 'DEACTIVATED'
+    self.activated_at = nil
+  end
+  
+  def deactivate!
+    self.deactivate
+    self.save
+  end
+  
   
   
   
