@@ -20,6 +20,67 @@ Spork.prefork do
   require 'chronic'
   # require 'webrat/integrations/rspec-rails'
   
+  # module ActionMailerSpecSettings
+  #   def self.included(base)
+  #     base.send(:default_url_options=, { :host => "localhost.test" })
+  #   end
+  # end
+  
+  module ObserverTestHelperMethods
+    def observer_instances
+      ActiveRecord::Base.observers.collect do |observer|
+        observer_klass = \
+          if observer.respond_to?(:to_sym)
+            observer.to_s.camelize.constantize
+          elsif observer.respond_to?(:instance)
+            observer
+          end
+        observer_klass.instance
+      end
+    end
+
+    def observed_classes(observer=nil)
+      observed = Set.new
+      (observer.nil? ? observer_instances : [observer]).each do |observer|
+        observed += (observer.send(:observed_classes) + observer.send(:observed_subclasses))
+      end
+      observed
+    end
+
+    def observed_classes_and_their_observers
+      observers_by_observed_class = {}
+      observer_instances.each do |observer|
+        observed_classes(observer).each do |observed_class|
+          observers_by_observed_class[observed_class] ||= Set.new
+          observers_by_observed_class[observed_class] << observer
+        end
+      end
+      observers_by_observed_class
+    end
+
+    def disable_observers(options={})
+      except = options[:except]
+      observed_classes_and_their_observers.each do |observed_class, observers|
+        observers.each do |observer|
+          unless observer.class == except
+            observed_class.delete_observer(observer)
+          end
+        end
+      end
+    end
+
+    def enable_observers(options={})
+      except = options[:except]
+      observer_instances.each do |observer|
+        unless observer.class == except
+          observed_classes(observer).each do |observed_class|
+            observer.send :add_observer!, observed_class
+          end
+        end
+      end
+    end
+  end
+  
   Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each{ |f| require f }
   
   Spec::Matchers.define :be_json_like do |hash|
@@ -41,32 +102,50 @@ Spork.prefork do
   end
   
   Spec::Runner.configure do |config|
-    def login_as(role)
-      @current_user = mock_model(User)
-      User.stub!(:find_by_id).with(any_args()).and_return(@current_user)
-      User.stub!(:find).with(any_args()).and_return(@current_user)
-      @current_user.stub!(:save).and_return(true)
-      @current_user.stub!(:id).and_return(1)
-      @current_user.stub!(:destroyed?).and_return(false)
+    def mock_user(role=:any, options={})
+      user = mock_model(User)
       
-      @emp = mock_model(Employee)
-      @current_user.stub!(:has_attribute?).with('employee_id').and_return(true)
-      @current_user.stub!(:employee).and_return(@emp)
+      options[:id] ||= 42
       
-      @current_user.stub!(:is_admin?).and_return(role == :admin)
-      [:admin, :manager, :sales].each do |r|
-        @current_user.stub!(:has_role?).with(r).and_return(role == r ? true : false)
+      [:find, :find_by_id].each do |m|
+        User.stub!(m).with(options[:id]).and_return(user)
+        User.stub!(m).with(options[:id].to_s).and_return(user)
       end
+      user.stub!(:save).and_return(true)
+      user.stub!(:id).and_return(options[:id])
+      user.stub!(:destroyed?).and_return(false)
       
+      emp = mock_model(Employee)
+      user.stub!(:has_attribute?).with('employee_id').and_return(true)
+      user.stub!(:employee).and_return(emp)
+      emp.stub!(:preferred_name).and_return('Seamus')
+      emp.stub!(:first_name).and_return('Seamus')
+      emp.stub!(:last_name).and_return('McGregor')
+      
+      user.stub!(:is_admin?).and_return(role == :admin)
+      
+      user_role = mock_model(Role)
+      user_role.stub!(:title).and_return(role.to_s.downcase)
+      user.stub!(:roles).and_return([user_role])
+      [:admin, :manager, :sales].each do |r|
+        user.stub!(:has_role?).with(r).and_return(role == r ? true : false)
+      end
+      user
+    end
+    
+    def login_as(role)
+      login_using(mock_user(role))
+    end
+    
+    def login_using(user)
+      @current_user = user
       request.session[:user] = @current_user
-      
       if defined?(controller)
         controller.send :current_user=, @current_user
       else
         template.stub!(:logged_in?).and_return(true)
         template.stub!(:current_user).and_return(@current_user)
       end
-      
       @current_user
     end
     

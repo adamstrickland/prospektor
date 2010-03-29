@@ -22,17 +22,18 @@ class DispositionController < ApplicationController
       else
         if ['CB','RS','VM'].include?(params[:disposition])
           # create a callback, set status to @status
-          callback_at = if params[:callback_at]
-                          Chronic.parse(params[:callback_at])
-                        else
-                          if params[:date]
-                            Time.new(params[:date])
-                          else
-                            Chronic.parse('tomorrow at 9am')
-                          end
-                        end
-          callback = CallBack.new(:user => @user, :callback_at => callback_at, :status => CallBackStatus.find_by_code('UN'))
-          @lead.call_backs << callback
+          callback_at = params[:callback_at] || Chronic.parse('tomorrow at 9am')
+          # if params[:callback_at]
+          #                 Chronic.parse(params[:callback_at])
+          #               else
+          #                 if params[:date]
+          #                   Time.new(params[:date])
+          #                 else
+          #                   Chronic.parse('tomorrow at 9am')
+          #                 end
+          #               end
+          @callback = CallBack.new(:user => @user, :callback_at => callback_at, :status => CallBackStatus.find_by_code('UN'))
+          @lead.call_backs << @callback
         end
         @status = LeadStatus.find_by_code(params[:disposition]) # || LeadStatus.find(params[:disposition])
       end
