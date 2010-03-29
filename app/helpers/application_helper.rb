@@ -111,8 +111,8 @@ module ApplicationHelper
   end
   
   def modal_form(url, options={}, &block)
-    form_remote_tag(modal_settings({ :url => url }).merge(options)) do |f|
-      yield(f)
+    form_remote_tag(modal_settings({ :url => url }).merge(options)) do
+      yield
     end
   end
   
