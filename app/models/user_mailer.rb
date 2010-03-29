@@ -7,6 +7,14 @@ class UserMailer < ActionMailer::Base
   
   end
   
+  def welcome_letter(user)
+    setup_email(user, :subject => 'Welcome to Trigon Solutions')
+  end
+
+  def termination_letter(user)
+    setup_email(user, :subject => 'Suspension of Prospektor Access Rights')
+  end
+  
   def activation(user)
     setup_email(user)
     @subject    += 'Your account has been activated!'
@@ -19,11 +27,11 @@ class UserMailer < ActionMailer::Base
   end
   
   protected
-    def setup_email(user)
-      @recipients  = "#{user.email}"
-      @from        = "ADMINEMAIL"
-      @subject     = "[sales.trigonsolutions.com] "
-      @sent_on     = Time.now
+    def setup_email(user, options={})
+      @recipients = options[:recipients] || "#{user.email}"
+      @from = options[:from] ||"Trigon Solutions"
+      @subject = options[:subject] || "Trigon Onboarding"
+      @sent_on = Time.now
       @body[:user] = user
     end
 end

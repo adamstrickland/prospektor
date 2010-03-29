@@ -36,6 +36,15 @@ describe User do
     @user = User.make
   end
   
+  describe "should deactivate" do
+    it "when invoked" do
+      @user.deactivate
+      @user.activation_code.should eql('DEACTIVATED')
+      @user.activated_at.should be_nil
+      @user.should_not be_active
+    end
+  end
+  
   describe "propeties" do
     before :each do
       @leads = (1..5).map{ 

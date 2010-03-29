@@ -2,8 +2,9 @@
   .row.field.at
     Callback At:
     / =select_datetime 1.week.from_now
-    =text_field_tag :callback_at
+    =text_field_tag :cb_date, '', :class => 'callback_text'
     %span.ex (e.g. 'tomorrow', '1/1/2011' or '4/1/2010 at 9am')
+    =hidden_field_tag :callback_at, '', :class => 'callback_at'
   .row.field.comments
     Comments:
     =text_area_tag :comments

@@ -43,6 +43,7 @@ describe LeadsController do
             @lead.stub!(:paginate).with(any_args()).and_return([@lead])
             @other_user = mock_model(User)
             User.stub!(:find).with(@other_id).and_return(@other_user)
+            User.stub!(:find).with(@other_id.to_s).and_return(@other_user)            
             @other_user.stub!(:leads).and_return([@lead])
           end
           

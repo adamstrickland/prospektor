@@ -17,8 +17,6 @@ describe DispositionController do
   
   describe "on POST" do
     before :each do
-      @lead.should_receive(:save).and_return(true)
-      
       # @callback_at_date = 1.year.from_now
       @callback_at_date = Chronic.parse('1 year from now')
       @callback_at = {
@@ -28,54 +26,79 @@ describe DispositionController do
         :hour => @callback_at_date.hour,
         :minute => @callback_at_date.min
       }
-      @callback_at_string = @callback_at_date.strftime('%m/%d/%Y at %H:%M:%S %p')
+      # @callback_at_string = @callback_at_date.strftime('%m/%d/%Y at %H:%M:%S %p')
+      # @callback_at_string = @callback_at_date.to_s # '%a %b %d %H:%M:%S %Z %Y'
+      @callback_at_string = @callback_at_date.gmtime.strftime('%Y-%m-%d %H:%M:%SZ')
     end
     
     it "should not double-insert the comment on a dispo"
+     
+      
+    it "should translate the date correctly" do
+      @lead = Lead.make_unsaved
+      @lead.should be_valid
+      @lead.save
+      Lead.stub!(:find).with(any_args()).and_return(@lead)
+      @lead.stub!(:owner).and_return(@user)
+      post :create, :lead_id => @lead.id, :disposition => 'CB', :callback_at => @callback_at_string, :format => 'json'
+      assigns[:callback].should_not be_nil
+      assigns[:callback].callback_at.hour.should eql @callback_at[:hour]
+    end
     
     describe "the status should be updated" do
+      before :each do
+        @lead.should_receive(:save).and_return(true)
+        @callbacks = mock_model(Array)
+        @lead.stub!(:call_backs).and_return(@callbacks)
+      end
+      
       def expect_status(code)
         @lead.should_receive(:status=).with(LeadStatus.find_by_code(code))
-      end
+      end 
       
       describe 'a callback should be created' do
         before :each do
           @callback = mock_model(CallBack)
-          CallBack.should_receive(:new).with(hash_including(:callback_at => @callback_at_date)).and_return(@callback)
+          CallBack.should_receive(:new).with(hash_including(:callback_at => @callback_at_date.gmtime.strftime('%Y-%m-%d %H:%M:%SZ'))).and_return(@callback)
           
-          @callbacks = mock_model(Array)
           @callbacks.should_receive(:<<).with(@callback)
-          
-          @lead.stub!(:call_backs).and_return(@callbacks)
         end
       
         it "if the status is CB" do
           expect_status('CB')
           post :create, :lead_id => @lead.id, :disposition => 'CB', :callback_at => @callback_at_string, :format => 'json'
+          assigns[:callback].should_not be_nil
         end
 
         it "if the status is VM" do
           expect_status('VM')
           post :create, :lead_id => @lead.id, :disposition => 'VM', :callback_at => @callback_at_string, :format => 'json'
-        end
-        
-        
-        describe "should also create one using a text field if supplied" do
-          # it "or using a datetime picker" do
-          #   expect_status('CB')
-          #   post :create, :lead_id => @lead.id, :disposition => 'CB', :date => @callback_at, :format => 'json'
-          # end
-          
-          it "if given a wacky datetime string" do
-            expect_status('CB')
-            
-            # for some fucked up reason '1 year from now' run here gives a different date than above...  not exactly encouraging, but...
-            callback_at = "364 days from now at #{@callback_at_date.strftime('%H:%M:%S')}"
-            
-            post :create, :lead_id => @lead.id, :disposition => 'CB', :callback_at => callback_at, :format => 'json'
-          end
-        end
+          assigns[:callback].should_not be_nil
+        end  
       end
+      
+      
+      # describe "should also create one using a text field if supplied" do
+      #   # it "or using a datetime picker" do
+      #   #   expect_status('CB')
+      #   #   post :create, :lead_id => @lead.id, :disposition => 'CB', :date => @callback_at, :format => 'json'
+      #   # end
+      #   
+      #   it "if given a wacky datetime string" do
+      #     @callback = mock_model(CallBack)
+      #     CallBack.should_receive(:new).with(hash_including(:callback_at => @callback_at_date.gmtime.strftime('%Y-%m-%d %H:%M:%SZ'))).and_return(@callback)
+      #     
+      #     @callbacks.should_receive(:<<).with(@callback)
+      #     
+      #     expect_status('CB')
+      #     
+      #     # for some fucked up reason '1 year from now' run here gives a different date than above...  not exactly encouraging, but...
+      #     callback_at = "364 days from now at #{@callback_at_date.strftime('%H:%M:%S')}"
+      #     
+      #     post :create, :lead_id => @lead.id, :disposition => 'CB', :callback_at => callback_at, :format => 'json'
+      #     assigns[:callback].should_not be_nil
+      #   end
+      # end
       
       it "if the no date provided, use tomorrow" do
         callback = mock_model(CallBack)

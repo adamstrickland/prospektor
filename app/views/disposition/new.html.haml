@@ -1,6 +1,6 @@
 #disposition.dialog.modal
   #skip{ :style => 'float:right' }
-    -disposition_form(@lead) do |f|
+    -disposition_form(@lead) do
       =hidden_field_tag :disposition, LeadStatus.find_by_code('SKIP').id
       =submit_tag 'Skip Lead'
   #disposition_tabs
@@ -28,15 +28,15 @@
     %hr
     .panes
       #callback.pane
-        -disposition_form(@lead) do |f|
+        -disposition_form(@lead) do
           =render :partial => 'callback_pane_form'
           =hidden_field_tag :disposition, 'CB'
       #schedule.pane
-        -disposition_form(@lead) do |f|
+        -disposition_form(@lead) do
           =render :partial => 'callback_pane_form'
           =hidden_field_tag :disposition, 'VM'
       #booksale.pane
-        -disposition_form(@lead) do |f|
+        -disposition_form(@lead) do
           .fields
             .row.field.comments
               Comments:
@@ -45,7 +45,7 @@
           .controls
             =submit_tag 'Save'
       #otherdisp.pane
-        -disposition_form(@lead) do |f|
+        -disposition_form(@lead) do
           .fields
             .row.field.dispo
               Disposition
@@ -55,6 +55,19 @@
               =text_area_tag :comments
           .controls
             =submit_tag 'Save'
-
 :javascript
   $('#disposition_tabs ol.tabs').tabs('div.panes > div');
+
+  $('#disposition_tabs .panes .pane. .callback_text').keyup(function(e){
+    $parent = $(this).parent();
+    cb_at = Date.parse($(this).val());
+    $display = $parent.find('span.ex');
+    display_format = "ddd MMM d, yyyy @ hh:mm tt";
+    if(cb_at != null){
+      $display.text(cb_at.toString(display_format));
+      $parent.find("input[name='callback_at']").val(cb_at.toISOString());
+    }
+    else{
+      $display.text("Date not recognized.")
+    }
+  });

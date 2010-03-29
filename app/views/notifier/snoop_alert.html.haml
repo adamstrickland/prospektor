@@ -1,0 +1,13 @@
+%p A Snoop has been detected!
+%p Snooper: #{@snoop.login}
+%p 
+  %span Context:
+  -if @context.present?
+    %br
+    %hr
+    -@context.each do |key, val|
+      %strong #{key}:
+      %span=val
+      %br
+  -else
+    %span None, sadly.  Burn the witch!!11!

@@ -7,7 +7,7 @@
         %span.name Name
         %span.applied Applied At
       -@applicants.each do |app|
-        .row[app]{ :class => cycle("odd", "even"), :onclick => "$(this).parent().parent().find('.expanded-details').toggle('blind', {}, 500);" }
+        .row[app]{ :class => cycle("odd", "even"), :onclick => "$(this).find('.expanded-details').slideToggle();" }
           .details
             %span.name=app.full_name
             %span.applied=(app.created_at.present? ? app.created_at.strftime('%Y-%m-%d %H:%M') : 'N/A')
@@ -28,21 +28,27 @@
       .data
         .row
           :padding 0.25em 0.5em
+          :cursor crosshair
           &:hover
             :background-color black
-          span
-            :display inline-block
-          span.name
-            :font-weight bold
-            :width 200px
-          span.applied
-            :width 150px
-          .controls
-            a
-              :color gold
-              :padding 0 0.5em
-              &:hover
-                :text-decoration underline
+          .details
+            span
+              :display inline-block
+            span.name
+              :font-weight bold
+              :width 200px
+            span.applied
+              :width 150px
+            .controls
+              a
+                :color gold
+                :padding 0 0.5em
+                &:hover
+                  :text-decoration underline
+          .expanded-details
+            :margin 5px
+            span.name
+              :font-weight bold
         .header
           span
             :font
