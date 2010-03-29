@@ -3,10 +3,14 @@
   .form
     -modal_form_for(@lead, lead_url(@lead, :format => :xml), :method => :put, :success => "#{remote_function(:url => demographics_lead_url(@lead), :method => :get, :update => 'demog')}; tb_remove();") do |f|
       .fields.twocol
-        -[:first_name, :salutation, :last_name, :title, :phone, :extension].each do |field|
+        -[:first_name, :salutation, :last_name, :phone, :extension, :cell_phone, :web].each do |field|
           .row.field
             .name.lcol=label :lead, field, field.to_s.titleize
             .value.rcol=text_field :lead, field
+        .row.field
+          .name.lcol=label :lead, :title
+          / .value.rcol=text_field :lead, :title
+          .value.rcol=select :lead, :title, ['Owner','President','Chief Executive Officer','Chairman of the Board']
         .row.field
           .name.lcol=label :lead, :gender
           .value.rcol
