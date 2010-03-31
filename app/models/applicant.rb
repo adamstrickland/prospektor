@@ -70,7 +70,7 @@ class Applicant < ActiveRecord::Base
     #       when 'expert', nil then 'ES'
     #     end
     #   end
-    e.department_name = 'ES'
+    e.department_name = 'AS'
     e.email_name = self.email
     e.address = self.address
     e.city = self.city

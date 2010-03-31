@@ -62,7 +62,7 @@ class Admin::ApplicantsController < Admin::AdminController
       format.json do
         @applicant = Applicant.find(params[:id])
         if @applicant
-          @employee = @applicant.create_employee(params[:hired_at])
+          @employee = @applicant.create_employee
           if @employee
             if @employee.save
               @user = @employee.create_user
