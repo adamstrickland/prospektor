@@ -5,7 +5,7 @@ describe Notifier do
   
   before :each do
     # default_url_options[:host] = request.host
-    Notifier.send(:default_url_options=, { :host => "localhost.test" })
+    # Notifier.send(:default_url_options=, { :host => "localhost.test" })
   end
   
   describe "a booked sale email" do
