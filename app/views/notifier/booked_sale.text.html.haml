@@ -4,3 +4,15 @@
 %h2 Phone: #{@lead[:phone]}
 %br
 %h3 Sold By: #{@seller}
+%br
+%hr
+%br
+%h3 Comments:
+-if @comments.present?
+  -@comments.each do |comment|
+    %p
+      %span.content=comment.comment
+      %br
+      %span.byline [by #{comment.user.employee.full_name} at #{comment.updated_at}]
+-else
+  %p There are no comments for this lead

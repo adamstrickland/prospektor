@@ -49,7 +49,19 @@ class User < ActiveRecord::Base
   end
   
   def official_phone
-    "#{self.phone[0..2]}-#{self.phone[3..5]}-#{self.phone[6..-1]}#{(self.extension ? ' x'+self.extension : '')}"
+    default_phone = '214-361-0080'
+    if self.employee
+      phone = (self.employee.business_phone || self.phone || default_phone).gsub(/-/, "")
+      ext = self.employee.extension || self.extension
+      if ext.present?
+        ext = "x#{ext}"
+      else
+        ext = ''
+      end
+      "#{phone[0..2]}-#{phone[3..5]}-#{phone[6..-1]}#{ext}"
+    else
+      default_phone
+    end
   end
   # 
   # def callbacks

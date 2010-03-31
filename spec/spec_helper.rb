@@ -114,16 +114,23 @@ Spork.prefork do
       user.stub!(:save).and_return(true)
       user.stub!(:id).and_return(options[:id])
       user.stub!(:destroyed?).and_return(false)
+      user.stub(:email).and_return(Faker::Internet.email)
       
+      first_name = 'Seamus'
+      last_name = Faker::Name.last_name
       emp = mock_model(Employee)
+      
+      emp.stub(:preferred_name).and_return(first_name)
+      emp.stub(:first_name).and_return(first_name)
+      emp.stub(:last_name).and_return(last_name)
+      emp.stub(:full_name).and_return("#{first_name} #{last_name}")
+      emp.stub(:business_phone).and_return(Faker::PhoneNumber.phone_number)
+      
       user.stub!(:has_attribute?).with('employee_id').and_return(true)
+      user.stub!(:[]).with('employee_id').and_return(emp)
       user.stub!(:employee).and_return(emp)
-      emp.stub!(:preferred_name).and_return('Seamus')
-      emp.stub!(:first_name).and_return('Seamus')
-      emp.stub!(:last_name).and_return('McGregor')
       
       user.stub!(:is_admin?).and_return(role == :admin)
-      
       user_role = mock_model(Role)
       user_role.stub!(:title).and_return(role.to_s.downcase)
       user.stub!(:roles).and_return([user_role])

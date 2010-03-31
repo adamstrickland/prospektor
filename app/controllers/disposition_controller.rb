@@ -13,6 +13,8 @@ class DispositionController < ApplicationController
     respond_to do |format|
       @lead = Lead.find(params[:lead_id])
       @user = current_user
+      
+      @lead.comments << Comment.new(:comment => params[:comments], :user => current_user) if params[:comments].present?
     
       if params[:disposition] == 'BS'
         # notify of sale, set status to CB
@@ -39,7 +41,6 @@ class DispositionController < ApplicationController
       end
     
       @lead.status = @status
-      @lead.comments << Comment.new(:comment => params[:comments], :user => current_user) if params[:comments].present?
     
       format.json do
         if @lead.save

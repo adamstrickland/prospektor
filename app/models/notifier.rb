@@ -13,7 +13,8 @@ class Notifier < ActionMailer::Base
         :full_name => lead.full_name,
         :company => lead.company,
         :phone => lead.phone
-      }
+      }, 
+      :comments => lead.comments
     })
   end
   

@@ -250,6 +250,10 @@ class Lead < ActiveRecord::Base
   def owner
     self.users.last
   end
+
+  def owner=(ownr)
+    self.users << ownr
+  end
   
   def credit_rating
     case self.credit_score
