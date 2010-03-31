@@ -33,4 +33,8 @@ describe Admin::ApplicantsController do
       response.should_not be_success
     end
   end
+  
+  describe "should reject an applicant" do
+    it "should be one-click"
+  end
 end
