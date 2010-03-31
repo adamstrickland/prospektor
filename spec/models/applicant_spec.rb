@@ -14,10 +14,19 @@ describe Applicant do
   describe "should order open applicants by create date" do
     it "if ordered first" do
       applicant1 = @applicant
+      applicant1.should_not be_rejected
+      applicant1.employee.should be_nil
+      
       applicant2 = Applicant.make
       applicant2.created_at = 1.days.from_now
       applicant2.save!
       applicant2.created_at.should > applicant1.created_at
+      applicant2.should_not be_rejected
+      applicant2.employee.should be_nil
+      
+      Applicant.non_employee.should have(2).items
+      Applicant.non_rejected.should have(2).items
+      
       applicants = Applicant.open
       applicants.should have(2).items
       applicants[0].should eql(applicant1)
@@ -46,13 +55,26 @@ describe Applicant do
       end
       @employee.gender.should eql('M')
       @employee.title.should eql('Sales')
-      @employee.department_name.should eql('ES')
+      @employee.department_name.should eql('AS')
       @employee.state_or_province.should eql(@applicant.state_province)
       @employee.phone.should eql(@applicant.home_phone)
       @employee.cellular.should eql(@applicant.mobile_phone)
       @employee.status_change_date.gmtime.should eql(Date.today.to_time.gmtime)
       @employee.date_hired.gmtime.should eql(Date.today.to_time.gmtime)
       @employee.active?.should eql(true)
+    end
+    
+    describe "should only list open applicants" do
+      before :each do
+        
+      end
+      
+      it "should not include rejected ones" do
+        reject = Applicant.make(:rejected => true)
+        Applicant.open.should have(1).items
+      end
+      
+      it "should not include employees"
     end
   end
   

@@ -91,7 +91,13 @@ class Admin::ApplicantsController < Admin::AdminController
   def reject
     respond_to do |format|
       format.json do
-        render head :ok
+        @applicant = Applicant.find(params[:id])
+        @applicant.rejected? = true
+        if @applicant.save
+          head :ok
+        else
+          render :json => @applicant.errors, :status => :unprocessable_entity
+        end
       end
     end
   end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100325182947) do
+ActiveRecord::Schema.define(:version => 20100331162023) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -89,60 +89,54 @@ ActiveRecord::Schema.define(:version => 20100325182947) do
     t.datetime "updated_at"
   end
 
-  create_table "applicant_disposition_status", :force => true do |t|
-    t.string "description", :limit => 50, :null => false
-  end
-
-  add_index "applicant_disposition_status", ["description"], :name => "description_UNIQUE", :unique => true
-
   create_table "applicants", :force => true do |t|
-    t.string   "applicantfirstname",         :limit => 45,                                                           :null => false
-    t.string   "applicantmi",                :limit => 1
-    t.string   "applicantlastname",          :limit => 45,                                                           :null => false
-    t.string   "applicantpreferredname",     :limit => 45
-    t.string   "positionapplyingfor",        :limit => 45
-    t.string   "address",                    :limit => 45,                                                           :null => false
-    t.string   "city",                       :limit => 45,                                                           :null => false
-    t.string   "stateprovince",              :limit => 45,                                                           :null => false
-    t.string   "zippostalcode",              :limit => 45,                                                           :null => false
-    t.string   "country",                    :limit => 45,                                                           :null => false
-    t.string   "email",                      :limit => 45,                                                           :null => false
-    t.string   "homephone",                  :limit => 10
-    t.string   "mobilephone",                :limit => 10
-    t.string   "businessphone",              :limit => 10,                                                           :null => false
-    t.boolean  "appliedtrigonbefore",                                                             :default => false, :null => false
-    t.boolean  "currentlyemployed",                                                               :default => false, :null => false
-    t.boolean  "employercontactpermission",                                                       :default => false, :null => false
-    t.string   "highesteducationachieved",   :limit => 45
-    t.string   "positionexperience",         :limit => 45
-    t.string   "howheardoftrigon",           :limit => 45
-    t.string   "overallexperience",          :limit => 45
-    t.string   "availability",               :limit => 45
-    t.string   "refpersonalname1",           :limit => 45
-    t.string   "refpersonalname2",           :limit => 45
-    t.string   "refpersonalname3",           :limit => 45
-    t.string   "refpersonalphonenum1",       :limit => 10
-    t.string   "refpersonalphonenum2",       :limit => 10
-    t.string   "refpersonalphonenum3",       :limit => 10
+    t.string   "applicantfirstname",        :limit => 45,                                                           :null => false
+    t.string   "applicantmi",               :limit => 1
+    t.string   "applicantlastname",         :limit => 45,                                                           :null => false
+    t.string   "applicantpreferredname",    :limit => 45
+    t.string   "positionapplyingfor",       :limit => 45
+    t.string   "address",                   :limit => 45,                                                           :null => false
+    t.string   "city",                      :limit => 45,                                                           :null => false
+    t.string   "stateprovince",             :limit => 45,                                                           :null => false
+    t.string   "zippostalcode",             :limit => 45,                                                           :null => false
+    t.string   "country",                   :limit => 45,                                                           :null => false
+    t.string   "email",                     :limit => 45,                                                           :null => false
+    t.string   "homephone",                 :limit => 10
+    t.string   "mobilephone",               :limit => 10
+    t.string   "businessphone",             :limit => 10,                                                           :null => false
+    t.boolean  "appliedtrigonbefore",                                                            :default => false, :null => false
+    t.boolean  "currentlyemployed",                                                              :default => false, :null => false
+    t.boolean  "employercontactpermission",                                                      :default => false, :null => false
+    t.string   "highesteducationachieved",  :limit => 45
+    t.string   "positionexperience",        :limit => 45
+    t.string   "howheardoftrigon",          :limit => 45
+    t.string   "overallexperience",         :limit => 45
+    t.string   "availability",              :limit => 45
+    t.string   "refpersonalname1",          :limit => 45
+    t.string   "refpersonalname2",          :limit => 45
+    t.string   "refpersonalname3",          :limit => 45
+    t.string   "refpersonalphonenum1",      :limit => 10
+    t.string   "refpersonalphonenum2",      :limit => 10
+    t.string   "refpersonalphonenum3",      :limit => 10
     t.integer  "refpersonalyrs1"
     t.integer  "refpersonalyrs2"
     t.integer  "refpersonalyrs3"
-    t.string   "refpersonalrelation1",       :limit => 45
-    t.string   "refpersonalrelation2",       :limit => 45
-    t.string   "refpersonalrelation3",       :limit => 45
-    t.string   "refprofessionalname1",       :limit => 45
-    t.string   "refprofessionalname2",       :limit => 45
-    t.string   "refprofessionalname3",       :limit => 45
-    t.string   "refprofessionalphonenum1",   :limit => 10
-    t.string   "refprofessionalphonenum2",   :limit => 10
-    t.string   "refprofessionalphonenum3",   :limit => 10
-    t.string   "refprofessionalposition1",   :limit => 45
-    t.string   "refprofessionalposition2",   :limit => 45
-    t.string   "refprofessionalposition3",   :limit => 45
-    t.string   "refprofessionalrelation1",   :limit => 45
-    t.string   "refprofessionalrelation2",   :limit => 45
-    t.string   "refprofessionalrelation3",   :limit => 45
-    t.string   "computerliteracy",           :limit => 45
+    t.string   "refpersonalrelation1",      :limit => 45
+    t.string   "refpersonalrelation2",      :limit => 45
+    t.string   "refpersonalrelation3",      :limit => 45
+    t.string   "refprofessionalname1",      :limit => 45
+    t.string   "refprofessionalname2",      :limit => 45
+    t.string   "refprofessionalname3",      :limit => 45
+    t.string   "refprofessionalphonenum1",  :limit => 10
+    t.string   "refprofessionalphonenum2",  :limit => 10
+    t.string   "refprofessionalphonenum3",  :limit => 10
+    t.string   "refprofessionalposition1",  :limit => 45
+    t.string   "refprofessionalposition2",  :limit => 45
+    t.string   "refprofessionalposition3",  :limit => 45
+    t.string   "refprofessionalrelation1",  :limit => 45
+    t.string   "refprofessionalrelation2",  :limit => 45
+    t.string   "refprofessionalrelation3",  :limit => 45
+    t.string   "computerliteracy",          :limit => 45
     t.integer  "skill_web"
     t.integer  "skill_word"
     t.integer  "skill_outlook"
@@ -200,7 +194,6 @@ ActiveRecord::Schema.define(:version => 20100325182947) do
     t.string   "emphistreason3",             :limit => 45
     t.string   "emphistreason4",             :limit => 45
     t.text     "ancillarycomments"
-    t.string   "applicantdispositionstatus", :limit => 45
     t.boolean  "icwa_received",                                                                   :default => false, :null => false
     t.boolean  "resume_received",                                                                 :default => false, :null => false
     t.string   "socialsecuritynumber",       :limit => 9
@@ -208,10 +201,11 @@ ActiveRecord::Schema.define(:version => 20100325182947) do
     t.string   "emergencycontactphonenum",   :limit => 10
     t.string   "reportstousername",          :limit => 45
     t.integer  "reportstouserid"
-    t.string   "gender",                     :limit => 6
-    t.boolean  "has_voip",                                                                        :default => false
+    t.string   "gender",                    :limit => 6
+    t.boolean  "has_voip",                                                                       :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "rejected",                                                                       :default => false
   end
 
   create_table "appointment_statuses", :force => true do |t|
