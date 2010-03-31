@@ -16,7 +16,7 @@ describe Presentation do
   before :each do
     @params = {
       :lead => Lead.make,
-      :user => User.make,
+      :user => User.make(:employee => Employee.make),
       :email => Faker::Internet.email,
       :topic => InformationTopic.make,
       :url => "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}",

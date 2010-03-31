@@ -60,7 +60,7 @@
                 =link_to content_tag(:span, '(logout)'), logout_url
             %ul
               %li=link_to 'dashboard', dashboard_url
-              %li=link_to 'leads', user_leads_url(current_user)
+              / %li=link_to 'leads', user_leads_url(current_user)
               %li=link_to 'admin', admin_dashboard_url if current_user.is_admin?
               %li=link_to 'help', '#', :id => 'help_menu'
             #help_links.dropdown{ :style => 'display:none' }

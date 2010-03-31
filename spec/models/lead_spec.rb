@@ -107,9 +107,13 @@ describe Lead do
         
         it "should filter out sold leads" do
           @lead = Lead.unclaimed.first
+          # @lead = stub_model(Lead)
+          # @lead.stub(:full_name).and_return("#{Faker::Name.first_name} #{Faker::Name.last_name}")
           @client = Contact.make(:lead => @lead)
+          @user = mock_user
+          @user.stub(:official_phone).and_return(Faker::PhoneNumber.phone_number)
           lambda{
-            Sale.make(:appointment => Appointment.make(:lead => @lead))
+            Sale.make(:appointment => Appointment.make(:lead => @lead, :user => @user))
           }.should change(Lead.sold, :count).by(1)
         end
       end

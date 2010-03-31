@@ -34,6 +34,8 @@ end
 describe User do
   before :each do
     @user = User.make
+    @employee = Employee.make
+    @user.employee = @employee
   end
   
   describe "should deactivate" do
@@ -85,18 +87,38 @@ describe User do
   
     describe "should return a phone number" do
       before :each do
-        @trigon = "214-361-0080"
-        @user.phone = @trigon.gsub(/-/, "")
+        @user_phone = "214-361-0082"
+        @biz_phone = "214-361-0081"
+        @trigon_phone = "214-361-0080"
+        # @user.phone = @trigon.gsub(/-/, "")
+        @user.extension = nil
+        @user.employee.extension = nil
+      end
+      
+      it "should be the user's biz phone if avail" do
+        # @user.phone = @trigon.gsub(/-/, "")
+        @user.phone = @user_phone.gsub(/-/, "")
+        @user.employee.business_phone = @biz_phone.gsub(/-/, "")
+        @user.official_phone.should eql(@biz_phone)
       end
     
-      it "should be trigon's phone number" do
-        @user.extension = nil
-        @user.official_phone.should eql(@trigon)
+      it "should be the user's phone number if no biz phone" do
+        @user.phone = @user_phone.gsub(/-/, "")
+        @user.employee.business_phone = nil
+        @user.official_phone.should eql(@user_phone)
+      end
+  
+      it "should be trigon's phone number if nothing else is available" do
+        @user.phone = nil
+        @user.employee.business_phone = nil
+        @user.official_phone.should eql(@trigon_phone)
       end
     
       it "should have their extension when available" do
-        @user.extension = "1234"
-        @user.official_phone.should eql("#{@trigon} x1234")
+        ext = "1234"
+        @user.employee.business_phone = @biz_phone.gsub(/-/, "")
+        @user.employee.extension = ext.to_i
+        @user.official_phone.should eql("#{@biz_phone}x#{ext}")
       end
     end
   
