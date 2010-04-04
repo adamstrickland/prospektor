@@ -1,6 +1,44 @@
 require 'spec_helper'
 
 describe Lead do
+  describe "search" do
+    before :each do
+      Lead.make(:phone => "2145551212", :first_name => 'Bill', :last_name => 'Smith', :company => 'SmithCo', :zip => 75201)
+      Lead.make(:phone => "9725551212", :first_name => 'Bill', :last_name => 'Jones', :company => 'Jones, Inc', :zip => 75202)
+      Lead.make(:phone => "5128886754", :first_name => 'John', :last_name => 'Davis', :company => 'Davis Widgets, LLC', :zip => 75203)
+    end
+    
+    it "should find leads by phone number" do
+      Lead.find_by_like(800).should have(0).items
+      Lead.find_by_like(214).should have(1).items
+      Lead.find_by_like(512).should have(3).items
+      Lead.find_by_like(5551212).should have(2).items
+      Lead.find_by_like("5551212").should have(2).items
+      Lead.find_by_like(2145551212).should have(1).items
+      # Lead.find_by_like("555-1212").should have(1).items
+    end
+    
+    it "should find leads by prospect name" do
+      Lead.find_by_like('Bill').should have(2).items
+      Lead.find_by_like('Jones').should have(1).items
+      # Lead.find_by_like('Bill Jones').should have(1).items
+      Lead.find_by_like('Jo').should have(2).items
+      Lead.find_by_like('John').should have(1).items
+    end
+    
+    it "should find leads by zip" do
+      Lead.find_by_like(75203).should have(1).items
+      Lead.find_by_like(75204).should have(0).items
+      Lead.find_by_like(752).should have(3).items
+    end
+    
+    it "should find leads by company name" do
+      Lead.find_by_like('LLC').should have(1).items
+      Lead.find_by_like('Corp').should have(0).items
+      Lead.find_by_like(',').should have(2).items
+    end
+  end
+  
   describe "scoped" do 
     describe "by status" do
       before :each do

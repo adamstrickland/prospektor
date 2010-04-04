@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   map.search '/search', :controller => 'search', :action => 'show'
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
-  map.resources :leads, :member => { :demographics => :get, :history => :get, :details => :get } do |leads|
+  map.resources :leads, :member => { :demographics => :get, :history => :get, :details => :get }, :collection => { :search => :get } do |leads|
     leads.resources :comments, :only => [ :new, :create, :index ]
     leads.resources :events, :only => [ :index ]
     # leads.resources :events, :only => [ :new, :create, :index ]

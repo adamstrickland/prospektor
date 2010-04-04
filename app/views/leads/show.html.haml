@@ -39,13 +39,12 @@
       /   -if current_user.callbacks.next.present?
       /     ="Callback: #{current_user.callbacks.next.first.lead.company.strip} at #{current_user.callbacks.next.first.callback_at.to_s('%H:%M')}"
 
--content_for :menu do  
-  %ul
-    %li=link_to content_tag(:span, 'Next'), user_call_manager_url(current_user) if current_user.is_admin?
-    %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
-    %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'Send'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
-    %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
-    %li=link_to 'Edit', edit_lead_url(@lead, :height => 500, :width => 400), :class => 'thickbox'
+-content_for :menu do
+  %li=link_to content_tag(:span, 'Next'), user_call_manager_url(current_user) if current_user.is_admin?
+  %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
+  %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'Send'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
+  %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
+  %li=link_to 'Edit', edit_lead_url(@lead, :height => 500, :width => 400), :class => 'thickbox'
     
 -content_for :scripts do
   =javascript_include_tag "jquery.epiclock#{ '.min' if Rails.env == 'production' }"
@@ -83,53 +82,55 @@
   =thirdparty_stylesheet_link_tag 'epiclock'
   %style{ :type => "text/css" }
     :sass
-      .info
-        .top
-          .twocol
-            .lcol
-              :width 49%
-            .rcol
-              :width 49%
-              :margin 0 auto
-              :text-align center
-          #prospect
-            p
-              :margin-top 0
-              :margin-bottom 0
-            .prospect_name
+      .content
+        :margin-top 35px
+        .info
+          .top
+            .twocol
+              .lcol
+                :width 49%
+              .rcol
+                :width 49%
+                :margin 0 auto
+                :text-align center
+            #prospect
+              p
+                :margin-top 0
+                :margin-bottom 0
+              .prospect_name
+                :font
+                  :weight bold
+                  :size 2em
+            #info
+              :position relative
+              :right 30px
+              :margin-top 1.5em
+              span
+                :text-align center
+                :font
+                  :weight bold
+                  :size 3em
+                :padding 1em
+                :color #eee
+              #business_type
+                :background url(/images/gray_circle.gif) center center no-repeat
+              #sales_code
+                :background url(/images/red_circle.gif) center center no-repeat
+              #employee_code
+                :background url(/images/purple_circle.gif) center center no-repeat
+            #phone
+              :white-space nowrap
+              :position relative
+              :right 30px
+              :background black
+              :-webkit-border-radius 10px
+              :-moz-border-radius 10px
+              :color white
+              :padding 10px
               :font
-                :weight bold
-                :size 2em
-          #info
-            :position relative
-            :right 30px
-            :margin-top 1.5em
-            span
-              :text-align center
-              :font
-                :weight bold
+                :family Monaco, Consolas, 'Courier New', monospace
                 :size 3em
-              :padding 1em
-              :color #eee
-            #business_type
-              :background url(/images/gray_circle.gif) center center no-repeat
-            #sales_code
-              :background url(/images/red_circle.gif) center center no-repeat
-            #employee_code
-              :background url(/images/purple_circle.gif) center center no-repeat
-          #phone
-            :white-space nowrap
-            :position relative
-            :right 30px
-            :background black
-            :-webkit-border-radius 10px
-            :-moz-border-radius 10px
-            :color white
-            :padding 10px
-            :font
-              :family Monaco, Consolas, 'Courier New', monospace
-              :size 3em
-              :weight bold
+                :weight bold
       #add-comment
         textarea
           :height 300px

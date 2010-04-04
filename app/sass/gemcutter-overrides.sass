@@ -75,11 +75,29 @@ hr
       :color = !cl_menu_link
     :padding-top 0
     .menu
+      :float right
       +gemcutter_nav  
       ul
         li
           a
             :color = !cl_menu_link
+    .submenus
+      :float right
+      :right 0
+      :clear right
+      #search_control
+        :padding 10px
+        :background-color = !cl_gold
+        :z-index 55
+        #search_phrase
+          :width 180px
+        #search_results
+          .lead
+            :padding 5px
+            span.prospect
+            span.company
+            span.address
+            span.phone
     .fold
       :height 3em
       :margin auto 1em
@@ -106,7 +124,7 @@ hr
       -webkit-border-radius: 10px
     .info      
       .bottom
-        :height 55em
+        :height 480px
         .tabbed
           a
             :color #000
@@ -127,7 +145,7 @@ hr
                 :width 3px
                 :style solid
                 :color = !cl_copy
-              :height 480px
+              :height 400px
               #comments
                 .item
                   :border-top
@@ -153,7 +171,7 @@ hr
               .tab-panel
                 :overflow auto
                 :padding-left 1em
-                :height 430px
+                :height 360px
                 .item
                   :text-indent -1em
                   .byline

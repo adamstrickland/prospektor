@@ -7,15 +7,33 @@ describe LeadsController do
     @lead = stub_model(Lead)
     Lead.stub!(:find).with(any_args()).and_return(@lead)
     @other_id = [42, 13].reject{|i| i == @user.id}.first
-    
-  end
   
+  end
+
   describe "GET" do
+    describe "search" do
+      before :each do
+        @leads = (0..4).map{ |i| 
+          l = stub_model(Lead)
+          l
+        }
+      end
+      
+      it "should find leads for search" do
+        search_str = 'something'
+        Lead.should_receive(:conditions_by_like).with(search_str).and_return("1=1")
+        Lead.should_receive(:paginate).and_return(@leads)
+        get :search, :search => search_str
+        assigns[:leads].should be @leads
+        response.should render_template 'leads/_search_results.html.haml'
+      end
+    end
+    
     describe "index" do
       describe "if no user supplied," do
         before :each do
         end
-        
+      
         it "should show a paginated view of all leads if the current_user is an admin" do
           # Lead.should_receive(:)
           @lead.should_receive(:paginate).with(any_args()).and_return([@lead])
@@ -46,30 +64,30 @@ describe LeadsController do
             User.stub!(:find).with(@other_id.to_s).and_return(@other_user)            
             @other_user.stub!(:leads).and_return([@lead])
           end
-          
+        
           it "if the user supplied is the current_user" do
             @user.stub!(:leads).and_return([@lead])
             get :index, :user_id => @user.id
             response.should render_template 'leads/index.html.haml'
           end
-          
+        
           it "if the current_user is an admin" do
             @user = login_as :admin
             @user.stub!(:leads).and_return([@lead])
-            
+          
             get :index, :user_id => @other_id
             response.should render_template 'leads/index.html.haml'
           end
         end
       end
     end
-    
+  
     describe "show" do
       it "should fail if no user" do
         get :show, :id => @lead.id
         response.should render_template 'leads/error.html.haml'
       end
-      
+    
       it "should show it if the user owns the lead" do
         get :show, :id => @lead.id, :user_id => @user.id
         response.should render_template 'leads/show.html.haml'
@@ -80,16 +98,16 @@ describe LeadsController do
           get :show, :id => @lead.id, :user_id => @other_id
           response.should render_template 'leads/error.html.haml'
         end
-        
+      
         it "should show it if the current_user is a manager"
-        
+      
         it "should show it if the current_user is an admin" do
           @user = login_as :admin
           get :show, :id => @lead.id, :user_id => @user.id
           response.should render_template 'leads/show.html.haml'
         end
       end
-      
+    
       it "should create an access_lead event" do
         lambda{
           get :show, :id => @lead.id, :user_id => @user.id
@@ -97,23 +115,23 @@ describe LeadsController do
       end
     end
   end
-  
+
   describe "call manager" do
     it "should always show lead from the next_in_queue" do
-      
-    end
     
+    end
+  
     it "should serve pool leads" do 
     end
   end
-  
+
   describe "changes" do
     describe "via adding" do
     end
-    
+  
     describe "via updating" do
     end
-    
+  
     describe "via deleting" do
     end
   end
