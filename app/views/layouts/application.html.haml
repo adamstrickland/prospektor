@@ -82,7 +82,7 @@
           .menu
             %ul.menu
               =yield :menu
-              / %li=link_to 'Find', '#', :id => 'search_menu'
+              %li=link_to 'Find', '#', :id => 'search_menu'
           .submenus 
             =yield :submenu
             #search_control{ :style => 'display:none' }
