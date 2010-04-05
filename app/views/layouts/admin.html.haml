@@ -1,10 +1,10 @@
 -content_for :menu do
-  %ul.menu
-    / %li=link_to 'Assignments', admin_assignments_path
-    %li=link_to 'Users', admin_users_path
-    %li=link_to 'Applicants', admin_applicants_path
-    %li=link_to 'Quick Find', '#', :id => 'quick_find'
+  / %li=link_to 'Assignments', admin_assignments_path
+  %li=link_to 'Users', admin_users_path
+  %li=link_to 'Applicants', admin_applicants_path
+  %li=link_to 'Quick Find', '#', :id => 'quick_find'
 
+-content_for :submenu do
   #quick_find_form{ :style => 'display:none' }
     -form_tag '/', {:method => :get, :id => 'go_to_lead'} do
       =text_field_tag 'phone', nil, :size => 10

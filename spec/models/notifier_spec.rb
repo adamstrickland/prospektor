@@ -74,7 +74,7 @@ describe Notifier do
     @applicant = mock_model(Applicant)
     name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
     @applicant.should_receive(:full_name).and_return(name)
-    [:home_phone, :business_phone, :mobile_phone].each do |a|
+    [:home_phone, :business_phone, :mobile_phone, :city, :state_province].each do |a|
       @applicant.should_receive(a).and_return(Faker::Lorem.words(1))
     end
     @email = Notifier.create_new_applicant_alert(@applicant)

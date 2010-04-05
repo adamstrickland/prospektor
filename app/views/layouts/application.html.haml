@@ -35,6 +35,14 @@
         $('#help_menu').click(function(e){
           $('#help_links').slideToggle(400);
         });
+        
+        $('#search_results .controls .pagination a').live('click', function(){
+          $.get($(this).attr("href"), function(r){
+            $('#search_results').html(r);
+          }); 
+          return false; 
+        });
+        
                 
         feedback_widget = new GSFN.feedback_widget({
           container:'getsatisfaction', 
@@ -78,7 +86,13 @@
       .container_12
         .prefix_1.grid_10.suffix_1.main
           .menu
-            =yield :menu
+            -if logged_in?
+              %ul.menu
+                =yield :menu
+                %li=link_to 'Find', new_search_url(:height => 600, :width => 300, :format => 'ajax'), :class => 'thickbox'
+            .submenus 
+              =yield :submenu
+              
           / .blurb
           /   #error.flash=flash[:error]
           /   #warn.flash

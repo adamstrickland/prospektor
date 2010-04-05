@@ -1,0 +1,9 @@
+#search_control.search_wrapper
+  .search_left
+  =text_field_tag :search_phrase, '', :class => 'search_field show_hint'
+  =observe_field :search_phrase, :frequency => 0.5, :update => 'search_results', :complete => "$('#quick_search').show()", :url => { :action => :search }, :with => "'search='+encodeURIComponent(value)"
+  .search_right
+  =link_to image_tag('blank.gif', :class => 'search_clear_button sprite'), '#', :class => 'sc_button_view button regular normal search_clear_button', :style => 'display:none'
+  .quick_search{ :style => 'display:none' }
+    #close_search=link_to_function image_tag('close.png'), "$('#quick_searc').hide()"
+    #search_results

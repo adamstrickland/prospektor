@@ -29,33 +29,6 @@ class Admin::AssignmentsController < Admin::AdminController
     # render :partial => 'foo', :locals => { :user => @user }
     render 'bulk', :layout => false
   end
-  
-  # def new_block
-  #   render 'new_block', :layout => false
-  # end
-  # 
-  # def all_leads
-  #   render 'all_leads', :layout => false
-  # end
-  # 
-  # def create_block
-  #   respond_to do |format|
-  #     format.json do
-  #       amount = params[:size] || 500
-  #       user = User.find(params[:id])
-  #       leads = Lead.generate_leads_for_user(user, amount)
-  #       user.leads = leads
-  #       if user.save
-  #         head :ok
-  #       else
-  #         head :unprocessable_entity
-  #       end
-  #     end
-  #   end
-  # end
-  
-  def search
-  end
 
   # GET /assignments/new
   # GET /assignments/new.xml

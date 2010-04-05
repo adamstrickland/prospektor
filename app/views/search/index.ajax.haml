@@ -1,0 +1,12 @@
+.sets_of_results
+  -if @leads.blank?
+    .result_set No results found
+  -else
+    .result_set
+      .result_data
+        -@leads.each do |lead|
+          .result_data_item{ :class => cycle('odd', 'even') }
+            %a{ :href => lead_url(lead) }
+              =render :partial => 'leads/search_results', :locals => { :lead => lead }
+      .controls
+        =will_paginate @leads

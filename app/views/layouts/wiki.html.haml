@@ -1,11 +1,12 @@
 -content_for :menu do
-  %ul.menu
-    -if edit_allowed?
-      %li=link_to 'New', '#', :id => 'new_wiki_menu'
-      / -if @page
-      /   %li=link_to 'Edit', wiki_page_edit_path(@page)
-      /   / %li=link_to 'Compare', wiki_page_compare_path(@page)
-      /   %li=link_to 'History', wiki_page_history_path(@page)
+  -if edit_allowed?
+    %li=link_to 'New', '#', :id => 'new_wiki_menu'
+    / -if @page
+    /   %li=link_to 'Edit', wiki_page_edit_path(@page)
+    /   / %li=link_to 'Compare', wiki_page_compare_path(@page)
+    /   %li=link_to 'History', wiki_page_history_path(@page)
+    
+-content_for :submenu do
   %div
     #new_wiki_submenu.dropdown{ :style => 'display:none' }
       -form_tag wiki_link(''), :method => :get, :id => 'new_wiki_form' do

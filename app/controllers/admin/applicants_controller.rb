@@ -92,7 +92,7 @@ class Admin::ApplicantsController < Admin::AdminController
     respond_to do |format|
       format.json do
         @applicant = Applicant.find(params[:id])
-        @applicant.rejected? = true
+        @applicant.rejected = true
         if @applicant.save
           head :ok
         else
