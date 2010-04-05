@@ -151,12 +151,4 @@ class LeadsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  def search
-    unless params[:search].blank?
-      @leads = Lead.paginate :page => params[:page], :per_page => 10, :conditions => Lead.conditions_by_like(params[:search])
-      # @results = Lead.paginateby_like(params[:search]) :page => params[:page], :per_page => 10
-    end
-    render :partial => 'search_results', :layout => false
-  end
 end

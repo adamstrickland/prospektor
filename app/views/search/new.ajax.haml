@@ -1,0 +1,13 @@
+#search.dialog.modal
+  .title 
+    .heading Find a Lead
+    .subtitle Enter a word, name or phone (no hypens, etc.)
+  .form
+    =text_field_tag :search_phrase, '', :id => 'search_phrase'
+    =observe_field :search_phrase, :frequency => 0.5, :update => 'search_results', :loading => "$('#search_results').hide(); $('#searching').show()", :complete => "$('#searching').hide(); $('#search_results').show()", :method => :get, :url => search_index_url(:format => 'ajax'), :with => "'search='+encodeURIComponent(value)"
+  .results
+    #searching{ :style => 'display:none' }
+      .sets_of_results=image_tag 'loadingAnimation.gif'
+    #search_results
+  :javascript
+    setTimeout(function(){ $('#search_phrase').focus(); }, 500);

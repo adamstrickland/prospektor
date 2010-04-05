@@ -43,10 +43,11 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :reports, :only => [ :index, :show ]
     users.profile 'profile', :controller => 'users', :action => 'show'
   end
-  map.search '/search', :controller => 'search', :action => 'show'
+  # map.search '/search', :controller => 'search', :action => 'show'
+  map.resources :search, :only => [:new, :index]
   
   map.lead_by_phone '/leads/phone/:phone.:format', :controller => 'leads', :action => 'find_by_phone'
-  map.resources :leads, :member => { :demographics => :get, :history => :get, :details => :get }, :collection => { :search => :get } do |leads|
+  map.resources :leads, :member => { :demographics => :get, :history => :get, :details => :get } do |leads|
     leads.resources :comments, :only => [ :new, :create, :index ]
     leads.resources :events, :only => [ :index ]
     # leads.resources :events, :only => [ :new, :create, :index ]
@@ -62,7 +63,6 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :users, :only => [ :index ], :member => { :reset_password => :post, :deactivate => :post } do |user|
       user.with_options :controller => 'assignments' do |opts|
         opts.bulk_assignment 'bulk', :action => 'bulk'
-        opts.search_assignments 'search', :action => 'search'
       end
       user.resources :assignments do |assignment|
       end
@@ -87,7 +87,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.pdf '/assets/:asset', :controller => 'help', :action => 'pdf'
   
-  ['quick_start', 'users_guide', 'documentation', 'faq', 'search', 'sales_aides'].each do |act|
+  ['quick_start', 'users_guide', 'documentation', 'faq', 'sales_aides'].each do |act|
     map.send(act, "/docs/#{act}", :controller => 'help', :action => act)
   end
   

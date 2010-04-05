@@ -36,7 +36,13 @@
           $('#help_links').slideToggle(400);
         });
         
-        $('#search_menu').click(function(e){ $('#search_control').slideToggle(400); })
+        $('#search_results .controls .pagination a').live('click', function(){
+          $.get($(this).attr("href"), function(r){
+            $('#search_results').html(r);
+          }); 
+          return false; 
+        });
+        
                 
         feedback_widget = new GSFN.feedback_widget({
           container:'getsatisfaction', 
@@ -80,15 +86,12 @@
       .container_12
         .prefix_1.grid_10.suffix_1.main
           .menu
-            %ul.menu
-              =yield :menu
-              %li=link_to 'Find', '#', :id => 'search_menu'
-          .submenus 
-            =yield :submenu
-            #search_control{ :style => 'display:none' }
-              =text_field_tag :search_phrase, '', :class => 'search_field show_hint'
-              =observe_field :search_phrase, :frequency => 0.5, :update => 'search_results', :complete => "$('#search_results').show()", :method => :get, :url => search_leads_url, :with => "'search='+encodeURIComponent(value)"
-              #search_results
+            -if logged_in?
+              %ul.menu
+                =yield :menu
+                %li=link_to 'Find', new_search_url(:height => 600, :width => 300, :format => 'ajax'), :class => 'thickbox'
+            .submenus 
+              =yield :submenu
               
           / .blurb
           /   #error.flash=flash[:error]

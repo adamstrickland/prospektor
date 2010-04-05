@@ -85,19 +85,6 @@ hr
       :float right
       :right 0
       :clear right
-      #search_control
-        :padding 10px
-        :background-color = !cl_gold
-        :z-index 55
-        #search_phrase
-          :width 180px
-        #search_results
-          .lead
-            :padding 5px
-            span.prospect
-            span.company
-            span.address
-            span.phone
     .fold
       :height 3em
       :margin auto 1em
@@ -258,6 +245,9 @@ hr
   #TB_ajaxContent
     :overflow hidden
     :background #125BA8 url(/images/hash_bkgrnd.png) repeat
+    #search.dialog
+      :margin 1em auto
+      :text-align center
     .dialog
       :color = !cl_header
       a
@@ -272,6 +262,49 @@ hr
           :weight bold
           :size 1.5em
         :color = !cl_header
+        .subtitle
+          :font
+            :weight normal
+            :size .5em
+      .form
+        input[name='search_phrase']
+          :width 280px
+          :font-size 1.5em
+      .results
+        :margin-top 1em
+        :text-align left
+        #searching,#search_results
+          .sets_of_results
+            :padding-top 1em
+            :border-top 1px solid
+            :border-top-color = !cl_silver
+        #searching
+          :text-align center
+          :margin 0 auto
+        #search_results
+          .sets_of_results
+            .result_set
+              .result_data
+                .result_data_item
+                  :margin 5px
+                  :border 1px solid
+                  :border-color = !cl_black
+                  a
+                    :text-decoration none
+                  &:hover
+                    :text-decoration underline
+                    :cursor crosshair
+                  .lead
+                    :padding 5px
+                    span.prospect
+                      :font-weight bold
+                    span.company
+                    span.address
+                    span.phone
+                .result_data_item.even
+                  :background-color = !cl_body + #333
+              .controls
+                :text-align center
       ol.tabs  
         :margin 1em 1em 0 0
         li
