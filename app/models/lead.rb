@@ -26,6 +26,15 @@ class Lead < ActiveRecord::Base
   # will_paginate; show up to 100/page
   cattr_reader :per_page
   @@per_page = 100
+  
+  named_scope :searchy,
+    lambda{ |term|
+      search_columns = [:first_name, :last_name, :salutation, :title, :company, :address, :city, :state, :county, :zip, :phone]
+      {
+        :conditions => Lead.conditions_by_like(term, search_columns)
+      }
+    },
+    :negative => false
     
   named_scope :located_in_state_of, 
     lambda { |st|

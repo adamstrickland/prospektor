@@ -3,20 +3,25 @@ class LeadsController < ApplicationController
   # GET /leads.xml
   def index
     page = params[:page] || 1
+    
     respond_to do |format|
-      format.html do
-        if params.key?(:user_id)
-          unless current_user.is_admin? or current_user.id == params[:user_id].to_i
-            render :template => 'error'
-          else
-            @leads = User.find(params[:user_id]).leads.paginate :page => page
-          end
+      if params.key?(:user_id)
+        unless current_user.is_admin? or current_user.id == params[:user_id].to_i
+          format.html{ render :template => 'error.html' }
+          format.ajax{ render :template => 'error.html' }
         else
-          unless current_user.is_admin?
-            render :template => 'error'
-          else
-            @leads = Lead.all.paginate :page => page
-          end
+          @leads = User.find(params[:user_id]).leads.paginate :page => page
+          format.html{  }
+          format.ajax{ render :template => 'show.html' }
+        end
+      else
+        unless current_user.is_admin?
+          format.html{ render :template => 'error.html' }
+          format.ajax{ render :template => 'error.html' }
+        else
+          @leads = Lead.all.paginate :page => page
+          format.html{  }
+          format.ajax{ render :template => 'show.html' }
         end
       end
     end
@@ -38,14 +43,14 @@ class LeadsController < ApplicationController
   # GET /leads/1.xml
   def show
     respond_to do |format|
-      format.html do
-        @lead = Lead.find(params[:id])
-        if current_user.is_admin? or (params.key?(:user_id) && current_user.id == params[:user_id].to_i && @user = User.find(params[:user_id]))
-          UserEvent.access_lead(@lead, @user) if @user
-          render
-        else
-          render :template => 'error'
-        end
+      @lead = Lead.find(params[:id])
+      if current_user.is_admin? or (params.key?(:user_id) && current_user.id == params[:user_id].to_i && @user = User.find(params[:user_id]))
+        UserEvent.access_lead(@lead, @user) if @user
+        format.html{}
+        format.ajax{ render :template => 'show.html' }
+      else  
+        format.html{ render :template => 'error.html' }
+        format.ajax{ render :template => 'error.html' }
       end
     end
   end
