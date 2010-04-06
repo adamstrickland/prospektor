@@ -3,17 +3,16 @@ require File.join(Rails.root, 'spec', 'spec_helper')
 describe Admin::ApplicantsController do
   before :each do
     @admin = login_as :admin
+    @applicant = mock_model(Applicant)
+    @applicant_id = @applicant.id.to_s
+    Applicant.stub!(:find).with(@applicant_id).and_return(@applicant)
   end
   
   describe "if trying to onboard an applicant" do
-    before :each do      
-      @applicant = mock_model(Applicant)
+    before :each do
       @user = mock_user :any
       @employee = @user.employee
-      @applicant_id = @applicant.id.to_s
       @post_params = { :id => @applicant_id, :hired_at => Time.now }
-      
-      Applicant.stub!(:find).with(@applicant_id).and_return(@applicant)
     end
     
     it "should be a one click op" do
@@ -35,6 +34,10 @@ describe Admin::ApplicantsController do
   end
   
   describe "should reject an applicant" do
-    it "should be one-click"
+    it "should be one-click" do
+      @applicant.should_receive(:rejected=).with(true)
+      @applicant.should_receive(:save).and_return(true)
+      post :reject, :format => 'json', :id => @applicant_id
+    end
   end
 end

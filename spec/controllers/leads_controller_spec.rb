@@ -74,18 +74,32 @@ describe LeadsController do
     end
   
     describe "show" do
-      it "should fail if no user" do
-        get :show, :id => @lead.id
-        response.should render_template 'leads/error.html.haml'
+      describe "if no user" do
+        
+        it "should fail if the current_user is not the leads owner" do
+          @other_user = mock_user(:id => 999)
+          @lead.should_receive(:owner).and_return(@other_user)
+          get :show, :id => @lead.id
+          response.should render_template 'leads/error.html.haml'
+        end
+        
+        it "should show if the current_user is the lead's owner" do
+          @lead.should_receive(:owner).and_return(@user)
+          get :show, :id => @lead.id
+          response.should render_template 'leads/show.html.haml'
+        end
       end
     
       it "should show it if the user owns the lead" do
+        @lead.should_receive(:owner).and_return(@user)
         get :show, :id => @lead.id, :user_id => @user.id
         response.should render_template 'leads/show.html.haml'
       end
 
       describe "if the user does not own the lead" do
         it "should not show it if the current_user is NOT an admin" do
+          @other_user = mock_user(:id => @other_id)
+          @lead.should_receive(:owner).and_return(@other_user)
           get :show, :id => @lead.id, :user_id => @other_id
           response.should render_template 'leads/error.html.haml'
         end
@@ -100,6 +114,7 @@ describe LeadsController do
       end
     
       it "should create an access_lead event" do
+        @lead.should_receive(:owner).and_return(@user)
         lambda{
           get :show, :id => @lead.id, :user_id => @user.id
         }.should change(UserEvent, :count).by(1)
@@ -108,12 +123,8 @@ describe LeadsController do
   end
 
   describe "call manager" do
-    it "should always show lead from the next_in_queue" do
-    
-    end
-  
-    it "should serve pool leads" do 
-    end
+    it "should always show lead from the next_in_queue"
+    it "should serve pool leads"
   end
 
   describe "changes" do
