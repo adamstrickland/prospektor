@@ -7,21 +7,21 @@ class LeadsController < ApplicationController
     respond_to do |format|
       if params.key?(:user_id)
         unless current_user.is_admin? or current_user.id == params[:user_id].to_i
-          format.html{ render :template => 'error.html' }
-          format.ajax{ render :template => 'error.html' }
+          format.html{ render :action => 'error' }
+          format.ajax{ render :action => 'error.html' }
         else
           @leads = User.find(params[:user_id]).leads.paginate :page => page
           format.html{  }
-          format.ajax{ render :template => 'show.html' }
+          format.ajax{ render :action => 'show.html' }
         end
       else
         unless current_user.is_admin?
-          format.html{ render :template => 'error.html' }
-          format.ajax{ render :template => 'error.html' }
+          format.html{ render :action => 'error' }
+          format.ajax{ render :action => 'error.html' }
         else
           @leads = Lead.all.paginate :page => page
           format.html{  }
-          format.ajax{ render :template => 'show.html' }
+          format.ajax{ render :action => 'show.html' }
         end
       end
     end
@@ -44,13 +44,13 @@ class LeadsController < ApplicationController
   def show
     respond_to do |format|
       @lead = Lead.find(params[:id])
-      if current_user.is_admin? or (params.key?(:user_id) && current_user.id == params[:user_id].to_i && @user = User.find(params[:user_id]))
-        UserEvent.access_lead(@lead, @user) if @user
+      if current_user.is_admin? or current_user == @lead.owner or current_user.id == params[:user_id].to_i
+        UserEvent.access_lead(@lead, current_user)
         format.html{}
-        format.ajax{ render :template => 'show.html' }
+        format.ajax{ render :action => 'show.html' }
       else  
-        format.html{ render :template => 'error.html' }
-        format.ajax{ render :template => 'error.html' }
+        format.html{ render :action => 'error' }
+        format.ajax{ render :action => 'error.html' }
       end
     end
   end

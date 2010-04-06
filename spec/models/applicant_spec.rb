@@ -66,15 +66,20 @@ describe Applicant do
     
     describe "should only list open applicants" do
       before :each do
-        
+        Applicant.open.should have(1).items
+      end
+      
+      after :each do
+        Applicant.open.should have(1).items
       end
       
       it "should not include rejected ones" do
         reject = Applicant.make(:rejected => true)
-        Applicant.open.should have(1).items
       end
       
-      it "should not include employees"
+      it "should not include employees" do
+        employed = Applicant.make(:employee => Employee.make)
+      end
     end
   end
   
