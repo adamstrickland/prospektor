@@ -25,17 +25,25 @@ describe LeadsController do
           response.should render_template 'leads/index.html.haml'
         end
 
-        it "should show an error if the current_user is NOT an admin" do
-          # @lead.should_receive(:paginate).with(any_args()).and_return([@lead])
-          get :index
-          response.should render_template 'leads/error.html.haml'
+        describe "should show an error if the current_user is NOT an admin" do
+          it "should work if HTML is the MIME" do
+            get :index
+            response.should render_template 'leads/error.html.haml'
+          end
         end
       end
 
       describe "if a user is supplied" do
-        it "should show an error if the supplied user is not the current_user" do
-          get :index, :user_id => @other_id
-          response.should render_template 'leads/error.html.haml'
+        describe "should show an error if the supplied user is not the current_user" do
+          it "using html mime" do
+            get :index, :user_id => @other_id
+            response.should render_template 'leads/error.html.haml'
+          end
+        
+          it "using ajax mime" do
+            get :index, :format => 'ajax', :user_id => @other_id
+            response.should render_template 'leads/error.html.haml'
+          end
         end
 
         describe "should show a paginated view of the leads that belong to the supplied user" do
