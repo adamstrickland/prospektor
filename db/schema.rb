@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100331162023) do
+ActiveRecord::Schema.define(:version => 20100407200541) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -1286,6 +1286,14 @@ ActiveRecord::Schema.define(:version => 20100331162023) do
     t.integer  "answer_id"
     t.string   "rule"
     t.string   "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "videos", :force => true do |t|
+    t.string   "name",             :null => false
+    t.string   "url",              :null => false
+    t.string   "on_complete_hook"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

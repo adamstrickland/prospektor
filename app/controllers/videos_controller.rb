@@ -24,4 +24,21 @@ class VideosController < ApplicationController
       end
     end
   end
+  
+  def show
+    @video = Video.find(params[:id])
+    # @bindings = {
+    #   :key => params[:key].present? ? params[:key] : Base64.encode64(Time.now.to_s).strip
+    # }
+    @bindings = params
+    respond_to do |format|
+      format.html do
+        @title = @video.name
+        render :action => 'player'
+      end
+      format.json do
+        render :json => { :swf => @video.url, :callback => @video.callback_url(@bindings) }, :status => :ok
+      end
+    end
+  end
 end

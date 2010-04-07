@@ -1,14 +1,14 @@
 :javascript
   google.setOnLoadCallback(function(){
     $(function(){
-      $.getJSON(location.href+'.json?key='+'#{@key}', function(resp){
-        $('#player').flash($.extend({swf:resp.swf}, swfobject_defaults));
+      $.getJSON('#{video_url(@video, {:format => 'json'}.merge(@bindings))}', function(data){
+        $('#player').flash($.extend({swf:data.swf}, swfobject_defaults));
 
-        if(resp.redirect){
+        if(data.callback){
           $.doTimeout(500, function(){
             $('#player').flash(function(){
               if(this.TCurrentFrame('/') >= (this.TotalFrames() - 1)){
-                location.href = resp.redirect;
+                location.href = data.callback;
                 return false;
               }
             });
