@@ -9,7 +9,7 @@ class PresentationsController < ApplicationController
         @presentation = Presentation.new
         @lead = Lead.find(params[:lead_id])
         @presentation.email = @lead.email
-        @topics = InformationTopic.all.sort_by{ |t| t.name }.map{ |t| [t.name, t.id] }
+        @topics = Topic.all.sort_by{ |t| t.name }.map{ |t| [t.name, t.id] }
         
         render 'new', :layout => 'modal'
       end

@@ -1,14 +1,15 @@
 require 'spec_helper'
 
-describe Video do
+describe VideoTopic do
   before(:each) do
+    @video = stub_model(Video)
     @valid_attributes = {
       :name => Faker::Lorem.words(2).join(' ').titleize,
-      :url => "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}"
+      :video => @video
     }
   end
 
   it "should create a new instance given valid attributes" do
-    Video.create!(@valid_attributes)
+    VideoTopic.create!(@valid_attributes)
   end
 end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100407200541) do
+ActiveRecord::Schema.define(:version => 20100407222604) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -1202,6 +1202,7 @@ ActiveRecord::Schema.define(:version => 20100407200541) do
     t.integer  "number"
     t.string   "type"
     t.string   "information"
+    t.integer  "video_id"
   end
 
   add_index "topics", ["type"], :name => "index_topics_on_type"

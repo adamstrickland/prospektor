@@ -151,6 +151,17 @@ InformationTopic.blueprint do
   type{ 'InformationTopic' }
 end
 
+Video.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  url{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}" }
+end
+
+VideoTopic.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  video
+  type{ 'VideoTopic' }
+end
+
 Applicant.blueprint do
   first_name
   preferred_name{ self.first_name }

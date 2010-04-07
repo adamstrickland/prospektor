@@ -18,7 +18,8 @@ describe 'videos at' do
         
         it 'with a key' do
           key = 'OU9w7inLLKiu'
-          assigns[:key] = key
+          assigns[:video] = stub_model(Video)
+          assigns[:bindings] = { :key => key }
           render('/videos/_player_config.html.haml')
           response.should have_tag('script', /^.*#{key}.*$/)
           # response.body.should match(/^.*#{key}.*$/)

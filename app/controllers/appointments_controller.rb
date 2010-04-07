@@ -53,7 +53,7 @@ class AppointmentsController < ApplicationController
     @appointment.scheduler = current_user
     @appointment.lead = Lead.find(params[:lead_id])
     @appointment.expert_email = get_expert
-    # @appointment.topic = Topic.find
+    # @appointment.topic = AnalysisTopic.find
 
     respond_to do |format|
       if @appointment.save
