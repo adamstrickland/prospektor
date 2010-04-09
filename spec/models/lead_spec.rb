@@ -1,6 +1,95 @@
 require 'spec_helper'
 
 describe Lead do
+  describe "attribute helpers" do
+    before :each do
+      @lead = Lead.make
+    end
+    
+    it "should get the leads primary sic's division " do
+      @sic = SicCode.first
+      @lead.sic_code_1 = @sic.code
+      @lead.primary_sic.should eql @sic
+      @lead.primary_sic_division.should eql @sic.division
+      @lead.business_type.should eql @sic.division_name
+    end
+    
+    it "should not bail on a bad primary sic" do
+      bad_sic = "99"
+      SicCode.find_by_code(bad_sic).should be_nil
+      @lead.sic_code_1 = bad_sic
+      @lead.primary_sic.should be_nil
+      @lead.primary_sic_division.should eql 'Unknown'
+      @lead.business_type.should eql 'Unknown'
+    end
+    
+    describe "should tell if the lead is a manufacturer" do
+      def set_sics(lead, sics=[])
+        sics.each_with_index do |sic, idx|
+          lead.send("sic_code_#{ idx+1 }=", sic)
+        end
+      end
+      
+      before :each do
+        @lead = Lead.make
+        @empty_sics = (1..10).map{ nil }
+        @non_manu_sics = SicCode.find_all_by_division('A')[0..9].map{|sic| sic.code }
+        set_sics(@lead, @empty_sics)
+      end
+      
+      it "should answer false if all sics are empty" do
+        @lead.should_not be_manufacturer
+      end
+      
+      it "should answer false if none of the sics are manufacturing sics" do
+        set_sics(@lead, @non_manu_sics)
+        @lead.should_not be_manufacturer
+      end
+      
+      describe "should answer true if any of the sics are manufacturing sics" do
+        before :each do
+          @manu_sic = SicCode.find_all_by_division('D').first.code
+          @manu_sic.should_not be_nil
+          @new_sics = []
+        end
+        
+        after :each do
+          # @new_sics.should have(10).items
+          set_sics(@lead, @new_sics)
+          @lead.should be_manufacturer
+        end
+        
+        it "even if all the other ones are nil" do
+          @new_sics = ([@manu_sic] + @empty_sics[0..8])
+          @new_sics.compact.should have(1).items
+        end
+        
+        it "if all the other sics are not" do
+          @new_sics = ([@manu_sic] + @non_manu_sics[0..8])
+          # @new_sics.compact.should have(10).items
+        end
+      end
+      
+    end
+    
+    it "should display the emp cat" do
+      cats = ['N/A','1','5','10','20','50','100','250','500','1,000+']
+      Lead.make(:employee_code => nil).employee_category.should match /^#{cats[0]}.*$/
+      cats.each_with_index do |cat, code|
+        Lead.make(:employee_code => code).employee_category.should match /^#{cat}.*$/
+      end
+    end
+    
+    it "should display the sales cat" do
+      cats = ['N/A','\$0','\$500K','\$1M','\$2.5M','\$5M','\$10M','\$20M','\$50M',
+        '\$100M','\$250M','\$500M','\$1B+']
+      Lead.make(:sales_code => nil).sales_category.should match /^#{cats[0]}.*$/
+      cats.each_with_index do |cat, code|
+        Lead.make(:sales_code => code).sales_category.should match /^#{cat}.*$/
+      end
+    end
+  end
+  
   describe "search" do
     before :each do
       Lead.make(:phone => "2145551212", :first_name => 'Bill', :last_name => 'Smith', :company => 'SmithCo', :zip => 75201)

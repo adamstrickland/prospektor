@@ -325,8 +325,12 @@ class Lead < ActiveRecord::Base
   end
   
   def is_manufacturer?
-    (1..10).map{|i| "sic_code_#{i}".to_sym }.map{|m| self.send(m) }.compact.map{|c| SicCode.find_by_code(c).division }.include?('D')
+    (1..10).map{|i| "sic_code_#{i}".to_sym }.map{|m| self.send(m) }.compact.map{|c| 
+      sic = SicCode.find_by_code(c)
+      sic.present? ? sic.division : nil
+    }.include?('D')
   end
+  alias_method :manufacturer?, :is_manufacturer?
   
   def primary_sic
     SicCode.find_by_code(self.sic_code_1)
@@ -337,7 +341,7 @@ class Lead < ActiveRecord::Base
   end
   
   def business_type
-    self.primary_sic.division_name
+    self.primary_sic.present? ? self.primary_sic.division_name : "Unknown"
   end
   
   def gmt_offset
