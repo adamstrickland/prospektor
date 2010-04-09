@@ -333,7 +333,7 @@ class Lead < ActiveRecord::Base
   end
   
   def primary_sic_division
-    self.primary_sic.division
+    self.primary_sic.present? ? self.primary_sic.division : "Unknown"
   end
   
   def business_type
