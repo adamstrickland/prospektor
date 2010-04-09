@@ -153,7 +153,11 @@ end
 
 Video.blueprint do
   name{ Faker::Lorem.words(2).join(' ').titleize }
-  url{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}" }
+  url_template{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}?key=<%= @key %>" }
+end
+
+Video.blueprint(:on_complete_callback) do
+  on_complete_callback_template{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}?key=<%= @key %>" }
 end
 
 VideoTopic.blueprint do

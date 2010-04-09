@@ -4,7 +4,7 @@ class VideoTopic < Topic
   
   validates_presence_of :video
   
-  def url
-    self.video.url
+  def url(params={})
+    self.video.url(params)
   end
 end

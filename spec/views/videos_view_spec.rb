@@ -17,11 +17,13 @@ describe 'videos at' do
         end
         
         it 'with a key' do
+          @url = Faker::Internet.domain_name
           key = 'OU9w7inLLKiu'
           assigns[:video] = stub_model(Video)
           assigns[:bindings] = { :key => key }
+          assigns[:video_json_url] = @url
           render('/videos/_player_config.html.haml')
-          response.should have_tag('script', /^.*#{key}.*$/)
+          response.should have_tag('script', /^.*#{@url}.*$/)
           # response.body.should match(/^.*#{key}.*$/)
         end
         

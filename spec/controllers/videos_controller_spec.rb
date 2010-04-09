@@ -6,6 +6,44 @@ describe VideosController do
     @key = '987IUY9876iuh'
   end
   
+  describe "show is a two-step process; the html request sets up the player, the json request gets the flash file and other info" do
+    before :each do
+      @video_id = 123
+      @video = mock_model(Video)
+      @video.stub(:id).and_return(123)
+      Video.stub(:find).and_return(@video)
+    end
+    
+    describe "html step" do
+      it "should render the player" do
+        name = "Some Big Foo"
+        @video.should_receive(:name).and_return(name)
+        get :show, :id => @video_id
+        assigns[:title].should eql name
+        response.should render_template('videos/player.html.haml')
+      end
+    end
+    
+    describe "json step" do
+      before :each do
+        @callback_url = "#{Faker::Internet.domain_name}/cb"
+        @callback_method = 'post'
+        @swf_url = "#{Faker::Internet.domain_name}/vid.swf"
+      end
+      
+      it "should return the swf info" do
+        @video.should_receive(:url).and_return(@swf_url)
+        @video.should_receive(:callback_url).and_return(@callback_url)
+        @video.should_receive(:callback_method).and_return(@callback_method)
+        get :show, :id => @video_id, :format => 'json'
+        response.should be_json_like({:callback => { :url => @callback_url, :method => @callback_method}, :swf => @swf_url})
+      end
+    end
+    
+    describe "the optional callback step" do
+    end
+  end
+  
   describe "when requesting bcr" do
     it "should render the player" do
       get :bcr
