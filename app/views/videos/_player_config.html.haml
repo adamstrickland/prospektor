@@ -1,18 +1,32 @@
 :javascript
   google.setOnLoadCallback(function(){
     $(function(){
-      $.getJSON(location.href+'.json?key='+'#{@key}', function(resp){
-        $('#player').flash($.extend({swf:resp.swf}, swfobject_defaults));
-
-        if(resp.redirect){
-          $.doTimeout(500, function(){
+      $.getJSON('#{@video_json_url}', function(json){
+        $('#player').flash($.extend({swf:json.swf}, swfobject_defaults));
+        
+        if(json.callback){
+          $.doTimeout('callerbacker', 500, function(){
+            finished = true;
             $('#player').flash(function(){
               if(this.TCurrentFrame('/') >= (this.TotalFrames() - 1)){
-                location.href = resp.redirect;
-                return false;
+                if(json.callback.method == 'get'){
+                  location.href = json.callback.url;
+                }
+                else{
+                  $.ajax({
+                    type:'POST',
+                    url:json.callback.url,
+                    success:function(data, stat, xhr){
+                      location.href = (data && data.redirect) ? data.redirect : '#{videos_url}'                      
+                    },
+                    dataType:'json',
+                    data:{}
+                  });
+                }
+                finished = false;
               }
             });
-            return true;
+            return finished;
           });
         }
       });

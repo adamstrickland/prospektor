@@ -1,0 +1,349 @@
+/* Design by Studio 7 Designs Inc under Creative Commons 3.1 */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	border:0pt none;
+	font-family:inherit;
+	font-size:100%;
+	font-style:inherit;
+	font-weight:inherit;
+	margin:0pt;
+	outline-color:invert;
+	outline-style:none;
+	outline-width:0pt;
+	padding:0pt;
+	vertical-align:baseline;
+}
+table {
+	border-collapse:separate;
+	border-spacing:0pt;
+}
+caption, th, td {
+	font-weight:normal;
+	text-align:left;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content:"";
+}
+blockquote, q {
+	quotes:"" "";
+}
+strong, b {
+	font-weight:bold;
+}
+em, i {
+	font-style:italic;
+}
+* {
+	margin:0pt;
+	padding:0pt;
+}
+
+body {
+	background:url(images/bg3.jpg) center top no-repeat; 
+	font-size:12px;
+	font-family:arial, sans-serif;
+	background-color:#a6c9e3;
+}
+
+a {
+	color:#81accc;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#a6c9e3;
+	text-decoration:underline;
+}
+
+#wrapper {
+	width:938px;
+	margin:0 auto;
+}
+
+#content {
+	background:#fff;
+	padding:13px 13px 7px 13px;
+	margin:120px 0 100px 0;
+	width:900px;
+}
+
+#header {
+	background:url(images/header.png) left top repeat-x;
+	padding:15px 0 15px 13px;		
+}
+
+h1 {
+	font-size:30px;
+	font-family:arial;
+	color:#81accc;
+	line-height:32px;
+}
+
+h1 a{
+	text-decoration:none;
+}
+
+h1 a:hover{
+	text-decoration:none;
+}
+
+#menu ul {
+	background:#222222;
+	font-size:14px;
+	list-style:none;
+	color:#fff;
+	text-transform:uppercase;
+}
+
+#menu ul li{
+	display:inline;
+}
+
+#menu ul li a{
+	color:#fff;
+	display:inline-block;
+	padding:10px 15px;
+	text-decoration:none;
+}
+
+#menu ul li a:hover{
+	color:#81accc;	
+}
+
+#menu ul li.selected a{
+	color:#81accc;
+}
+
+#container {
+	background:#ebebeb;
+	border-top:1px solid #fff;
+}
+
+#sidebar {
+	padding:8px 5px 0px 15px;
+	width:295px;
+	float:left;
+	background:url(images/vertilinija.png) right center no-repeat;
+}
+
+h4 {
+	font-weight:normal;
+	background:url(images/boxsidebar.png) left top no-repeat;
+	font-size:16px;
+	color:#2b2b2b;
+	padding:10px 10px 10px 20px;
+}
+
+#sidebar img.featuredproducts {
+	margin:0 0 0 -5px;
+	display:block;
+}
+
+#sidebar img.ttshirt {
+	float:right;
+	margin:20px 13px 0 10px;
+}
+
+h3 {
+	font-size:14px;
+	padding:10px 0 10px 0;
+	color:#81accc;
+	text-transform:uppercase;
+}
+
+
+h3 a{
+	color:#81accc;	
+	text-decoration:none;
+}
+
+h3 a:hover{
+	color:#81accc;
+	text-decoration:underline;
+}
+
+h3 a.str{
+	color:#81accc;
+	background:url(images/maladesno.png) right top no-repeat;
+	padding:0 16px 0 0;
+}
+
+#sidebar p {
+	font-size:12px;
+	line-height:15px;	
+}
+
+#main {
+	background:url(images/bigbox.png) left top no-repeat;
+	margin:35px 0px 0px 317px;
+	padding:50px 30px 25px 30px;
+}
+
+h2 {
+	font-weight:normal;
+	background:url(images/conteinerkutija.png) left top no-repeat;
+	font-size:30px;
+	height:66px;
+	text-transform:uppercase;
+	color:#2b2b2b;
+	padding:15px 0 0px 30px;
+	position:absolute;
+	width:300px;
+	margin:-80px 0 0 -30px;
+}
+
+h2 span.blue {
+	color:#81accc;
+}
+
+#main blockquote {
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#81accc;
+	line-height:18px;
+	font-weight:normal;
+	text-transform:uppercase;
+}
+
+#main p {
+	font-size:12px;
+	color:#000;
+	line-height:12px;
+	padding:10px 0;
+}
+
+#main img.line {
+	padding:15px 0 5px 0px;
+}
+
+#footer {
+	background:#212121;
+	text-align:right;
+	color:#fff;
+	padding:10px 14px;
+	clear:both;
+}
+
+#footer span {
+	float:left;
+	
+}
+
+#footer ul{
+	list-style:none;
+}
+
+#footer ul li{
+	display:inline;
+}
+
+#footer ul li a{
+	color:#fff;
+		padding:0 5px;
+}
+
+#slider {
+	padding:7px 0;
+	position:relative;
+	text-align:right;
+	clear:both;
+	color:#fff;
+}
+
+/*
+	root element for the scrollable.
+	when scrolling occurs this element stays still.
+*/
+.scrollable {
+
+	/* required settings */
+	position:relative;
+	overflow:hidden;
+	width: 270px;
+	height:72px;
+}
+
+/*
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a extremely large width to accomodate scrollable items.
+	it's enough that you set the width and height for the root element and
+	not for this element.
+*/
+.scrollable .items {
+	/* this cannot be too large */
+	width:20000em;
+	position:absolute;
+	clear:both;
+	margin:-1px 0 0 0;
+}
+
+/* single scrollable item */
+.scrollable img {
+	float:left;
+	margin:0 20px 0 0;
+	background-color:#fff;
+	padding:2px;
+	cursor:pointer;
+	width:70px;
+	height:70px;
+}
+
+/* active item */
+.scrollable .active {
+	border:2px solid #ccc;
+	z-index:9999;
+	position:relative;
+	padding:0px;
+}
+
+
+/* this makes it possible to add next button beside scrollable */
+.scrollable {
+	float:left;	
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.browse {
+	background:url(images/hori_large.png) no-repeat;
+	display:block;
+	width:30px;
+	height:30px;
+	position:absolute;
+	margin:40px 10px;
+	cursor:pointer;
+	font-size:1px;
+}
+
+/* right */
+a.right 				{ background-position: 0 -30px; left: 270px; top:-25px;}
+a.right:hover 		{ background-position:-30px -30px; }
+a.right:active 	{ background-position:-60px -30px; } 
+
+
+/* left */
+a.left				{ left: 270px; top:10px; } 
+a.left:hover  		{ background-position:-30px 0; }
+a.left:active  	{ background-position:-60px 0; }
+
+/* up and down */
+a.up, a.down		{ 
+	background:url(images/vert_large.png) no-repeat; 
+	float: none;
+	margin: 10px 50px;
+}
+
+/* up */
+a.up:hover  		{ background-position:-30px 0; }
+a.up:active  		{ background-position:-60px 0; }
+
+/* down */
+a.down 				{ background-position: 0 -30px; }
+a.down:hover  		{ background-position:-30px -30px; }
+a.down:active  	{ background-position:-60px -30px; } 
+
+
+/* disabled navigational button */
+a.disabled {
+	visibility:hidden !important;		
+} 	
+

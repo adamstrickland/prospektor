@@ -1,0 +1,8 @@
+--- 
+video_00001: 
+  name: Business Condition Review
+  created_at: 2010-04-07 00:00:00 Z
+  updated_at: 2010-04-07 00:00:00 Z
+  url: http://www.trigonsolutions.com/videos/BCR200/BCR200.swf
+  id: 1
+  on_complete_hook: /public/bcr?key=<%= @key %>

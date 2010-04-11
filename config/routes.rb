@@ -32,7 +32,9 @@ ActionController::Routing::Routes.draw do |map|
     # users.call_manager 'cm', :controller => 'call_manager', :action => 'next'
     users.call_manager 'cm', :controller => 'leads', :action => 'call_manager'
 
-    users.resources :leads, :only => [ :index, :show ], :collection => { :empty => :get }
+    users.resources :leads, :only => [ :index, :show ], :collection => { :empty => :get } do |leads|
+      leads.resources :call_backs, :as => 'callbacks', :only => [:create]
+    end
     users.resources :call_backs, :as => 'callbacks', :only => [ :index ]
     
     
@@ -80,6 +82,7 @@ ActionController::Routing::Routes.draw do |map|
     pub.with_options :name_prefix => 'video_', :path_prefix => 'public/videos', :controller => 'videos', :conditions => { :method => :get } do |videos|
       videos.bcr 'bcr.:format', :action => 'bcr'
     end
+    pub.resources :videos, :only => [:show, :index]
     pub.resources :applicants, :only => [:new, :create], :collection => { :thanks => :get }
   end
   

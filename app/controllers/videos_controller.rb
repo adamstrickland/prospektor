@@ -1,3 +1,5 @@
+require 'cgi'
+
 class VideosController < ApplicationController
   layout 'player'
   skip_before_filter :login_required
@@ -23,5 +25,32 @@ class VideosController < ApplicationController
         render :json => { :swf => @video_url, :redirect => @redirect_url }, :status => :ok
       end
     end
+  end
+  
+  def show
+    @video = Video.find(params[:id])
+    @bindings = {}.merge(params)
+    respond_to do |format|
+      format.html do
+        @title = @video.name
+        @video_json_url = CGI.unescapeHTML(video_url(@video, {:format => 'json'}.merge(@bindings)))
+        render :action => 'player'
+      end
+      format.json do
+        hash = {
+          :swf => h(@video.video_url(@bindings)),
+          :callback => {
+            :url => h(@video.callback_url(@bindings)),
+            :method => @video.callback_method
+          }
+        }
+        render :json => hash, :status => :ok
+      end
+    end
+  end
+  
+  def index
+    @videos = Video.all
+    render :action => 'index', :layout => 'public'
   end
 end

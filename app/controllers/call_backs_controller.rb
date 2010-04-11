@@ -1,4 +1,5 @@
 require 'chronic'
+require 'tzinfo'
 
 class CallBacksController < ApplicationController
   # GET /callbacks
@@ -59,24 +60,39 @@ class CallBacksController < ApplicationController
   # def edit
   #   @callback = CallBack.find(params[:id])
   # end
-  # 
-  # # POST /callbacks
-  # # POST /callbacks.xml
-  # def create
-  #   @callback = CallBack.new(params[:callback])
-  # 
-  #   respond_to do |format|
-  #     if @callback.save
-  #       flash[:notice] = 'CallBack was successfully created.'
-  #       format.html { redirect_to(@callback) }
-  #       format.xml  { render :xml => @callback, :status => :created, :location => @callback }
-  #     else
-  #       format.html { render :action => "new" }
-  #       format.xml  { render :xml => @callback.errors, :status => :unprocessable_entity }
-  #     end
-  #   end
-  # end
-  # 
+  
+  # POST /callbacks
+  # POST /callbacks.xml
+  def create
+    respond_to do |format|
+      format.json do
+        @callback = CallBack.new
+        @lead = Lead.find(params[:lead_id])
+        @user = User.find(params[:user_id])
+        @callback.lead = @lead
+        @callback.user = @user
+        @callback.status = CallBackStatus.find_by_code('UN')
+        @callback.callback_at = if params[:callback_at].present?
+          params[:callback_at]
+        else
+          lead_tz = TZInfo::Timezone.us_zones.detect{ |z| z.current_period.utc_offset/60/60 == @lead.gmt_offset }
+          if lead_tz and lead_tz.utc_to_local(Time.now.utc).hour >= 17
+            # schedule for tomorrow morning 9am in the lead's tz
+            lead_tz.local_to_utc(Chronic.parse('tomorrow 9am'))
+          else
+            3.minutes.from_now
+          end
+        end
+        
+        if @callback.save
+          head :ok
+        else
+          render :json => @callback.errors, :status => :unprocessable_entity
+        end
+      end
+    end
+  end
+  
   # PUT /callbacks/1
   # PUT /callbacks/1.xml
   def update

@@ -33,12 +33,15 @@ Rails::Initializer.run do |config|
   config.gem 'rspec-rails', :lib => false, :version => '1.2.9'
   config.gem 'thoughtbot-shoulda', :lib => false, :source => 'http://gems.github.com', :version => '2.10.2'
   config.gem 'hoptoad_notifier'
-  config.gem 'chronic'
+  config.gem 'mojombo-chronic', :lib => 'chronic', :version => '0.3.0'
+  # config.gem 'chronic'
   config.gem "remarkable_rails", :lib => false
   config.gem "nokogiri", :lib => false
   config.gem 'newrelic_rpm'
   config.gem 'irwi'
   config.gem 'RedCloth'
+  config.gem 'erubis'
+  config.gem 'tzinfo'
   # config.gem 'BlueCloth'
   # config.gem 'diff-lcs'
 
