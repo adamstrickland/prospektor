@@ -82,7 +82,7 @@ ActionController::Routing::Routes.draw do |map|
     pub.with_options :name_prefix => 'video_', :path_prefix => 'public/videos', :controller => 'videos', :conditions => { :method => :get } do |videos|
       videos.bcr 'bcr.:format', :action => 'bcr'
     end
-    pub.resources :videos, :only => [:show]
+    pub.resources :videos, :only => [:show, :index]
     pub.resources :applicants, :only => [:new, :create], :collection => { :thanks => :get }
   end
   

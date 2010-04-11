@@ -38,7 +38,7 @@ class VideosController < ApplicationController
       end
       format.json do
         hash = {
-          :swf => h(@video.url),
+          :swf => h(@video.video_url(@bindings)),
           :callback => {
             :url => h(@video.callback_url(@bindings)),
             :method => @video.callback_method
@@ -47,5 +47,10 @@ class VideosController < ApplicationController
         render :json => hash, :status => :ok
       end
     end
+  end
+  
+  def index
+    @videos = Video.all
+    render :action => 'index', :layout => 'public'
   end
 end

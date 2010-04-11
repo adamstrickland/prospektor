@@ -16,11 +16,11 @@
                   $.ajax({
                     type:'POST',
                     url:json.callback.url,
-                    success:function(data, stat, xhr){},
+                    success:function(data, stat, xhr){
+                      location.href = (data && data.redirect) ? data.redirect : '#{videos_url}'                      
+                    },
                     dataType:'json',
-                    data:{
-                      callback_at:
-                    }
+                    data:{}
                   });
                 }
                 finished = false;

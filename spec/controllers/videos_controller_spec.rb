@@ -26,13 +26,15 @@ describe VideosController do
     
     describe "json step" do
       before :each do
+        @page_url = "#{Faker::Internet.domain_name}/videos/42"
         @callback_url = "#{Faker::Internet.domain_name}/cb"
         @callback_method = 'post'
         @swf_url = "#{Faker::Internet.domain_name}/vid.swf"
       end
       
       it "should return the swf info" do
-        @video.should_receive(:url).and_return(@swf_url)
+        # @video.should_receive(:url).and_return(@page_url)
+        @video.should_receive(:video_url).and_return(@swf_url)
         @video.should_receive(:callback_url).and_return(@callback_url)
         @video.should_receive(:callback_method).and_return(@callback_method)
         get :show, :id => @video_id, :format => 'json'

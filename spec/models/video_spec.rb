@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe Video do
   before(:each) do
+    @fake_domain = Faker::Internet.domain_name
     @valid_attributes = {
       :name => Faker::Lorem.words(2).join(' ').titleize,
-      :url_template => "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}"
+      :url_template => "#{@fake_domain}/#{Faker::Internet.domain_word}",
+      :video_url_template => "#{@fake_domain}/#{Faker::Internet.domain_word}.swf"
     }
   end
 

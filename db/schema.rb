@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100408035938) do
+ActiveRecord::Schema.define(:version => 20100411160418) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -1298,6 +1298,7 @@ ActiveRecord::Schema.define(:version => 20100408035938) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "on_complete_callback_method",   :default => "post"
+    t.string   "video_url_template",                                :null => false
   end
 
   create_table "vol_codes", :force => true do |t|
