@@ -9,7 +9,7 @@ class PresentationsController < ApplicationController
         @presentation = Presentation.new
         @lead = Lead.find(params[:lead_id])
         @presentation.email = @lead.email
-        @topics = InformationTopic.all.sort_by{ |t| t.name }.map{ |t| [t.name, t.id] }
+        @topics = Topic.all.sort_by{ |t| t.name }.map{ |t| [t.name, t.id] }
         
         render 'new', :layout => 'modal'
       end
@@ -24,8 +24,13 @@ class PresentationsController < ApplicationController
         @lead = Lead.find_by_id(params[:lead_id])
   
         @presentation = Presentation.new(params[:presentation])
+        url_params = {
+          :user_id => current_user.id,
+          :lead_id => @lead.id,
+          :key => @lead.key
+        }
+        @presentation.url = "#{@presentation.topic.url(url_params)}"
         @presentation.lead = @lead
-        @presentation.url = "#{@presentation.topic.url}?key=#{@lead.key}"
         @presentation.user = current_user
       
         @lead.status = LeadStatus.find_by_code('INV')

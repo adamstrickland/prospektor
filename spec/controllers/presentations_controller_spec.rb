@@ -32,9 +32,10 @@ describe PresentationsController do
     it "should create an invite for some topic" do
       topic_url = "http://#{Faker::Internet.domain_name}"
       lead_key = Base64.encode64("8885551212").strip
+      paramed_topic_url = "#{topic_url}?key=#{lead_key}"
       
       @topic = stub_model(Topic)
-      @topic.stub!(:url).and_return(topic_url)
+      @topic.stub!(:url).and_return(paramed_topic_url)
       some_other_email = Faker::Internet.email
       
       @preso.should_receive(:lead=).with(@lead)
@@ -42,7 +43,7 @@ describe PresentationsController do
       @preso.should_receive(:email).and_return(some_other_email)
       @preso.should_receive(:save).and_return(true)
       @preso.should_receive(:topic).and_return(@topic)
-      @preso.should_receive(:url=).with("#{topic_url}?key=#{lead_key}")
+      @preso.should_receive(:url=).with(paramed_topic_url)
       
       @lead.should_receive(:email=).with(some_other_email)
       @lead.should_receive(:save).and_return(true)

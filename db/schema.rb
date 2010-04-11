@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100331162023) do
+ActiveRecord::Schema.define(:version => 20100411160418) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -1202,6 +1202,7 @@ ActiveRecord::Schema.define(:version => 20100331162023) do
     t.integer  "number"
     t.string   "type"
     t.string   "information"
+    t.integer  "video_id"
   end
 
   add_index "topics", ["type"], :name => "index_topics_on_type"
@@ -1288,6 +1289,16 @@ ActiveRecord::Schema.define(:version => 20100331162023) do
     t.string   "message"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "videos", :force => true do |t|
+    t.string   "name",                                              :null => false
+    t.string   "url_template",                                      :null => false
+    t.string   "on_complete_callback_template"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "on_complete_callback_method",   :default => "post"
+    t.string   "video_url_template",                                :null => false
   end
 
   create_table "vol_codes", :force => true do |t|

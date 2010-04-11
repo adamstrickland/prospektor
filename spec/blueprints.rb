@@ -151,6 +151,26 @@ InformationTopic.blueprint do
   type{ 'InformationTopic' }
 end
 
+Video.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  url_template{ "#{Faker::Internet.domain_name}/public/videos/#{rand(99)}&uk=<%= @user_key %>&lk=<%= @lead_key %>" }
+  video_url_template{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}.swf" }
+  on_complete_callback_template{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}?uk=<%= @user_key %>&lk=<%= @lead_key %>" }
+  on_complete_callback_method{ 'post' }
+end
+
+Video.blueprint(:bcr) do
+  url_template{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}?key=<%= @key %>" }
+  on_complete_callback_template{ "#{Faker::Internet.domain_name}/#{Faker::Internet.domain_word}?key=<%= @key %>" }
+  on_complete_callback_method{ 'get' }
+end
+
+VideoTopic.blueprint do
+  name{ Faker::Lorem.words(2).join(' ').titleize }
+  video
+  type{ 'VideoTopic' }
+end
+
 Applicant.blueprint do
   first_name
   preferred_name{ self.first_name }
