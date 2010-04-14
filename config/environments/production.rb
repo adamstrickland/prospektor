@@ -46,3 +46,7 @@ config.action_mailer.smtp_settings = {
   :user_name => 'system@trigonsolutions.com',
   :password => '267Y92'
 }
+
+
+# config.gem 'hoptoad_notifier'
+config.gem 'newrelic_rpm'
