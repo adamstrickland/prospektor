@@ -26,16 +26,8 @@ class Employee < ActiveRecord::Base
     end
   end 
 
-  def generate_username
-    last_name = self.last_name.chomp(', Jr.').chomp(', Sr.').gsub(/,\.-\s'/,'').downcase.strip
-    first_name = self.first_name.gsub(/,\.-\s'/,'').downcase.strip
-    variations = [
-      "#{first_name[0].chr}#{last_name}",
-      "#{first_name[0].chr}#{self.middle_initial.nil? || self.middle_initial.strip.empty? ? '_' : self.middle_initial[0].chr.downcase}#{last_name}",
-      "#{first_name}#{last_name}",
-      "#{first_name}.#{last_name}"
-    ]
-    variations.detect{ |u| User.find_by_login(u).blank? }
+  def generate_username    
+    User.create_login_from_names(self.first_name, self.last_name, self.middle_initial)
   end
   
   def full_name

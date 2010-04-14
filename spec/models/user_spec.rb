@@ -38,6 +38,98 @@ describe User do
     @user.employee = @employee
   end
   
+  describe "when generating a login" do
+    before :each do
+      @z = 'Zaphod'
+      @b = 'Beeblebrox'
+      @zb = 'zbeeblebrox'
+    end
+    
+    it "should be like 'zbeeblebrox' by default" do
+      User.create_login_from_names(@z, @b).should eql @zb
+    end
+    
+    it "should ignore Jrs" do
+      User.create_login_from_names(@z, @b+", Jr.").should eql @zb
+    end
+    
+    it "should ignore Srs" do
+      User.create_login_from_names(@z, @b+", Sr.").should eql @zb
+    end
+    
+    describe "when there are name clashes" do
+      before :each do
+        User.make(:login => @zb)
+      end
+      
+      # variations = [
+      #   "#{first_name[0].chr}#{last_name}",
+      #   "#{first_name[0].chr}#{minitial.nil? || minitial.strip.empty? ? '_' : minitial[0].chr.downcase}#{last_name}",
+      #   "#{first_name}#{last_name}",
+      #   "#{first_name}.#{last_name}"
+      # ]
+      it "should try adding the middle initial as second choice" do
+        User.create_login_from_names(@z, @b, 'x').should eql @zb.sub(/z/, 'zx')
+      end
+      
+      it "should use an underscore if there isn't a middle inital'" do
+        User.create_login_from_names(@z, @b).should eql @zb.sub(/z/, 'z_')
+      end
+      
+      it "should use firstnamelastname as third choice" do
+        User.make(:login => @zb.sub(/z/, 'z_'))
+        User.create_login_from_names(@z, @b).should eql "#{@z}#{@b}".downcase
+      end
+      
+      it "should use firstname.lastname as last choice" do
+        User.make(:login => @zb.sub(/z/, 'z_'))
+        User.make(:login => "#{@z}#{@b}")
+        User.create_login_from_names(@z, @b).should eql "#{@z}.#{@b}".downcase
+      end
+    end
+    
+    describe "should filter out bad characters" do      
+      before :each do
+        @ltr_z = 'a'
+        @ltr_b = 'r'
+        @re_z = /#{@ltr_z}/
+        @re_b = /#{@ltr_b}/
+      end
+      
+      describe "should handle single chars:" do
+        after :each do
+          User.create_login_from_names(@z.gsub(@re_z, "#{@chr}#{@ltr_z}"), @b).should eql @zb
+          User.create_login_from_names(@z, @b.gsub(@re_b, "#{@chr}#{@ltr_b}")).should eql @zb
+          User.create_login_from_names(@z.gsub(@re_z, "#{@chr}#{@ltr_z}"), @b.gsub(@re_b, "#{@chr}#{@ltr_b}")).should eql @zb
+        end
+      
+        it "should handle apostrophes" do
+          @chr = "'"
+        end
+      
+        it "should handle hyphens" do
+          @chr = "-"
+        end
+      
+        it "should handle spaces" do
+          @chr = " "
+        end
+      
+        it "should handle periods" do
+          @chr = "."
+        end
+      end
+
+      it "should handle combinations of all of the above" do
+        @crazy_b = @b.gsub(/e/, 'e-').gsub(/[Bb]/, "b'")
+        @crazy_z = @z.gsub(/a/, 'a-').gsub(/[Zz]/, "z'")
+        User.create_login_from_names(@crazy_z, @b).should eql @zb
+        User.create_login_from_names(@z, @crazy_b).should eql @zb
+        User.create_login_from_names(@crazy_z, @crazy_b).should eql @zb
+      end      
+    end
+  end
+  
   describe "should deactivate" do
     it "when invoked" do
       @user.deactivate
