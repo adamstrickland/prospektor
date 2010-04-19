@@ -27,17 +27,11 @@ Rails::Initializer.run do |config|
   config.gem 'uuidtools', :version => '2.1.1'
   config.gem 'fastercsv', :version => '1.5.0'
   config.gem 'faker', :version => '0.3.1'
-  config.gem 'machinist', :source => 'http://gemcutter.org', :version => '1.0.5'
   config.gem 'haml', :version => '>= 2.0.6'
-  config.gem 'rspec', :lib => false, :version => '1.2.9'
-  config.gem 'rspec-rails', :lib => false, :version => '1.2.9'
-  config.gem 'thoughtbot-shoulda', :lib => false, :source => 'http://gems.github.com', :version => '2.10.2'
-  config.gem 'hoptoad_notifier'
   config.gem 'mojombo-chronic', :lib => 'chronic', :version => '0.3.0'
   # config.gem 'chronic'
   config.gem "remarkable_rails", :lib => false
   config.gem "nokogiri", :lib => false
-  config.gem 'newrelic_rpm'
   config.gem 'irwi'
   config.gem 'RedCloth'
   config.gem 'erubis'

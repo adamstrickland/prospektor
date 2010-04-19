@@ -2,6 +2,8 @@ require 'chronic'
 require 'tzinfo'
 
 class CallBacksController < ApplicationController
+  skip_before_filter :login_required, :only => [:create]
+  
   # GET /callbacks
   # GET /callbacks.xml
   def index

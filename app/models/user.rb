@@ -177,6 +177,19 @@ class User < ActiveRecord::Base
     u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login] # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
+  
+  def self.create_login_from_names(fname, lname, minitial=nil)
+    remove_re = /[-,'\.\s]/
+    last_name = lname.chomp(', Jr.').chomp(', Sr.').gsub(remove_re, '').downcase.strip
+    first_name = fname.gsub(remove_re, '').downcase.strip
+    variations = [
+      "#{first_name[0].chr}#{last_name}",
+      "#{first_name[0].chr}#{minitial.nil? || minitial.strip.empty? ? '_' : minitial[0].chr.downcase}#{last_name}",
+      "#{first_name}#{last_name}",
+      "#{first_name}.#{last_name}"
+    ]
+    variations.detect{ |u| self.find_by_login(u).blank? }
+  end
 
   protected
     def make_activation_code
