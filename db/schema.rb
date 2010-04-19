@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100411160418) do
+ActiveRecord::Schema.define(:version => 20100414160636) do
 
   create_table "acs_codes", :force => true do |t|
     t.string "code"
@@ -487,6 +487,330 @@ ActiveRecord::Schema.define(:version => 20100411160418) do
     t.string   "gender"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "infousa_staging", :id => false, :force => true do |t|
+    t.string "Company Name"
+    t.string "Executive First Name"
+    t.string "Executive Last Name"
+    t.string "Professional Title"
+    t.string "Executive Title"
+    t.string "Executive Gender",                   :limit => 10
+    t.string "Executive Biography"
+    t.string "Address"
+    t.string "City"
+    t.string "State",                              :limit => 10
+    t.string "Location ZIP Code",                  :limit => 10
+    t.string "Location ZIP Four",                  :limit => 10
+    t.string "County Code"
+    t.string "Metro Area"
+    t.string "Neighborhood"
+    t.string "Phone",                              :limit => 20
+    t.string "Fax Number Combined",                :limit => 20
+    t.string "Toll Free Number Combined",          :limit => 20
+    t.string "Company Website"
+    t.string "Company Description"
+    t.string "Primary SIC Code",                   :limit => 10
+    t.string "Primary SIC Description"
+    t.string "Primary SIC Ad Size"
+    t.string "Primary SIC Year Appeared",          :limit => 10
+    t.string "SIC Code 1",                         :limit => 10
+    t.string "SIC Code 1 Description"
+    t.string "SIC Code 1 Ad Size"
+    t.string "SIC Code 1 Year Appeared",           :limit => 10
+    t.string "SIC Code 2",                         :limit => 10
+    t.string "SIC Code 2 Description"
+    t.string "SIC Code 2 Year Appeared",           :limit => 10
+    t.string "SIC Code 3",                         :limit => 10
+    t.string "SIC Code 3 Description"
+    t.string "SIC Code 3 Year Appeared",           :limit => 10
+    t.string "SIC Code 4",                         :limit => 10
+    t.string "SIC Code 4 Description"
+    t.string "SIC Code 4 Year Appeared"
+    t.string "SIC Code 5",                         :limit => 10
+    t.string "SIC Code 5 Description"
+    t.string "SIC Code 5 Year Appeared",           :limit => 10
+    t.string "SIC Code 6",                         :limit => 10
+    t.string "SIC Code 6 Description"
+    t.string "SIC Code 6 Year Appeared",           :limit => 10
+    t.string "SIC Code 7",                         :limit => 10
+    t.string "SIC Code 7 Description"
+    t.string "SIC Code 7 Year Appeared",           :limit => 10
+    t.string "SIC Code 8",                         :limit => 10
+    t.string "SIC Code 8 Description"
+    t.string "SIC Code 8 Year Appeared",           :limit => 10
+    t.string "SIC Code 9",                         :limit => 10
+    t.string "SIC Code 9 Description"
+    t.string "SIC Code 9 Year Appeared",           :limit => 10
+    t.string "SIC Code 10",                        :limit => 10
+    t.string "SIC Code 10 Description"
+    t.string "SIC Code 10 Year Appeared",          :limit => 10
+    t.string "SIC Code 11",                        :limit => 10
+    t.string "SIC Code 11 Description"
+    t.string "SIC Code 12",                        :limit => 10
+    t.string "SIC Code 12 Description"
+    t.string "SIC Code 13",                        :limit => 10
+    t.string "SIC Code 13 Description"
+    t.string "SIC Code 14",                        :limit => 10
+    t.string "SIC Code 14 Description"
+    t.string "SIC Code 15",                        :limit => 10
+    t.string "SIC Code 15 Description"
+    t.string "SIC Code 16",                        :limit => 10
+    t.string "SIC Code 16 Description"
+    t.string "SIC Code 17",                        :limit => 10
+    t.string "SIC Code 17 Description"
+    t.string "SIC Code 18",                        :limit => 10
+    t.string "SIC Code 18 Description"
+    t.string "SIC Code 19",                        :limit => 10
+    t.string "SIC Code 19 Description"
+    t.string "SIC Code 20",                        :limit => 10
+    t.string "SIC Code 20 Description"
+    t.string "SIC Code 21",                        :limit => 10
+    t.string "SIC Code 21 Description"
+    t.string "SIC Code 22",                        :limit => 10
+    t.string "SIC Code 22 Description"
+    t.string "SIC Code 23",                        :limit => 10
+    t.string "SIC Code 23 Description"
+    t.string "SIC Code 24",                        :limit => 10
+    t.string "SIC Code 24 Description"
+    t.string "SIC Code 25",                        :limit => 10
+    t.string "SIC Code 25 Description"
+    t.string "SIC Code 26",                        :limit => 10
+    t.string "SIC Code 26 Description"
+    t.string "Primary NAICS",                      :limit => 10
+    t.string "Primary NAICS Description"
+    t.string "NAICS 1",                            :limit => 10
+    t.string "NAICS 1 Description"
+    t.string "NAICS 2",                            :limit => 10
+    t.string "NAICS 2 Description"
+    t.string "NAICS 3",                            :limit => 10
+    t.string "NAICS 3 Description"
+    t.string "NAICS 4",                            :limit => 10
+    t.string "NAICS 4 Description"
+    t.string "NAICS 5",                            :limit => 10
+    t.string "NAICS 5 Description"
+    t.string "NAICS 6",                            :limit => 10
+    t.string "NAICS 6 Description"
+    t.string "NAICS 7",                            :limit => 10
+    t.string "NAICS 7 Description"
+    t.string "NAICS 8",                            :limit => 10
+    t.string "NAICS 8 Description"
+    t.string "NAICS 9",                            :limit => 10
+    t.string "NAICS 9 Description"
+    t.string "NAICS 10",                           :limit => 10
+    t.string "NAICS 10 Description"
+    t.string "NAICS 11",                           :limit => 10
+    t.string "NAICS 11 Description"
+    t.string "NAICS 12",                           :limit => 10
+    t.string "NAICS 12 Description"
+    t.string "NAICS 13",                           :limit => 10
+    t.string "NAICS 14 Description"
+    t.string "NAICS 14",                           :limit => 10
+    t.string "NAICS 13 Description"
+    t.string "NAICS 15",                           :limit => 10
+    t.string "NAICS 15 Description"
+    t.string "NAICS 16",                           :limit => 10
+    t.string "NAICS 16 Description"
+    t.string "NAICS 17",                           :limit => 10
+    t.string "NAICS 17 Description"
+    t.string "NAICS 18",                           :limit => 10
+    t.string "NAICS 18 Description"
+    t.string "NAICS 19",                           :limit => 10
+    t.string "NAICS 19 Description"
+    t.string "NAICS 20",                           :limit => 10
+    t.string "NAICS 20 Description"
+    t.string "NAICS 21",                           :limit => 10
+    t.string "NAICS 21 Description"
+    t.string "NAICS 22",                           :limit => 10
+    t.string "NAICS 22 Description"
+    t.string "NAICS 23",                           :limit => 10
+    t.string "NAICS 23 Description"
+    t.string "NAICS 24",                           :limit => 10
+    t.string "NAICS 24 Description"
+    t.string "NAICS 25",                           :limit => 10
+    t.string "NAICS 25 Description"
+    t.string "NAICS 26",                           :limit => 10
+    t.string "NAICS 26 Description"
+    t.string "Franchise Description"
+    t.string "Location Employee Size Range"
+    t.string "Location Employee Size Actual"
+    t.string "Location Sales Volume Range"
+    t.string "Location Sales Volume Actual"
+    t.string "Corporate Employee Size Range"
+    t.string "Corporate Employee Size Actual"
+    t.string "Corporate Sales Volume Range"
+    t.string "Corporate Sales Volume Actual"
+    t.string "Holding Status"
+    t.string "Location Type"
+    t.string "Parent Company Name"
+    t.string "Parent IUSA Number",                 :limit => 10
+    t.string "Foreign Parent Flag",                :limit => 10
+    t.string "Fortune 1000 Ranking",               :limit => 10
+    t.string "Credit Score Alpha",                 :limit => 10
+    t.string "Credit Score Numeric",               :limit => 10
+    t.string "Credit Rating",                      :limit => 10
+    t.string "Latitude",                           :limit => 25
+    t.string "Longitude",                          :limit => 25
+    t.string "Credit Cards Accepted",              :limit => 10
+    t.string "Year Established",                   :limit => 10
+    t.string "Years In Database",                  :limit => 10
+    t.string "Number of PC's",                     :limit => 10
+    t.string "Square Footage"
+    t.string "Home Business Flag",                 :limit => 10
+    t.string "IUSA Number",                        :limit => 10
+    t.string "Executive First Name 1"
+    t.string "Executive Last Name 1"
+    t.string "Executive Title 1"
+    t.string "Executive Gender 1",                 :limit => 10
+    t.string "Executive Biography 1"
+    t.string "Executive First Name 2"
+    t.string "Executive Last Name 2"
+    t.string "Executive Title 2"
+    t.string "Executive Gender 2",                 :limit => 10
+    t.string "Executive Biography 2"
+    t.string "Executive First Name 3"
+    t.string "Executive Last Name 3"
+    t.string "Executive Title 3"
+    t.string "Executive Gender 3",                 :limit => 10
+    t.string "Executive Biography 3"
+    t.string "Executive First Name 4"
+    t.string "Executive Last Name 4"
+    t.string "Executive Title 4"
+    t.string "Executive Gender 4",                 :limit => 10
+    t.string "Executive Biography 4"
+    t.string "Executive First Name 5"
+    t.string "Executive Last Name 5"
+    t.string "Executive Gender 5",                 :limit => 10
+    t.string "Executive Title 5"
+    t.string "Executive Biography 5"
+    t.string "Executive First Name 6"
+    t.string "Executive Last Name 6"
+    t.string "Executive Title 6"
+    t.string "Executive Gender 6",                 :limit => 10
+    t.string "Executive Biography 6"
+    t.string "Executive First Name 7"
+    t.string "Executive Last Name 7"
+    t.string "Executive Title 7"
+    t.string "Executive Gender 7",                 :limit => 10
+    t.string "Executive Biography 7"
+    t.string "Executive First Name 8"
+    t.string "Executive Last Name 8"
+    t.string "Executive Title 8"
+    t.string "Executive Gender 8",                 :limit => 10
+    t.string "Executive Biography 8"
+    t.string "Executive First Name 9"
+    t.string "Executive Last Name 9"
+    t.string "Executive Title 9"
+    t.string "Executive Gender 9",                 :limit => 10
+    t.string "Executive Biography 9"
+    t.string "Executive First Name 10"
+    t.string "Executive Last Name 10"
+    t.string "Executive Title 10"
+    t.string "Executive Gender 10",                :limit => 10
+    t.string "Executive Biography 10"
+    t.string "Executive First Name 11"
+    t.string "Executive Last Name 11"
+    t.string "Executive Title 11"
+    t.string "Executive Gender 11",                :limit => 10
+    t.string "Executive Biography 11"
+    t.string "Executive First Name 12"
+    t.string "Executive Last Name 12"
+    t.string "Executive Title 12"
+    t.string "Executive Biography 12"
+    t.string "Executive Gender 12",                :limit => 10
+    t.string "Executive First Name 13"
+    t.string "Executive Last Name 13"
+    t.string "Executive Title 13"
+    t.string "Executive Gender 13",                :limit => 10
+    t.string "Executive Biography 13"
+    t.string "Executive First Name 14"
+    t.string "Executive Last Name 14"
+    t.string "Executive Title 14"
+    t.string "Executive Gender 14",                :limit => 10
+    t.string "Executive Biography 14"
+    t.string "Executive First Name 15"
+    t.string "Executive Last Name 15"
+    t.string "Executive Title 15"
+    t.string "Executive Gender 15",                :limit => 10
+    t.string "Executive Biography 15"
+    t.string "Executive First Name 16"
+    t.string "Executive Last Name 16"
+    t.string "Executive Title 16"
+    t.string "Executive Gender 16",                :limit => 10
+    t.string "Executive Biography 16"
+    t.string "Executive First Name 17"
+    t.string "Executive Last Name 17"
+    t.string "Executive Title 17"
+    t.string "Executive Gender 17",                :limit => 10
+    t.string "Executive Biography 17"
+    t.string "Executive First Name 18"
+    t.string "Executive Last Name 18"
+    t.string "Executive Title 18"
+    t.string "Executive Gender 18",                :limit => 10
+    t.string "Executive Biography 18"
+    t.string "Executive First Name 19"
+    t.string "Executive Last Name 19"
+    t.string "Executive Title 19"
+    t.string "Executive Gender 19",                :limit => 10
+    t.string "Executive Biography 19"
+    t.string "Executive First Name 20"
+    t.string "Executive Last Name 20"
+    t.string "Executive Title 20"
+    t.string "Executive Gender 20",                :limit => 10
+    t.string "Executive Biography 20"
+    t.string "Director First Name 1"
+    t.string "Director Last Name 1"
+    t.string "Director Title 1"
+    t.string "Director Gender 1",                  :limit => 10
+    t.string "Director Biography 1"
+    t.string "Director First Name 2"
+    t.string "Director Last Name 2"
+    t.string "Director Title 2"
+    t.string "Director Gender 2",                  :limit => 10
+    t.string "Director Biography 2"
+    t.string "Director First Name 3"
+    t.string "Director Last Name 3"
+    t.string "Director Title 3"
+    t.string "Director Gender 3",                  :limit => 10
+    t.string "Director Biography 3"
+    t.string "Director First Name 4"
+    t.string "Director Last Name 4"
+    t.string "Director Title 4"
+    t.string "Director Gender 4",                  :limit => 10
+    t.string "Director Biography 4"
+    t.string "Director First Name 5"
+    t.string "Director Last Name 5"
+    t.string "Director Title 5"
+    t.string "Director Gender 5",                  :limit => 10
+    t.string "Director Biography 5"
+    t.string "Ticker Symbol",                      :limit => 10
+    t.string "Stock Exchange"
+    t.string "Accounting Expenses"
+    t.string "Advertising  Expenses"
+    t.string "Contract Labor Expenses"
+    t.string "Insurance Expenses"
+    t.string "Legal Expenses"
+    t.string "Office Supplies Expense"
+    t.string "Management/Administration Expenses"
+    t.string "Package Container Expense"
+    t.string "Payroll and Benefits Expenses"
+    t.string "Purchase Print Expenses"
+    t.string "Rent Expenses"
+    t.string "Computer Expenses"
+    t.string "Telcom Expenses"
+    t.string "Utilities Expenses"
+    t.string "Location Sales History Year 1"
+    t.string "Location Sales History Year 2"
+    t.string "Location Employee History Year 1"
+    t.string "Location Employee History Year 2"
+    t.string "Brands"
+    t.string "Mailing Address"
+    t.string "Mailing City"
+    t.string "Mailing State",                      :limit => 10
+    t.string "Mailing Zip Code",                   :limit => 10
+    t.string "Mailing Zip Four",                   :limit => 10
+    t.string "Mailing Carrier Route"
+    t.string "Mailing Delivery Point Bar Code",    :limit => 10
   end
 
   create_table "jobs", :force => true do |t|
@@ -1254,12 +1578,13 @@ ActiveRecord::Schema.define(:version => 20100411160418) do
     t.datetime "remember_token_expires_at"
     t.string   "activation_code",           :limit => 40
     t.datetime "activated_at"
-    t.string   "phone",                                    :default => "2143610080", :null => false
+    t.string   "phone",                                    :default => "2143610080",      :null => false
     t.string   "extension"
     t.string   "mobile"
     t.integer  "employee_id"
     t.boolean  "first_time",                               :default => true
     t.boolean  "nda_accepted",                             :default => false
+    t.string   "timezone",                                 :default => "America/Chicago"
   end
 
   add_index "users", ["employee_id"], :name => "index_users_on_employee_id"
