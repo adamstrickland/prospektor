@@ -1,5 +1,13 @@
 require 'spec_helper'
 
+def callback_dispos
+  ['CB','VM','RS','FP']
+end
+
+def sale_dispos
+  ['BS']
+end
+
 describe Lead do
   describe "attribute helpers" do
     before :each do
@@ -520,11 +528,126 @@ describe Lead do
           @lead.send(:update_callbacks)
         end
 
-        it "when the lead is saved" do
-          @lead.sic_code_9 = '12345'
-          @lead.save
+        # it "when the lead is saved" do
+        #   @lead.sic_code_9 = '12345'
+        #   @lead.save
+        # end
+      end
+    end
+  end
+  
+  describe "mutators" do
+    before :each do
+      @lead = Lead.make
+      @user = User.make
+    end
+    
+    it "should set the status and save" do
+      @lead.status.should be_nil
+      @lead.update_status!('NI')
+      @lead.status.code.should eql 'NI'
+    end
+    
+    it "should create a callback" do
+      @lead.status.should be_nil
+      @lead.set_callback!(@user, {
+        :callback_at => 1.days.from_now,
+        :disposition => 'CB'
+      })
+      @lead.status.code.should eql 'CB'
+      @lead.should have(1).callbacks
+    end
+    
+    it "should book a sale" do
+      Notifier.should_receive(:deliver_booked_sale).with(@lead)
+      @lead.status.should be_nil
+      @lead.book_sale!(@user, {
+        :comment => "Don't Panic!",
+      })
+      @lead.status.code.should eql 'CB'
+      @lead.should have(1).comments
+    end
+    
+    it "should disposition a callback" do
+      @lead.status.should be_nil
+      @lead.disposition!(@user, {
+        :callback_at => 1.days.from_now,
+        :disposition => 'CB'
+      })
+      @lead.status.code.should eql 'CB'
+      @lead.should have(1).callbacks
+    end
+    
+    it "should disposition a sale" do
+      Notifier.should_receive(:deliver_booked_sale).with(@lead)
+      @lead.status.should be_nil
+      @lead.disposition!(@user, {
+        :comment => "Don't Panic!",
+        :disposition => 'BS'
+      })
+      @lead.status.code.should eql 'CB'
+      @lead.should have(1).comments
+    end
+    
+    it "should disposition the lead" do
+      @lead.status.should be_nil
+      @lead.disposition!(@user, {:disposition => 'NI'})
+      @lead.status.code.should eql 'NI'
+    end
+    
+    
+
+    
+    describe "should delegate to other mutators based on dispo" do
+    
+      before :all do
+        @params = {
+          :comment => "Don't Panic!!1!",
+          :callback_at => 1.days.from_now
+        }
+      end
+      
+      callback_dispos.each do |d|
+        it "should delegate to set_callback! for dispo #{d}" do
+          @lead.should_receive(:set_callback!).with(any_args()).and_return(true)
+          @lead.disposition!(@user, @params.merge({:disposition => d}))
         end
       end
+      
+      sale_dispos.each do |d|
+        it "should delegate to book_sale! for dispo #{d}" do
+          @lead.should_receive(:book_sale!).with(any_args()).and_return(true)
+          @lead.disposition!(@user, @params.merge({:disposition => d}))
+        end
+      end
+      
+      LeadStatus.all.reject{ |s| (callback_dispos + sale_dispos).include?(s.code) }.map(&:code).each do |d|
+        it "should delegate to update_status! for dispo #{d}" do
+          @lead.should_receive(:update_status!).with(any_args()).and_return(true)
+          @lead.disposition!(@user, @params.merge({:disposition => d}))
+        end
+      end
+            
+      # it "should delegate to set_callback!" do
+      #   @lead.should_receive(:set_callback!).with(any_args()).and_return(true)
+      #   
+      #     @lead.disposition!(@user, @params.merge({:disposition => d}))
+      #   end
+      # end
+      # 
+      # it "should delegate to set_callback!" do
+      #   @lead.should_receive(:book_sale!).with(any_args()).and_return(true)
+      #   @sale_dispos.each do |d|
+      #     @lead.disposition!(@user, @params.merge({:disposition => d}))
+      #   end
+      # end
+      # 
+      # it "should delegate to set_callback!" do
+      #   @lead.should_receive(:set_callback!).with(any_args()).and_return(true)
+      #   LeadStatus.all.reject{ |s| (@callback_dispos + @sale_dispos).include?(s.code) }.map(&:code).each do |d|
+      #     @lead.disposition!(@user, @params.merge({:disposition => d}))
+      #   end
+      # end
     end
   end
 end

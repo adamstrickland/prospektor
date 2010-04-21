@@ -13,7 +13,7 @@
       .fields.twocol
         .row.field
           .lcol Topic
-          .rcol=f.select :topic_id, @topics, :selected => @presentation.topic_id || VideoTopic.find_by_name('Who are We?')
+          .rcol=f.select :topic_id, @topics, :selected => @presentation.topic_id || VideoTopic.find_by_name('Who Are We?').id
         .row.field
           .lcol Email
           .rcol=f.text_field :email

@@ -325,6 +325,7 @@ describe User do
     end
     
     describe "should return the callback lead" do
+      
       it "if there is an uncalled callback from earlier today" do
         cb = CallBack.make(:user => @user, :lead => @leads.last, :callback_at => 1.minutes.ago)
         lead = @user.next_lead_in_queue
@@ -350,11 +351,13 @@ describe User do
         it "should return all the callback leads before any pool leads" do
           lead1 = @user.next_lead_in_queue
           @callback_leads.should include(lead1)
-          lead1.save
+          lead1.call_backs.each{|c| c.status = CallBackStatus.complete; c.save}
+          # lead1.save
           lead2 = @user.next_lead_in_queue
           lead2.should_not eql(lead1)
           @callback_leads.should include(lead2)
-          lead2.save
+          lead2.call_backs.each{|c| c.status = CallBackStatus.complete; c.save}
+          # lead2.save
           lead3 = @user.next_lead_in_queue
           lead3.should_not eql(lead1)
           lead3.should_not eql(lead2)
@@ -383,13 +386,14 @@ describe User do
         it "should return past callbacks before the future ones" do
           past_callbacks = (3..4).map{|i| CallBack.make(:user => @user, :lead => @leads[i], :callback_at => 1.minutes.ago) }
           @user.next_lead_in_queue.should eql(@leads[3])
-          @leads[3].save!
+          @leads[3].call_backs.each{|c| c.status = CallBackStatus.complete; c.save}
           @user.next_lead_in_queue.should eql(@leads[4])
-          @leads[4].save!
+          @leads[4].call_backs.each{|c| c.status = CallBackStatus.complete; c.save}
           @user.next_lead_in_queue.should eql(@leads[2])
-          @leads[2].save!
+          @leads[2].call_backs.each{|c| c.status = CallBackStatus.complete; c.save}
           @user.next_lead_in_queue.should eql(@leads[0])
           @leads[0].status = LeadStatus.no_interest
+          @leads[0].call_backs.each{|c| c.status = CallBackStatus.complete; c.save}
           @leads[0].save!
           @user.next_lead_in_queue.should eql(@leads[1])
           

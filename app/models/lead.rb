@@ -1,5 +1,6 @@
 require 'digest/sha1'
 require 'base64'
+require 'chronic'
 
 class Lead < ActiveRecord::Base
   # include AASM
@@ -16,12 +17,16 @@ class Lead < ActiveRecord::Base
   has_many :response_sets
   belongs_to :status, :class_name => 'LeadStatus'
   has_many :call_backs
+  alias_attribute :callbacks, :call_backs
   
   # validations
   validates_email :email
   validates_length_of :phone, :is => 10
   validates_uniqueness_of :phone, :message => 'Phone Number can not be changed (already assigned).  Disposition Lead to DUP, with desired phone number in comments field.'
   
+
+  after_validation_on_update :log_event
+  # after_save :update_callbacks
   
   # will_paginate; show up to 100/page
   cattr_reader :per_page
@@ -170,49 +175,11 @@ class Lead < ActiveRecord::Base
     ",
     :negative => false
   
-  after_validation_on_update :log_event
-  after_save :update_callbacks
-  
-  # after_validation_on_update do |rec|
-  #    rec.changes.each do |attrib, vals|
-  #      # puts "ATTR: #{attrib}, VALS: #{vals}"
-  #      if ['status_id', :status_id].include?(attrib)
-  #        old_status, new_status = vals.map{ |v| v.blank? ? 'Empty' : Status.find(v).code }
-  #        LeadEvent.new(
-  #          :lead => rec, 
-  #          :user => rec.owner, 
-  #          :qualifier => "Changed Status from #{old_status} to #{new_status}", 
-  #          :action => 'updated'
-  #        ).save
-  #      else
-  #        old_val, new_val = (vals.count == 2 ? [vals[0], vals[1]] : ['Empty', vals[0]])
-  #        LeadEvent.new(
-  #          :lead => rec, 
-  #          :user => rec.owner, 
-  #          :qualifier => "Attribute #{attrib.camelize} from #{old_val} to #{new_val}", 
-  #          :action => 'updated'
-  #        ).save
-  #      end
-  #    end
-  #  end
-  #  
-  #  after_save do |lead|
-  #    if lead.call_backs.present?
-  #      lead.call_backs.select{|cb| cb.user == lead.owner && cb.callback_at < Time.now && cb.status.code == 'UN'}.each do |cb|
-  #        cb.status = CallBackStatus.find_by_code('CP')
-  #        cb.save
-  #      end
-  #    end
-  #  end
-  
   def casual_name
     self.name
   end
   
-  def full_name
-    # nickname = (self.salutation == self.first_name) ? '' : "\"#{self.salutation}\" "
-    # "#{self.first_name} #{nickname}#{self.last_name}"
-    
+  def full_name    
     [self.first_name, (self.salutation.present? && self.salutation != self.first_name) ? "\"#{self.salutation}\"" : nil, self.last_name].compact.join(" ") || self.name
   end
   alias_method :prospect, :full_name
@@ -348,7 +315,59 @@ class Lead < ActiveRecord::Base
     ([:e, :c, :m, :p, :a, :h].index(self.timezone.downcase.to_sym) + 4 + (Time.now.zone.index('ST') ? 1 : 0 )) * -1
   end
   
+  def disposition!(user, options)
+    # if self.complete_callbacks!(options[:user] || self.owner)
+    if user.complete_callbacks!
+      if options[:disposition] == 'BS'
+        self.book_sale!(user, options)
+      else
+        if ['CB','RS','VM','FP'].include?(options[:disposition])
+          self.set_callback!(user, options)
+        else
+          self.update_status!(options[:disposition])
+        end
+      end
+    else
+      false
+    end
+  end
+  
+  def book_sale!(user, options)
+    comment!(options[:comment], user) if options[:comment]
+    result = self.update_status!('CB')
+    Notifier.deliver_booked_sale(self)
+    result
+  end
+  
+  def set_callback!(user, options)
+    comment!(options[:comment], user) if options[:comment]
+    self.callbacks << CallBack.new(
+      :user => user, 
+      :callback_at => options[:callback_at] || Chronic.parse('tomorrow at 9am'), 
+      :status => CallBackStatus.find_by_code('UN')
+    )
+    self.update_status!(options[:disposition])
+  end
+  
+  def update_status!(code)
+    status = (code.respond_to?(:code) ? code : LeadStatus.find_by_code(code))
+    self.status = status
+    self.save
+  end
+  
+  # def complete_callbacks!
+  #   self.callbacks.each{ |c| c.complete! }
+  #   self.save
+  # end
+  
   private
+  def comment!(text, user=nil)
+    self.comments << Comment.new(
+      :comment => text,
+      :user => user
+    )
+    self.save
+  end
   
   def log_event
     self.changes.each do |attrib, vals|

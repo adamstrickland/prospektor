@@ -3,8 +3,12 @@ require 'spec_helper'
 describe DispositionController do
   before :each do
     @user = login_as :any
+    @user.stub(:complete_callbacks!).and_return(true)
     @lead = mock_model(Lead)
+    @lead.stub(:update_status!).and_return(true)
     Lead.stub!(:find).with(any_args()).and_return(@lead)
+    
+    @lead.stub(:disposition!).with(any_args()).and_return(true)
   end
   
   describe "on GET" do
@@ -41,39 +45,41 @@ describe DispositionController do
       Lead.stub!(:find).with(any_args()).and_return(@lead)
       @lead.stub!(:owner).and_return(@user)
       post :create, :lead_id => @lead.id, :disposition => 'CB', :callback_at => @callback_at_string, :format => 'json'
-      assigns[:callback].should_not be_nil
-      assigns[:callback].callback_at.hour.should eql @callback_at[:hour]
+      # assigns[:callback].should_not be_nil
+      # assigns[:callback].callback_at.hour.should eql @callback_at[:hour]
     end
     
     describe "the status should be updated" do
       before :each do
-        @lead.should_receive(:save).and_return(true)
+        @lead.stub(:save).and_return(true)
         @callbacks = mock_model(Array)
-        @lead.stub!(:call_backs).and_return(@callbacks)
+        # @lead.should_receive(:call_backs).and_return(@callbacks)
       end
       
       def expect_status(code)
-        @lead.should_receive(:status=).with(LeadStatus.find_by_code(code))
+        # @lead.should_receive(:status=).with(LeadStatus.find_by_code(code))
       end 
       
       describe 'a callback should be created' do
         before :each do
           @callback = mock_model(CallBack)
-          CallBack.should_receive(:new).with(hash_including(:callback_at => @callback_at_date.gmtime.strftime('%Y-%m-%d %H:%M:%SZ'))).and_return(@callback)
+          # CallBack.should_receive(:new).with(hash_including(:callback_at => @callback_at_date.gmtime.strftime('%Y-%m-%d %H:%M:%SZ'))).and_return(@callback)
           
-          @callbacks.should_receive(:<<).with(@callback)
+          # @callbacks.should_receive(:<<).with(@callback)
+          # @lead.should_receive(:disposition!).and_return(true)
+          @lead.should_receive(:disposition!).with(@user, hash_including()).and_return(true)
         end
       
         it "if the status is CB" do
           expect_status('CB')
           post :create, :lead_id => @lead.id, :disposition => 'CB', :callback_at => @callback_at_string, :format => 'json'
-          assigns[:callback].should_not be_nil
+          # assigns[:callback].should_not be_nil
         end
 
         it "if the status is VM" do
           expect_status('VM')
           post :create, :lead_id => @lead.id, :disposition => 'VM', :callback_at => @callback_at_string, :format => 'json'
-          assigns[:callback].should_not be_nil
+          # assigns[:callback].should_not be_nil
         end  
       end
       
@@ -100,12 +106,14 @@ describe DispositionController do
       #   end
       # end
       
-      it "if the no date provided, use tomorrow" do
-        callback = mock_model(CallBack)
-        CallBack.should_receive(:new).with(hash_including(:callback_at => Chronic.parse('tomorrow at 9am'))).and_return(callback)
-        callbacks = mock_model(Array)
-        callbacks.should_receive(:<<).with(callback)
-        @lead.should_receive(:call_backs).and_return(callbacks)
+      it "if no date provided, use tomorrow" do
+        # callback = mock_model(CallBack)
+        # CallBack.should_receive(:new).with(hash_including(:callback_at => Chronic.parse('tomorrow at 9am'))).and_return(callback)
+        # callbacks = mock_model(Array)
+        # callbacks.should_receive(:<<).with(callback)
+        # @lead.should_receive(:call_backs).and_return(callbacks)
+        # @lead.should_receive(:disposition!).and_return(true)
+        @lead.should_receive(:disposition!).with(@user, hash_including({:disposition => 'VM'})).and_return(true)
         expect_status('VM')
         post :create, :lead_id => @lead.id, :disposition => 'VM', :format => 'json'
       end
@@ -118,7 +126,8 @@ describe DispositionController do
       # end
     
       it "should send an email if the status is BS" do
-        Notifier.should_receive(:deliver_booked_sale)
+        @lead.should_receive(:disposition!).with(@user, hash_including({:disposition => 'BS'})).and_return(true)
+        # Notifier.should_receive(:deliver_booked_sale)
         expect_status('CB')
         post :create, :lead_id => @lead.id, :disposition => 'BS', :format => 'json'
       end
@@ -136,11 +145,12 @@ describe DispositionController do
         comment = mock_model(Comment)
 
         # @lead.should_receive(:comments=).with(comment)
-        arr = mock_model(Array)
-        @lead.stub!(:comments).and_return(arr)
-        arr.should_receive(:<<).with(comment)
+        # arr = mock_model(Array)
+        # @lead.stub!(:comments).and_return(arr)
+        # arr.should_receive(:<<).with(comment)
 
-        Comment.should_receive(:new).with(any_args()).and_return(comment)
+        # Comment.should_receive(:new).with(any_args()).and_return(comment)
+        @lead.should_receive(:disposition!).with(@user, hash_including({:disposition => 'NI'})).and_return(true)
         post :create, :lead_id => @lead.id, :disposition => 'NI', :comments => msg, :format => 'json'
       end
     end
