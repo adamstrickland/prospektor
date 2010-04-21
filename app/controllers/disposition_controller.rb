@@ -12,42 +12,10 @@ class DispositionController < ApplicationController
   def create
     respond_to do |format|
       @lead = Lead.find(params[:lead_id])
-      @user = current_user
-      
-      @lead.comments << Comment.new(:comment => params[:comments], :user => current_user) if params[:comments].present?
-    
-      if params[:disposition] == 'BS'
-        # notify of sale, set status to CB
-        # ProspectMailer.deliver_scheduled_appointment(appt)
-        Notifier.deliver_booked_sale(@lead)
-        @status = LeadStatus.find_by_code('CB')
+      if @lead.disposition!(current_user, params)
+        format.json{ head :ok }
       else
-        if ['CB','RS','VM'].include?(params[:disposition])
-          # create a callback, set status to @status
-          callback_at = params[:callback_at] || Chronic.parse('tomorrow at 9am')
-          # if params[:callback_at]
-          #                 Chronic.parse(params[:callback_at])
-          #               else
-          #                 if params[:date]
-          #                   Time.new(params[:date])
-          #                 else
-          #                   Chronic.parse('tomorrow at 9am')
-          #                 end
-          #               end
-          @callback = CallBack.new(:user => @user, :callback_at => callback_at, :status => CallBackStatus.find_by_code('UN'))
-          @lead.call_backs << @callback
-        end
-        @status = LeadStatus.find_by_code(params[:disposition]) # || LeadStatus.find(params[:disposition])
-      end
-    
-      @lead.status = @status
-    
-      format.json do
-        if @lead.save
-          head :ok
-        else
-          render :json => @lead.errors, :status => :unprocessable_entity
-        end
+        format.json{ render :json => @lead.errors, :status => :unprocessable_entity }
       end
     end
   end

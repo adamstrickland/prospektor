@@ -32,4 +32,9 @@ class CallBack < ActiveRecord::Base
   #   :conditions => 'leads.updated_at <= call_backs.updated_at',
   #   # :order => 'callback_at ASC, callbacks.created_at ASC',
   #   :negative => false
+  
+  def complete!
+    self.status = CallBackStatus.complete
+    self.save
+  end
 end

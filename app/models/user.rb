@@ -121,7 +121,9 @@ class User < ActiveRecord::Base
     self.save
   end
   
-  
+  def complete_callbacks!
+    self.callbacks.each{ |c| c.complete! }
+  end
   
   
   
