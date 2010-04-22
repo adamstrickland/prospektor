@@ -1,40 +1,11 @@
 require 'spec_helper'
 
 describe CallBacksController do
-  # def create
-  #   respond_to do |format|
-  #     format.json do
-  #       @callback = CallBack.new
-  #       @lead = Lead.find(params[:lead_id])
-  #       @user = User.find(params[:user_id])
-  #       @callback.lead = @lead
-  #       @callback.user = @user
-  #       @callback.status = CallBackStatus.find_by_code('UN')
-  #       @callback.callback_at = if params[:callback_at].present?
-  #         params[:callback_at]
-  #       else
-  #         lead_tz = TZInfo::Timezone.us_zones.detect{ |z| z.current_period.utc_offset/60/60 == @lead.gmt_offset }
-  #         if lead_tz and lead_tz.utc_to_local(Time.now.utc).hour >= 17
-  #           # schedule for tomorrow morning 9am in the lead's tz
-  #           lead_tz.local_to_utc(Chronic.parse('tomorrow 9am'))
-  #         else
-  #           3.minutes.from_now
-  #         end
-  #       end
-  #       
-  #       if @callback.save
-  #         head :ok
-  #       else
-  #         render :json => @callback.errors, :status => :unprocessable_entity
-  #       end
-  #     end
-  #   end
-  # end
   describe 'handle POST /' do
     before :each do
       @lead = mock_model(Lead)
       @lead.stub(:id).and_return(42)
-      @user = login_as :any
+      @user = mock_user :any
       @params = {
         :lead_id => @lead.id,
         :user_id => @user.id
@@ -82,6 +53,22 @@ describe CallBacksController do
   end
   
   describe 'handle PUT /:id' do
+    before :each do
+      @user = login_as :any
+      @callback = mock_model(CallBack)
+      CallBack.should_receive(:find).with(any_args()).and_return(@callback)
+    end
+    
+    it "should interpret the date correctly" do
+      # date_as_text = "Thu Apr 22 2010 09:43:40 GMT-0500 (CDT)"
+      date_as_text = "2010-04-22T09:43:40-0500"
+      @callback.should_receive(:callback_at=).with(date_as_text)
+      @callback.should_receive(:save).and_return(true)
+      # post :update, :format => 'json', :method => '_put', :id => @callback.id, :callback_at => date_as_text
+      put :update, :format => 'json', :id => @callback.id, :callback_at => date_as_text
+      params[:id].should eql @callback.id.to_s
+      params[:callback_at].should eql date_as_text
+    end
   end
   
   describe 'handle GET /' do

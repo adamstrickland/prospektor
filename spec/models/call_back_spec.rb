@@ -96,4 +96,44 @@ describe CallBack do
       uncalled.map{|cb| cb.lead}.should_not include(lead)
     end
   end
+  
+  describe "date handling" do
+    before :each do
+      @callback = CallBack.new
+    end
+    
+    describe "when updating" do
+      before :each do
+        @user = mock_user :any
+        @lead = mock_model(Lead)
+        @callback.callback_at = 1.month.from_now
+        @callback.lead = @lead
+        @callback.user = @user
+        @callback.save.should be_true
+      end
+      
+      describe "should update nicely with a date from FullCalendar" do
+        after :each do
+          @callback.should be_valid
+          @callback.save.should be_true
+          @expected = CallBack.find(@callback.id)
+          d = @expected.callback_at.localtime
+          d.year.should eql 2010
+          d.month.should eql 4
+          d.day.should eql 22
+          d.hour.should eql 9
+          d.min.should eql 43
+          d.sec.should eql 40
+        end
+        
+        it "with time at zulu" do
+          @callback.callback_at = "2010-04-22T14:43:40Z"
+        end
+        
+        it "with time at local" do
+          @callback.callback_at = "2010-04-22T09:43:40-0500"
+        end
+      end
+    end
+  end
 end

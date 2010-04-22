@@ -22,7 +22,7 @@ class CallBacksController < ApplicationController
             :id => cb.id,
             :title => cb.lead.company,
             # :url => lead_url(cb.lead),
-            :start => cb.callback_at
+            :start => cb.callback_at.iso8601
           }
           
           if cb.callback_at.seconds_since_midnight == 0
@@ -71,9 +71,9 @@ class CallBacksController < ApplicationController
   # PUT /callbacks/1
   # PUT /callbacks/1.xml
   def update
+    @callback = CallBack.find(params[:id])
     respond_to do |format|
       format.json do
-        @callback = CallBack.find(params[:id])
         @callback.callback_at = params[:callback_at]
         if @callback.save
           head :ok

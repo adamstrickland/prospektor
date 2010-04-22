@@ -12,8 +12,7 @@
 
 -content_for :scripts do
   -if Rails.env == 'production'
-    :javascript
-      google.load("jqueryui", "1.7.2")
+    =javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"
     =javascript_include_tag "fullcalendar.min"
   -else
     =javascript_include_tag 'ui/ui.core','ui/ui.draggable','ui/ui.droppable','ui/ui.resizable'
@@ -45,7 +44,7 @@
         eventDrop:function(event,dayDelta,minDelta,allDay,ev,ui){
           $.post('/callbacks/'+event.id+'.json', {
             _method:'put',
-            callback_at:event.start
+            callback_at:event.start.format('c')   //using date.format(format_string) from extras.js
           }, function(data, status, xhr){
             //no op
           }, 'json');
