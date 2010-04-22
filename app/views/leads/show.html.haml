@@ -49,7 +49,6 @@
 -content_for :scripts do
   =javascript_include_tag "jquery.epiclock#{ '.min' if Rails.env == 'production' }"
   =javascript_include_tag "http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"
-  =javascript_include_tag 'date-js'
   :javascript
     $(function(){
       $('#prospect p.clock span.local_time').epiclock({
