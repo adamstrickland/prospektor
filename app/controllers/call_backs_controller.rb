@@ -35,33 +35,6 @@ class CallBacksController < ApplicationController
       end
     end
   end
-
-  # # GET /callbacks/1
-  # # GET /callbacks/1.xml
-  # def show
-  #   @callback = CallBack.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     format.html # show.html.erb
-  #     format.xml  { render :xml => @callback }
-  #   end
-  # end
-  # 
-  # # GET /callbacks/new
-  # # GET /callbacks/new.xml
-  # def new
-  #   @callback = CallBack.new
-  # 
-  #   respond_to do |format|
-  #     format.html # new.html.erb
-  #     format.xml  { render :xml => @callback }
-  #   end
-  # end
-  # 
-  # # GET /callbacks/1/edit
-  # def edit
-  #   @callback = CallBack.find(params[:id])
-  # end
   
   # POST /callbacks
   # POST /callbacks.xml
@@ -101,7 +74,6 @@ class CallBacksController < ApplicationController
     respond_to do |format|
       format.json do
         @callback = CallBack.find(params[:id])
-        # if @callback.update_attributes(params.reject{|k,v| ![:callback_at].include?(k)})
         @callback.callback_at = params[:callback_at]
         if @callback.save
           head :ok
@@ -110,20 +82,35 @@ class CallBacksController < ApplicationController
         end
       end
     end
-    # @callback = CallBack.find(params[:id])
-    #   
-    # respond_to do |format|
-    #   if @callback.update_attributes(params[:callback])
-    #     flash[:notice] = 'Callback was successfully updated.'
-    #     format.html { redirect_to(@callback) }
-    #     format.xml  { head :ok }
-    #   else
-    #     format.html { render :action => "edit" }
-    #     format.xml  { render :xml => @callback.errors, :status => :unprocessable_entity }
-    #   end
-    # end
   end
   
+
+  # # GET /callbacks/1
+  # # GET /callbacks/1.xml
+  # def show
+  #   @callback = CallBack.find(params[:id])
+  # 
+  #   respond_to do |format|
+  #     format.html # show.html.erb
+  #     format.xml  { render :xml => @callback }
+  #   end
+  # end
+  # 
+  # # GET /callbacks/new
+  # # GET /callbacks/new.xml
+  # def new
+  #   @callback = CallBack.new
+  # 
+  #   respond_to do |format|
+  #     format.html # new.html.erb
+  #     format.xml  { render :xml => @callback }
+  #   end
+  # end
+  # 
+  # # GET /callbacks/1/edit
+  # def edit
+  #   @callback = CallBack.find(params[:id])
+  # end
   # # DELETE /callbacks/1
   # # DELETE /callbacks/1.xml
   # def destroy
