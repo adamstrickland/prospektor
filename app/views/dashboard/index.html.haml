@@ -12,8 +12,7 @@
 
 -content_for :scripts do
   -if Rails.env == 'production'
-    :javascript
-      google.load("jqueryui", "1.7.2")
+    =javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"
     =javascript_include_tag "fullcalendar.min"
   -else
     =javascript_include_tag 'ui/ui.core','ui/ui.draggable','ui/ui.droppable','ui/ui.resizable'
