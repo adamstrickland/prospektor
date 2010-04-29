@@ -51,7 +51,7 @@ class CallBacksController < ApplicationController
           params[:callback_at]
         else
           lead_tz = TZInfo::Timezone.us_zones.detect{ |z| z.current_period.utc_offset/60/60 == @lead.gmt_offset }
-          if lead_tz and lead_tz.utc_to_local(Time.now.utc).hour >= 17
+          if lead_tz and (hour = lead_tz.utc_to_local(Time.now.utc).hour and (hour >= 17 or hour <= 8))
             # schedule for tomorrow morning 9am in the lead's tz
             lead_tz.local_to_utc(Chronic.parse('tomorrow 9am'))
           else

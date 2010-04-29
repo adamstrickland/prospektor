@@ -48,6 +48,16 @@ describe CallBacksController do
           assigns[:callback].callback_at.utc.should eql Chronic.parse('tomorrow 8am').utc
           response.should be_success
         end
+        
+        it "should work with Giles's scenario" do
+          bad_time = Chronic.parse('today 11:53pm')
+          bad_time.should_not be_nil
+          Time.should_receive(:now).any_number_of_times.and_return(bad_time)
+          post :create, {:format => 'json'}.merge(@params)
+          assigns[:callback].should_not be_nil
+          assigns[:callback].callback_at.utc.should eql Chronic.parse('tomorrow 8am').utc
+          response.should be_success
+        end
       end
     end
   end
