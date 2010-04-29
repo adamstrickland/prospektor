@@ -317,7 +317,8 @@ class Lead < ActiveRecord::Base
   
   def disposition!(user, options)
     # if self.complete_callbacks!(options[:user] || self.owner)
-    if user.complete_callbacks!
+    # if user.complete_callbacks!
+    if self.staleify_callbacks!
       if options[:disposition] == 'BS'
         self.book_sale!(user, options)
       else
@@ -330,6 +331,11 @@ class Lead < ActiveRecord::Base
     else
       false
     end
+  end
+  
+  def staleify_callbacks!
+    stale = CallBackStatus.stale
+    self.callbacks.all.each{ |cb| cb.status = stale; cb.save }
   end
   
   def book_sale!(user, options)
