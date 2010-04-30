@@ -60,6 +60,7 @@ class CallBacksController < ApplicationController
         end
         
         if @callback.save
+          LeadEvent.video_callback(@lead, @user)
           head :ok
         else
           render :json => @callback.errors, :status => :unprocessable_entity
