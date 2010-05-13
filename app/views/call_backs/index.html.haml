@@ -1,0 +1,40 @@
+.content
+  .fold
+    %strong Callbacks
+  -unless @callbacks.present?
+    .announce No Callbacks
+  -else
+    .data
+      .row.header
+        %span.at Callback Date/Time
+        %span.lead Lead
+        %span.status Status
+      -@callbacks.each do |cb|
+        .row[cb]{ :class => cycle("odd", "even") }
+          %span.at=cb.callback_at.in_time_zone(@user.timezone).strftime('%Y-%m-%d %H:%M%p %Z')
+          %span.lead=link_to "#{cb.lead.full_name} (#{cb.lead.company})", user_lead_url(@user, cb.lead)
+          %span.status=(cb.lead.status.blank? ? '&nbsp;' : cb.lead.status.code)
+      =will_paginate @callbacks
+      
+-content_for :styles do
+  %style
+    :sass
+      .data
+        .row
+          :padding 0.25em 0.5em
+          span
+            :display inline-block
+          span.at
+            :width 200px
+          span.lead
+            :width 300px
+          span.status
+            :width 50px
+        .row.call_back
+          &:hover
+            :background-color black
+        .header
+          span
+            :font
+              :weight bold
+              :size 12pt

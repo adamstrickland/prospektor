@@ -10,7 +10,7 @@ class CallBacksController < ApplicationController
     @user = User.find(params[:user_id])
     respond_to do |format|
       format.html do
-        @callbacks = @user.call_backs
+        @callbacks = @user.call_backs.select{|cb| cb.callback_at >= Time.now}.paginate :page => params[:page] || 1
         render
       end
       format.json do
@@ -60,6 +60,7 @@ class CallBacksController < ApplicationController
         end
         
         if @callback.save
+          LeadEvent.video_callback(@lead, @user)
           head :ok
         else
           render :json => @callback.errors, :status => :unprocessable_entity

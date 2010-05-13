@@ -32,6 +32,10 @@
           $('#help_links').slideToggle(400);
         });
         
+        $('#view_menu').click(function(e){
+          $('#view_links').slideToggle(400);
+        })
+        
         $('#search_results .controls .pagination a').live('click', function(){
           $.get($(this).attr("href"), function(r){
             $('#search_results').html(r);
@@ -64,16 +68,16 @@
                 =link_to content_tag(:span, '(logout)'), logout_url
             %ul
               %li=link_to 'dashboard', dashboard_url
-              / %li=link_to 'leads', user_leads_url(current_user)
+              %li=link_to 'view', '#', :id => 'view_menu'
               %li=link_to 'admin', admin_dashboard_url if current_user.is_admin?
               %li=link_to 'help', '#', :id => 'help_menu'
+            #view_links.dropdown{ :style => 'display:none' }
+              %div=link_to 'leads', user_leads_url(current_user)
+              %div=link_to 'callbacks', user_call_backs_url(current_user)
             #help_links.dropdown{ :style => 'display:none' }
-              %div
-                =link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
-              %div
-                =link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
-              %div
-                =link_to 'Trigon Wiki', wiki_pages_url, :target => '_blank'
+              %div=link_to 'Sales Aides', sales_aides_url(:height => 300, :width => 300), :class => 'thickbox'
+              %div=link_to 'Users Guide', users_guide_url(:height => 600, :width => 500), :class => 'thickbox'
+              %div=link_to 'Trigon Wiki', wiki_pages_url, :target => '_blank'
             / -form_tag(search_url) do |sf|
             /   .text_field=text_field_tag :query
             /   =submit_tag 'Search', :id => 'search_submit'

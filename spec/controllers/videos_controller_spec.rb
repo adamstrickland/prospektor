@@ -18,7 +18,10 @@ describe VideosController do
       it "should render the player" do
         name = "Some Big Foo"
         @video.should_receive(:name).and_return(name)
-        get :show, :id => @video_id
+        @user = mock_user :any
+        @lead = mock_model(Lead)
+        Lead.stub(:find).with(any_args()).and_return(@lead)
+        get :show, :id => @video_id, :lead_id => @lead.id, :user_id => @user.id
         assigns[:title].should eql name
         response.should render_template('videos/player.html.haml')
       end
@@ -37,7 +40,12 @@ describe VideosController do
         @video.should_receive(:video_url).and_return(@swf_url)
         @video.should_receive(:callback_url).and_return(@callback_url)
         @video.should_receive(:callback_method).and_return(@callback_method)
-        get :show, :id => @video_id, :format => 'json'
+        @user = mock_user :any
+        @lead = mock_model(Lead)
+        Lead.stub(:find).with(any_args()).and_return(@lead)
+        get :show, :id => @video_id, :format => 'json', :lead_id => @lead.id, :user_id => @user.id
+        assigns[:bindings][:lead_id].should eql @lead.id
+        assigns[:bindings][:user_id].should eql @user.id
         response.should be_json_like({:callback => { :url => @callback_url, :method => @callback_method}, :swf => @swf_url})
       end
     end

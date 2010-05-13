@@ -3,7 +3,6 @@
     .tab
       %strong
         =link_to_if @lead.web.present?, @lead.company.strip, "http://#{@lead.web}", :target => "_blank"
-      / =link_to image_tag('url_external.png', :class => 'external'), "http://#{@lead.web}", :target => "_blank" if @lead.web.present?
   .info
     .top
       .twocol
@@ -20,24 +19,16 @@
             %span#business_type{ :title => @lead.sic_description_1 }=@lead.primary_sic_division.to_s.upcase
             %span#sales_code{ :title => @lead.sales_category }=@lead.sales_code
             %span#employee_code{ :title => @lead.employee_category }=@lead.employee_code
-            / =image_tag "#{@lead.business_type.to_s}.gif", :title => @lead.sic_description_1
-            / =image_tag "sales_category_#{@lead.sales_code}.gif", :title => @lead.sales_category
-            / =image_tag "employee_category_#{@lead.employee_code}.gif", :title => @lead.employee_category
     %hr
     .bottom
       #metadata.tabbed
         %ol.tabs
           %li=link_to content_tag(:span, 'Comments'), lead_comments_url(@lead)
-          / %li=link_to content_tag(:span, 'History'), history_lead_url(@lead)
           %li=link_to content_tag(:span, 'Events'), lead_events_url(@lead)
           %li=link_to content_tag(:span, 'Details'), details_lead_url(@lead)
         .tabbed-items
           .tabbed-item-wrapper
             %p.tabbed-item{ :style => 'display:block' }
-      / # TODO: next_callback
-      / #next_callback
-      /   -if current_user.callbacks.next.present?
-      /     ="Callback: #{current_user.callbacks.next.first.lead.company.strip} at #{current_user.callbacks.next.first.callback_at.to_s('%H:%M')}"
 
 -content_for :menu do
   %li=link_to content_tag(:span, 'Next'), user_call_manager_url(current_user) if current_user.is_admin?

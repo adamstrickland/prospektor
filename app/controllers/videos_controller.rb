@@ -37,6 +37,7 @@ class VideosController < ApplicationController
         render :action => 'player'
       end
       format.json do
+        # LeadEvent.opened_video(Lead.find(@bindings[:lead_id]), User.find(@bindings[:user_id]), @video)
         hash = {
           :swf => h(@video.video_url(@bindings)),
           :callback => {
