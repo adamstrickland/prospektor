@@ -6,4 +6,8 @@ class CallBackStatus < Status
   def self.complete
     self.find_by_code('CP')
   end
+  
+  def self.stale
+    self.find_by_code('ST')
+  end
 end
