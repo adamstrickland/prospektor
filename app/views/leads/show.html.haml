@@ -42,7 +42,7 @@
 -content_for :menu do
   %li=link_to content_tag(:span, 'Next'), user_call_manager_url(current_user) if current_user.is_admin?
   %li=link_to content_tag(:span, 'Disposition'), new_lead_disposition_url(@lead, :height => 300, :width => 500), :class => 'thickbox'
-  %li=link_to_if @lead.status.nil? || @lead.status.state == 'assigned', content_tag(:span, 'Send'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
+  %li=link_to content_tag(:span, 'Send'), new_lead_presentation_url(@lead, :height => 200, :width => 400, :modal => true), :class => 'thickbox'
   %li=link_to content_tag(:span, 'Comment'), new_lead_comment_url(@lead, :height => 400, :width => 400), :class => 'thickbox'
   %li=link_to 'Edit', edit_lead_url(@lead, :height => 500, :width => 400), :class => 'thickbox'
     
