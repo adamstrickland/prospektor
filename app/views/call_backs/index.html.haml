@@ -1,0 +1,45 @@
+.content
+  -unless @callbacks.present?
+    .announce No Callbacks
+  -else
+    .data
+      .row.header
+        %span.name Prospect
+        %span.company Company
+        %span.location Location
+        %span.status Status
+      -@callbacks.each do |cb|
+        .row[cb]{ :class => cycle("odd", "even") }
+          .callback
+            %span.at=cb.callback_at
+            %span.status=(cb.status.blank? ? '&nbsp;' : cb.status.code)
+          .lead
+            %a{ :href => lead_url(cb.lead) }
+              %span.name=cb.lead.full_name
+              %span.company=cb.lead.company
+      =will_paginate @callbacks
+      
+-content_for :styles do
+  %style
+    :sass
+      .data
+        .row
+          :padding 0.25em 0.5em
+          &:hover
+            :background-color black
+          span
+            :display inline-block
+          / span.name
+          /   :font-weight bold
+          /   :width 200px
+          / span.company
+          /   :width 200px
+          / span.location
+          /   :width 200px
+          / span.status
+          /   :width 50px
+        .header
+          span
+            :font
+              :weight bold
+              :size 12pt
