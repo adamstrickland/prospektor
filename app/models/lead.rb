@@ -339,14 +339,14 @@ class Lead < ActiveRecord::Base
   end
   
   def book_sale!(user, options)
-    comment!(options[:comment], user) if options[:comment]
+    comment!(options[:comments], user) if options[:comments]
     result = self.update_status!('CB')
     Notifier.deliver_booked_sale(self)
     result
   end
   
   def set_callback!(user, options)
-    comment!(options[:comment], user) if options[:comment]
+    comment!(options[:comments], user) if options[:comments]
     self.callbacks << CallBack.new(
       :user => user, 
       :callback_at => options[:callback_at] || Chronic.parse('tomorrow at 9am'), 
