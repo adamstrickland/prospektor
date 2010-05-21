@@ -56,6 +56,10 @@ describe CallBack do
     end
   end
   
+  it "should return future callbacks" do
+    CallBack.future.should have(2).items
+  end
+  
   describe "should handle stale callbacks" do
     it "should show the callbacks that weren't acted upon" do
       CallBack.stale.should have(1).items
