@@ -1,8 +1,4 @@
 #disposition.dialog.modal
-  #skip{ :style => 'float:right' }
-    -disposition_form(@lead) do
-      =hidden_field_tag :disposition, LeadStatus.find_by_code('SKIP').id
-      =submit_tag 'Skip Lead'
   #disposition_tabs
     %ol.tabs
       %li
