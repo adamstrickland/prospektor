@@ -10,4 +10,13 @@ class LeadStatus < Status
   def self.skip
     self.find_by_code('SKIP')
   end
+  
+  def display
+    case self.code
+    when 'CB' then 'Callback for Sale'
+    when 'FP' then 'Scheduled Call'
+    when 'INV' then 'Video Callback'
+    else self.code      
+    end
+  end
 end

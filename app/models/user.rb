@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   
   def pool
     # self.leads.valid.sort{|f,l| (f.status and l.status) ? f.updated_at <=> l.updated_at : (l.status ? -1 : 1) }
-    self.leads.untouched + self.leads.touched
+    (self.leads.untouched + self.leads.touched) - self.callbacks.future.uncalled.map(&:lead)
   end
   
   def has_role?(role)

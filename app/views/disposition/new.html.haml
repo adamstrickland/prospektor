@@ -1,8 +1,4 @@
 #disposition.dialog.modal
-  #skip{ :style => 'float:right' }
-    -disposition_form(@lead) do
-      =hidden_field_tag :disposition, LeadStatus.find_by_code('SKIP').id
-      =submit_tag 'Skip Lead'
   #disposition_tabs
     %ol.tabs
       %li
@@ -56,18 +52,27 @@
           .controls
             =submit_tag 'Save'
 :javascript
+  var display_format = "ddd MMM d, yyyy @ hh:mm tt";
+  
   $('#disposition_tabs ol.tabs').tabs('div.panes > div');
 
   $('#disposition_tabs .panes .pane. .callback_text').keyup(function(e){
     $parent = $(this).parent();
     cb_at = Date.parse($(this).val());
     $display = $parent.find('span.ex');
-    display_format = "ddd MMM d, yyyy @ hh:mm tt";
     if(cb_at != null){
       $display.text(cb_at.toString(display_format));
       $parent.find("input[name='callback_at']").val(cb_at.toISOString());
     }
     else{
       $display.text("Date not recognized.")
+    }
+  });
+  
+  $('#callback form, #schedule form').submit(function(e){
+    cb_at = Date.parse($(this).find('.callback_text').val());
+    hour = cb_at.getHours();
+    if(hour > 18 || hour < 6 || (hour == 18 && cb_at.getMinutes() > 0)){
+      return confirm('This callback will be scheduled for:\n\n  '+cb_at.toString(display_format)+'\n\nThis is outside of normal working hours.\n\nSelect \'Cancel\' to choose another time,\nor \'OK\' to continue.');
     }
   });

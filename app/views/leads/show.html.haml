@@ -19,6 +19,8 @@
             %span#business_type{ :title => @lead.sic_description_1 }=@lead.primary_sic_division.to_s.upcase
             %span#sales_code{ :title => @lead.sales_category }=@lead.sales_code
             %span#employee_code{ :title => @lead.employee_category }=@lead.employee_code
+          #status=@lead.status.display
+            
     %hr
     .bottom
       #metadata.tabbed
@@ -91,6 +93,14 @@
                 :font
                   :weight bold
                   :size 2em
+            #status
+              :text-align center
+              :font
+                :weight bold
+                :size 2em
+              :color black
+              :margin-right 45px
+              :margin-top 0.75em
             #info
               :position relative
               :right 30px

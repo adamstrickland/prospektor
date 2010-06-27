@@ -301,6 +301,20 @@ describe User do
         lead = @user.next_lead_in_queue
         lead.should eql(@leads.first)
       end
+
+      it "which shouldn't contain leads with a future callback" do
+        cb = CallBack.make(:user => @user, :lead => @leads.first, :callback_at => 10.days.from_now)
+        lead = @user.pool.first
+        lead.should_not == @leads.first
+        lead.should == @leads[1]
+      end
+      
+      it "which shouldn't be in any future callback'" do
+        cb = CallBack.make(:user => @user, :lead => @leads.first, :callback_at => 10.days.from_now)
+        lead = @user.next_lead_in_queue
+        lead.should_not == @leads.first
+        lead.should == @leads[1]
+      end
       
       describe "ordered by" do
         it "should sort the leads by status, then by last upd date" do

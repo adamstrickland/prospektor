@@ -23,6 +23,11 @@ class CallBack < ActiveRecord::Base
     },
     :negative => false
   
+  named_scope :future, 
+    :conditions => ['callback_at >= ?', Time.now], 
+    :order => 'callback_at ASC, call_backs.created_at ASC', 
+    :negative => false
+  
   named_scope :uncalled, 
     :include => :status,
     :conditions => "statuses.code = 'UN'",

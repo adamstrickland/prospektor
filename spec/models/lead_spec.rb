@@ -562,7 +562,7 @@ describe Lead do
       Notifier.should_receive(:deliver_booked_sale).with(@lead)
       @lead.status.should be_nil
       @lead.book_sale!(@user, {
-        :comment => "Don't Panic!",
+        :comments => "Don't Panic!",
       })
       @lead.status.code.should eql 'CB'
       @lead.should have(1).comments
@@ -582,7 +582,7 @@ describe Lead do
       Notifier.should_receive(:deliver_booked_sale).with(@lead)
       @lead.status.should be_nil
       @lead.disposition!(@user, {
-        :comment => "Don't Panic!",
+        :comments => "Don't Panic!",
         :disposition => 'BS'
       })
       @lead.status.code.should eql 'CB'
