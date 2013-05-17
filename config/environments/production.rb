@@ -37,15 +37,7 @@ config.action_mailer.delivery_method = :smtp
 #   # :user_name => 'scheduling@trigonsolutions.com',
 #   # :password => 'JPBWXJS4sjpT6y'
 # }
-config.action_mailer.smtp_settings = {
-  :enable_starttls_auto => true,
-  :address => 'smtp.gmail.com',
-  :port => 587,
-  :domain => 'trigonsolutions.com',
-  :authentication => :plain,
-  :user_name => 'system@trigonsolutions.com',
-  :password => '267Y92'
-}
+
 
 
 # config.gem 'hoptoad_notifier'
